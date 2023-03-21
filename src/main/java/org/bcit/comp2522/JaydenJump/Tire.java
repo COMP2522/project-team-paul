@@ -5,8 +5,8 @@ import processing.core.PImage;
 
 public class Tire extends PowerUp{
 
-  public Tire(int width, int height, boolean isActive, Color color, PImage image) {
-    super(width, height, isActive, color, image);
+  public Tire(int xpos, int ypos, int vx, int vy, int width, int height, boolean isActive, Color color, PImage image) {
+    super(xpos, ypos, vx, vy, width, height, isActive, color, image);
   }
   private int boostHeight;
 
