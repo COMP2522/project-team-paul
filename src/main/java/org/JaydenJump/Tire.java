@@ -1,4 +1,7 @@
 package org.JaydenJump;
+import processing.core.PImage;
+import processing.core.PApplet;
+import java.awt.Color;
 
 public class Tire Extends PowerUp {
 
