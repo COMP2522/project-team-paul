@@ -3,10 +3,10 @@ import java.awt.Color;
 import processing.core.PImage;
 
 
-public class Tire {
+public class Tire extends PowerUp{
 
   public Tire(int width, int height, boolean isActive, Color color, PImage image) {
-//    super(width, height, isActive, color, image);
+    super(width, height, isActive, color, image);
   }
   private int boostHeight;
 

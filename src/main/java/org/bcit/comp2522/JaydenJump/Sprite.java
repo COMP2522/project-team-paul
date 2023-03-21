@@ -1,6 +1,6 @@
 package org.bcit.comp2522.JaydenJump;
 
-public class Sprite {
+public abstract class Sprite implements Comparable<Object>, Drawable, Collideable{
   private float xpos;
   private float ypos;
   private float vx;
@@ -13,7 +13,23 @@ public class Sprite {
     this.vy = vy;
   }
 
-  public static void main(String[] args) {
-    System.out.println("Hello world!");
+  @Override
+  public int compareTo(Object o) {
+    return 0;
+  }
+
+  @Override
+  public void draw() {
+
+  }
+
+  @Override
+  public void update() {
+
+  }
+
+  @Override
+  public boolean collides(Object o) {
+    return false;
   }
 }
