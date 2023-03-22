@@ -1,10 +1,16 @@
 package org.bcit.comp2522.JaydenJump;
 
 import processing.core.PImage;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Level {
 
   private int time;
+
+  private long start;
+
+  private long end;
 
   private PImage background;
 
@@ -14,20 +20,35 @@ public class Level {
 
   private int score;
 
+  private Timer timer;
+
+  private String weather;
+
   public Level(int time, PImage background, int levelNumber, int speed, int score) {
     this.time = time;
     this.background = background;
     this.levelNumber = levelNumber;
     this.speed = speed;
     this.score = score;
+    this.timer = new Timer();
   }
 
   public void startTime() {
+    TimerTask task = new TimerTask() {
+      @Override
+      public void run() {
+        time--;
+        if (time <= 0) {
+          stopTime();
+        }
+      }
+    };
 
+    timer.scheduleAtFixedRate(task, 0, 1000);
   }
 
   public void stopTime() {
-
+    timer.cancel();
   }
 
   public void getWeather() {
