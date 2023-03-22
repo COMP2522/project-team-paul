@@ -2,7 +2,7 @@ package org.bcit.comp2522.JaydenJump;
 
 import processing.core.PImage;
 
-public class Enemy {
+public class Enemy extends Sprite{
 
   private int health;
 
@@ -14,7 +14,8 @@ public class Enemy {
 
   private PImage image;
 
-  public Enemy(int health, int speed, int width, int height, PImage image) {
+  public Enemy(int xpos, int ypos, int vx, int vy, int health, int speed, int width, int height, PImage image) {
+    super(xpos, ypos, vx, vy);
     this.health = health;
     this.speed = speed;
     this.width = width;
