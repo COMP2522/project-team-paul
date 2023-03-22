@@ -1,9 +1,15 @@
 package org.bcit.comp2522.JaydenJump;
 
-import processing.core.PImage;
 import java.util.Timer;
 import java.util.TimerTask;
+import processing.core.PImage;
 
+/**
+ * Represents a level in JaydenJump.
+ *
+ * @version 1.0
+ * @author Maximillian Yong
+ */
 public class Level {
 
   private int time;
@@ -32,6 +38,7 @@ public class Level {
     this.score = score;
     this.timer = new Timer();
   }
+
 
   public void startTime() {
     TimerTask task = new TimerTask() {
