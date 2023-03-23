@@ -90,16 +90,16 @@ public class Obstacle extends Sprite {
     * @return true if the obstacle has collided with the player, false otherwise
     */
 
-  public boolean hasCollided() {
-    if (getXpos() < player.getXpos() + player.getWidth()
-        && getXpos() + width > player.getXpos()
-        && getYpos() < player.getYpos() + player.getHeight()
-        && getYpos() + height > player.getYpos()) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+//  public boolean hasCollided() {
+//    if (getXpos() < player.getXpos() + player.getWidth()
+//        && getXpos() + width > player.getXpos()
+//        && getYpos() < player.getYpos() + player.getHeight()
+//        && getYpos() + height > player.getYpos()) {
+//      return true;
+//    } else {
+//      return false;
+//    }
+//  }
 
   /**
    * Ends the game.

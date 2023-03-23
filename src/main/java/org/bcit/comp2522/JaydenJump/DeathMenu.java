@@ -5,15 +5,15 @@ import java.util.ArrayList;
 public class DeathMenu extends Menu {
 
   private ArrayList<Button> buttons;
-  private Button playAgain;
-  private Button quit;
+  Button playAgain;
+  Button quit;
   private Menu window;
   private int score = 0;
   private int highscore = 69;
 
-  public void settings() {
-    size(480, 480);
-  }
+//  public void settings() {
+//    size(480, 480);
+//  }
 
   public void init(Menu window) {
     this.window = window;

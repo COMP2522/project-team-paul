@@ -13,7 +13,7 @@ public class GameSettings extends Menu {
   private Button level;
   private Button music;
   private Button customize;
-  private Button back;
+  Button back;
   private Menu window;
   private MainMenu mainMenu;
 
@@ -52,23 +52,23 @@ public class GameSettings extends Menu {
   /**
    * Event listener for mouse presses.
    */
-  @Override
-  public void mousePressed() {
-    super.mousePressed();
-    for (Button button : buttons) {
-      if (button.isClicked(this.mouseX, this.mouseY)) {
-        if (button == level) {
-          System.out.println("Opening levels...");
-        } else if (button == music) {
-          System.out.println("Opening music...");
-        } else if (button == customize) {
-          System.out.println("Opening player customization...");
-        } else if (button == back) {
-          System.out.println("Back to main menu...");
-          mainMenu = new MainMenu();
-          mainMenu.init();
-        }
-      }
-    }
-  }
+//  @Override
+//  public void mousePressed() {
+//    super.mousePressed();
+//    for (Button button : buttons) {
+//      if (button.isClicked(this.mouseX, this.mouseY)) {
+//        if (button == level) {
+//          System.out.println("Opening levels...");
+//        } else if (button == music) {
+//          System.out.println("Opening music...");
+//        } else if (button == customize) {
+//          System.out.println("Opening player customization...");
+//        } else if (button == back) {
+//          System.out.println("Back to main menu...");
+//          mainMenu = new MainMenu();
+//          mainMenu.init();
+//        }
+//      }
+//    }
+//  }
 }
