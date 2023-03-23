@@ -1,28 +1,99 @@
 package org.bcit.comp2522.JaydenJump;
 
 /**
- * The Sprite class represents a game sprite that can be drawn and updated on a game screen.
- * It implements the Comparable, Drawable, and Collideable interfaces.
+ * Sprite class.
  *
+ * @author Ravdeep, Aulakh & Shawn Birring.
  * @version 1.0
- *
- * @author Shawn Birring
- *
- * @since 2023-03-21
  */
-
 public abstract class Sprite implements Comparable<Object>, Drawable, Collideable {
 
-  /** The x position of the sprite on the game screen. */
+  /** x position of sprite. */
   private float xpos;
 
-  /** The y position of the sprite on the game screen. */
+  /** y position of sprite. */
   private float ypos;
 
-  /** The x velocity of the sprite. */
+  /** x velocity of sprite. */
   private float vx;
 
-  /** The y velocity of the sprite. */
+  /**
+   * getter for x position.
+   *
+   * @return the x position
+   */
+  public float getXpos() {
+    return xpos;
+  }
+  
+  /**
+   * setter for the x position.
+   *
+   * @param xpos value you want to set x pos too
+   */
+  public void setXpos(float xpos) {
+    this.xpos = xpos;
+  }
+
+  /**
+   * getter for the y position.
+   *
+   *
+   * @return the y position
+   */
+  public float getYpos() {
+    return ypos;
+  }
+
+  /**
+   * setter for the y position.
+   *
+   *
+   * @param ypos the value you want to set the y position too
+   */
+  public void setYpos(float ypos) {
+    this.ypos = ypos;
+  }
+
+  /**
+   * getter for the velocity x.
+   *
+   * @return the x velocity
+   */
+  public float getVx() {
+    return vx;
+  }
+
+  /**
+   * setter for the velocity x.
+   *
+   * @param vx what you want to set the velocity x too
+   */
+  public void setVx(float vx) {
+    this.vx = vx;
+  }
+
+  /**
+   * getter for the y velocity.
+   *
+   *
+   * @return the y velocity
+   */
+  public float getVy() {
+    return vy;
+  }
+
+  /**
+   * setter for the y velocity.
+   *
+   *
+   * @param vy value to set y velocity too
+   */
+  public void setVy(float vy) {
+    this.vy = vy;
+  }
+
+  /** y velocity. */
   private float vy;
 
   /**
