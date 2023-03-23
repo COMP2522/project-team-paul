@@ -29,9 +29,6 @@ public abstract class PowerUp extends Sprite {
   /** State that determines whether the PowerUp is active or not. */
   private boolean isActive;
 
-  /**  The color of the PowerUp. */
-  //private Color color;
-
   /** The image associated with the PowerUp. */
   private PImage image;
 
@@ -68,8 +65,21 @@ public abstract class PowerUp extends Sprite {
     this.player = player;
   }
 
+  /**
+   * Draws the PowerUp to the screen.
+   */
+  @Override
   public void draw() {
     sketch.image(image, super.getXpos(), super.getYpos());
+  }
+
+  /**
+   * Moves the PowerUp across the screen.
+   */
+  @Override
+  public void update() {
+    super.setXpos(super.getXpos() + super.getVx());
+    super.setYpos(super.getYpos() + super.getVy());
   }
 
   /** Activates the PowerUp and affects the player class. */
