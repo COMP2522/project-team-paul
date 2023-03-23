@@ -27,6 +27,12 @@ class LevelTest {
     level.stopTime();
     assertEquals(57, level.getTime(), 1);
 
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      throw new RuntimeException(e);
+    }
+
     level.startTime();
     try {
       Thread.sleep(3000);
@@ -35,6 +41,29 @@ class LevelTest {
     }
     level.stopTime();
     assertEquals(54, level.getTime(), 1);
+  }
+
+  @Test
+  void addTimeWhileRunning(){
+    level.startTime();
+    try {
+      Thread.sleep(3000);
+    } catch (InterruptedException e) {
+      throw new RuntimeException(e);
+    }
+    level.setTime(level.getTime() + 3);
+    level.stopTime();
+    assertEquals(60, level.getTime(), 1);
+
+    level.startTime();
+    try {
+      Thread.sleep(3000);
+    } catch (InterruptedException e) {
+      throw new RuntimeException(e);
+    }
+    level.stopTime();
+    level.setTime(level.getTime() + 30);
+    assertEquals(87, level.getTime(), 1);
   }
 
   @Test

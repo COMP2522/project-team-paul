@@ -1,7 +1,9 @@
 package org.bcit.comp2522.JaydenJump;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 import processing.core.PImage;
 
 /**
@@ -13,7 +15,7 @@ import processing.core.PImage;
 public class Level {
 
   /* The time left in the level. */
-  private int time;
+  private volatile int time;
 
   /* Unused at the moment. */
   private long start;
@@ -33,8 +35,11 @@ public class Level {
   /* The players score in the current level. */
   private int score;
 
-  /* The timer for the level. */
-  private Timer timer;
+  /* Used for timer for the level. */
+  private ScheduledExecutorService scheduledExecutorService;
+
+  /* Used for timer for the level. */
+  private ScheduledFuture<?> scheduledFuture;
 
   /* Unused at the moment. */
   private String weather;
@@ -56,32 +61,33 @@ public class Level {
     this.levelNumber = levelNumber;
     this.speed = speed;
     this.score = score;
-    this.timer = new Timer();
+    this.scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
   }
 
   /**
-   *  Starts the timer for the level, updated the time every second.
+   *  Starts the timer for the level, updates time every second.
    *  TimerTask should be creating a new Thread to not hold up main.
    */
   public void startTime() {
-    TimerTask task = new TimerTask() {
-      @Override
-      public void run() {
+    if (scheduledFuture == null || scheduledFuture.isCancelled()) {
+      Runnable task = () -> {
         time--;
         if (time <= 0) {
           stopTime();
         }
-      }
-    };
-
-    timer.scheduleAtFixedRate(task, 0, 1000);
+      };
+      scheduledFuture = scheduledExecutorService
+          .scheduleAtFixedRate(task, 0, 1000, TimeUnit.MILLISECONDS);
+    }
   }
 
   /**
    * Pauses the timer for the level.
    */
   public void stopTime() {
-    timer.cancel();
+    if (scheduledFuture != null) {
+      scheduledFuture.cancel(false);
+    }
   }
 
   /**
