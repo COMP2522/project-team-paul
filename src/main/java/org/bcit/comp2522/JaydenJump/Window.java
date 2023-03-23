@@ -58,7 +58,7 @@ public class Window extends PApplet {
     public void setup() {
         frameRate(60);
         PImage img = loadImage("./Images/doodleguy.png");
-        player = Player.getInstance(0, 0, 0, 0, this, img);
+        player = Player.getInstance(0, 0, 0, 0, this, img, 80, 3, 0.6f);
         platforms = new ArrayList<Platform>();
         float y = 5;
         for (int i = 0; i < 10; i++) {
@@ -82,12 +82,12 @@ public class Window extends PApplet {
 
         boolean playerOnPlatform = false;
         for (Platform platform : platforms) {
-            if (player.collides(platform) && player.getVy() > -10) {
+            if (player.collides(platform) && player.getVy() > -15) {
                 if (platform.isBreakable()) {
                     platforms.remove(platform);
                 }
                 playerOnPlatform = true;
-                player.setVy(-15);
+                player.setVy(-17);
 //                System.out.println("players vy: \n" + player.getVy());
                 break;
             }
