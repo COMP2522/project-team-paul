@@ -23,11 +23,7 @@ public class Platform extends Sprite {
   /** speed for moving platforms. */
   private int speed;
 
-  /** y position of the platform. */
-  private float ypos;
-
-  /** x position of the platform. */
-  private float xpos;
+  private boolean breakable;
 
   /** sketch to make the platform appear on screen. */
   private PApplet sketch;
@@ -105,46 +101,6 @@ public class Platform extends Sprite {
   }
 
   /**
-   * getter for the y position of the platform.
-   *
-   * @return the y position of the platform
-   */
-  @Override
-  public float getYpos() {
-    return ypos;
-  }
-
-  /**
-   * setter for the y position of the platform.
-   *
-   * @param ypos the value you want to set the y position too
-   */
-  @Override
-  public void setYpos(float ypos) {
-    this.ypos = ypos;
-  }
-
-  /**
-   * getter for the x position of the platform.
-   *
-   * @return the x position of the platform
-   */
-  @Override
-  public float getXpos() {
-    return xpos;
-  }
-
-  /**
-   * setter for the x position of the platform.
-   *
-   * @param xpos the value you want to set the x position too
-   */
-  @Override
-  public void setXpos(float xpos) {
-    this.xpos = xpos;
-  }
-
-  /**
    * constructor for the platform class.
    *
    * @param sketch the sketch
@@ -158,15 +114,14 @@ public class Platform extends Sprite {
    * @param vy the y velocity of the platform
    */
   public Platform(PApplet sketch, float x, float y, int width, int height,
-                  Color color, int speed, float vx, float vy) {
+                  Color color, int speed, float vx, float vy, boolean breakable) {
     super(x, y, vx, vy);
     this.sketch = sketch;
-    this.xpos = x;
-    this.ypos = y;
     this.width = width;
     this.height = height;
     this.color = color;
     this.speed = speed;
+    this.breakable = breakable;
 
   }
 
@@ -175,7 +130,7 @@ public class Platform extends Sprite {
   public void draw() {
 
     sketch.fill(color.getRGB());
-    sketch.rect(xpos, ypos, width, height);
+    sketch.rect(getXpos(), getYpos(), width, height);
 
   }
 
@@ -183,7 +138,7 @@ public class Platform extends Sprite {
    * Move the platform down.
    */
   public void moveDown() {
-    ypos += speed;
+    setYpos(getYpos() + speed);
     speed += 0.01;
 
   }
@@ -194,14 +149,19 @@ public class Platform extends Sprite {
    * @return true or false if the platform still on screen
    */
   public boolean isOnScreen() {
-
-    return xpos >= 0 && xpos + width <= sketch.width
-            && ypos >= 0 && ypos + height <= sketch.height;
+    return getXpos() >= 0 && getXpos() + width <= sketch.width
+            && getYpos() >= 0 && getYpos() + height <= sketch.height;
   }
 
 
   public void breakPlatform() {
   }
 
+  public boolean isBreakable() {
+    return breakable;
+  }
 
+  public void setBreakable(boolean breakable) {
+    this.breakable = breakable;
+  }
 }
