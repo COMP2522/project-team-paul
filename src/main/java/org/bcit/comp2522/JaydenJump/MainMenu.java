@@ -8,6 +8,9 @@ import java.util.ArrayList;
 
 public class MainMenu extends Menu {
 
+  /**
+   * Instance variables.
+   */
   private PImage logo;
   private PImage doodle;
   private ArrayList<Button> buttons;
@@ -46,6 +49,9 @@ public class MainMenu extends Menu {
     buttons.add(settings);
   }
 
+  /**
+   * Draws to window.
+   */
   public void draw() {
     if (currentScreen == 0) {
       background(35, 150, 170);
@@ -62,38 +68,12 @@ public class MainMenu extends Menu {
     } else {
       death.init(this);
     }
-
-//    if (currentScreen == 0) {
-//      background(35, 150, 170);
-//      image(logo, (width - logo.width) / 2, (height - 500) / 2);
-//      image(doodle, width / 4, height / 8);
-//      for (Button button : buttons) {
-//        button.draw();
-//      }
-//    } else if (currentScreen == 1) {
-//      // start game
-//
-//      // menu when game is paused
-//      gameMenu.init(this);
-//    } else if (currentScreen == 2) {
-//      // open game settings
-//      gameSettings.init(this);
-//    }
   }
 
+  /**
+   * Event listener for mouse presses.
+   */
   public void mousePressed() {
-//    super.mousePressed(); // call the parent's mousePressed method
-//    for (Button button : buttons) {
-//      if (button.isClicked(mouseX, mouseY)) {
-//        if (button == start) {
-//          // start the game
-//        } else if (button == settings) {
-//          // open the settings menu
-//          currentScreen = 2; // set the current screen to 2 to draw the settings menu
-//        }
-//      }
-//    }
-
     if (clickable) {
       if (start.isClicked(mouseX, mouseY)) {
         System.out.println("Starting game...");
@@ -115,7 +95,7 @@ public class MainMenu extends Menu {
   }
 
   public static void main(String[] args) {
-    String[] appletArgs = new String[]{"Jayden Jump"};
+    String[] appletArgs = new String[]{"MainMenu"};
     MainMenu mainMenu = new MainMenu();
     PApplet.runSketch(appletArgs, mainMenu);
   }

@@ -6,6 +6,9 @@ import java.util.ArrayList;
 
 public class GameSettings extends Menu {
 
+  /**
+   * Instance variables.
+   */
   private ArrayList<Button> buttons;
   private Button level;
   private Button music;
@@ -27,6 +30,9 @@ public class GameSettings extends Menu {
     draw();
   }
 
+  /**
+   * Draws to window.
+   */
   public void draw() {
     window.background(35, 150, 170);
     buttons = new ArrayList<Button>();
@@ -43,6 +49,9 @@ public class GameSettings extends Menu {
     }
   }
 
+  /**
+   * Event listener for mouse presses.
+   */
   @Override
   public void mousePressed() {
     super.mousePressed();
@@ -61,24 +70,5 @@ public class GameSettings extends Menu {
         }
       }
     }
-
-//    if (level.isClicked(this.mouseX, this.mouseY)) {
-//      System.out.println("Opening levels...");
-//    } else if (music.isClicked(mouseX, mouseY)) {
-//      System.out.println("Opening music...");
-//    } else if (customize.isClicked(mouseX, mouseY)) {
-//      System.out.println("Opening player customization...");
-//    } else if (back.isClicked(mouseX, mouseY)) {
-//      System.out.println("Back to main menu...");
-//      mainMenu = new MainMenu();
-//      mainMenu.init();
-//      // go back to main menu
-//    }
   }
-
-//  public void run() {
-//    String[] appletArgs = new String[]{"GameSettings"};
-//    GameSettings gameSettings = new GameSettings();
-//    PApplet.runSketch(appletArgs, gameSettings);
-//  }
 }
