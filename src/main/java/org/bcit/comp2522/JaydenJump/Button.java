@@ -1,23 +1,57 @@
 package org.bcit.comp2522.JaydenJump;
 
-public class Button {
+import processing.core.PApplet;
+
+public class Button extends PApplet {
 
   private int x;
-
   private int y;
-
   private int width;
-
   private int height;
+  private String label;
+  private int fontSize;
+  private Menu window;
 
-  private String Label;
-
-  public Button(int x, int y, int width, int height, String label) {
+  public Button(int x, int y, int width, int height, int fontSize, String label, Menu window) {
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
-    this.Label = label;
+    this.fontSize = fontSize;
+    this.label = label;
+    this.window = window;
+  }
+
+  public void draw() {
+//    window.rectMode(CENTER);
+//    window.stroke(0);
+//    window.fill(0, 0, 255);
+//    window.rect(x, y, width, height);
+//    window.fill(0);
+//    window.textSize(30);
+//    window.text(label, x, y);
+//    window.textAlign(CENTER, CENTER);
+    window.ellipseMode(CENTER);
+    window.stroke(0);
+    window.fill(35, 150, 250);
+    window.ellipse(x, y, width, height);
+    window.fill(0);
+    window.textSize(fontSize);
+    window.text(label, x, y);
+    window.textAlign(CENTER, CENTER);
+  }
+
+//  public boolean isClicked(int mouseX, int mouseY) {
+////    System.out.println(x - width / 2);
+////    System.out.println(x + width / 2);
+////    System.out.println(y - height / 2);
+////    System.out.println(y + height / 2);
+//    return (mouseX > x - width/2 && mouseX < x + width/2 &&
+//        mouseY > y - height/2 && mouseY < y + height/2);
+//  }
+
+  public boolean isClicked(int x, int y) {
+    return (x >= this.x - width/2 && x <= this.x + width/2 && y >= this.y - height/2 && y <= this.y + height/2);
   }
 
   public void onClick() {
@@ -57,10 +91,10 @@ public class Button {
   }
 
   public String getLabel() {
-    return Label;
+    return label = label;
   }
 
   public void setLabel(String label) {
-    Label = label;
+    label = label;
   }
 }
