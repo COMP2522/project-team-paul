@@ -1,7 +1,7 @@
 package org.bcit.comp2522.JaydenJump;
 
+import processing.core.PApplet;
 import processing.core.PImage;
-import java.awt.Color;
 
 /**
  * The JetPack class is a type of PowerUp that allows the Player to fly up
@@ -14,7 +14,7 @@ import java.awt.Color;
  * @since 2023-03-23
  */
 
-public class JetPack extends PowerUp{
+public class JetPack extends PowerUp {
   /** The amount of time the JetPack lasts. */
   private int duration;
 
@@ -31,15 +31,53 @@ public class JetPack extends PowerUp{
    * @param width The width of JetPack
    * @param height The height of JetPack
    * @param isActive The boolean state that determines whether JetPack is active or not
-   * @param color The color of JetPack
    * @param image The image of JetPack
    * @param duration The amount of time the JetPack lasts for
    * @param boostVelocity The amount the y direction of Player is affected by JetPack
    */
-  public JetPack(int xpos, int ypos, int vx, int vy, int width, int height, boolean isActive, Color color, PImage image, int duration, int boostVelocity) {
-    super(xpos, ypos, vx, vy, width, height, isActive, color, image);
+  public JetPack(int xpos, int ypos, int vx, int vy, int width, int height, boolean isActive,
+                 PImage image, PApplet sketch, int duration, int boostVelocity, Player player) {
+    super(xpos, ypos, vx, vy, width, height, isActive, image, sketch, player);
     this.duration = duration;
     this.boostVelocity = boostVelocity;
   }
 
+  /**
+   * Activates the JetPack.
+   */
+  @Override
+  public void activate() {
+    if (isActive()) {
+      getPlayer().setVy(getBoostVelocity());
+      if (duration > 0) {
+        duration--;
+      }
+    }
+  }
+  //if jetpack is active player can not collide with anything
+
+  /**
+   * Deactivates the JetPack.
+   */
+  @Override
+  public void deactivate() {
+    setActive(false);
+  }
+
+
+  public int getDuration() {
+    return duration;
+  }
+
+  public void setDuration(int duration) {
+    this.duration = duration;
+  }
+
+  public int getBoostVelocity() {
+    return boostVelocity;
+  }
+
+  public void setBoostVelocity(int boostVelocity) {
+    this.boostVelocity = boostVelocity;
+  }
 }

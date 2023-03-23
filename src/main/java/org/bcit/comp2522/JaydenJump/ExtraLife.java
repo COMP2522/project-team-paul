@@ -1,8 +1,7 @@
 package org.bcit.comp2522.JaydenJump;
 
+import processing.core.PApplet;
 import processing.core.PImage;
-
-import java.awt.*;
 
 /**
  * A type of PowerUp that gives the player an extra life in the game.
@@ -14,7 +13,7 @@ import java.awt.*;
  * @since 2023-03-22
  */
 
-public class ExtraLife extends PowerUp{
+public class ExtraLife extends PowerUp {
 
   /**
    * Creates an instance of ExtraLife powerup in the game.
@@ -26,18 +25,37 @@ public class ExtraLife extends PowerUp{
    * @param width The width of ExtraLife
    * @param height The height of ExtraLife
    * @param isActive The boolean state that determines whether ExtraLife is active or not
-   * @param color The color of ExtraLife
    * @param image The image of ExtraLife
    */
   public ExtraLife(int xpos, int ypos, int vx, int vy, int width, int height,
-                   boolean isActive, Color color, PImage image) {
-    super(xpos, ypos, vx, vy, width, height, isActive, color, image);
+                   boolean isActive, PImage image, PApplet sketch, Player player) {
+    super(xpos, ypos, vx, vy, width, height, isActive, image, sketch, player);
   }
 
   /**
    * Increases the life of the Player by one.
    */
   public void increaseLife() {
+    getPlayer().setLives(getPlayer().getLives() + 1);
+  }
 
+  /**
+   * Activates the ExtraLife powerup.
+   */
+  @Override
+  public void activate() {
+    if (isActive()) {
+      increaseLife();
+    }
+  }
+
+  /**
+   * Deactivates the ExtraLife powerup.
+   */
+  @Override
+  public void deactivate() {
+    if (isActive()) {
+      setActive(false);
+    }
   }
 }
