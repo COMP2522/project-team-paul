@@ -30,7 +30,7 @@ public abstract class PowerUp extends Sprite {
   private boolean isActive;
 
   /**  The color of the PowerUp. */
-  private Color color;
+  //private Color color;
 
   /** The image associated with the PowerUp. */
   private PImage image;

@@ -66,7 +66,7 @@ public class Magnet extends PowerUp {
    * @param coin in the game
    */
   public void collectCoin(Coin coin) {
-    getPlayer().setScore(getPlayer().getScore() + coin.getValue());
+    //getPlayer().setScore(getPlayer().getScore() + coin.getValue());
   }
 
   @Override

@@ -36,7 +36,7 @@ public class ExtraLife extends PowerUp {
    * Increases the life of the Player by one.
    */
   public void increaseLife() {
-    getPlayer().setLives(getPlayer().getLives() + 1);
+    //getPlayer().setLives(getPlayer().getLives() + 1);
   }
 
   /**
