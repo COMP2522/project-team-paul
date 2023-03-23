@@ -1,6 +1,6 @@
 package org.bcit.comp2522.JaydenJump;
 
-import java.awt.Color;
+import processing.core.PApplet;
 import processing.core.PImage;
 
 /**
@@ -39,8 +39,6 @@ public class SpringShoes extends PowerUp {
    *
    * @param isActive The boolean state of SpringShoes that determines if it is active or not
    *
-   * @param color The color of SpringShoes
-   *
    * @param image The image of SpringShoes
    *
    * @param duration How long the SpringShoes last for
@@ -48,9 +46,36 @@ public class SpringShoes extends PowerUp {
    * @param boostValue The amount that affects the y velocity of SpringShoes
    */
   public SpringShoes(int xpos, int ypos, int vx, int vy, int width, int height,
-                     boolean isActive, Color color, PImage image, int duration, int boostValue) {
-    super(xpos, ypos, vx, vy, width, height, isActive, color, image);
+                     boolean isActive, PImage image, int duration, int boostValue,
+                     PApplet sketch, Player player) {
+    super(xpos, ypos, vx, vy, width, height, isActive, image, sketch, player);
     this.boostValue = boostValue;
     this.duration = duration;
+  }
+
+  private void boostPlayer() {
+    if (isActive()) {
+      getPlayer().setVy(this.boostValue);
+      if (duration > 0) {
+        duration--;
+      }
+    }
+  }
+
+  /**
+   * Boost the player's y velocity.
+   */
+  @Override
+  public void activate() {
+    setActive(true);
+    boostPlayer();
+  }
+
+  /**
+   * Deactivates the SpringShoes.
+   */
+  @Override
+  public void deactivate() {
+    setActive(false);
   }
 }

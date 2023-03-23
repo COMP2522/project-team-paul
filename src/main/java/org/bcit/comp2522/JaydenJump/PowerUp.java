@@ -1,7 +1,8 @@
 package org.bcit.comp2522.JaydenJump;
 
-import java.awt.Color;
+import processing.core.PApplet;
 import processing.core.PImage;
+
 
 /**
  * The PowerUp class represents a type of consumable item that can be used by the player class.
@@ -15,6 +16,9 @@ import processing.core.PImage;
  */
 
 public abstract class PowerUp extends Sprite {
+
+  /** The PApplet sketch for printing the image to the screen. */
+  private final PApplet sketch;
 
   /** The width of the PowerUp. */
   private int width;
@@ -30,6 +34,9 @@ public abstract class PowerUp extends Sprite {
 
   /** The image associated with the PowerUp. */
   private PImage image;
+
+  /** The player that will recieve the powerup. */
+  private Player player;
 
   /**
    * Constructs the PowerUp class.
@@ -48,18 +55,21 @@ public abstract class PowerUp extends Sprite {
    *
    * @param isActive the state of PowerUp
    *
-   * @param color the color of PowerUp
-   *
    * @param image the image of PowerUp
    */
   public PowerUp(int xpos, int ypos, int vx, int vy, int width, int height,
-                 boolean isActive, Color color, PImage image) {
+                 boolean isActive, PImage image, PApplet sketch, Player player) {
     super(xpos, ypos, vx, vy);
     this.width = width;
     this.height = height;
     this.isActive = isActive;
-    this.color = color;
     this.image = image;
+    this.sketch = sketch;
+    this.player = player;
+  }
+
+  public void draw() {
+    sketch.image(image, super.getXpos(), super.getYpos());
   }
 
   /** Activates the PowerUp and affects the player class. */
@@ -67,6 +77,7 @@ public abstract class PowerUp extends Sprite {
 
   /** Deactivates the PowerUp. */
   public void deactivate() {}
+
 
   /**
    * Retrieves the width of the PowerUp.
@@ -124,22 +135,16 @@ public abstract class PowerUp extends Sprite {
     isActive = active;
   }
 
-  /**
-   * Retrives the color of the PowerUp.
-   *
-   * @return color of PowerUp
-   */
-  public Color getColor() {
-    return color;
+  public PApplet getSketch() {
+    return sketch;
   }
 
-  /**
-   * Reassigns the color of the PowerUp to a new color.
-   *
-   * @param color from user
-   */
-  public void setColor(Color color) {
-    this.color = color;
+  public Player getPlayer() {
+    return player;
+  }
+
+  public void setPlayer(Player player) {
+    this.player = player;
   }
 
   /**

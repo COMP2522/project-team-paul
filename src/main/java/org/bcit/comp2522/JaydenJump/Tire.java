@@ -1,6 +1,6 @@
 package org.bcit.comp2522.JaydenJump;
 
-import java.awt.Color;
+import processing.core.PApplet;
 import processing.core.PImage;
 
 /**
@@ -33,13 +33,11 @@ public class Tire extends PowerUp {
    *
    * @param isActive The boolean state that determines if the Tire is active or not
    *
-   * @param color The color of the Tire
-   *
    * @param image The image of the Tire
    */
   public Tire(int xpos, int ypos, int vx, int vy, int width, int height,
-              boolean isActive, Color color, PImage image) {
-    super(xpos, ypos, vx, vy, width, height, isActive, color, image);
+              boolean isActive, PImage image, PApplet sketch, Player player) {
+    super(xpos, ypos, vx, vy, width, height, isActive, image, sketch, player);
   }
 
   /** The amount that affects the jump height of the Player. */
@@ -66,5 +64,20 @@ public class Tire extends PowerUp {
   /**
    * Boosts the height of the player.
    */
-  public void boostPlayer() {}
+  private void boostPlayer() {
+    if (isActive()) {
+      getPlayer().setVy(getPlayer().getVy() - getBoostHeight());
+    }
+  }
+
+  @Override
+  public void activate() {
+    setActive(true);
+    boostPlayer();
+  }
+
+  @Override
+  public void deactivate() {
+    setActive(false);
+  }
 }
