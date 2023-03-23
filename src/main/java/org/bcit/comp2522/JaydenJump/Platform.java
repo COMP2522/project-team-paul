@@ -23,6 +23,7 @@ public class Platform extends Sprite {
   /** speed for moving platforms. */
   private int speed;
 
+  /** variable to check if it is normal or breakable platform. */
   private boolean breakable;
 
   /** sketch to make the platform appear on screen. */
@@ -157,10 +158,20 @@ public class Platform extends Sprite {
   public void breakPlatform() {
   }
 
+  /**
+   * getter to check if the platform is breakable.
+   *
+   * @return if the platform is breakable or not
+   */
   public boolean isBreakable() {
     return breakable;
   }
 
+  /**
+   * setter for if the platform is breakable or not.
+   *
+   * @param breakable the value you want to set the platforms breakability too
+   */
   public void setBreakable(boolean breakable) {
     this.breakable = breakable;
   }
