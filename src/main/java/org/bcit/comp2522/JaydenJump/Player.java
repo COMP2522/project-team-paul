@@ -29,26 +29,6 @@ public class Player extends Sprite {
   private PImage image;
 
   /**
-   * x position.
-   */
-  private float xpos;
-
-  /**
-   * y position.
-   */
-  private float ypos;
-
-  /**
-   * x velocity.
-   */
-  private float vx;
-
-  /**
-   * y velocity.
-   */
-  private float vy;
-
-  /**
    * gravity.
    */
   private float gravity;
@@ -69,17 +49,13 @@ public class Player extends Sprite {
    * @param sketch sketch for the player
    * @param image the image for the player
    */
-  private Player(int xpos, int ypos, int vx, int vy, PApplet sketch, PImage image) {
+  private Player(float xpos, float ypos, float vx, float vy, PApplet sketch, PImage image) {
     super(xpos, ypos, vx, vy);
-    super.setXpos(sketch.width / 2);
-    super.setYpos(sketch.height - size);
-    super.setVx(0);
-    super.setVy(0);
     this.sketch = sketch;
     this.image = image;
     size = 80;
-    gravity = 0.5f;
-    speed = 5;
+    gravity = 0.6f;
+    speed = 3.5f;
   }
 
   /**
@@ -89,7 +65,11 @@ public class Player extends Sprite {
    * @param image the image for the player
    * @return a instance of the player
    */
-  public static Player getInstance(int xpos, int ypos, int vx, int vy, PApplet sketch,
+  public static Player getInstance(float xpos,
+                                   float ypos,
+                                   float vx,
+                                   float vy,
+                                   PApplet sketch,
                                    PImage image) {
     if (instance == null) {
       instance = new Player(xpos, ypos, vx, vy, sketch, image);
@@ -116,8 +96,7 @@ public class Player extends Sprite {
    */
   @Override
   public void draw() {
-
-    sketch.image(image, xpos, ypos, size, size);
+    sketch.image(image, getXpos(), getYpos(), size, size);
   }
 
   /**
@@ -126,45 +105,50 @@ public class Player extends Sprite {
   @Override
   public void update() {
 
-    vy += gravity;
-
-
-    xpos += vx;
-    ypos += vy;
-
-
-    xpos = sketch.constrain(xpos, size / 10, sketch.width - size / 2);
-    ypos = sketch.constrain(ypos, size / 2, sketch.height - size / 2);
-
-
-    if (ypos >= sketch.height - size / 2) {
-      ypos = sketch.height - size / 2;
-      vy = -15;
+    float temp = getVy() + gravity;
+    if (temp > 15f) {
+      setVy(15f);
+    } else {
+      setVy(getVy() + gravity);
     }
 
+    setXpos(getXpos() + getVx());
+    setYpos(getYpos() + getVy());
 
+
+    setXpos(sketch.constrain(getXpos(), size / 10, sketch.width - size / 2));
+    setYpos(sketch.constrain(getYpos(), size / 2, sketch.height - size / 2));
+
+
+    if (getYpos() >= sketch.height - size / 2) {
+      setYpos(sketch.height - size / 2);
+      setVy(-15);
+    }
   }
+
+
 
 
   /**
    * move the player to the left.
    */
   public void moveLeft() {
-    vx = -speed;
+
+    setVx(getVx() - speed);
   }
 
   /**
    * move the player to the right.
    */
   public void moveRight() {
-    vx = speed;
+    setVx(speed);
   }
 
   /**
    * just in case we need to stop the player from moving at all at ony time.
    */
   public void stopMoving() {
-    vx = 0;
+    setVx(0);
   }
 
   @Override
@@ -172,10 +156,10 @@ public class Player extends Sprite {
     if (o instanceof Platform) {
       Platform platform = (Platform) o;
 
-      float playerLeft = xpos - size / 2;
-      float playerRight = xpos + size / 2;
-      float playerTop = ypos - size / 2;
-      float playerBottom = ypos + size / 2;
+      float playerLeft = getXpos() - size / 2;
+      float playerRight = getXpos() + size / 2;
+      float playerTop = getYpos() - size / 2;
+      float playerBottom = getYpos() + size / 2;
 
       float platformLeft = platform.getXpos() - platform.getWidth() / 2;
       float platformRight = platform.getXpos() + platform.getWidth() / 2;
@@ -185,26 +169,7 @@ public class Player extends Sprite {
       return playerLeft < platformRight && playerRight > platformLeft
               && playerTop < platformBottom && playerBottom > platformTop;
     }
-
     return false;
-  }
-
-  /**
-   * getter for y position.
-   *
-   * @return the y position
-   */
-  public float getYpos() {
-    return ypos;
-  }
-
-  /**
-   * setter for the y position.
-   *
-   * @param ypos the value you want to set the y position too
-   */
-  public void setYpos(float ypos) {
-    this.ypos = ypos;
   }
 
   /**
@@ -225,21 +190,10 @@ public class Player extends Sprite {
     this.speed = speed;
   }
 
-  /**
-   * getter for the y velocity.
-   *
-   * @return the player y velocity
-   */
-  public float getVy() {
-    return vy;
+  public int getSize() {
+    return this.size;
   }
-
-  /**
-   * setter for the y velocity.
-   *
-   * @param vy the value you want to set the y velocity too
-   */
-  public void setVy(float vy) {
-    this.vy = vy;
+  public void setSize(int size) {
+    this.size = size;
   }
 }
