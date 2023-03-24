@@ -22,19 +22,23 @@ public class MenuManager extends Menu {
   private MusicMenu musicMenu;
   private LeaderboardsMenu leaderboardsMenu;
   private int currentScreen = 0;
-  boolean clickable = true;
   static boolean sound = true;
-  private static boolean clicked = false;
   private Clip clip;
 
+  /**
+   * Loads images.
+   */
   public void setup() {
     logo = loadImage("images/logo.png");
     doodle = loadImage("images/doodle.png");
     musicOn = loadImage("images/music_on.png");
     musicOff = loadImage("images/music_off.png");
-    this.init();
+    init();
   }
 
+  /**
+   * Initializes all Menu objects.
+   */
   public void init() {
     try {
       File music = new File("music/like_a_dino.wav");
@@ -50,6 +54,7 @@ public class MenuManager extends Menu {
     } catch (LineUnavailableException e) {
       throw new RuntimeException(e);
     }
+
     mainMenu = new MainMenu();
     pauseMenu = new PauseMenu();
     gameSettings = new GameSettings();
@@ -76,6 +81,10 @@ public class MenuManager extends Menu {
       deathMenu.init(this);
     }
   }
+
+  /**
+   * Event listener for mouse presses.
+   */
   public void mousePressed() {
     if (currentScreen == 0) {
       if (mainMenu.start.isClicked(mouseX, mouseY)) {
@@ -156,6 +165,47 @@ public class MenuManager extends Menu {
     }
   }
 
+  /**
+   * Getter for current screen.
+   *
+   * @return current screen as an int
+   */
+  public int getCurrentScreen() {
+    return currentScreen;
+  }
+
+  /**
+   * Setter for current screen.
+   *
+   * @param currentScreen as an int
+   */
+  public void setCurrentScreen(int currentScreen) {
+    this.currentScreen = currentScreen;
+  }
+
+  /**
+   * Getter for sound.
+   *
+   * @return sound as a boolean
+   */
+  public boolean getSound() {
+    return sound;
+  }
+
+  /**
+   * Setter for sound.
+   *
+   * @param sound as a boolean
+   */
+  public void setSound(boolean sound) {
+    this.sound = sound;
+  }
+
+  /**
+   * Drives the program.
+   *
+   * @param args unused
+   */
   public static void main(String[] args) {
     String[] appletArgs = new String[]{"MenuManager"};
     MenuManager menuManager = new MenuManager();

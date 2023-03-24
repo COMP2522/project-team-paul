@@ -43,4 +43,40 @@ public class DeathMenu extends Menu {
       button.draw();
     }
   }
+
+  /**
+   * Getter for score.
+   *
+   * @return score as an int
+   */
+  public int getScore() {
+    return score;
+  }
+
+  /**
+   * Setter for score.
+   *
+   * @param score as an int
+   */
+  public void setScore(int score) {
+    this.score = score;
+  }
+
+  /**
+   * Getter for highscore.
+   *
+   * @return highscore as an int
+   */
+  public int getHighscore() {
+    return highscore;
+  }
+
+  /**
+   * Setter for highscore.
+   *
+   * @param highscore as an int
+   */
+  public void setHighscore(int highscore) {
+    this.highscore = highscore;
+  }
 }

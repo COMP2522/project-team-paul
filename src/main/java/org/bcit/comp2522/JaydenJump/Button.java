@@ -135,6 +135,24 @@ public class Button extends PApplet {
   }
 
   /**
+   * Getter for font size.
+   *
+   * @return font size as an int
+   */
+  public int getFontSize() {
+    return fontSize;
+  }
+
+  /**
+   * Setter for font size.
+   *
+   * @param fontSize as an int
+   */
+  public void setFontSize(int fontSize) {
+    this.fontSize = fontSize;
+  }
+
+  /**
    * Getter for label.
    *
    * @return label as a string

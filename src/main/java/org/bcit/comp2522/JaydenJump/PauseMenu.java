@@ -38,4 +38,22 @@ public class PauseMenu extends Menu {
     //score = getCurrentScore();
     window.text("Current score: " + score,  width / 2 + 20, height / 2);
   }
+
+  /**
+   * Getter for score.
+   *
+   * @return score as an int
+   */
+  public int getScore() {
+    return score;
+  }
+
+  /**
+   * Setter for score.
+   *
+   * @param score as an int
+   */
+  public void setScore(int score) {
+    this.score = score;
+  }
 }

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 public class MusicMenu extends Menu {
 
+  /**
+   * Instance variables.
+   */
   private Menu window;
   private ArrayList<Button> buttons;
   Button boss;
