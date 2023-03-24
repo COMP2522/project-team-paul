@@ -1,5 +1,7 @@
 package org.bcit.comp2522.JaydenJump;
 
+import processing.core.PApplet;
+
 public class Coin extends Sprite{
 
   private int value;
@@ -10,8 +12,8 @@ public class Coin extends Sprite{
 
   private String color;
 
-  public Coin(float xpos, float ypos, float vx, float vy, int value, int width, int height, String color) {
-    super(xpos, ypos, vx, vy);
+  public Coin(float xpos, float ypos, float vx, float vy, int value, int width, int height, String color, PApplet sketch) {
+    super(xpos, ypos, vx, vy, sketch);
     this.value = value;
     this.width = width;
     this.height = height;
