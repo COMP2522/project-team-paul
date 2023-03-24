@@ -116,7 +116,7 @@ public class Platform extends Sprite {
    */
   public Platform(PApplet sketch, float x, float y, int width, int height,
                   Color color, int speed, float vx, float vy, boolean breakable) {
-    super(x, y, vx, vy);
+    super(x, y, vx, vy, sketch);
     this.sketch = sketch;
     this.width = width;
     this.height = height;

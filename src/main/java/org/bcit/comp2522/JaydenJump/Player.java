@@ -4,8 +4,7 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 /**
- *
- * <P>the Doodle guy or the player class.</P>T
+ * The Doodle guy or the player class.
  *
  * @author Ravdeep, Aulakh
  * @version 1.0
@@ -44,18 +43,37 @@ public class Player extends Sprite {
   private int size;
 
   /**
-   * constructor for the player.
-   *
-   * @param sketch sketch for the player
-   * @param image the image for the player
+   * Check to see if the player is shooting.
    */
-  private Player(float xpos, float ypos, float vx, float vy, PApplet sketch, PImage image) {
-    super(xpos, ypos, vx, vy);
+  private boolean isShooting = false;
+
+  /**
+   * the projectile the player will shoot.
+   */
+  private Projectile projectile;
+
+  /**
+   * constructor for the player class.
+   *
+   * @param xpos the x position of the player
+   * @param ypos the y position of the player
+   * @param vx the x velocity of the player
+   * @param vy the y velocity of the player
+   * @param sketch the sketch for the player
+   * @param image the image to set the player to
+   * @param size the size of the player
+   * @param speed the speed of the player
+   * @param gravity the gravity on the player
+   */
+  private Player(float xpos, float ypos, float vx, float vy, PApplet sketch, PImage image,
+                 int size, float speed, float gravity) {
+    super(xpos, ypos, vx, vy, sketch);
     this.sketch = sketch;
     this.image = image;
-    size = 80;
-    gravity = 0.6f;
-    speed = 3.5f;
+    this.size = size;
+    this.speed = speed;
+    this.gravity = gravity;
+    projectile = new Projectile(xpos, ypos, 0, -2, super.getSketch(), 1);
   }
 
   /**
@@ -70,11 +88,12 @@ public class Player extends Sprite {
                                    float vx,
                                    float vy,
                                    PApplet sketch,
-                                   PImage image) {
+                                   PImage image,
+                                   int size,
+                                   float speed,
+                                   float gravity) {
     if (instance == null) {
-      instance = new Player(xpos, ypos, vx, vy, sketch, image);
-    } else {
-      instance.sketch = sketch;
+      instance = new Player(xpos, ypos, vx, vy, sketch, image, size, speed, gravity);
     }
     return instance;
   }
@@ -97,6 +116,10 @@ public class Player extends Sprite {
   @Override
   public void draw() {
     sketch.image(image, getXpos(), getYpos(), size, size);
+
+    if (isShooting) {
+      projectile.draw();
+    }
   }
 
   /**
@@ -110,6 +133,13 @@ public class Player extends Sprite {
       setVy(15f);
     } else {
       setVy(getVy() + gravity);
+    }
+
+    if (isShooting) {
+      projectile.update();
+      if (projectile.getYpos() < 0) {
+        stopShooting();
+      }
     }
 
     setXpos(getXpos() + getVx());
@@ -126,7 +156,24 @@ public class Player extends Sprite {
     }
   }
 
+  /**
+   * Method to shoot projectiles.
+   */
+  public void shootProjectile() {
+    if (!isShooting) {
+      isShooting = true;
+      projectile.setXpos(getXpos());
+      projectile.setYpos(getYpos());
+      projectile.setVy(-10);
+    }
+  }
 
+  /**
+   * Method to stop shooting projectiles.
+   */
+  public void stopShooting() {
+    isShooting = false;
+  }
 
 
   /**
@@ -134,7 +181,7 @@ public class Player extends Sprite {
    */
   public void moveLeft() {
 
-    setVx(getVx() - speed);
+    setVx(-speed);
   }
 
   /**
@@ -190,10 +237,75 @@ public class Player extends Sprite {
     this.speed = speed;
   }
 
+  /**
+   * getter for the size of the player.
+   *
+   * @return the size of the player
+   */
   public int getSize() {
     return this.size;
   }
+
+  /**
+   * setter for the size of the player.
+   *
+   * @param size the value you want to set the player size too
+   */
   public void setSize(int size) {
     this.size = size;
+  }
+
+  /**
+   * getter for the sketch of the player.
+   *
+   * @return the sketch of the player
+   */
+  public PApplet getSketch() {
+    return sketch;
+  }
+
+  /**
+   * setter for the sketch of the player.
+   *
+   * @param sketch the value you want to set the sketch too
+   */
+  public void setSketch(PApplet sketch) {
+    this.sketch = sketch;
+  }
+
+  /**
+   * getter for the image of the player.
+   *
+   * @return the image of the player
+   */
+  public PImage getImage() {
+    return image;
+  }
+
+  /**
+   * setter for the image of the player.
+   *
+   * @param image the image you want to set the player too
+   */
+  public void setImage(PImage image) {
+    this.image = image;
+  }
+
+  /**
+   * getter for the gravity of the player.
+   *
+   * @return the gravity of the player
+   */
+  public float getGravity() {
+    return gravity;
+  }
+
+  /**
+   * setter for the gravity of the player.
+   *
+   * @param gravity the value you want to set the gravity
+   */
+  public void setGravity(float gravity) {
+    this.gravity = gravity;
   }
 }

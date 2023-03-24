@@ -1,5 +1,7 @@
 package org.bcit.comp2522.JaydenJump;
 
+import processing.core.PApplet;
+
 /**
  * Sprite class.
  *
@@ -16,6 +18,27 @@ public abstract class Sprite implements Comparable<Object>, Drawable, Collideabl
 
   /** x velocity of sprite. */
   private float vx;
+
+  /** sketch object for sprites. */
+  private PApplet sketch;
+
+  /**
+   * getter for the sketch.
+   *
+   * @return the sketch
+   */
+  public PApplet getSketch() {
+    return sketch;
+  }
+
+  /**
+   * setter for the sketch.
+   *
+   * @param sketch the value you want to set the sketch too
+   */
+  public void setSketch(PApplet sketch) {
+    this.sketch = sketch;
+  }
 
   /**
    * getter for x position.
@@ -107,11 +130,12 @@ public abstract class Sprite implements Comparable<Object>, Drawable, Collideabl
    *
    * @param vy The y velocity of the sprite
    */
-  public Sprite(float xpos, float ypos, float vx, float vy) {
+  public Sprite(float xpos, float ypos, float vx, float vy, PApplet sketch) {
     this.xpos = xpos;
     this.ypos = ypos;
     this.vx = vx;
     this.vy = vy;
+    this.sketch = sketch;
   }
 
   /**

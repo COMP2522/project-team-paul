@@ -76,19 +76,17 @@ public class Window extends PApplet {
      */
 
     public void draw() {
-        System.out.format("[x: %.2f, y: %.2f, vx: %.2f, vy: %.2f]\n", player.getXpos(), player.getYpos(), player.getVx(), player.getVy());
         background(255);
 
 
         boolean playerOnPlatform = false;
         for (Platform platform : platforms) {
-            if (player.collides(platform) && player.getVy() > -15) {
+            if (player.collides(platform)) {
                 if (platform.isBreakable()) {
                     platforms.remove(platform);
                 }
                 playerOnPlatform = true;
                 player.setVy(-17);
-//                System.out.println("players vy: \n" + player.getVy());
                 break;
             }
         }
@@ -113,7 +111,7 @@ public class Window extends PApplet {
         platforms.removeAll(platformsToRemove);
 
 
-        while (platforms.size() < 6) {
+        while (platforms.size() < 7) {
             float x = random(width - Platform.getWidth());
             float y = random(50, 200);
             boolean breakable = random(1.0f) < 0.1; // 10% chance of being breakable
@@ -153,6 +151,9 @@ public class Window extends PApplet {
             player.moveLeft();
         } else if (keyCode == RIGHT) {
             player.moveRight();
+        }
+        if (keyCode == 81) {
+            player.shootProjectile();
         }
     }
 

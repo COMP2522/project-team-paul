@@ -56,7 +56,7 @@ public abstract class PowerUp extends Sprite {
    */
   public PowerUp(int xpos, int ypos, int vx, int vy, int width, int height,
                  boolean isActive, PImage image, PApplet sketch, Player player) {
-    super(xpos, ypos, vx, vy);
+    super(xpos, ypos, vx, vy, sketch);
     this.width = width;
     this.height = height;
     this.isActive = isActive;

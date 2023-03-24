@@ -1,12 +1,15 @@
 package org.bcit.comp2522.JaydenJump;
 
 //import image
+import processing.core.PApplet;
 import processing.core.PImage;
 
 public class Boss extends Enemy{
 
-  public Boss(int xpos, int ypos, int vx, int vy, int health, int speed, int width, int height, PImage image) {
-    super(xpos, ypos, vx, vy, health, speed, width, height, image);
+  private PApplet sketch;
+
+  public Boss(int xpos, int ypos, int vx, int vy, int health, int speed, int width, int height, PImage image, PApplet sketch) {
+    super(xpos, ypos, vx, vy, health, speed, width, height, image, sketch);
 
   }
 
