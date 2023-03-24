@@ -1,11 +1,21 @@
 package org.bcit.comp2522.JaydenJump;
 
+/**
+ * Leaderboards menu.
+ *
+ * @author Brian Kwon
+ * @version 1.0
+ */
 public class LeaderboardsMenu extends Menu {
 
   /**
-   * Instance variables.
+   * Window that contains menu screen.
    */
   private Menu window;
+
+  /**
+   * Button used to return back to the main menu.
+   */
   Button back;
 
   /**

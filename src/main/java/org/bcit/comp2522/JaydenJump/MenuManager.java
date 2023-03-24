@@ -6,23 +6,77 @@ import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Starting point of game.
+ *
+ * @author Brian Kwon
+ * @version 1.0
+ */
 public class MenuManager extends Menu {
 
   /**
-   * Instance variables.
+   * Image of game title.
    */
   private PImage logo;
+
+  /**
+   * Image of player's avatar.
+   */
   private PImage doodle;
+
+  /**
+   * Image displayed when music is turned on.
+   */
   private PImage musicOn;
+
+  /**
+   * Image displayed when music is turned off.
+   */
   private PImage musicOff;
+
+  /**
+   * Instance of main menu.
+   */
   private MainMenu mainMenu;
+
+  /**
+   * Instance of pause menu.
+   */
   private PauseMenu pauseMenu;
+
+  /**
+   * Instance of game settings menu.
+   */
   private GameSettings gameSettings;
+
+  /**
+   * Instance of death menu.
+   */
   private DeathMenu deathMenu;
+
+  /**
+   * Instance of music menu.
+   */
   private MusicMenu musicMenu;
+
+  /**
+   * Instance of leaderboards menu.
+   */
   private LeaderboardsMenu leaderboardsMenu;
+
+  /**
+   * Index of current screen being displayed.
+   */
   private int currentScreen = 0;
+
+  /**
+   * Flag indicating whether sound is currently enabled.
+   */
   static boolean sound = true;
+
+  /**
+   * Audio clip used for playing background music.
+   */
   private Clip clip;
 
   /**
@@ -77,7 +131,7 @@ public class MenuManager extends Menu {
       musicMenu.init(this);
     } else if (currentScreen == 4) {
       leaderboardsMenu.init(this);
-    }else if (currentScreen == 5){
+    } else if (currentScreen == 5) {
       deathMenu.init(this);
     }
   }

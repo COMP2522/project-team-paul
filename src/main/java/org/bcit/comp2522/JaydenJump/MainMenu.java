@@ -4,22 +4,72 @@ import processing.core.PImage;
 import java.util.ArrayList;
 import static org.bcit.comp2522.JaydenJump.MenuManager.sound;
 
+/**
+ * Main screen of game.
+ *
+ * @author Brian Kwon
+ * @verison 1.0
+ */
 public class MainMenu extends Menu {
 
   /**
-   * Instance variables.
+   * Window that contains menu screen.
    */
   private Menu window;
+
+  /**
+   * Pause menu that can be accessed during gameplay.
+   */
   private PauseMenu gameMenu;
+
+  /**
+   * Game settings menu.
+   */
   private GameSettings gameSettings;
+
+  /**
+   * Death menu that is displayed when player loses the game.
+   */
   private DeathMenu death;
+
+  /**
+   * Image of game title.
+   */
   private PImage logo;
+
+  /**
+   * Image of player's avatar.
+   */
   private PImage doodle;
+
+  /**
+   * List of buttons displayed on menu screen.
+   */
   private ArrayList<Button> buttons;
+
+  /**
+   * Image displayed when music is turned on.
+   */
   PImage musicOn;
+
+  /**
+   * Image displayed when music is turned off.
+   */
   PImage musicOff;
+
+  /**
+   * Button used to start the game.
+   */
   Button start;
+
+  /**
+   * Button used to access the leaderboards.
+   */
   Button leaderboards;
+
+  /**
+   * Button used to access game settings.
+   */
   Button settings;
 
   /**

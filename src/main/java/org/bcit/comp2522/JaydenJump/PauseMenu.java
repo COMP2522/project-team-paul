@@ -2,14 +2,32 @@ package org.bcit.comp2522.JaydenJump;
 
 import java.util.ArrayList;
 
+/**
+ * Pause menu.
+ *
+ * @author Brian Kwon
+ * @version 1.0
+ */
 public class PauseMenu extends Menu {
 
   /**
-   * Instance variables.
+   * Window that contains menu screen.
    */
   private Menu window;
+
+  /**
+   * List of buttons displayed on menu screen.
+   */
   private ArrayList<Button> buttons;
+
+  /**
+   * Player's score at the end of the game.
+   */
   private int score = 0;
+
+  /**
+   * Button used to resume the game.
+   */
   Button resume;
 
   /**

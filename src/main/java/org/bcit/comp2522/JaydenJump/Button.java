@@ -2,17 +2,47 @@ package org.bcit.comp2522.JaydenJump;
 
 import processing.core.PApplet;
 
+/**
+ * Button.
+ *
+ * @author Brian Kwon
+ * @version 1.0
+ */
 public class Button extends PApplet {
 
   /**
-   * Instance variables.
+   * X-coordinate of button.
    */
   private int x;
+
+  /**
+   * Y-coordinate of button.
+   */
   private int y;
+
+  /**
+   * Width of button.
+   */
   private int width;
+
+  /**
+   * Height of button.
+   */
   private int height;
+
+  /**
+   * Font size of label text.
+   */
   private int fontSize;
+
+  /**
+   * Text displayed on button.
+   */
   private String label;
+
+  /**
+   * Window that contains the button.
+   */
   private Menu window;
 
   /**

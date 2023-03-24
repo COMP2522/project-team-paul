@@ -2,14 +2,32 @@ package org.bcit.comp2522.JaydenJump;
 
 import java.util.ArrayList;
 
+/**
+ * Music menu.
+ *
+ * @author Brian Kwon
+ * @version 1.0
+ */
 public class MusicMenu extends Menu {
 
   /**
-   * Instance variables.
+   * Window that contains menu screen.
    */
   private Menu window;
+
+  /**
+   * List of buttons displayed on menu screen.
+   */
   private ArrayList<Button> buttons;
+
+  /**
+   * Button used to change background music.
+   */
   Button boss;
+
+  /**
+   * Button used to change background music.
+   */
   Button dino;
 
   /**

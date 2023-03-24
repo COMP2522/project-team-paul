@@ -2,16 +2,39 @@ package org.bcit.comp2522.JaydenJump;
 
 import java.util.ArrayList;
 
+/**
+ * Game settings menu.
+ */
 public class GameSettings extends Menu {
 
   /**
-   * Instance variables.
+   * Window that contains menu screen.
    */
   private Menu window;
+
+  /**
+   * List of buttons displayed on menu screen.
+   */
   private ArrayList<Button> buttons;
+
+  /**
+   * Button used to select level difficulty.
+   */
   Button level;
+
+  /**
+   * Button used to access music menu.
+   */
   Button music;
+
+  /**
+   * Button used to access customization menu.
+   */
   Button customize;
+
+  /**
+   * Button used to return back to the main menu.
+   */
   Button back;
 
   /**

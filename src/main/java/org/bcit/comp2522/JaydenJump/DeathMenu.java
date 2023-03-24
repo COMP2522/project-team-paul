@@ -2,16 +2,42 @@ package org.bcit.comp2522.JaydenJump;
 
 import java.util.ArrayList;
 
+/**
+ * Death menu.
+ *
+ * @author Brian Kwon
+ * @version 1.0
+ */
 public class DeathMenu extends Menu {
 
   /**
-   * Instance variables.
+   * Window that contains menu screen.
    */
   private Menu window;
+
+  /**
+   * List of buttons displayed on menu screen.
+   */
   private ArrayList<Button> buttons;
+
+  /**
+   * Player's score at the end of the game.
+   */
   private int score = 0;
+
+  /**
+   * Player's highest score achieved in the game so far.
+   */
   private int highscore = 0;
+
+  /**
+   * Button used to start a new game.
+   */
   Button playAgain;
+
+  /**
+   * Button used to access leaderboards.
+   */
   Button leaderboards;
 
   /**
