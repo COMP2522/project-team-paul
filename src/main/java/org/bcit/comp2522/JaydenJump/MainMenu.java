@@ -3,6 +3,8 @@ package org.bcit.comp2522.JaydenJump;
 import processing.core.PImage;
 import java.util.ArrayList;
 
+import static org.bcit.comp2522.JaydenJump.MenuManager.sound;
+
 public class MainMenu extends Menu {
 
   /**
@@ -10,17 +12,18 @@ public class MainMenu extends Menu {
    */
   private PImage logo;
   private PImage doodle;
-  private PImage musicOn;
+  PImage musicOn;
   PImage musicOff;
   private ArrayList<Button> buttons;
   Button start;
   Button quit;
   Button settings;
-  Button music;
   private PauseMenu gameMenu;
   private GameSettings gameSettings;
   private DeathMenu death;
   boolean clickable = true;
+  //private static boolean sound;
+  private static boolean clicked;
   private Menu window;
 
   public MainMenu() {
@@ -70,8 +73,11 @@ public class MainMenu extends Menu {
     musicOff.resize(50, 50);
     window.image(logo, (window.width - logo.width) / 2, (window.height - 500) / 2);
     window.image(doodle, window.width / 4, window.height / 8);
-    //window.image(musicOn, 30, 70);
-    window.image(musicOff, 30, 70);
+    if (sound) {
+      window.image(musicOff, 30, 70, 50, 50);
+    } else {
+      window.image(musicOn, 30, 70, 50, 50);
+    }
     for (Button button : buttons) {
       button.draw();
     }
@@ -96,24 +102,13 @@ public class MainMenu extends Menu {
   /**
    * Event listener for mouse presses.
    */
+//  @Override
 //  public void mousePressed() {
-//    if (clickable) {
-//      if (start.isClicked(this.mouseX, this.mouseY)) {
-//        System.out.println("Starting game...");
-//        currentScreen = 1;
-//        return;
-//        //clickable = false;
-//      } else if (quit.isClicked(mouseX, mouseY)) {
-//        System.out.println("Quitting game...");
-//        exit();
-//      } else if (settings.isClicked(mouseX, mouseY)) {
-//        System.out.println("Opening game settings...");
-//        currentScreen = 2;
-//        clickable = false;
-//        //gameSettings = new GameSettings();
-//        //gameSettings.init(this);
+//    if (mouseX >= 30 && mouseX < 30 + musicOff.width && mouseY >= 70 && mouseY < 70 + musicOff.height) {
+//      if (clicked == false) {
+//        clicked = true;
 //      } else {
-//        currentScreen = 3;
+//        clicked = false;
 //      }
 //    }
 //  }

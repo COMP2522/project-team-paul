@@ -1,7 +1,5 @@
 package org.bcit.comp2522.JaydenJump;
 
-import processing.core.PApplet;
-
 import java.util.ArrayList;
 
 public class GameSettings extends Menu {
@@ -11,7 +9,7 @@ public class GameSettings extends Menu {
    */
   private ArrayList<Button> buttons;
   private Button level;
-  private Button music;
+  Button music;
   private Button customize;
   Button back;
   private Menu window;

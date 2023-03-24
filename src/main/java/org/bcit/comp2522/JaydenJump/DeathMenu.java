@@ -9,7 +9,7 @@ public class DeathMenu extends Menu {
   Button quit;
   private Menu window;
   private int score = 0;
-  private int highscore = 69;
+  private int highscore = 0;
 
 //  public void settings() {
 //    size(480, 480);
