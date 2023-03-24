@@ -21,7 +21,7 @@ public class Main {
     Game game = new Game(width, height, frameRate,
             jumpHeight, minJumpHeight, maxPlatform,
             player, platformSpeed);
-    Game.main(args, game);
+    Game.startGame(game);
   }
 
 

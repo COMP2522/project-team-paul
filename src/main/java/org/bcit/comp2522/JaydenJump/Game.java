@@ -188,6 +188,8 @@ public class Game extends PApplet {
       player.moveLeft();
     } else if (keyCode == RIGHT || keyCode == 'D') {
       player.moveRight();
+    } else if (keyCode == 81) {
+      player.shootProjectile();
     } else if (keyCode == ' ') {
       if (gameOver) {
         restartGame();
@@ -264,12 +266,13 @@ public class Game extends PApplet {
     gameOver = true;
   }
 
-  //maybe you pass new Window, maybe "this" idfk
   /**
-   * start the game.
+   * Method to start the game.
+   *
+   * @param game object of the game
    */
-  public static void main(String[] args, Game game) {
-    PApplet.runSketch(new String[]{"Window"}, game);
+  public static void startGame(Game game) {
+    PApplet.runSketch(new String[]{"Jayden Jump"}, game);
   }
 
 }

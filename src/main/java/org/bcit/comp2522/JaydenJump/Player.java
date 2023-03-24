@@ -69,11 +69,12 @@ public class Player extends Sprite {
   private Player(float xpos, float ypos, float vx, float vy, PApplet sketch, PImage image,
                  int imgSize, float moveMentspeed, float gravity) {
     super(xpos, ypos, vx, vy, sketch);
+    System.out.println(super.getSketch());
     this.image = image;
     this.imgSize = imgSize;
     this.moveMentspeed = moveMentspeed;
     this.gravity = gravity;
-    projectile = new Projectile(xpos, ypos, 0, -2, super.getSketch(), 1);
+    projectile = new Projectile(xpos, ypos, 0, -2, 1, this);
   }
 
   /**
@@ -112,6 +113,13 @@ public class Player extends Sprite {
       }
     } else {
       System.err.println("Image is null. Please check the image loading process.");
+    }
+
+    if (isShooting) {
+      projectile.update();
+      if (projectile.getYpos() < 0) {
+        stopShooting();
+      }
     }
 
 

@@ -19,6 +19,8 @@ public class Projectile extends Sprite {
   /** the color of the projectile. */
   private Color color = Color.blue;
 
+  private Player player;
+
   /**
    * Constructor for the projectile class.
    *
@@ -26,21 +28,21 @@ public class Projectile extends Sprite {
    * @param ypos the y position of the projectile
    * @param vx the x velocity of the projectile
    * @param vy the y velocity of the projectile
-   * @param sketch the sketch for the projectile
    * @param damage the damage the projectile does
    */
-  public Projectile(float xpos, float ypos, int vx, int vy, PApplet sketch, int damage) {
-    super(xpos, ypos, vx, vy, sketch);
+  public Projectile(float xpos, float ypos, int vx, int vy, int damage, Player player) {
+    super(xpos, ypos, vx, vy, null);
     this.damage = damage;
     this.color = color;
+    this.player = player;
   }
 
   /**
    * Draw method for the projectile.
    */
   public void draw() {
-    getSketch().fill(color.getRGB());
-    getSketch().ellipse(getXpos(), getYpos(), 10, 10);
+    player.getSketch().fill(color.getRGB());
+    player.getSketch().ellipse(getXpos(), getYpos(), 10, 10);
   }
 
   /**
