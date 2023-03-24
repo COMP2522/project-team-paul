@@ -7,16 +7,16 @@ public class PauseMenu extends Menu {
   /**
    * Instance variables.
    */
-  private ArrayList<Button> buttons;
-  Button resume;
   private Menu window;
+  private ArrayList<Button> buttons;
   private int score = 0;
-  private static int currentScreen;
+  Button resume;
 
-  public void settings() {
-    size(480, 480);
-  }
-
+  /**
+   * Initializes PauseMenu object.
+   *
+   * @param window as a Menu object
+   */
   public void init(Menu window) {
     this.window = window;
     draw();
@@ -38,14 +38,4 @@ public class PauseMenu extends Menu {
     //score = getCurrentScore();
     window.text("Current score: " + score,  width / 2 + 20, height / 2);
   }
-
-  /**
-   * Event listener for mouse presses.
-   */
-//  public void mousePressed() {
-//    if (resume.isClicked(mouseX, mouseY)) {
-//      System.out.println("Back to game...");
-//      currentScreen = 0;
-//    }
-//  }
 }

@@ -6,9 +6,14 @@ public class MusicMenu extends Menu {
 
   private Menu window;
   private ArrayList<Button> buttons;
-  Button dino;
   Button boss;
+  Button dino;
 
+  /**
+   * Initializes MusicMenu object.
+   *
+   * @param window as a Menu object
+   */
   public void init(Menu window) {
     this.window = window;
     buttons = new ArrayList<Button>();
@@ -19,6 +24,9 @@ public class MusicMenu extends Menu {
     draw();
   }
 
+  /**
+   * Draws to window.
+   */
   public void draw() {
     window.background(35, 150, 170);
     for (Button button : buttons) {

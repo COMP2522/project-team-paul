@@ -5,7 +5,6 @@ import processing.core.PImage;
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class MenuManager extends Menu {
 
@@ -21,15 +20,12 @@ public class MenuManager extends Menu {
   private GameSettings gameSettings;
   private DeathMenu deathMenu;
   private MusicMenu musicMenu;
+  private LeaderboardsMenu leaderboardsMenu;
   private int currentScreen = 0;
   boolean clickable = true;
   static boolean sound = true;
   private static boolean clicked = false;
   private Clip clip;
-
-  public void settings() {
-    size(480, 480);
-  }
 
   public void setup() {
     logo = loadImage("images/logo.png");
@@ -59,6 +55,7 @@ public class MenuManager extends Menu {
     gameSettings = new GameSettings();
     deathMenu = new DeathMenu();
     musicMenu = new MusicMenu();
+    leaderboardsMenu = new LeaderboardsMenu();
   }
 
   /**
@@ -73,7 +70,9 @@ public class MenuManager extends Menu {
       gameSettings.init(this);
     } else if (currentScreen == 3) {
       musicMenu.init(this);
-    } else if (currentScreen == -1){
+    } else if (currentScreen == 4) {
+      leaderboardsMenu.init(this);
+    }else if (currentScreen == 5){
       deathMenu.init(this);
     }
   }
@@ -83,8 +82,8 @@ public class MenuManager extends Menu {
         currentScreen = 1;
       } else if (mainMenu.settings.isClicked(mouseX, mouseY)) {
         currentScreen = 2;
-      } else if (mainMenu.quit.isClicked(mouseX, mouseY)) {
-        exit();
+      } else if (mainMenu.leaderboards.isClicked(mouseX, mouseY)) {
+        currentScreen = 4;
       } else if (mouseX >= 30 && mouseX < 30 + mainMenu.musicOn.width && mouseY >= 70 && mouseY < 70 + mainMenu.musicOn.height) {
         if (sound) {
           clip.stop();
@@ -96,7 +95,7 @@ public class MenuManager extends Menu {
           sound = true;
         }
       } else {
-        currentScreen = -1;
+        currentScreen = 5;
       }
     } else if (currentScreen == 1) {
       if (pauseMenu.resume.isClicked(mouseX, mouseY)) {
@@ -144,11 +143,15 @@ public class MenuManager extends Menu {
       } else {
         currentScreen = 0;
       }
-    } else if (currentScreen == -1) {
+    } else if (currentScreen == 4) {
+      if (leaderboardsMenu.back.isClicked(mouseX, mouseY)) {
+        currentScreen = 0;
+      }
+    } else if (currentScreen == 5) {
       if (deathMenu.playAgain.isClicked(mouseX, mouseY)) {
         currentScreen = 0;
-      } else if (deathMenu.quit.isClicked(mouseX, mouseY)) {
-        exit();
+      } else if (deathMenu.leaderboards.isClicked(mouseX, mouseY)) {
+        currentScreen = 4;
       }
     }
   }

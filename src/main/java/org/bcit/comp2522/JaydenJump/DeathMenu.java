@@ -4,17 +4,21 @@ import java.util.ArrayList;
 
 public class DeathMenu extends Menu {
 
-  private ArrayList<Button> buttons;
-  Button playAgain;
-  Button quit;
+  /**
+   * Instance variables.
+   */
   private Menu window;
+  private ArrayList<Button> buttons;
   private int score = 0;
   private int highscore = 0;
+  Button playAgain;
+  Button leaderboards;
 
-//  public void settings() {
-//    size(480, 480);
-//  }
-
+  /**
+   * Initializes DeathMenu object.
+   *
+   * @param window as a Menu object
+   */
   public void init(Menu window) {
     this.window = window;
     draw();
@@ -32,9 +36,9 @@ public class DeathMenu extends Menu {
     window.text("Highscore: " + highscore, width * 2 + 40, height * 2 + 50);
     buttons = new ArrayList<Button>();
     playAgain = new Button(250, 325, 125, 75, 25, "Play again", window);
-    quit = new Button(250, 425, 125, 75, 25,"Quit", window);
+    leaderboards = new Button(250, 425, 125, 75, 20,"Leaderboards", window);
     buttons.add(playAgain);
-    buttons.add(quit);
+    buttons.add(leaderboards);
     for (Button button : buttons) {
       button.draw();
     }
