@@ -91,9 +91,9 @@ public class Obstacle extends Sprite {
     */
 
   public boolean hasCollided() {
-    if (getXpos() < player.getXpos() + player.getSize()
+    if (getXpos() < player.getXpos() + player.getImgSize()
         && getXpos() + width > player.getXpos()
-        && getYpos() < player.getYpos() + player.getSize()
+        && getYpos() < player.getYpos() + player.getImgSize()
         && getYpos() + height > player.getYpos()) {
       return true;
     } else {
