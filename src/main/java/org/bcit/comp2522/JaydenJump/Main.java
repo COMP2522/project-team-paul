@@ -20,7 +20,7 @@ public class Main {
             playerSize, moveSpeed, gravity);
     Game game = new Game(width, height, frameRate,
             jumpHeight, minJumpHeight, maxPlatform,
-            player, platformSpeed);
+            player, platformSpeed, 3);
     Game.startGame(game);
   }
 
