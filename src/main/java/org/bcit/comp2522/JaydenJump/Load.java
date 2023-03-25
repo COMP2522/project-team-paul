@@ -9,6 +9,7 @@ import com.mongodb.ServerApiVersion;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.UpdateOptions;
 import org.bson.Document;
 
 
@@ -49,13 +50,19 @@ public class Load {
    * @param saveId the save ID
    */
   public void load(String saveId) {
-    Document find = database.getCollection("saves").find(eq("SaveID", saveID)).first();
-    int lives = find.getInteger("Lives");
-    int score = find.getInteger("Score");
-    int unlocked = find.getInteger("Unlocked");
-    Player.setLives(lives);
-    Player.setScore(score);
-    Player.setUnlocked(unlocked);
+    Document find = database.getCollection("saves").find(eq("SaveID", saveId)).first();
+    if (find != null) {
+      int lives = find.getInteger("Lives");
+      int score = find.getInteger("Score");
+      int unlocked = find.getInteger("Unlocked");
+      Player.setLives(lives);
+      Player.setScore(score);
+      Player.setUnlocked(unlocked);
+    } else {
+      Player.setLives(3);
+      Player.setScore(0);
+      Player.setUnlocked(1);
+    }
   }
 
   /**
@@ -68,11 +75,15 @@ public class Load {
     int score = Player.getScore();
     int unlocked = Player.getUnlocked();
 
-    Document doc = new Document();
-    doc.append("SaveID", saveID);
-    doc.append("Lives", lives);
-    doc.append("Score", score);
-    doc.append("Unlocked", unlocked);
-    new Thread(() -> database.getCollection("saves").insertOne(doc)).start();
+    Document updateFields = new Document();
+    updateFields.append("Lives", lives);
+    updateFields.append("Score", score);
+    updateFields.append("Unlocked", unlocked);
+
+    Document updateQuery = new Document("$set", updateFields);
+
+    new Thread(() -> database.getCollection("saves")
+        .updateOne(eq("SaveID", saveId), updateQuery, new UpdateOptions().upsert(true))).start();
   }
+
 }
