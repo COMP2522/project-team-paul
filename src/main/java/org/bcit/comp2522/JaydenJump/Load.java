@@ -49,15 +49,13 @@ public class Load {
    * @param saveId the save ID
    */
   public void load(String saveId) {
-    new Thread(() -> {
-      Document find = database.getCollection("saves").find(eq("SaveID", saveID)).first();
-      int lives = find.getInteger("Lives");
-      int score = find.getInteger("Score");
-      int unlocked = find.getInteger("Unlocked");
-      Player.setLives(lives);
-      Player.setScore(score);
-      Player.setUnlocked(unlocked);
-    }).start();
+    Document find = database.getCollection("saves").find(eq("SaveID", saveID)).first();
+    int lives = find.getInteger("Lives");
+    int score = find.getInteger("Score");
+    int unlocked = find.getInteger("Unlocked");
+    Player.setLives(lives);
+    Player.setScore(score);
+    Player.setUnlocked(unlocked);
   }
 
   /**
