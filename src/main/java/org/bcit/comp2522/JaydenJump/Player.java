@@ -112,17 +112,18 @@ public class Player extends Sprite {
    * also does some projectile stuff and
    * will flip player if facing left or right.
    */
-  public void draw(Menu window) {
+  @Override
+  public void draw() {
     if (image != null) {
-      window.pushMatrix();
-      window.translate(getXpos() + imgSize / 2, getYpos() + imgSize / 2);
+      super.getSketch().pushMatrix();
+      super.getSketch().translate(getXpos() + imgSize / 2, getYpos() + imgSize / 2);
       if (!isFacingRight) {
-        window.scale(-1, 1);
+        super.getSketch().scale(-1, 1);
       }
-      window.image(image, -imgSize / 2, -imgSize / 2, imgSize, imgSize);
-      window.popMatrix();
+      super.getSketch().image(image, -imgSize / 2, -imgSize / 2, imgSize, imgSize);
+      super.getSketch().popMatrix();
       if (isShooting) {
-        projectile.draw(window);
+        projectile.draw();
       }
     } else {
       System.err.println("Image is null. Please check the image loading process.");
@@ -134,24 +135,17 @@ public class Player extends Sprite {
   /**
    * update the players position after he jumps and moves side to side.
    */
-  public void update(Menu window) {
+  @Override
+  public void update() {
     setVy(getVy() + gravity);
 
     setXpos(getXpos() + getVx());
     setYpos(getYpos() + getVy());
 
-<<<<<<< HEAD
     setXpos(super.getSketch().constrain(getXpos(),
         imgSize / 10, super.getSketch().width - imgSize / 2));
     setYpos(super.getSketch().constrain(getYpos(),
         imgSize / 2, super.getSketch().height - imgSize / 2));
-=======
-    setXpos(window.constrain(getXpos(),
-            imgSize / 10, window.width - imgSize / 2));
-    setYpos(window.constrain(getYpos(),
-            imgSize / 2, window.height - imgSize / 2));
->>>>>>> 63797d41038bffbafacd73bbbb5bec547a9a6988
-
   }
 
   /**
