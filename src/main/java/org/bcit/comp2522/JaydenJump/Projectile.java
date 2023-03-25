@@ -38,9 +38,9 @@ public class Projectile extends Sprite {
   /**
    * Draw method for the projectile.
    */
-  public void draw() {
-    getSketch().fill(color.getRGB());
-    getSketch().ellipse(getXpos(), getYpos(), 10, 10);
+  public void draw(Menu window) {
+    window.fill(color.getRGB());
+    window.ellipse(getXpos(), getYpos(), 10, 10);
   }
 
   /**
