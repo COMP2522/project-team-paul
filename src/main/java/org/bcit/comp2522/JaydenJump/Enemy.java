@@ -1,5 +1,6 @@
 package org.bcit.comp2522.JaydenJump;
 
+import processing.core.PApplet;
 import processing.core.PImage;
 
 public class Enemy extends Sprite{
@@ -14,13 +15,16 @@ public class Enemy extends Sprite{
 
   private PImage image;
 
-  public Enemy(int xpos, int ypos, int vx, int vy, int health, int speed, int width, int height, PImage image) {
-    super(xpos, ypos, vx, vy);
+  private PApplet sketch;
+
+  public Enemy(int xpos, int ypos, int vx, int vy, int health, int speed, int width, int height, PImage image, PApplet sketch) {
+    super(xpos, ypos, vx, vy, sketch);
     this.health = health;
     this.speed = speed;
     this.width = width;
     this.height = height;
     this.image = image;
+
   }
 
   public void endGame() {

@@ -1,59 +1,147 @@
 package org.bcit.comp2522.JaydenJump;
 
-import processing.core.PImage;
-
 import java.awt.Color;
+import processing.core.PApplet;
 
+/**
+ * platform class.
+ *
+ * @author Ravdeep, Aulakh
+ * @version 1.0
+ */
+public class Platform extends Sprite {
 
-public class Platform extends Sprite{
+  /** the height of the platform. */
+  private static int height = 20;
 
-  private int width;
-  private int height;
+  /** the width of the platform. */
+  private static int width = 100;
+
+  /** color for the platform. */
   private Color color;
-  private PImage image;
 
-  public int getWidth() {
-    return width;
-  }
+  /** variable to check if it is normal or breakable platform. */
+  private boolean breakable;
 
-  public void setWidth(int width) {
-    this.width = width;
-  }
-
-  public int getHeight() {
-    return height;
-  }
-
-  public void setHeight(int height) {
-    this.height = height;
-  }
-
-  public Color getColor() {
-    return color;
-  }
-
-  public void setColor(Color color) {
+  /**
+   * constructor for the platform class.
+   *
+   * @param sketch the sketch
+   * @param x the x position
+   * @param y the y position
+   * @param width the width of platform
+   * @param height the height of the platform
+   * @param color the color of the platform
+   * @param vx the x velocity of the platform
+   * @param vy the y velocity of the platform
+   */
+  public Platform(PApplet sketch, float x, float y, int width, int height,
+                  Color color, float vx, float vy, boolean breakable) {
+    super(x, y, vx, vy, sketch);
     this.color = color;
+    this.breakable = breakable;
+
   }
 
-  public PImage getImage() {
-    return image;
+  /**
+   * update method to update the position of the platform.
+   */
+  @Override
+  public void update() {
+    super.setXpos(super.getXpos() + super.getVx());
+    super.setYpos(super.getYpos() + super.getVy());
   }
 
-  public void setImage(PImage image) {
-    this.image = image;
+  /** draw method to make the platforms appear in the game. */
+  @Override
+  public void draw() {
+    super.getSketch().fill(color.getRGB());
+    super.getSketch().rect(getXpos(), getYpos(), width, height);
   }
 
-  public Platform(int x, int y, int vx, int vy, int width, int height, Color color, PImage image) {
-    super(x, y, vx, vy);
-    this.width = width;
-    this.height = height;
-    this.color = color;
-    this.image = image;
+  /**
+   * check if the platform is still on the screen.
+   *
+   * @return true or false if the platform still on screen
+   */
+  public boolean isOnScreen() {
+    return getXpos() >= 0 && getXpos() + width <= super.getSketch().width
+            && getYpos() >= 0 && getYpos() + height <= super.getSketch().height;
   }
+
 
   public void breakPlatform() {
   }
 
+  /**
+   * getter for the width of the platform.
+   *
+   * @return the width of the platform
+   */
+  public static int getWidth() {
+    return width;
+  }
 
+  /**
+   * setter for the width of the platform.
+   *
+   * @param width the value you want to the set the width of the platform too
+   */
+  public void setWidth(int width) {
+    this.width = width;
+  }
+
+  /**
+   * getter for the height of the platform.
+   *
+   * @return the height of the platform
+   */
+  public static int getHeight() {
+    return height;
+  }
+
+  /**
+   * setter for the height of the platform.
+   *
+   * @param height the height you want to set the platform too
+   */
+  public void setHeight(int height) {
+    this.height = height;
+  }
+
+  /**
+   * getter for the color of the platform.
+   *
+   * @return the color of the platform
+   */
+  public Color getColor() {
+    return color;
+  }
+
+  /**
+   * setter for the color of the platform.
+   *
+   * @param color the value you want to set the color too
+   */
+  public void setColor(Color color) {
+    this.color = color;
+  }
+
+  /**
+   * getter to check if the platform is breakable.
+   *
+   * @return if the platform is breakable or not
+   */
+  public boolean isBreakable() {
+    return breakable;
+  }
+
+  /**
+   * setter for if the platform is breakable or not.
+   *
+   * @param breakable the value you want to set the platforms breakability too
+   */
+  public void setBreakable(boolean breakable) {
+    this.breakable = breakable;
+  }
 }

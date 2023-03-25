@@ -60,7 +60,7 @@ public class Obstacle extends Sprite {
 
   public Obstacle(int xpos, int ypos, int vx, int vy, int width, int height, PImage image,
                   PApplet sketch, Player player) {
-    super(xpos, ypos, vx, vy);
+    super(xpos, ypos, vx, vy, sketch);
     this.width = width;
     this.height = height;
     this.image = image;
@@ -90,16 +90,16 @@ public class Obstacle extends Sprite {
     * @return true if the obstacle has collided with the player, false otherwise
     */
 
-//  public boolean hasCollided() {
-//    if (getXpos() < player.getXpos() + player.getWidth()
-//        && getXpos() + width > player.getXpos()
-//        && getYpos() < player.getYpos() + player.getHeight()
-//        && getYpos() + height > player.getYpos()) {
-//      return true;
-//    } else {
-//      return false;
-//    }
-//  }
+  public boolean hasCollided() {
+    if (getXpos() < player.getXpos() + player.getImgSize()
+        && getXpos() + width > player.getXpos()
+        && getYpos() < player.getYpos() + player.getImgSize()
+        && getYpos() + height > player.getYpos()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   /**
    * Ends the game.

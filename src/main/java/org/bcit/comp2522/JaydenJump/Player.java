@@ -4,8 +4,7 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 /**
- *
- * <P>the Doodle guy or the player class.</P>T
+ * The Doodle guy or the player class.
  *
  * @author Ravdeep, Aulakh
  * @version 1.0
@@ -14,14 +13,14 @@ public class Player extends Sprite {
 
 
   /**
-   * instance for the player instance.
+   * Check to see which way the player is facing.
    */
-  private static Player instance = null;
+  private static boolean isFacingRight;
 
   /**
-   * sketch variable.
+   * instance for the player.
    */
-  private PApplet sketch;
+  private static Player instance = null;
 
   /**
    * for the image for the player.
@@ -29,57 +28,52 @@ public class Player extends Sprite {
   private PImage image;
 
   /**
-   * x position.
-   */
-  private float xpos;
-
-  /**
-   * y position.
-   */
-  private float ypos;
-
-  /**
-   * x velocity.
-   */
-  private float vx;
-
-  /**
-   * y velocity.
-   */
-  private float vy;
-
-  /**
-   * gravity.
+   * gravity for the jumps.
    */
   private float gravity;
 
   /**
-   * speed.
+   * speed for moving left and right.
    */
-  private float speed;
+  private final float moveMentspeed;
 
   /**
-   * size of the player.
+   * size of the player usesd as width and height.
+   * since the player is a square.
    */
-  private int size;
+  private final int imgSize;
 
   /**
-   * constructor for the player.
+   * Check to see if the player is shooting.
+   */
+  private boolean isShooting = false;
+
+  /**
+   * the projectile the player will shoot.
+   */
+  private Projectile projectile;
+
+  /**
+   * constructor for the player class.
    *
-   * @param sketch sketch for the player
-   * @param image the image for the player
+   * @param xpos the x position of the player
+   * @param ypos the y position of the player
+   * @param vx the x velocity of the player
+   * @param vy the y velocity of the player
+   * @param sketch the sketch for the player
+   * @param image the image to set the player to
+   * @param imgSize the size of the player
+   * @param moveMentspeed the speed of the player
+   * @param gravity the gravity on the player
    */
-  private Player(int xpos, int ypos, int vx, int vy, PApplet sketch, PImage image) {
-    super(xpos, ypos, vx, vy);
-    super.setXpos(sketch.width / 2);
-    super.setYpos(sketch.height - size);
-    super.setVx(0);
-    super.setVy(0);
-    this.sketch = sketch;
+  private Player(float xpos, float ypos, float vx, float vy, PApplet sketch, PImage image,
+                 int imgSize, float moveMentspeed, float gravity) {
+    super(xpos, ypos, vx, vy, sketch);
     this.image = image;
-    size = 80;
-    gravity = 0.5f;
-    speed = 5;
+    this.imgSize = imgSize;
+    this.moveMentspeed = moveMentspeed;
+    this.gravity = gravity;
+    projectile = new Projectile(xpos, ypos, 0, -2, super.getSketch(), 1);
   }
 
   /**
@@ -87,37 +81,40 @@ public class Player extends Sprite {
    *
    * @param sketch the sketch
    * @param image the image for the player
-   * @return a instance of the player
+   * @return instance of the player
    */
-  public static Player getInstance(int xpos, int ypos, int vx, int vy, PApplet sketch,
-                                   PImage image) {
+  public static Player getInstance(float xpos, float ypos, float vx, float vy, PApplet sketch,
+                                   PImage image, int imgSize, float moveMentspeed, float gravity) {
     if (instance == null) {
-      instance = new Player(xpos, ypos, vx, vy, sketch, image);
-    } else {
-      instance.sketch = sketch;
-    }
-    return instance;
-  }
-
-  /**
-   * get instance when player already has a instance.
-   *
-   * @return player instance
-   */
-  public static Player getInstance() {
-    if (instance == null) {
-      throw new NullPointerException("player is null");
+      instance = new Player(xpos, ypos, vx, vy, sketch, image, imgSize, moveMentspeed, gravity);
+      isFacingRight = true;
     }
     return instance;
   }
 
   /**
    * draw the player onto the screen.
+   * also does some projectile stuff and
+   * will flip player if facing left or right.
    */
   @Override
   public void draw() {
+    if (image != null) {
+      super.getSketch().pushMatrix();
+      super.getSketch().translate(getXpos() + imgSize / 2, getYpos() + imgSize / 2);
+      if (!isFacingRight) {
+        super.getSketch().scale(-1, 1);
+      }
+      super.getSketch().image(image, -imgSize / 2, -imgSize / 2, imgSize, imgSize);
+      super.getSketch().popMatrix();
+      if (isShooting) {
+        projectile.draw();
+      }
+    } else {
+      System.err.println("Image is null. Please check the image loading process.");
+    }
 
-    sketch.image(image, xpos, ypos, size, size);
+
   }
 
   /**
@@ -125,121 +122,182 @@ public class Player extends Sprite {
    */
   @Override
   public void update() {
+    setVy(getVy() + gravity);
 
-    vy += gravity;
+    setXpos(getXpos() + getVx());
+    setYpos(getYpos() + getVy());
 
+    setXpos(super.getSketch().constrain(getXpos(),
+            imgSize / 10, super.getSketch().width - imgSize / 2));
+    setYpos(super.getSketch().constrain(getYpos(),
+            imgSize / 2, super.getSketch().height - imgSize / 2));
 
-    xpos += vx;
-    ypos += vy;
-
-
-    xpos = sketch.constrain(xpos, size / 10, sketch.width - size / 2);
-    ypos = sketch.constrain(ypos, size / 2, sketch.height - size / 2);
-
-
-    if (ypos >= sketch.height - size / 2) {
-      ypos = sketch.height - size / 2;
-      vy = -15;
-    }
-
-
-  }
-
-
-  /**
-   * move the player to the left.
-   */
-  public void moveLeft() {
-    vx = -speed;
   }
 
   /**
-   * move the player to the right.
+   * check to see if the player is colliding with a platform.
+   *
+   * @param o The object to check for collision
+   *
+   * @return true if the player is colliding with a platform else false
    */
-  public void moveRight() {
-    vx = speed;
-  }
-
-  /**
-   * just in case we need to stop the player from moving at all at ony time.
-   */
-  public void stopMoving() {
-    vx = 0;
-  }
-
   @Override
   public boolean collides(Object o) {
     if (o instanceof Platform) {
       Platform platform = (Platform) o;
 
-      float playerLeft = xpos - size / 2;
-      float playerRight = xpos + size / 2;
-      float playerTop = ypos - size / 2;
-      float playerBottom = ypos + size / 2;
+      float playerLeft = getXpos() - imgSize / 2;
+      float playerRight = getXpos() + imgSize / 2;
+      float playerTop = getYpos() - imgSize / 2;
+      float playerBottom = getYpos() + imgSize / 2;
 
       float platformLeft = platform.getXpos() - platform.getWidth() / 2;
       float platformRight = platform.getXpos() + platform.getWidth() / 2;
       float platformTop = platform.getYpos() - platform.getHeight() / 2;
       float platformBottom = platform.getYpos() + platform.getHeight() / 2;
 
-      return playerLeft < platformRight && playerRight > platformLeft
-              && playerTop < platformBottom && playerBottom > platformTop;
-    }
+      boolean horizontallyOverlapping = playerLeft < platformRight && playerRight > platformLeft;
+      boolean verticallyOverlapping = playerTop < platformBottom && playerBottom > platformTop;
+      boolean abovePlatform = playerBottom < platformTop + platform.getHeight() / 2;
 
+      return horizontallyOverlapping && verticallyOverlapping && abovePlatform;
+    }
     return false;
   }
 
   /**
-   * getter for y position.
-   *
-   * @return the y position
+   * move the player to the left.
    */
-  public float getYpos() {
-    return ypos;
+  public void moveLeft() {
+    setVx(-moveMentspeed);
+    isFacingRight = false;
   }
 
   /**
-   * setter for the y position.
-   *
-   * @param ypos the value you want to set the y position too
+   * move the player to the right.
    */
-  public void setYpos(float ypos) {
-    this.ypos = ypos;
+  public void moveRight() {
+    setVx(moveMentspeed);
+    isFacingRight = true;
+  }
+
+  public void stopMoving() {
+    setVx(0);
+  }
+
+
+  /**
+   * Method to shoot projectiles.
+   */
+  public void shootProjectile() {
+    if (!isShooting) {
+      isShooting = true;
+      projectile.setXpos(getXpos());
+      projectile.setYpos(getYpos());
+      projectile.setVy(-10);
+    }
   }
 
   /**
-   * getter for the speed.
-   *
-   * @return speed of the player
+   * Method to stop shooting projectiles.
    */
-  public float getSpeed() {
-    return speed;
+  public void stopShooting() {
+    isShooting = false;
   }
 
   /**
-   * setter for the speed.
+   * Method to reset the player.
    *
-   * @param speed the value you want to set the speed too
+   * @param x postion
+   *
+   * @param y position
+   *
+   * @param vx velocity
+   *
+   * @param vy velocity
    */
-  public void setSpeed(float speed) {
-    this.speed = speed;
+  public void reset(float x, float y, float vx, float vy) {
+    setXpos(x);
+    setYpos(y);
+    setVx(vx);
+    setVy(vy);
   }
 
   /**
-   * getter for the y velocity.
+   * Method to get the gravity.
    *
-   * @return the player y velocity
+   * @return gravity
    */
-  public float getVy() {
-    return vy;
+  public float getGravity() {
+    return gravity;
   }
 
   /**
-   * setter for the y velocity.
+   * Method to set the gravity.
    *
-   * @param vy the value you want to set the y velocity too
+   * @param gravity used to set the gravity
    */
-  public void setVy(float vy) {
-    this.vy = vy;
+  public void setGravity(float gravity) {
+    this.gravity = gravity;
   }
+
+  /**
+   * Method to get the moveMentspeed.
+   *
+   * @return moveMentspeed
+   */
+  public float getMoveMentspeed() {
+    return moveMentspeed;
+  }
+
+  /**
+   * Method to get the image size.
+   *
+   * @return image size
+   */
+  public int getImgSize() {
+    return imgSize;
+  }
+
+  /**
+   * method to check if the player is shooting.
+   *
+   * @return true if the player is shooting else false
+   */
+  public boolean isShooting() {
+    return isShooting;
+  }
+
+  /**
+   * Method to set if the player is shooting.
+   *
+   * @param shooting used to set if the player is shooting
+   */
+  public void setShooting(boolean shooting) {
+    isShooting = shooting;
+  }
+
+  /**
+   * Method to get the projectile.
+   *
+   * @return projectile the projectile
+   */
+  public Projectile getProjectile() {
+    return projectile;
+  }
+
+  /**
+   * Method to set the projectile.
+   *
+   * @param projectile used to set the projectile
+   *
+   */
+  public void setProjectile(Projectile projectile) {
+    this.projectile = projectile;
+  }
+
+  public void setImage(PImage image) {
+    this.image = image;
+  }
+
 }
