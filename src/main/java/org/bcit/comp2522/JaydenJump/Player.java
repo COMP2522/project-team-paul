@@ -6,8 +6,8 @@ import processing.core.PImage;
 /**
  * The Doodle guy or the player class.
  *
- * @author Ravdeep, Aulakh
- * @version 1.0
+ * @author Ravdeep, Aulakh and Maximillian Yong
+ * @version 1.1
  */
 public class Player extends Sprite {
 
@@ -54,6 +54,21 @@ public class Player extends Sprite {
   private Projectile projectile;
 
   /**
+   * the score of the player.
+   */
+  private static int score = 0;
+
+  /**
+   * the lives of the player.
+   */
+  private static int lives = 3;
+
+  /**
+   * the unlocked levels of the player.
+   */
+  private static int unlocked = 1;
+
+  /**
    * constructor for the player class.
    *
    * @param xpos the x position of the player
@@ -66,8 +81,8 @@ public class Player extends Sprite {
    * @param moveMentspeed the speed of the player
    * @param gravity the gravity on the player
    */
-  Player(float xpos, float ypos, float vx, float vy, PApplet sketch, PImage image,
-         int imgSize, float moveMentspeed, float gravity) {
+  private Player(float xpos, float ypos, float vx, float vy, PApplet sketch, PImage image,
+                 int imgSize, float moveMentspeed, float gravity) {
     super(xpos, ypos, vx, vy, sketch);
     this.image = image;
     this.imgSize = imgSize;
@@ -128,9 +143,9 @@ public class Player extends Sprite {
     setYpos(getYpos() + getVy());
 
     setXpos(super.getSketch().constrain(getXpos(),
-            imgSize / 10, super.getSketch().width - imgSize / 2));
+        imgSize / 10, super.getSketch().width - imgSize / 2));
     setYpos(super.getSketch().constrain(getYpos(),
-            imgSize / 2, super.getSketch().height - imgSize / 2));
+        imgSize / 2, super.getSketch().height - imgSize / 2));
 
   }
 
@@ -296,8 +311,67 @@ public class Player extends Sprite {
     this.projectile = projectile;
   }
 
+  /**
+   * Gets the image.
+   *
+   * @return image
+   */
   public void setImage(PImage image) {
     this.image = image;
+  }
+
+  /**
+   * Gets the score.
+   *
+   * @return score
+   */
+  public static int getScore() {
+    return score;
+  }
+
+  /**
+   * Sets the score.
+   *
+   * @param score the player's score
+   */
+  public static void setScore(int score) {
+    Player.score = score;
+  }
+
+  /**
+   * Gets the lives.
+   *
+   * @return lives
+   */
+  public static int getLives() {
+    return lives;
+  }
+
+  /**
+   * Sets the lives.
+   *
+   * @param lives the player's lives
+   */
+  public static void setLives(int lives) {
+    Player.lives = lives;
+  }
+
+  /**
+   * Gets the unlocked levels.
+   *
+   * @return unlocked
+   */
+  public static int getUnlocked() {
+    return unlocked;
+  }
+
+  /**
+   * Sets the unlocked levels.
+   *
+   * @param unlocked the player's unlocked levels
+   */
+  public static void setUnlocked(int unlocked) {
+    Player.unlocked = unlocked;
   }
 
 }
