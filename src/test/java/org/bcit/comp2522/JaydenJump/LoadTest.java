@@ -29,7 +29,6 @@ class LoadTest {
     Player.setLives(1);
     Player.setScore(0);
     Player.setUnlocked(1);
-
     load.load(testSaveID);
 
     assertEquals(5, Player.getLives());
