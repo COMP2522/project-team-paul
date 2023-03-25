@@ -28,16 +28,20 @@ public class JetPack extends PowerUp {
    * @param ypos The y position of JetPack
    * @param vx The x velocity of JetPack
    * @param vy The y velocity of JetPack
-   * @param width The width of JetPack
-   * @param height The height of JetPack
    * @param isActive The boolean state that determines whether JetPack is active or not
-   * @param image The image of JetPack
    * @param duration The amount of time the JetPack lasts for
    * @param boostVelocity The amount the y direction of Player is affected by JetPack
    */
-  public JetPack(int xpos, int ypos, int vx, int vy, int width, int height, boolean isActive,
-                 PImage image, PApplet sketch, int duration, int boostVelocity, Player player) {
-    super(xpos, ypos, vx, vy, width, height, isActive, image, sketch, player);
+  public JetPack(float xpos,
+                 float ypos,
+                 float vx,
+                 float vy,
+                 boolean isActive,
+                 PApplet sketch,
+                 int duration,
+                 int boostVelocity,
+                 Player player) {
+    super(xpos, ypos, vx, vy, isActive, sketch, player);
     this.duration = duration;
     this.boostVelocity = boostVelocity;
   }
@@ -54,7 +58,7 @@ public class JetPack extends PowerUp {
       }
     }
   }
-  //if jetpack is active player can not collide with anything
+  //if jetpack is active player can not collide with anything?
 
   /**
    * Deactivates the JetPack.
@@ -64,19 +68,38 @@ public class JetPack extends PowerUp {
     setActive(false);
   }
 
-
+  /**
+   * Returns the duration of the JetPack.
+   *
+   * @return The duration of the JetPack
+   */
   public int getDuration() {
     return duration;
   }
 
+  /**
+   * Sets the duration of the JetPack.
+   *
+   * @param duration The duration of the JetPack
+   */
   public void setDuration(int duration) {
     this.duration = duration;
   }
 
+  /**
+   * Returns the boost velocity of the JetPack.
+   *
+   * @return The boost velocity of the JetPack
+   */
   public int getBoostVelocity() {
     return boostVelocity;
   }
 
+  /**
+   * Sets the boost velocity of the JetPack.
+   *
+   * @param boostVelocity The boost velocity of the JetPack
+   */
   public void setBoostVelocity(int boostVelocity) {
     this.boostVelocity = boostVelocity;
   }

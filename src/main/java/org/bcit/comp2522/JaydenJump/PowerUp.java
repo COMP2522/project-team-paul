@@ -17,23 +17,17 @@ import processing.core.PImage;
 
 public abstract class PowerUp extends Sprite {
 
-  /** The PApplet sketch for printing the image to the screen. */
-  private final PApplet sketch;
-
-  /** The width of the PowerUp. */
-  private int width;
-
-  /** The height of the PowerUp. */
-  private int height;
-
   /** State that determines whether the PowerUp is active or not. */
   private boolean isActive;
 
   /** The image associated with the PowerUp. */
   private PImage image;
 
-  /** The player that will recieve the powerup. */
-  private Player player;
+  /** The player that will receive the power-up. */
+  private final Player player;
+
+  /** The size of the PowerUp. */
+  private static final int POWERUP_SIZE = 50;
 
   /**
    * Constructs the PowerUp class.
@@ -46,22 +40,20 @@ public abstract class PowerUp extends Sprite {
    *
    * @param vy the y velocity of PowerUp
    *
-   * @param width the width of PowerUp
-   *
-   * @param height the height of PowerUp
-   *
    * @param isActive the state of PowerUp
-   *
-   * @param image the image of PowerUp
    */
-  public PowerUp(int xpos, int ypos, int vx, int vy, int width, int height,
-                 boolean isActive, PImage image, PApplet sketch, Player player) {
+  public PowerUp(float xpos,
+                 float ypos,
+                 float vx,
+                 float vy,
+                 boolean isActive,
+                 PApplet sketch,
+                 Player player) {
     super(xpos, ypos, vx, vy, sketch);
-    this.width = width;
-    this.height = height;
+
+    //maybe just set to false as default?
     this.isActive = isActive;
-    this.image = image;
-    this.sketch = sketch;
+    //player that recieves the boosts
     this.player = player;
   }
 
@@ -70,8 +62,13 @@ public abstract class PowerUp extends Sprite {
    */
   @Override
   public void draw() {
-    sketch.image(image, super.getXpos(), super.getYpos());
+    super.getSketch().image(
+            image,
+            getXpos() - POWERUP_SIZE / 2,
+            getYpos() - POWERUP_SIZE / 2,
+            POWERUP_SIZE, POWERUP_SIZE);
   }
+
 
   /**
    * Moves the PowerUp across the screen.
@@ -82,97 +79,54 @@ public abstract class PowerUp extends Sprite {
     super.setYpos(super.getYpos() + super.getVy());
   }
 
+  @Override
+  public boolean collides(Object o) {
+    if (o instanceof Player) {
+      Player player = (Player) o;
+      if (player.getXpos() + player.getImgSize() >= super.getXpos()
+          && player.getXpos() <= super.getXpos() + POWERUP_SIZE
+          && player.getYpos() + player.getImgSize() >= super.getYpos()
+          && player.getYpos() <= super.getYpos() + POWERUP_SIZE) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   /** Activates the PowerUp and affects the player class. */
   public void activate() {}
 
   /** Deactivates the PowerUp. */
   public void deactivate() {}
 
-
-  /**
-   * Retrieves the width of the PowerUp.
-   *
-   * @return width of PowerUp
-   */
-  public int getWidth() {
-    return width;
-  }
-
-  /**
-   * Reassigns the width of the PowerUp to a different size.
-   *
-   * @param width of PowerUp from user
-   */
-  public void setWidth(int width) {
-    this.width = width;
-  }
-
-  /**
-   * Retrieves the height of the PowerUp.
-   *
-   * @return height of PowerUp
-   */
-  public int getHeight() {
-    return height;
-  }
-
-  /**
-   * Reassigns height of the PowerUp to different size.
-   *
-   * @param height of PowerUp from user
-   */
-  public void setHeight(int height) {
-    this.height = height;
-  }
-
-  /**
-   * Retrieves the boolean state of the PowerUp and checks if it is active (true)
-   * or not (false).
-   *
-   * @return boolean isActive of PowerUp
-   */
+  /** Returns the state of the PowerUp. */
   public boolean isActive() {
     return isActive;
   }
 
-  /**
-   * Reassigns the isActive boolean of the PowerUp to either
-   * true (active) or false (in-active).
-   *
-   * @param active boolean from user
-   */
+  /** Sets the state of the PowerUp. */
   public void setActive(boolean active) {
     isActive = active;
   }
 
-  public PApplet getSketch() {
-    return sketch;
-  }
-
-  public Player getPlayer() {
-    return player;
-  }
-
-  public void setPlayer(Player player) {
-    this.player = player;
-  }
-
-  /**
-   * Retrieves the image of the PowerUp.
-   *
-   * @return image of PowerUp
-   */
+  /** Returns the image associated with the PowerUp. */
   public PImage getImage() {
     return image;
   }
 
-  /**
-   * Reassigns the image of the PowerUp to a new image.
-   *
-   * @param image from user
-   */
+  /** Sets the image associated with the PowerUp. */
   public void setImage(PImage image) {
     this.image = image;
+  }
+
+  /** Returns the player that will receive the power-up. */
+  public Player getPlayer() {
+    return player;
+  }
+
+  /** Returns the size of the PowerUp. */
+  public static int getPowerupSize() {
+    return POWERUP_SIZE;
   }
 
 }

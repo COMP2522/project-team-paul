@@ -15,11 +15,12 @@ import processing.core.PImage;
  */
 
 public class Magnet extends PowerUp {
+
   /** The amount of time the Magnet is active for. */
   private int duration;
 
   /** The radius of the magnet that can grab the coins. */
-  private int radius;
+  private final float radius;
 
   /**
    * Creates an instance of a Magnet in the game.
@@ -32,21 +33,22 @@ public class Magnet extends PowerUp {
    *
    * @param vy The y velocity of the Magnet
    *
-   * @param width The width of the Magnet
-   *
-   * @param height The height of the Magnet
-   *
    * @param isActive The boolean state that determines if the Magnet is active or not
-   *
-   * @param image The image of the Magnet
    *
    * @param duration The amount of time the Magnet lasts for
    *
    * @param radius The radius that the Magnet affects
    */
-  public Magnet(int xpos, int ypos, int vx, int vy, int width, int height, boolean isActive,
-                PImage image, PApplet sketch,  int duration, int radius, Player player) {
-    super(xpos, ypos, vx, vy, width, height, isActive, image, sketch, player);
+  public Magnet(float xpos,
+                float ypos,
+                float vx,
+                float vy,
+                boolean isActive,
+                PApplet sketch,
+                int duration,
+                float radius,
+                Player player) {
+    super(xpos, ypos, vx, vy, isActive, sketch, player);
     this.duration = duration;
     this.radius = radius;
   }
@@ -69,11 +71,17 @@ public class Magnet extends PowerUp {
     //getPlayer().setScore(getPlayer().getScore() + coin.getValue());
   }
 
+  /**
+   * Activates the Magnet.
+   */
   @Override
   public void activate() {
     setActive(true);
   }
 
+  /**
+   * Deactivates the Magnet.
+   */
   @Override
   public void deactivate() {
     setActive(false);
