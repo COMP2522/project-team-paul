@@ -22,14 +22,16 @@ public class ExtraLife extends PowerUp {
    * @param ypos The y position of ExtraLife
    * @param vx The x velocity of ExtraLife
    * @param vy The y velocity of ExtraLife
-   * @param width The width of ExtraLife
-   * @param height The height of ExtraLife
    * @param isActive The boolean state that determines whether ExtraLife is active or not
-   * @param image The image of ExtraLife
    */
-  public ExtraLife(int xpos, int ypos, int vx, int vy, int width, int height,
-                   boolean isActive, PImage image, PApplet sketch, Player player) {
-    super(xpos, ypos, vx, vy, width, height, isActive, image, sketch, player);
+  public ExtraLife(int xpos,
+                   int ypos,
+                   int vx,
+                   int vy,
+                   boolean isActive,
+                   PApplet sketch,
+                   Player player) {
+    super(xpos, ypos, vx, vy, isActive, sketch, player);
   }
 
   /**

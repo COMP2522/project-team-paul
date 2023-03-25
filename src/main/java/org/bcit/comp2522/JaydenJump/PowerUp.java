@@ -123,4 +123,10 @@ public abstract class PowerUp extends Sprite {
   public Player getPlayer() {
     return player;
   }
+
+  /** Returns the size of the PowerUp. */
+  public static int getPowerupSize() {
+    return POWERUP_SIZE;
+  }
+
 }

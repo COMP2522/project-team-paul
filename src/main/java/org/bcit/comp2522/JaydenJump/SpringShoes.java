@@ -33,22 +33,22 @@ public class SpringShoes extends PowerUp {
    *
    * @param vy The y velocity of SpringShoes
    *
-   * @param width The width of SpringShoes
-   *
-   * @param height The height of SpringShoes
-   *
    * @param isActive The boolean state of SpringShoes that determines if it is active or not
-   *
-   * @param image The image of SpringShoes
    *
    * @param duration How long the SpringShoes last for
    *
    * @param boostValue The amount that affects the y velocity of SpringShoes
    */
-  public SpringShoes(int xpos, int ypos, int vx, int vy, int width, int height,
-                     boolean isActive, PImage image, int duration, int boostValue,
-                     PApplet sketch, Player player) {
-    super(xpos, ypos, vx, vy, width, height, isActive, image, sketch, player);
+  public SpringShoes(int xpos,
+                     int ypos,
+                     int vx,
+                     int vy,
+                     boolean isActive,
+                     int duration,
+                     int boostValue,
+                     PApplet sketch,
+                     Player player) {
+    super(xpos, ypos, vx, vy, isActive, sketch, player);
     this.boostValue = boostValue;
     this.duration = duration;
   }
