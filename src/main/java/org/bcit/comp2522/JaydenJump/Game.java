@@ -71,6 +71,8 @@ public class Game extends PApplet {
 
   private boolean gameOver;
 
+  Menu window;
+
 
   /**
    * the constructor for the game class.
@@ -97,7 +99,7 @@ public class Game extends PApplet {
     this.minDoubleJumpHeight = minDoubleJumpHeight;
     this.maxPlatforms = maxPlatforms;
     this.player = player;
-    this.player.setSketch(this);
+    //this.player.setSketch(this);
     platforms = new ArrayList<>();
     this.platformSpeed = platformSpeed;
     this.gameOver = false;
@@ -117,32 +119,37 @@ public class Game extends PApplet {
     playerImg = loadImage("./Images/doodleguy.png");
     player.setImage(playerImg);
     frameRate(frameRate);
-    generateStartPlatforms();
+    //generateStartPlatforms();
   }
 
   /**
    * generate the platforms that are on the screen at the start of the game.
    */
-  public void generateStartPlatforms() {
+  public void generateStartPlatforms(Menu window) {
     float y = 5;
     for (int i = 0; i < 10; i++) {
       float x = random(width - Platform.getWidth());
       boolean isBreakable = random(1.0f) < 0.1; // set 10% of platforms to be breakable
       Color platformColor = isBreakable ? red : green;
-      platforms.add(new Platform(this, x, y, 100, 20,
+      platforms.add(new Platform(window, x, y, 100, 20,
               platformColor, 0, platformSpeed, isBreakable));
       y += 100;
     }
+  }
+
+  public void init(Menu window) {
+    this.window = window;
+    draw();
   }
 
   /**
    * draw the game, called at every frame.
    */
   public void draw() {
-    background(255);
-    if (!gameOver) {
+    window.background(255);
+//    if (!gameOver) {
       checkCollision();
-      player.update();
+      player.update(window);
 
       if (player.getYpos() >= height - player.getImgSize() / 2) {
         endGame();
@@ -160,7 +167,7 @@ public class Game extends PApplet {
       //draw the platforms and update
       for (Platform platform : platforms) {
         platform.update();
-        platform.draw();
+        platform.draw(window);
       }
 
       //generate new platforms if necessary
@@ -170,13 +177,13 @@ public class Game extends PApplet {
       checkCollision();
 
       //draw the player
-      player.draw();
-    } else {
-      textSize(32);
-      fill(255, 0, 0); // set the fill color to red
-      textAlign(CENTER, CENTER);
-      text("Game Over!\n Press 'SPACE' to restart", width / 2, height / 2);
-    }
+      player.draw(window);
+//    } else {
+//      window.textSize(32);
+//      window.fill(255, 0, 0); // set the fill color to red
+//      window.textAlign(CENTER, CENTER);
+//      window.text("Game Over!\n Press 'SPACE' to restart", width / 2, height / 2);
+//    }
   }
 
   /**
@@ -240,7 +247,7 @@ public class Game extends PApplet {
       Color platformColor = isBreakable ? red : green;
       float lastPlatformY = platforms.get(platforms.size() - 1).getYpos();
       float newY = lastPlatformY - 100; // distance between platforms
-      platforms.add(new Platform(this, x, newY, 100, 20, platformColor,
+      platforms.add(new Platform(window, x, newY, 100, 20, platformColor,
               0, platformSpeed, isBreakable));
     }
   }
@@ -251,7 +258,7 @@ public class Game extends PApplet {
   public void restartGame() {
     player.reset(width / 2, 0, 0, 0);
     platforms.clear();
-    generateStartPlatforms();
+    //generateStartPlatforms();
     gameOver = false;
   }
 

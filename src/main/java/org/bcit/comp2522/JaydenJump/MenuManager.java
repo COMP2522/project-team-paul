@@ -82,6 +82,7 @@ public class MenuManager extends Menu {
   Main main;
   Game game;
   Player player;
+  PImage playerImg;
 
   /**
    * Loads images.
@@ -91,6 +92,8 @@ public class MenuManager extends Menu {
     doodle = loadImage("images/doodle.png");
     musicOn = loadImage("images/music_on.png");
     musicOff = loadImage("images/music_off.png");
+    playerImg = loadImage("images/doodleguy.png");
+    frameRate(60);
     init();
   }
 
@@ -114,7 +117,7 @@ public class MenuManager extends Menu {
     }
 
     mainMenu = new MainMenu();
-    pauseMenu = new PauseMenu();
+    //pauseMenu = new PauseMenu();
     gameSettings = new GameSettings();
     deathMenu = new DeathMenu();
     musicMenu = new MusicMenu();
@@ -123,8 +126,11 @@ public class MenuManager extends Menu {
     main = new Main();
     //main.main(null);
 
-    player = new Player(width/2, 0, 0, 0, null, null, 80, 5, 0.5f);
+    player = Player.getInstance(width/2, 0, 0, 0, null, null, 80, 5, 0.5f);
     game = new Game(width, height, 60, 13, 5, 12, player, 5);
+
+    player.setImage(playerImg);
+    game.generateStartPlatforms(this);
   }
 
   /**
@@ -135,7 +141,8 @@ public class MenuManager extends Menu {
       mainMenu.init(this, logo, doodle, musicOn, musicOff);
     } else if (currentScreen == 1) {
       //pauseMenu.init(this);
-      game.main(null, game);
+      game.init(this);
+      //game.main(null, game);
       //main.main(null);
     } else if (currentScreen == 2) {
       gameSettings.init(this);
@@ -173,9 +180,9 @@ public class MenuManager extends Menu {
         currentScreen = 5;
       }
     } else if (currentScreen == 1) {
-      if (pauseMenu.resume.isClicked(mouseX, mouseY)) {
-        currentScreen = 0;
-      }
+//      if (pauseMenu.resume.isClicked(mouseX, mouseY)) {
+//        currentScreen = 0;
+//      }
     } else if (currentScreen == 2) {
       if (gameSettings.back.isClicked(mouseX, mouseY)) {
         currentScreen = 0;

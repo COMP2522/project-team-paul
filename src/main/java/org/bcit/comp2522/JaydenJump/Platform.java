@@ -46,17 +46,15 @@ public class Platform extends Sprite {
   /**
    * update method to update the position of the platform.
    */
-  @Override
   public void update() {
     super.setXpos(super.getXpos() + super.getVx());
     super.setYpos(super.getYpos() + super.getVy());
   }
 
   /** draw method to make the platforms appear in the game. */
-  @Override
-  public void draw() {
-    super.getSketch().fill(color.getRGB());
-    super.getSketch().rect(getXpos(), getYpos(), width, height);
+  public void draw(Menu window) {
+    window.fill(color.getRGB());
+    window.rect(getXpos(), getYpos(), width, height);
   }
 
   /**
