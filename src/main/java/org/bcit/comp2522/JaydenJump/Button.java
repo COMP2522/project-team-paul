@@ -2,17 +2,47 @@ package org.bcit.comp2522.JaydenJump;
 
 import processing.core.PApplet;
 
+/**
+ * Button.
+ *
+ * @author Brian Kwon
+ * @version 1.0
+ */
 public class Button extends PApplet {
 
   /**
-   * Instance variables.
+   * X-coordinate of button.
    */
   private int x;
+
+  /**
+   * Y-coordinate of button.
+   */
   private int y;
+
+  /**
+   * Width of button.
+   */
   private int width;
+
+  /**
+   * Height of button.
+   */
   private int height;
-  private String label;
+
+  /**
+   * Font size of label text.
+   */
   private int fontSize;
+
+  /**
+   * Text displayed on button.
+   */
+  private String label;
+
+  /**
+   * Window that contains the button.
+   */
   private Menu window;
 
   /**
@@ -62,14 +92,10 @@ public class Button extends PApplet {
     return (x >= this.x - width/2 && x <= this.x + width/2 && y >= this.y - height/2 && y <= this.y + height/2);
   }
 
-  public void onClick() {
-
-  }
-
   /**
    * Getter for x.
    *
-   * @return x
+   * @return x as an int
    */
   public int getX() {
     return x;
@@ -87,7 +113,7 @@ public class Button extends PApplet {
   /**
    * Getter for y.
    *
-   * @return y
+   * @return y as an int
    */
   public int getY() {
     return y;
@@ -105,7 +131,7 @@ public class Button extends PApplet {
   /**
    * Getter for width.
    *
-   * @return width
+   * @return width as an int
    */
   public int getWidth() {
     return width;
@@ -123,7 +149,7 @@ public class Button extends PApplet {
   /**
    * Getter for height.
    *
-   * @return height
+   * @return height as an int
    */
   public int getHeight() {
     return height;
@@ -139,9 +165,27 @@ public class Button extends PApplet {
   }
 
   /**
+   * Getter for font size.
+   *
+   * @return font size as an int
+   */
+  public int getFontSize() {
+    return fontSize;
+  }
+
+  /**
+   * Setter for font size.
+   *
+   * @param fontSize as an int
+   */
+  public void setFontSize(int fontSize) {
+    this.fontSize = fontSize;
+  }
+
+  /**
    * Getter for label.
    *
-   * @return label
+   * @return label as a string
    */
   public String getLabel() {
     return label;

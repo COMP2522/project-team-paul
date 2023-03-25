@@ -143,10 +143,9 @@ public class Player extends Sprite {
     setYpos(getYpos() + getVy());
 
     setXpos(super.getSketch().constrain(getXpos(),
-            imgSize / 10, super.getSketch().width - imgSize / 2));
+        imgSize / 10, super.getSketch().width - imgSize / 2));
     setYpos(super.getSketch().constrain(getYpos(),
-            imgSize / 2, super.getSketch().height - imgSize / 2));
-
+        imgSize / 2, super.getSketch().height - imgSize / 2));
   }
 
   /**
