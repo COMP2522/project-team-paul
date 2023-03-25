@@ -53,9 +53,9 @@ public class GameSettings extends Menu {
   public void draw() {
     window.background(35, 150, 170);
     buttons = new ArrayList<Button>();
-    level = new Button(250, 100, 150, 100, 30, "Levels", window);
-    music = new Button(250, 250, 150, 100, 30, "Music", window);
-    customize = new Button(250, 400, 150, 100, 30, "Customize", window);
+    level = new Button(250, 250, 150, 100, 30, "Levels", window);
+    music = new Button(250, 400, 150, 100, 30, "Music", window);
+    customize = new Button(250, 550, 150, 100, 30, "Customize", window);
     back = new Button(50, 50, 75, 75, 15, "Back", window);
     buttons.add(level);
     buttons.add(music);

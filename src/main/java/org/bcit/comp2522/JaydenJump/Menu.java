@@ -14,6 +14,6 @@ public abstract class Menu extends PApplet implements GameUI {
    * Sets the size of menu screen.
    */
   public void settings() {
-    size(480, 480);
+    size(480, 800);
   }
 }

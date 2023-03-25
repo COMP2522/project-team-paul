@@ -91,9 +91,9 @@ public class MainMenu extends Menu {
     gameSettings = new GameSettings();
     death = new DeathMenu();
     buttons = new ArrayList<Button>();
-    start = new Button(150, 390, 150, 100, 30, "Start Game", window);
-    leaderboards = new Button(350, 390, 150, 100, 25, "Leaderboards", window);
-    settings = new Button(250, 450, 100, 50, 15, "Settings", window);
+    start = new Button(150, 600, 150, 100, 30, "Start Game", window);
+    leaderboards = new Button(350, 600, 150, 100, 25, "Leaderboards", window);
+    settings = new Button(250, 660, 100, 50, 15, "Settings", window);
     buttons.add(start);
     buttons.add(leaderboards);
     buttons.add(settings);
@@ -105,14 +105,15 @@ public class MainMenu extends Menu {
    */
   public void draw() {
     window.background(35, 150, 170);
+    doodle.resize(400, 400);
     musicOn.resize(50, 50);
     musicOff.resize(50, 50);
-    window.image(logo, (window.width - logo.width) / 2, (window.height - 500) / 2);
-    window.image(doodle, window.width / 4, window.height / 8);
+    window.image(logo, 0, 0);
+    window.image(doodle, width - 60, height + 50, 400, 400);
     if (sound) {
-      window.image(musicOff, 30, 70, 50, 50);
+      window.image(musicOn, 30, 90, 50, 50);
     } else {
-      window.image(musicOn, 30, 70, 50, 50);
+      window.image(musicOff, 30, 90, 50, 50);
     }
     for (Button button : buttons) {
       button.draw();

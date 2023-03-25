@@ -147,7 +147,7 @@ public class MenuManager extends Menu {
         currentScreen = 2;
       } else if (mainMenu.leaderboards.isClicked(mouseX, mouseY)) {
         currentScreen = 4;
-      } else if (mouseX >= 30 && mouseX < 30 + mainMenu.musicOn.width && mouseY >= 70 && mouseY < 70 + mainMenu.musicOn.height) {
+      } else if (mouseX >= 30 && mouseX < 30 + mainMenu.musicOn.width && mouseY >= 90 && mouseY < 90 + mainMenu.musicOn.height) {
         if (sound) {
           clip.stop();
           clip.drain();

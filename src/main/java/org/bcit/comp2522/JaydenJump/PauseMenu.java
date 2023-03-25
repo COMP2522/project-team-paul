@@ -46,7 +46,7 @@ public class PauseMenu extends Menu {
   public void draw() {
     window.background(35, 150, 170);
     buttons = new ArrayList<Button>();
-    resume = new Button(250, 225, 150, 100, 30, "Resume", window);
+    resume = new Button(250, 350, 150, 100, 30, "Resume", window);
     buttons.add(resume);
     for (Button button : buttons) {
       button.draw();
