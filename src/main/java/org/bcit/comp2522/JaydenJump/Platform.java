@@ -29,13 +29,11 @@ public class Platform extends Sprite {
    * @param sketch the sketch
    * @param x the x position
    * @param y the y position
-   * @param width the width of platform
-   * @param height the height of the platform
    * @param color the color of the platform
    * @param vx the x velocity of the platform
    * @param vy the y velocity of the platform
    */
-  public Platform(PApplet sketch, float x, float y, int width, int height,
+  public Platform(PApplet sketch, float x, float y,
                   Color color, float vx, float vy, boolean breakable) {
     super(x, y, vx, vy, sketch);
     this.color = color;
@@ -50,6 +48,17 @@ public class Platform extends Sprite {
   public void update() {
     super.setXpos(super.getXpos() + super.getVx());
     super.setYpos(super.getYpos() + super.getVy());
+
+    // Make the platform bounce off the left and right sides of the game if it's moving
+    if (super.getVx() != 0) {
+      if (super.getXpos() <= 0) {
+        super.setXpos(0); // Adjust position to be at the left edge
+        super.setVx(Math.abs(super.getVx())); // Make sure the platform moves right
+      } else if (super.getXpos() + width >= getSketch().width) {
+        super.setXpos(getSketch().width - width); // Adjust position to be at the right edge
+        super.setVx(-Math.abs(super.getVx())); // Make sure the platform moves left
+      }
+    }
   }
 
   /** draw method to make the platforms appear in the game. */
