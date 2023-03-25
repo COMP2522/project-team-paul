@@ -79,6 +79,10 @@ public class MenuManager extends Menu {
    */
   private Clip clip;
 
+  Main main;
+  Game game;
+  Player player;
+
   /**
    * Loads images.
    */
@@ -115,6 +119,12 @@ public class MenuManager extends Menu {
     deathMenu = new DeathMenu();
     musicMenu = new MusicMenu();
     leaderboardsMenu = new LeaderboardsMenu();
+
+    main = new Main();
+    //main.main(null);
+
+    player = new Player(width/2, 0, 0, 0, null, null, 80, 5, 0.5f);
+    game = new Game(width, height, 60, 13, 5, 12, player, 5);
   }
 
   /**
@@ -124,7 +134,9 @@ public class MenuManager extends Menu {
     if (currentScreen == 0) {
       mainMenu.init(this, logo, doodle, musicOn, musicOff);
     } else if (currentScreen == 1) {
-      pauseMenu.init(this);
+      //pauseMenu.init(this);
+      game.main(null, game);
+      //main.main(null);
     } else if (currentScreen == 2) {
       gameSettings.init(this);
     } else if (currentScreen == 3) {

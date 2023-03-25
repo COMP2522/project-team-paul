@@ -66,8 +66,8 @@ public class Player extends Sprite {
    * @param moveMentspeed the speed of the player
    * @param gravity the gravity on the player
    */
-  private Player(float xpos, float ypos, float vx, float vy, PApplet sketch, PImage image,
-                 int imgSize, float moveMentspeed, float gravity) {
+  Player(float xpos, float ypos, float vx, float vy, PApplet sketch, PImage image,
+         int imgSize, float moveMentspeed, float gravity) {
     super(xpos, ypos, vx, vy, sketch);
     this.image = image;
     this.imgSize = imgSize;
