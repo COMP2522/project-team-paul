@@ -8,7 +8,7 @@ import processing.core.PApplet;
  * @author Brian Kwon
  * @version 1.0
  */
-public class LeaderboardsMenu extends PApplet {
+public class LeaderboardsMenu extends PApplet implements GameUI {
 
   /**
    * Window that contains menu screen.
@@ -25,7 +25,7 @@ public class LeaderboardsMenu extends PApplet {
   /**
    * Initializes LeaderboardsMenu.
    *
-   * @param window
+   * @param window as a MenuManager object
    */
   public void init(MenuManager window) {
     this.window = window;
@@ -44,6 +44,12 @@ public class LeaderboardsMenu extends PApplet {
     back.draw();
   }
 
+  /**
+   * Event listener for mouse clicks.
+   *
+   * @param x as an int
+   * @param y as an int
+   */
   public void handleMouseClick(int x, int y) {
     if (back.isClicked(x, y)) {
       System.out.println("clicked");

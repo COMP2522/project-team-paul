@@ -1,8 +1,7 @@
 package org.bcit.comp2522.JaydenJump;
 
-import processing.core.PApplet;
-
 import java.util.ArrayList;
+import processing.core.PApplet;
 
 /**
  * Death menu.
@@ -10,7 +9,7 @@ import java.util.ArrayList;
  * @author Brian Kwon
  * @version 1.0
  */
-public class DeathMenu extends PApplet {
+public class DeathMenu extends PApplet implements GameUI {
 
   /**
    * Window that contains menu screen.
@@ -54,6 +53,9 @@ public class DeathMenu extends PApplet {
     draw();
   }
 
+  /**
+   * Draws to window.
+   */
   public void draw() {
     window.background(35, 150, 170);
     window.textSize(30);
@@ -64,7 +66,7 @@ public class DeathMenu extends PApplet {
     window.text("Highscore: " + Game.getHighscore(), width * 2 + 40, height * 2 + 50);
     buttons   = new ArrayList<Button>();
     playAgain = new Button(250, 325, 125, 75, 25, "Play again", window);
-    home      = new Button(250, 425, 125, 75, 20,"Home", window);
+    home      = new Button(250, 425, 125, 75, 20, "Home", window);
     buttons.add(playAgain);
     buttons.add(home);
     for (Button button : buttons) {

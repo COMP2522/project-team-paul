@@ -1,8 +1,8 @@
 package org.bcit.comp2522.JaydenJump;
 
+import java.util.ArrayList;
 import processing.core.PApplet;
 import processing.core.PImage;
-import java.util.ArrayList;
 import static org.bcit.comp2522.JaydenJump.MenuManager.sound;
 
 /**
@@ -84,7 +84,8 @@ public class MainMenu extends PApplet {
    * @param musicOn as a PImage object
    * @param musicOff as a PImage object
    */
-  public void init(MenuManager window, PImage logo, PImage doodle, PImage musicOn, PImage musicOff) {
+  public void init(MenuManager window, PImage logo, PImage doodle,
+                   PImage musicOn, PImage musicOff) {
     this.window = window;
     this.logo = logo;
     this.doodle = doodle;

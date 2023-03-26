@@ -56,7 +56,8 @@ public class Button extends PApplet {
    * @param label    as a string
    * @param window   as a Menu object
    */
-  public Button(int x, int y, int width, int height, int fontSize, String label, MenuManager window) {
+  public Button(int x, int y, int width, int height,
+                int fontSize, String label, MenuManager window) {
     this.x = x;
     this.y = y;
     this.width = width;
@@ -88,7 +89,8 @@ public class Button extends PApplet {
    * @return boolean value
    */
   public boolean isClicked(int x, int y) {
-    return (x >= this.x - width / 2 && x <= this.x + width / 2 && y >= this.y - height / 2 && y <= this.y + height / 2);
+    return (x >= this.x - width / 2 && x <= this.x + width / 2
+        && y >= this.y - height / 2 && y <= this.y + height / 2);
   }
 
   /**

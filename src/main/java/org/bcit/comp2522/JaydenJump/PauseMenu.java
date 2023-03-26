@@ -2,15 +2,13 @@ package org.bcit.comp2522.JaydenJump;
 
 import processing.core.PApplet;
 
-import java.util.ArrayList;
-
 /**
  * Pause menu.
  *
  * @author Brian Kwon
  * @version 1.0
  */
-public class PauseMenu extends PApplet {
+public class PauseMenu extends PApplet implements GameUI {
 
   /**
    * Window that contains menu screen.
@@ -43,6 +41,7 @@ public class PauseMenu extends PApplet {
     resume.draw();
     window.textSize(15);
     window.textAlign(CENTER);
-    window.text("Current score: " + Game.getScore() + "\nHighscore: " + Game.getHighscore(), width / 2 + 20, height / 2);
+    window.text("Current score: " + Game.getScore() + "\nHighscore: " + Game.getHighscore(),
+        width / 2 + 20, height / 2);
   }
 }
