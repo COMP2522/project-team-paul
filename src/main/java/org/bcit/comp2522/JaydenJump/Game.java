@@ -165,7 +165,7 @@ public class Game extends PApplet {
     } else if (key == 'P') {
       if (MenuManager.getCurrentScreen() == 1) {
         MenuManager.setCurrentScreen(6);
-      } else if (MenuManager.getCurrentScreen() == 6){
+      } else if (MenuManager.getCurrentScreen() == 6) {
         MenuManager.setCurrentScreen(1);
       }
     }

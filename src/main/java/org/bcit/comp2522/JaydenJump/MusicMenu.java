@@ -1,8 +1,7 @@
 package org.bcit.comp2522.JaydenJump;
 
-import processing.core.PApplet;
-
 import java.util.ArrayList;
+import processing.core.PApplet;
 
 /**
  * Music menu.
@@ -10,7 +9,7 @@ import java.util.ArrayList;
  * @author Brian Kwon
  * @version 1.0
  */
-public class MusicMenu extends PApplet {
+public class MusicMenu extends PApplet implements GameUI {
 
   /**
    * Window that contains menu screen.
@@ -46,7 +45,7 @@ public class MusicMenu extends PApplet {
     this.window = window;
     buttons = new ArrayList<Button>();
     home    = new Button(50, 50, 75, 75, 15, "Back", window);
-    boss    = new Button(250, 150, 150, 100, 30,"?", window);
+    boss    = new Button(250, 150, 150, 100, 30, "?", window);
     dino    = new Button(250, 300, 150, 100, 30, "dino", window);
     buttons.add(home);
     buttons.add(boss);

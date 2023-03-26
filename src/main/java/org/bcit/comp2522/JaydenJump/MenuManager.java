@@ -1,10 +1,10 @@
 package org.bcit.comp2522.JaydenJump;
 
-import processing.core.PApplet;
-import processing.core.PImage;
-import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
+import javax.sound.sampled.*;
+import processing.core.PApplet;
+import processing.core.PImage;
 
 /**
  * Starting point of game.
@@ -12,7 +12,7 @@ import java.io.IOException;
  * @author Brian Kwon
  * @version 1.1
  */
-public class MenuManager extends PApplet implements GameUI {
+public class MenuManager extends PApplet {
 
   /**
    * Image of game title.
@@ -122,6 +122,7 @@ public class MenuManager extends PApplet implements GameUI {
     musicOn   = loadImage("images/music_on.png");
     musicOff  = loadImage("images/music_off.png");
     playerImg = loadImage("images/doodleguy.png");
+    frameRate(60);
     init();
   }
 
@@ -161,8 +162,8 @@ public class MenuManager extends PApplet implements GameUI {
                                 80,
                                 5,
                                 0.5f);
-    game = new Game(17,
-                    6,
+    game = new Game(15,
+                    2,
                     12,
                     player,
                     6,
@@ -216,7 +217,8 @@ public class MenuManager extends PApplet implements GameUI {
       currentScreen = 2;
     } else if (mainMenu.leaderboards.isClicked(mouseX, mouseY)) {
       currentScreen = 4;
-    } else if (mouseX >= 30 && mouseX < 30 + mainMenu.musicOn.width && mouseY >= 90 && mouseY < 90 + mainMenu.musicOn.height) {
+    } else if (mouseX >= 30 && mouseX < 30 + mainMenu.musicOn.width
+        && mouseY >= 90 && mouseY < 90 + mainMenu.musicOn.height) {
       if (sound) {
         clip.stop();
         clip.drain();
@@ -232,7 +234,7 @@ public class MenuManager extends PApplet implements GameUI {
   /**
    * Handles mouse clicks in the settings menu.
    */
-  public void handleMouseClicksInGameSettings () {
+  public void handleMouseClicksInGameSettings() {
     if (gameSettings.back.isClicked(mouseX, mouseY)) {
       currentScreen = 0;
     } else if (gameSettings.music.isClicked(mouseX, mouseY)) {

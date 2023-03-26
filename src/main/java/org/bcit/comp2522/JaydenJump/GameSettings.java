@@ -1,13 +1,12 @@
 package org.bcit.comp2522.JaydenJump;
 
-import processing.core.PApplet;
-
 import java.util.ArrayList;
+import processing.core.PApplet;
 
 /**
  * Game settings menu.
  */
-public class GameSettings extends PApplet {
+public class GameSettings extends PApplet implements GameUI {
 
   /**
    * Window that contains menu screen.
