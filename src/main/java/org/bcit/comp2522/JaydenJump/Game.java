@@ -3,7 +3,6 @@ package org.bcit.comp2522.JaydenJump;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-
 /**
  * Game class.
  *
@@ -26,11 +25,6 @@ public class Game extends PApplet {
    * the minimum height of the double jump.
    */
   private final int minDoubleJumpHeight;
-
-  /**
-   * Image of player avatar.
-   */
-  PImage playerImg;
 
   /**
    * Flag for indicating if game is over.
@@ -57,9 +51,7 @@ public class Game extends PApplet {
    */
   private static int highscore = 0;
 
-  private static int currentScreen;
-
-  /**********************************************/
+  /*************************************************/
 
   /**
    * the constructor for the game class.
@@ -95,7 +87,6 @@ public class Game extends PApplet {
    */
   public void draw() {
     window.background(255);
-
     window.textSize(15);
     window.fill(0);
     window.text("" + Game.getScore(), 50, 50);
@@ -103,7 +94,6 @@ public class Game extends PApplet {
     if (!gameOver) {
       platformManager.checkCollision(player, minDoubleJumpHeight, jumpHeight);
 
-      // increment score counters
       score++;
       if (score > highscore) {
         highscore = score;
@@ -116,8 +106,6 @@ public class Game extends PApplet {
       platformManager.updateAndDrawPlatforms();
       platformManager.generatePlatforms();
       platformManager.checkCollision(player, minDoubleJumpHeight, jumpHeight);
-
-      //draw the player
       player.draw();
     }
   }

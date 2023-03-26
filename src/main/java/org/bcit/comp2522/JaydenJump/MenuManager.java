@@ -10,7 +10,7 @@ import java.io.IOException;
  * Starting point of game.
  *
  * @author Brian Kwon
- * @version 1.0
+ * @version 1.1
  */
 public class MenuManager extends PApplet {
 
@@ -117,10 +117,10 @@ public class MenuManager extends PApplet {
    * Loads images.
    */
   public void setup() {
-    logo = loadImage("images/logo.png");
-    doodle = loadImage("images/doodle.png");
-    musicOn = loadImage("images/music_on.png");
-    musicOff = loadImage("images/music_off.png");
+    logo      = loadImage("images/logo.png");
+    doodle    = loadImage("images/doodle.png");
+    musicOn   = loadImage("images/music_on.png");
+    musicOff  = loadImage("images/music_off.png");
     playerImg = loadImage("images/doodleguy.png");
     init();
   }
@@ -145,15 +145,30 @@ public class MenuManager extends PApplet {
       throw new RuntimeException(e);
     }
 
-    mainMenu = new MainMenu();
-    gameSettings = new GameSettings();
-    deathMenu = new DeathMenu();
-    musicMenu = new MusicMenu();
+    mainMenu         = new MainMenu();
+    gameSettings     = new GameSettings();
+    deathMenu        = new DeathMenu();
+    musicMenu        = new MusicMenu();
     leaderboardsMenu = new LeaderboardsMenu();
-    pauseMenu = new PauseMenu();
+    pauseMenu        = new PauseMenu();
 
-    player = Player.getInstance(width/2, 0, 0, 0, null, null, 80, 5, 0.5f);
-    game = new Game(15,12,12,player,6,6,this,playerImg);
+    player = Player.getInstance(width/2,
+                                0,
+                                0,
+                                0,
+                                null,
+                                null,
+                                80,
+                                5,
+                                0.5f);
+    game = new Game(15,
+                    12,
+                    12,
+                    player,
+                    6,
+                    6,
+                    this,
+                    playerImg);
   }
 
   /**
@@ -169,7 +184,11 @@ public class MenuManager extends PApplet {
    */
   public void draw() {
     if (currentScreen == 0) {
-      mainMenu.init(this, logo, doodle, musicOn, musicOff);
+      mainMenu.init(this,
+                    logo,
+                    doodle,
+                    musicOn,
+                    musicOff);
     } else if (currentScreen == 1) {
       game.draw();
       if (game.gameOver == true) {
@@ -188,6 +207,9 @@ public class MenuManager extends PApplet {
     }
   }
 
+  /**
+   * Handles mouse clicks in the main menu.
+   */
   public void handleMouseClicksInMainMenu() {
     if (mainMenu.start.isClicked(mouseX, mouseY)) {
       currentScreen = 1;
@@ -208,6 +230,9 @@ public class MenuManager extends PApplet {
     }
   }
 
+  /**
+   * Handles mouse clicks in the settings menu.
+   */
   public void handleMouseClicksInGameSettings () {
     if (gameSettings.back.isClicked(mouseX, mouseY)) {
       currentScreen = 0;
@@ -216,48 +241,71 @@ public class MenuManager extends PApplet {
     }
   }
 
+  /**
+   * Plays boss soundtrack.
+   */
+  public void playBossSong() {
+    clip.stop();
+    try {
+      AudioInputStream ais = AudioSystem.getAudioInputStream(boss);
+      clip = AudioSystem.getClip();
+      clip.open(ais);
+      clip.loop(Clip.LOOP_CONTINUOUSLY);
+      sound = true;
+    } catch (UnsupportedAudioFileException e) {
+      throw new RuntimeException(e);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    } catch (LineUnavailableException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  /**
+   * Plays Like A Dino soundtrack.
+   */
+  public void playLikeADinoSong() {
+    clip.stop();
+    try {
+      AudioInputStream ais = AudioSystem.getAudioInputStream(dino);
+      clip = AudioSystem.getClip();
+      clip.open(ais);
+      clip.loop(Clip.LOOP_CONTINUOUSLY);
+      sound = true;
+    } catch (UnsupportedAudioFileException e) {
+      throw new RuntimeException(e);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    } catch (LineUnavailableException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  /**
+   * Handles mouse clicks in the music menu.
+   */
   public void handleMouseClicksInMusicMenu() {
     if (musicMenu.boss.isClicked(mouseX, mouseY)) {
-      clip.stop();
-      try {
-        AudioInputStream ais = AudioSystem.getAudioInputStream(boss);
-        clip = AudioSystem.getClip();
-        clip.open(ais);
-        clip.loop(Clip.LOOP_CONTINUOUSLY);
-        sound = true;
-      } catch (UnsupportedAudioFileException e) {
-        throw new RuntimeException(e);
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      } catch (LineUnavailableException e) {
-        throw new RuntimeException(e);
-      }
+      playBossSong();
     } else if (musicMenu.dino.isClicked(mouseX, mouseY)) {
-      clip.stop();
-      try {
-        AudioInputStream ais = AudioSystem.getAudioInputStream(dino);
-        clip = AudioSystem.getClip();
-        clip.open(ais);
-        clip.loop(Clip.LOOP_CONTINUOUSLY);
-        sound = true;
-      } catch (UnsupportedAudioFileException e) {
-        throw new RuntimeException(e);
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      } catch (LineUnavailableException e) {
-        throw new RuntimeException(e);
-      }
+      playLikeADinoSong();
     } else if (musicMenu.home.isClicked(mouseX, mouseY)) {
       currentScreen = 0;
     }
   }
 
+  /**
+   * Handles mouse clicks in the leaderboards menu.
+   */
   public void handleMouseClicksInLeaderboards() {
     if (leaderboardsMenu.back.isClicked(mouseX, mouseY)) {
       currentScreen = 0;
     }
   }
 
+  /**
+   * Handles mouse clicks in the death menu.
+   */
   public void handleMouseClicksInDeathMenu() {
     if (deathMenu.playAgain.isClicked(mouseX, mouseY)) {
       currentScreen = 1;
@@ -267,6 +315,9 @@ public class MenuManager extends PApplet {
     game.restartGame();
   }
 
+  /**
+   * Handles mouse clicks in the pause menu.
+   */
   public void handleMouseClicksInPauseMenu() {
     if (pauseMenu.resume.isClicked(mouseX, mouseY)) {
       currentScreen = 1;
@@ -327,24 +378,6 @@ public class MenuManager extends PApplet {
    */
   public static void setCurrentScreen(int currentScreen) {
     MenuManager.currentScreen = currentScreen;
-  }
-
-  /**
-   * Getter for sound.
-   *
-   * @return sound as a boolean
-   */
-  public boolean getSound() {
-    return sound;
-  }
-
-  /**
-   * Setter for sound.
-   *
-   * @param sound as a boolean
-   */
-  public void setSound(boolean sound) {
-    this.sound = sound;
   }
 
   /**
