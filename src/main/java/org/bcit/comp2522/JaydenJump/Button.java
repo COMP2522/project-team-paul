@@ -43,7 +43,7 @@ public class Button extends PApplet {
   /**
    * Window that contains the button.
    */
-  private Menu window;
+  private MenuManager window;
 
   /**
    * Constructor.
@@ -56,7 +56,7 @@ public class Button extends PApplet {
    * @param label as a string
    * @param window as a Menu object
    */
-  public Button(int x, int y, int width, int height, int fontSize, String label, Menu window) {
+  public Button(int x, int y, int width, int height, int fontSize, String label, MenuManager window) {
     this.x = x;
     this.y = y;
     this.width = width;

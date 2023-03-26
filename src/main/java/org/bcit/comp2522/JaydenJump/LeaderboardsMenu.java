@@ -1,17 +1,19 @@
 package org.bcit.comp2522.JaydenJump;
 
+import processing.core.PApplet;
+
 /**
  * Leaderboards menu.
  *
  * @author Brian Kwon
  * @version 1.0
  */
-public class LeaderboardsMenu extends Menu {
+public class LeaderboardsMenu extends PApplet {
 
   /**
    * Window that contains menu screen.
    */
-  private Menu window;
+  private MenuManager window;
 
   /**
    * Button used to return back to the main menu.
@@ -23,7 +25,7 @@ public class LeaderboardsMenu extends Menu {
    *
    * @param window
    */
-  public void init(Menu window) {
+  public void init(MenuManager window) {
     this.window = window;
     draw();
   }

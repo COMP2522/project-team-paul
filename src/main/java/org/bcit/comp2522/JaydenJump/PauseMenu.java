@@ -1,5 +1,7 @@
 package org.bcit.comp2522.JaydenJump;
 
+import processing.core.PApplet;
+
 import java.util.ArrayList;
 
 /**
@@ -8,12 +10,12 @@ import java.util.ArrayList;
  * @author Brian Kwon
  * @version 1.0
  */
-public class PauseMenu extends Menu {
+public class PauseMenu extends PApplet {
 
   /**
    * Window that contains menu screen.
    */
-  private Menu window;
+  private MenuManager window;
 
   /**
    * List of buttons displayed on menu screen.
@@ -35,7 +37,7 @@ public class PauseMenu extends Menu {
    *
    * @param window as a Menu object
    */
-  public void init(Menu window) {
+  public void init(MenuManager window) {
     this.window = window;
     draw();
   }
@@ -53,8 +55,7 @@ public class PauseMenu extends Menu {
     }
     window.textSize(15);
     window.textAlign(CENTER);
-    //score = getCurrentScore();
-    window.text("Current score: " + score,  width / 2 + 20, height / 2);
+    window.text("Current score: " + Game.getScore(),  width / 2 + 20, height / 2);
   }
 
   /**

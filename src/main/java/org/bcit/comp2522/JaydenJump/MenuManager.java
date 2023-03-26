@@ -12,7 +12,7 @@ import java.io.IOException;
  * @author Brian Kwon
  * @version 1.0
  */
-public class MenuManager extends Menu {
+public class MenuManager extends PApplet {
 
   /**
    * Image of game title.
@@ -33,6 +33,26 @@ public class MenuManager extends Menu {
    * Image displayed when music is turned off.
    */
   private PImage musicOff;
+
+  /**
+   * Image used to display the player character.
+   */
+  private PImage playerImg;
+
+  /**
+   * Audio file for background music.
+   */
+  File dino;
+
+  /**
+   * Audio file for background music.
+   */
+  File boss;
+
+  /**
+   * Audio clip used for playing background music.
+   */
+  private Clip clip;
 
   /**
    * Instance of main menu.
@@ -65,6 +85,16 @@ public class MenuManager extends Menu {
   private LeaderboardsMenu leaderboardsMenu;
 
   /**
+   * Game object that manages the overall game state.
+   */
+  private Game game;
+
+  /**
+   * Player object that represents the user-controlled character.
+   */
+  private Player player;
+
+  /**
    * Index of current screen being displayed.
    */
   private int currentScreen = 0;
@@ -74,15 +104,14 @@ public class MenuManager extends Menu {
    */
   static boolean sound = true;
 
-  /**
-   * Audio clip used for playing background music.
-   */
-  private Clip clip;
+  /*****************************************************/
 
-  Main main;
-  Game game;
-  Player player;
-  PImage playerImg;
+  /**
+   * Sets up initial size of game window.
+   */
+  public void settings() {
+    size(480, 800);
+  }
 
   /**
    * Loads images.
@@ -93,7 +122,6 @@ public class MenuManager extends Menu {
     musicOn = loadImage("images/music_on.png");
     musicOff = loadImage("images/music_off.png");
     playerImg = loadImage("images/doodleguy.png");
-    frameRate(60);
     init();
   }
 
@@ -102,8 +130,9 @@ public class MenuManager extends Menu {
    */
   public void init() {
     try {
-      File music = new File("music/like_a_dino.wav");
-      AudioInputStream ais = AudioSystem.getAudioInputStream(music);
+      dino = new File("music/like_a_dino.wav");
+      boss = new File("music/boss.wav");
+      AudioInputStream ais = AudioSystem.getAudioInputStream(dino);
       clip = AudioSystem.getClip();
       clip.open(ais);
       clip.loop(Clip.LOOP_CONTINUOUSLY);
@@ -117,20 +146,14 @@ public class MenuManager extends Menu {
     }
 
     mainMenu = new MainMenu();
-    //pauseMenu = new PauseMenu();
     gameSettings = new GameSettings();
     deathMenu = new DeathMenu();
     musicMenu = new MusicMenu();
     leaderboardsMenu = new LeaderboardsMenu();
-
-    main = new Main();
-    //main.main(null);
+    pauseMenu = new PauseMenu();
 
     player = Player.getInstance(width/2, 0, 0, 0, null, null, 80, 5, 0.5f);
-    game = new Game(width, height, 60, 13, 5, 12, player, 5);
-
-    player.setImage(playerImg);
-    game.generateStartPlatforms(this);
+    game = new Game(15,12,12,player,6,6,this,playerImg);
   }
 
   /**
@@ -140,10 +163,10 @@ public class MenuManager extends Menu {
     if (currentScreen == 0) {
       mainMenu.init(this, logo, doodle, musicOn, musicOff);
     } else if (currentScreen == 1) {
-      //pauseMenu.init(this);
-      game.init(this);
-      //game.main(null, game);
-      //main.main(null);
+      game.draw();
+      if (game.gameOver == true) {
+        currentScreen = 5;
+      }
     } else if (currentScreen == 2) {
       gameSettings.init(this);
     } else if (currentScreen == 3) {
@@ -152,6 +175,8 @@ public class MenuManager extends Menu {
       leaderboardsMenu.init(this);
     } else if (currentScreen == 5) {
       deathMenu.init(this);
+    } else if (currentScreen == 6) {
+      pauseMenu.init(this);
     }
   }
 
@@ -176,13 +201,9 @@ public class MenuManager extends Menu {
           clip.loop(Clip.LOOP_CONTINUOUSLY);
           sound = true;
         }
-      } else {
-        currentScreen = 5;
       }
     } else if (currentScreen == 1) {
-//      if (pauseMenu.resume.isClicked(mouseX, mouseY)) {
-//        currentScreen = 0;
-//      }
+      // do nothing
     } else if (currentScreen == 2) {
       if (gameSettings.back.isClicked(mouseX, mouseY)) {
         currentScreen = 0;
@@ -193,8 +214,7 @@ public class MenuManager extends Menu {
       if (musicMenu.boss.isClicked(mouseX, mouseY)) {
         clip.stop();
         try {
-          File music = new File("music/boss.wav");
-          AudioInputStream ais = AudioSystem.getAudioInputStream(music);
+          AudioInputStream ais = AudioSystem.getAudioInputStream(boss);
           clip = AudioSystem.getClip();
           clip.open(ais);
           clip.loop(Clip.LOOP_CONTINUOUSLY);
@@ -209,8 +229,7 @@ public class MenuManager extends Menu {
       } else if (musicMenu.dino.isClicked(mouseX, mouseY)) {
         clip.stop();
         try {
-          File music = new File("music/like_a_dino.wav");
-          AudioInputStream ais = AudioSystem.getAudioInputStream(music);
+          AudioInputStream ais = AudioSystem.getAudioInputStream(dino);
           clip = AudioSystem.getClip();
           clip.open(ais);
           clip.loop(Clip.LOOP_CONTINUOUSLY);
@@ -231,10 +250,46 @@ public class MenuManager extends Menu {
       }
     } else if (currentScreen == 5) {
       if (deathMenu.playAgain.isClicked(mouseX, mouseY)) {
-        currentScreen = 0;
+        currentScreen = 1;
+        game.restartGame();
       } else if (deathMenu.leaderboards.isClicked(mouseX, mouseY)) {
         currentScreen = 4;
       }
+    } else if (currentScreen == 6) {
+      if (pauseMenu.resume.isClicked(mouseX, mouseY)) {
+        currentScreen = 1;
+      }
+    }
+  }
+
+  /**
+   * Event listener for key presses.
+   */
+  public void keyPressed() {
+    //game.handleGame(keyCode);
+    keyCode = keyEvent.getKeyCode();
+    if (keyCode == LEFT || keyCode == 'A') {
+      game.getPlayer().moveLeft();
+    } else if (keyCode == RIGHT || keyCode == 'D') {
+      game.getPlayer().moveRight();
+    } else if (keyCode == 'P') {
+      currentScreen = 6;
+    } else if (keyCode == ' ') {
+      game.restartGame();
+    }
+  }
+
+  /**
+   * test this method better, but it should.
+   * reduce how fast the player can move left and right.
+   * after letting go of left/right or a/d.
+   */
+  public void keyReleased() {
+    int keyCode = keyEvent.getKeyCode();
+    if (keyCode == LEFT || keyCode == 'A') {
+      game.getPlayer().setVx(player.getVx() - 2);
+    } else if (keyCode == RIGHT || keyCode == 'D') {
+      game.getPlayer().setVx(player.getVx() + 2);
     }
   }
 

@@ -1,5 +1,6 @@
 package org.bcit.comp2522.JaydenJump;
 
+import processing.core.PApplet;
 import processing.core.PImage;
 import java.util.ArrayList;
 import static org.bcit.comp2522.JaydenJump.MenuManager.sound;
@@ -10,12 +11,12 @@ import static org.bcit.comp2522.JaydenJump.MenuManager.sound;
  * @author Brian Kwon
  * @verison 1.0
  */
-public class MainMenu extends Menu {
+public class MainMenu extends PApplet {
 
   /**
    * Window that contains menu screen.
    */
-  private Menu window;
+  private MenuManager window;
 
   /**
    * Pause menu that can be accessed during gameplay.
@@ -81,7 +82,7 @@ public class MainMenu extends Menu {
    * @param musicOn as a PImage object
    * @param musicOff as a PImage object
    */
-  public void init(Menu window, PImage logo, PImage doodle, PImage musicOn, PImage musicOff) {
+  public void init(MenuManager window, PImage logo, PImage doodle, PImage musicOn, PImage musicOff) {
     this.window = window;
     this.logo = logo;
     this.doodle = doodle;
@@ -109,7 +110,7 @@ public class MainMenu extends Menu {
     musicOn.resize(50, 50);
     musicOff.resize(50, 50);
     window.image(logo, 0, 0);
-    window.image(doodle, width - 60, height + 50, 400, 400);
+    window.image(doodle, 0, 150);
     if (sound) {
       window.image(musicOn, 30, 90, 50, 50);
     } else {

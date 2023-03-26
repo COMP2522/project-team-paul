@@ -1,16 +1,18 @@
 package org.bcit.comp2522.JaydenJump;
 
+import processing.core.PApplet;
+
 import java.util.ArrayList;
 
 /**
  * Game settings menu.
  */
-public class GameSettings extends Menu {
+public class GameSettings extends PApplet {
 
   /**
    * Window that contains menu screen.
    */
-  private Menu window;
+  private MenuManager window;
 
   /**
    * List of buttons displayed on menu screen.
@@ -42,7 +44,7 @@ public class GameSettings extends Menu {
    *
    * @param window as a Menu object
    */
-  public void init(Menu window) {
+  public void init(MenuManager window) {
     this.window = window;
     draw();
   }

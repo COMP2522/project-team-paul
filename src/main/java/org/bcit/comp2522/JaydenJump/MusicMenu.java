@@ -1,5 +1,7 @@
 package org.bcit.comp2522.JaydenJump;
 
+import processing.core.PApplet;
+
 import java.util.ArrayList;
 
 /**
@@ -8,12 +10,12 @@ import java.util.ArrayList;
  * @author Brian Kwon
  * @version 1.0
  */
-public class MusicMenu extends Menu {
+public class MusicMenu extends PApplet {
 
   /**
    * Window that contains menu screen.
    */
-  private Menu window;
+  private MenuManager window;
 
   /**
    * List of buttons displayed on menu screen.
@@ -35,7 +37,7 @@ public class MusicMenu extends Menu {
    *
    * @param window as a Menu object
    */
-  public void init(Menu window) {
+  public void init(MenuManager window) {
     this.window = window;
     buttons = new ArrayList<Button>();
     boss = new Button(250, 150, 150, 100, 30,"?", window);

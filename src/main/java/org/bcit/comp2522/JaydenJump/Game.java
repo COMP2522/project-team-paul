@@ -7,8 +7,8 @@ import processing.core.PImage;
 /**
  * Game class.
  *
- * @author Shawn, Birring
- * @version 1.0
+ * @author Shawn, Birring; Brian Kwon
+ * @version 1.1
  */
 public class Game extends PApplet {
 
@@ -16,21 +16,6 @@ public class Game extends PApplet {
    * Instance for the player.
    */
   private final Player player;
-
-  /**
-   * the width of the game.
-   */
-  private final int gameWidth;
-
-  /**
-   * the height of the game.
-   */
-  private final int gameHeight;
-
-  /**
-   * the frame rate of the game.
-   */
-  private final int frameRate;
 
   /**
    * the height of the jump.
@@ -42,21 +27,39 @@ public class Game extends PApplet {
    */
   private final int minDoubleJumpHeight;
 
+  /**
+   * Image of player avatar.
+   */
   PImage playerImg;
 
-  private boolean gameOver;
+  /**
+   * Flag for indicating if game is over.
+   */
+  boolean gameOver;
 
+  /**
+   * Platform manager.
+   */
   private final PlatformManager platformManager;
+
+  /**
+   * Window for displaying game.
+   */
+  private MenuManager window;
+
+  /**
+   * Current score.
+   */
+  private static int score = 0;
+
+  /**
+   * Highest score achieved in the game so far.
+   */
+  private static int highscore = 0;
 
 
   /**
    * the constructor for the game class.
-   *
-   * @param gameWidth the width of the game
-   *
-   * @param gameHeight the height of the game
-   *
-   * @param frameRate the frame rate of the game
    *
    * @param jumpHeight the height of the jump
    *
@@ -64,46 +67,43 @@ public class Game extends PApplet {
    *
    * @param maxPlatforms the maximum number of platforms that can be on the screen at once
    */
-  public Game(int gameWidth, int gameHeight, int frameRate,
-              int jumpHeight, int minDoubleJumpHeight, int maxPlatforms,
-              Player player, int platformSpeed, int platformMoveableSpeed) {
-    this.gameWidth = gameWidth;
-    this.gameHeight = gameHeight;
-    this.frameRate = frameRate;
+  public Game(int jumpHeight,
+              int minDoubleJumpHeight,
+              int maxPlatforms,
+              Player player,
+              int platformSpeed,
+              int platformMoveableSpeed,
+              MenuManager window,
+              PImage playerImg) {
+    this.window = window;
     this.jumpHeight = jumpHeight;
     this.minDoubleJumpHeight = minDoubleJumpHeight;
     this.player = player;
-    this.player.setSketch(this);
-    this.platformManager = PlatformManager.getInstance(maxPlatforms, this, platformSpeed, platformMoveableSpeed);
-    this.gameOver = false;
-  }
-
-  /**
-   * set up the window's size.
-   */
-  public void settings() {
-    size(gameWidth, gameHeight);
-  }
-
-  /**
-   * set up the window.
-   */
-  public void setup() {
-    playerImg = loadImage("./Images/doodleguy.png");
-    player.setImage(playerImg);
-    frameRate(frameRate);
+    this.player.setSketch(window);
+    this.player.setImage(playerImg);
+    this.platformManager = PlatformManager.getInstance(maxPlatforms, window,
+                                                      platformSpeed, platformMoveableSpeed);
     platformManager.generateStartPlatforms();
+    this.gameOver = false;
   }
 
   /**
    * draw the game, called at every frame.
    */
   public void draw() {
-    background(255);
+    window.background(255);
+
     if (!gameOver) {
       platformManager.checkCollision(player, minDoubleJumpHeight, jumpHeight);
+
+      // increment score counters
+      score++;
+      if (score > highscore) {
+        highscore = score;
+      }
+
       player.update();
-      if (player.getYpos() >= height - player.getImgSize() / 2) {
+      if (player.getYpos() >= window.height - player.getImgSize() / 2) {
         endGame();
       }
       platformManager.updateAndDrawPlatforms();
@@ -112,42 +112,25 @@ public class Game extends PApplet {
 
       //draw the player
       player.draw();
-    } else {
-      textSize(32);
-      fill(255, 0, 0); // set the fill color to red
-      textAlign(CENTER, CENTER);
-      text("Game Over!\n Press 'SPACE' to restart", width / 2, height / 2);
     }
   }
 
   /**
-   * check for key presses and call the appropriate methods.
+   * Getter for score.
+   *
+   * @return score as an int
    */
-  public void keyPressed() {
-    int keyCode = keyEvent.getKeyCode();
-    if (keyCode == LEFT || keyCode == 'A') {
-      player.moveLeft();
-    } else if (keyCode == RIGHT || keyCode == 'D') {
-      player.moveRight();
-    } else if (keyCode == ' ') {
-      if (gameOver) {
-        restartGame();
-      }
-    }
+  public static int getScore() {
+    return score;
   }
 
   /**
-   * test this method better, but it should.
-   * reduce how fast the player can move left and right.
-   * after letting go of left/right or a/d.
+   * Getter for highscore.
+   *
+   * @return highscore as an int
    */
-  public void keyReleased() {
-    int keyCode = keyEvent.getKeyCode();
-    if (keyCode == LEFT || keyCode == 'A') {
-      player.setVx(player.getVx() - 2);
-    } else if (keyCode == RIGHT || keyCode == 'D') {
-      player.setVx(player.getVx() + 2);
-    }
+  public static int getHighscore() {
+    return highscore;
   }
 
   /**
@@ -158,8 +141,17 @@ public class Game extends PApplet {
     platformManager.getPlatforms().clear();
     platformManager.generateStartPlatforms();
     gameOver = false;
+    score = 0;
   }
 
+  /**
+   * Getter for Player object.
+   *
+   * @return player as a Player object
+   */
+  public Player getPlayer() {
+    return player;
+  }
 
   /**
    * end the game.
@@ -169,12 +161,34 @@ public class Game extends PApplet {
     gameOver = true;
   }
 
-  //maybe you pass new Window, maybe "this" idfk
+  public void handleGame(int keyCode) {
+    //something(keyCode);
+  }
   /**
-   * start the game.
+   * check for key presses and call the appropriate methods.
    */
-  public static void main(String[] args, Game game) {
-    PApplet.runSketch(new String[]{"Window"}, game);
+  public void something(int keyCode) {
+    keyCode = keyEvent.getKeyCode();
+    if (keyCode == LEFT || keyCode == 'A') {
+      getPlayer().moveLeft();
+    } else if (keyCode == RIGHT || keyCode == 'D') {
+      getPlayer().moveRight();
+    } else if (keyCode == ' ') {
+      restartGame();
+    }
   }
 
+//  /**
+//   * test this method better, but it should.
+//   * reduce how fast the player can move left and right.
+//   * after letting go of left/right or a/d.
+//   */
+//  public void keyReleased() {
+//    int keyCode = keyEvent.getKeyCode();
+//    if (keyCode == LEFT || keyCode == 'A') {
+//      getPlayer().setVx(player.getVx() - 2);
+//    } else if (keyCode == RIGHT || keyCode == 'D') {
+//      getPlayer().setVx(player.getVx() + 2);
+//    }
+//  }
 }
