@@ -20,6 +20,8 @@ public class LeaderboardsMenu extends PApplet {
    */
   Button back;
 
+  /*********************************************/
+
   /**
    * Initializes LeaderboardsMenu.
    *
@@ -40,5 +42,12 @@ public class LeaderboardsMenu extends PApplet {
     window.text("Leaderboards", width * 2 + 50, height);
     back = new Button(50, 50, 75, 75, 20, "Back", window);
     back.draw();
+  }
+
+  public void handleMouseClick(int x, int y) {
+    if (back.isClicked(x, y)) {
+      System.out.println("clicked");
+      MenuManager.setCurrentScreen(0);
+    }
   }
 }

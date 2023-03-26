@@ -57,6 +57,10 @@ public class Game extends PApplet {
    */
   private static int highscore = 0;
 
+  private static int currentScreen;
+
+  /**********************************************/
+
   /**
    * the constructor for the game class.
    *
@@ -164,34 +168,33 @@ public class Game extends PApplet {
     gameOver = true;
   }
 
-  public void handleGame(int keyCode) {
-    //something(keyCode);
-  }
   /**
    * check for key presses and call the appropriate methods.
    */
-  public void something(int keyCode) {
-    keyCode = keyEvent.getKeyCode();
-    if (keyCode == LEFT || keyCode == 'A') {
+  public void keyPressedListener(int key) {
+    if (key == LEFT || key == 'A') {
       getPlayer().moveLeft();
-    } else if (keyCode == RIGHT || keyCode == 'D') {
+    } else if (key == RIGHT || key == 'D') {
       getPlayer().moveRight();
-    } else if (keyCode == ' ') {
-      restartGame();
+    } else if (key == 'P') {
+      if (MenuManager.getCurrentScreen() == 1) {
+        MenuManager.setCurrentScreen(6);
+      } else if (MenuManager.getCurrentScreen() == 6){
+        MenuManager.setCurrentScreen(1);
+      }
     }
   }
 
-//  /**
-//   * test this method better, but it should.
-//   * reduce how fast the player can move left and right.
-//   * after letting go of left/right or a/d.
-//   */
-//  public void keyReleased() {
-//    int keyCode = keyEvent.getKeyCode();
-//    if (keyCode == LEFT || keyCode == 'A') {
-//      getPlayer().setVx(player.getVx() - 2);
-//    } else if (keyCode == RIGHT || keyCode == 'D') {
-//      getPlayer().setVx(player.getVx() + 2);
-//    }
-//  }
+  /**
+   * test this method better, but it should.
+   * reduce how fast the player can move left and right.
+   * after letting go of left/right or a/d.
+   */
+  public void keyReleasedListener(int key) {
+    if (key == LEFT || key == 'A') {
+      getPlayer().setVx(player.getVx() - 2);
+    } else if (key == RIGHT || key == 'D') {
+      getPlayer().setVx(player.getVx() + 2);
+    }
+  }
 }

@@ -40,7 +40,7 @@ public class DeathMenu extends PApplet {
   /**
    * Button used to access leaderboards.
    */
-  Button leaderboards;
+  Button home;
 
   /**
    * Initializes DeathMenu object.
@@ -62,9 +62,9 @@ public class DeathMenu extends PApplet {
     window.text("Highscore: " + Game.getHighscore(), width * 2 + 40, height * 2 + 50);
     buttons = new ArrayList<Button>();
     playAgain = new Button(250, 325, 125, 75, 25, "Play again", window);
-    leaderboards = new Button(250, 425, 125, 75, 20,"Leaderboards", window);
+    home = new Button(250, 425, 125, 75, 20,"Home", window);
     buttons.add(playAgain);
-    buttons.add(leaderboards);
+    buttons.add(home);
     for (Button button : buttons) {
       button.draw();
     }

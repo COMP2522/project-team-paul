@@ -97,7 +97,7 @@ public class MenuManager extends PApplet {
   /**
    * Index of current screen being displayed.
    */
-  private int currentScreen = 0;
+  private static int currentScreen = 0;
 
   /**
    * Flag indicating whether sound is currently enabled.
@@ -188,83 +188,108 @@ public class MenuManager extends PApplet {
     }
   }
 
+  public void handleMouseClicksInMainMenu() {
+    if (mainMenu.start.isClicked(mouseX, mouseY)) {
+      currentScreen = 1;
+    } else if (mainMenu.settings.isClicked(mouseX, mouseY)) {
+      currentScreen = 2;
+    } else if (mainMenu.leaderboards.isClicked(mouseX, mouseY)) {
+      currentScreen = 4;
+    } else if (mouseX >= 30 && mouseX < 30 + mainMenu.musicOn.width && mouseY >= 90 && mouseY < 90 + mainMenu.musicOn.height) {
+      if (sound) {
+        clip.stop();
+        clip.drain();
+        clip.setFramePosition(0);
+        sound = false;
+      } else {
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
+        sound = true;
+      }
+    }
+  }
+
+  public void handleMouseClicksInGameSettings () {
+    if (gameSettings.back.isClicked(mouseX, mouseY)) {
+      currentScreen = 0;
+    } else if (gameSettings.music.isClicked(mouseX, mouseY)) {
+      currentScreen = 3;
+    }
+  }
+
+  public void handleMouseClicksInMusicMenu() {
+    if (musicMenu.boss.isClicked(mouseX, mouseY)) {
+      clip.stop();
+      try {
+        AudioInputStream ais = AudioSystem.getAudioInputStream(boss);
+        clip = AudioSystem.getClip();
+        clip.open(ais);
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
+        sound = true;
+      } catch (UnsupportedAudioFileException e) {
+        throw new RuntimeException(e);
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      } catch (LineUnavailableException e) {
+        throw new RuntimeException(e);
+      }
+    } else if (musicMenu.dino.isClicked(mouseX, mouseY)) {
+      clip.stop();
+      try {
+        AudioInputStream ais = AudioSystem.getAudioInputStream(dino);
+        clip = AudioSystem.getClip();
+        clip.open(ais);
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
+        sound = true;
+      } catch (UnsupportedAudioFileException e) {
+        throw new RuntimeException(e);
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      } catch (LineUnavailableException e) {
+        throw new RuntimeException(e);
+      }
+    } else if (musicMenu.home.isClicked(mouseX, mouseY)) {
+      currentScreen = 0;
+    }
+  }
+
+  public void handleMouseClicksInLeaderboards() {
+    if (leaderboardsMenu.back.isClicked(mouseX, mouseY)) {
+      currentScreen = 0;
+    }
+  }
+
+  public void handleMouseClicksInDeathMenu() {
+    if (deathMenu.playAgain.isClicked(mouseX, mouseY)) {
+      currentScreen = 1;
+    } else if (deathMenu.home.isClicked(mouseX, mouseY)) {
+      currentScreen = 0;
+    }
+    game.restartGame();
+  }
+
+  public void handleMouseClicksInPauseMenu() {
+    if (pauseMenu.resume.isClicked(mouseX, mouseY)) {
+      currentScreen = 1;
+    }
+  }
+
   /**
    * Event listener for mouse presses.
    */
   public void mousePressed() {
     if (currentScreen == 0) {
-      if (mainMenu.start.isClicked(mouseX, mouseY)) {
-        currentScreen = 1;
-      } else if (mainMenu.settings.isClicked(mouseX, mouseY)) {
-        currentScreen = 2;
-      } else if (mainMenu.leaderboards.isClicked(mouseX, mouseY)) {
-        currentScreen = 4;
-      } else if (mouseX >= 30 && mouseX < 30 + mainMenu.musicOn.width && mouseY >= 90 && mouseY < 90 + mainMenu.musicOn.height) {
-        if (sound) {
-          clip.stop();
-          clip.drain();
-          clip.setFramePosition(0);
-          sound = false;
-        } else {
-          clip.loop(Clip.LOOP_CONTINUOUSLY);
-          sound = true;
-        }
-      }
+      handleMouseClicksInMainMenu();
     } else if (currentScreen == 2) {
-      if (gameSettings.back.isClicked(mouseX, mouseY)) {
-        currentScreen = 0;
-      } else if (gameSettings.music.isClicked(mouseX, mouseY)) {
-        currentScreen = 3;
-      }
+      handleMouseClicksInGameSettings();
     } else if (currentScreen == 3) {
-      if (musicMenu.boss.isClicked(mouseX, mouseY)) {
-        clip.stop();
-        try {
-          AudioInputStream ais = AudioSystem.getAudioInputStream(boss);
-          clip = AudioSystem.getClip();
-          clip.open(ais);
-          clip.loop(Clip.LOOP_CONTINUOUSLY);
-          sound = true;
-        } catch (UnsupportedAudioFileException e) {
-          throw new RuntimeException(e);
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        } catch (LineUnavailableException e) {
-          throw new RuntimeException(e);
-        }
-      } else if (musicMenu.dino.isClicked(mouseX, mouseY)) {
-        clip.stop();
-        try {
-          AudioInputStream ais = AudioSystem.getAudioInputStream(dino);
-          clip = AudioSystem.getClip();
-          clip.open(ais);
-          clip.loop(Clip.LOOP_CONTINUOUSLY);
-          sound = true;
-        } catch (UnsupportedAudioFileException e) {
-          throw new RuntimeException(e);
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        } catch (LineUnavailableException e) {
-          throw new RuntimeException(e);
-        }
-      } else if (musicMenu.home.isClicked(mouseX, mouseY)) {
-        currentScreen = 0;
-      }
+      handleMouseClicksInMusicMenu();
     } else if (currentScreen == 4) {
-      if (leaderboardsMenu.back.isClicked(mouseX, mouseY)) {
-        currentScreen = 0;
-      }
+      handleMouseClicksInLeaderboards();
+      //leaderboardsMenu.handleMouseClick(mouseX, mouseY);
     } else if (currentScreen == 5) {
-      if (deathMenu.playAgain.isClicked(mouseX, mouseY)) {
-        currentScreen = 1;
-        game.restartGame();
-      } else if (deathMenu.leaderboards.isClicked(mouseX, mouseY)) {
-        currentScreen = 4;
-      }
+      handleMouseClicksInDeathMenu();
     } else if (currentScreen == 6) {
-      if (pauseMenu.resume.isClicked(mouseX, mouseY)) {
-        currentScreen = 1;
-      }
+      handleMouseClicksInPauseMenu();
     }
   }
 
@@ -272,21 +297,8 @@ public class MenuManager extends PApplet {
    * Event listener for key presses.
    */
   public void keyPressed() {
-    //game.handleGame(keyCode);
     keyCode = keyEvent.getKeyCode();
-    if (keyCode == LEFT || keyCode == 'A') {
-      game.getPlayer().moveLeft();
-    } else if (keyCode == RIGHT || keyCode == 'D') {
-      game.getPlayer().moveRight();
-    } else if (keyCode == 'P') {
-      if (currentScreen == 1) {
-        currentScreen = 6;
-      } else if (currentScreen == 6){
-        currentScreen = 1;
-      }
-    } else if (keyCode == ' ') {
-      game.restartGame();
-    }
+    game.keyPressedListener(keyCode);
   }
 
   /**
@@ -295,12 +307,8 @@ public class MenuManager extends PApplet {
    * after letting go of left/right or a/d.
    */
   public void keyReleased() {
-    int keyCode = keyEvent.getKeyCode();
-    if (keyCode == LEFT || keyCode == 'A') {
-      game.getPlayer().setVx(player.getVx() - 2);
-    } else if (keyCode == RIGHT || keyCode == 'D') {
-      game.getPlayer().setVx(player.getVx() + 2);
-    }
+    keyCode = keyEvent.getKeyCode();
+    game.keyReleasedListener(keyCode);
   }
 
   /**
@@ -308,7 +316,7 @@ public class MenuManager extends PApplet {
    *
    * @return current screen as an int
    */
-  public int getCurrentScreen() {
+  public static int getCurrentScreen() {
     return currentScreen;
   }
 
@@ -317,8 +325,8 @@ public class MenuManager extends PApplet {
    *
    * @param currentScreen as an int
    */
-  public void setCurrentScreen(int currentScreen) {
-    this.currentScreen = currentScreen;
+  public static void setCurrentScreen(int currentScreen) {
+    MenuManager.currentScreen = currentScreen;
   }
 
   /**
