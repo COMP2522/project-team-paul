@@ -153,23 +153,22 @@ public class MenuManager extends PApplet implements GameUI {
     leaderboardsMenu = new LeaderboardsMenu();
     pauseMenu        = new PauseMenu();
 
-    player = Player.getInstance(width/2,
+    player = Player.getInstance(width / 2,
                                 0,
                                 0,
                                 0,
-                                null,
-                                null,
+                                this,
+                                playerImg,
                                 80,
                                 5,
                                 0.5f);
-    game = new Game(15,
-                    12,
+    game = new Game(17,
+                    6,
                     12,
                     player,
                     6,
                     6,
-                    this,
-                    playerImg);
+                    this);
   }
 
   /**
