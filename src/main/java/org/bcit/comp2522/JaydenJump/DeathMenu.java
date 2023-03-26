@@ -2,19 +2,49 @@ package org.bcit.comp2522.JaydenJump;
 
 import java.util.ArrayList;
 
+/**
+ * Death menu.
+ *
+ * @author Brian Kwon
+ * @version 1.0
+ */
 public class DeathMenu extends Menu {
 
-  private ArrayList<Button> buttons;
-  private Button playAgain;
-  private Button quit;
+  /**
+   * Window that contains menu screen.
+   */
   private Menu window;
+
+  /**
+   * List of buttons displayed on menu screen.
+   */
+  private ArrayList<Button> buttons;
+
+  /**
+   * Player's score at the end of the game.
+   */
   private int score = 0;
-  private int highscore = 69;
 
-  public void settings() {
-    size(480, 480);
-  }
+  /**
+   * Player's highest score achieved in the game so far.
+   */
+  private int highscore = 0;
 
+  /**
+   * Button used to start a new game.
+   */
+  Button playAgain;
+
+  /**
+   * Button used to access leaderboards.
+   */
+  Button leaderboards;
+
+  /**
+   * Initializes DeathMenu object.
+   *
+   * @param window as a Menu object
+   */
   public void init(Menu window) {
     this.window = window;
     draw();
@@ -32,11 +62,47 @@ public class DeathMenu extends Menu {
     window.text("Highscore: " + highscore, width * 2 + 40, height * 2 + 50);
     buttons = new ArrayList<Button>();
     playAgain = new Button(250, 325, 125, 75, 25, "Play again", window);
-    quit = new Button(250, 425, 125, 75, 25,"Quit", window);
+    leaderboards = new Button(250, 425, 125, 75, 20,"Leaderboards", window);
     buttons.add(playAgain);
-    buttons.add(quit);
+    buttons.add(leaderboards);
     for (Button button : buttons) {
       button.draw();
     }
+  }
+
+  /**
+   * Getter for score.
+   *
+   * @return score as an int
+   */
+  public int getScore() {
+    return score;
+  }
+
+  /**
+   * Setter for score.
+   *
+   * @param score as an int
+   */
+  public void setScore(int score) {
+    this.score = score;
+  }
+
+  /**
+   * Getter for highscore.
+   *
+   * @return highscore as an int
+   */
+  public int getHighscore() {
+    return highscore;
+  }
+
+  /**
+   * Setter for highscore.
+   *
+   * @param highscore as an int
+   */
+  public void setHighscore(int highscore) {
+    this.highscore = highscore;
   }
 }

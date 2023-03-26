@@ -75,7 +75,7 @@ public class Platform extends Sprite {
    */
   public boolean isOnScreen() {
     return getXpos() >= 0 && getXpos() + width <= super.getSketch().width
-            && getYpos() >= 0 && getYpos() + height <= super.getSketch().height;
+        && getYpos() >= 0 && getYpos() + height <= super.getSketch().height;
   }
 
 
