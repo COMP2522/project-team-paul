@@ -122,6 +122,7 @@ public class MenuManager extends PApplet implements GameUI {
     musicOn   = loadImage("images/music_on.png");
     musicOff  = loadImage("images/music_off.png");
     playerImg = loadImage("images/doodleguy.png");
+    frameRate(60);
     init();
   }
 
