@@ -68,14 +68,12 @@ public class Game extends PApplet {
               Player player,
               int platformSpeed,
               int platformMoveableSpeed,
-              MenuManager window,
-              PImage playerImg) {
+              MenuManager window
+              ) {
     this.window = window;
     this.jumpHeight = jumpHeight;
     this.minDoubleJumpHeight = minDoubleJumpHeight;
     this.player = player;
-    this.player.setSketch(window);
-    this.player.setImage(playerImg);
     this.platformManager = PlatformManager.getInstance(maxPlatforms, window,
                                                       platformSpeed, platformMoveableSpeed);
     platformManager.generateStartPlatforms();
