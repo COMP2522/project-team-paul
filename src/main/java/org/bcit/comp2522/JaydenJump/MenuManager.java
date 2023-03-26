@@ -12,7 +12,7 @@ import java.io.IOException;
  * @author Brian Kwon
  * @version 1.1
  */
-public class MenuManager extends PApplet {
+public class MenuManager extends PApplet implements GameUI {
 
   /**
    * Image of game title.

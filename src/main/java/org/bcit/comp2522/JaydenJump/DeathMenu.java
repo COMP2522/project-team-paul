@@ -42,6 +42,8 @@ public class DeathMenu extends PApplet {
    */
   Button home;
 
+  /********************************************************/
+
   /**
    * Initializes DeathMenu object.
    *
@@ -60,49 +62,13 @@ public class DeathMenu extends PApplet {
     window.textSize(25);
     window.text("Score: " + Game.getScore(), width * 2 + 40, height * 2 + 25);
     window.text("Highscore: " + Game.getHighscore(), width * 2 + 40, height * 2 + 50);
-    buttons = new ArrayList<Button>();
+    buttons   = new ArrayList<Button>();
     playAgain = new Button(250, 325, 125, 75, 25, "Play again", window);
-    home = new Button(250, 425, 125, 75, 20,"Home", window);
+    home      = new Button(250, 425, 125, 75, 20,"Home", window);
     buttons.add(playAgain);
     buttons.add(home);
     for (Button button : buttons) {
       button.draw();
     }
-  }
-
-  /**
-   * Getter for score.
-   *
-   * @return score as an int
-   */
-  public int getScore() {
-    return score;
-  }
-
-  /**
-   * Setter for score.
-   *
-   * @param score as an int
-   */
-  public void setScore(int score) {
-    this.score = score;
-  }
-
-  /**
-   * Getter for highscore.
-   *
-   * @return highscore as an int
-   */
-  public int getHighscore() {
-    return highscore;
-  }
-
-  /**
-   * Setter for highscore.
-   *
-   * @param highscore as an int
-   */
-  public void setHighscore(int highscore) {
-    this.highscore = highscore;
   }
 }

@@ -39,6 +39,8 @@ public class GameSettings extends PApplet {
    */
   Button back;
 
+  /*******************************************************/
+
   /**
    * Initializes GameSettings object.
    *
@@ -54,11 +56,11 @@ public class GameSettings extends PApplet {
    */
   public void draw() {
     window.background(35, 150, 170);
-    buttons = new ArrayList<Button>();
-    level = new Button(250, 250, 150, 100, 30, "Levels", window);
-    music = new Button(250, 400, 150, 100, 30, "Music", window);
+    buttons   = new ArrayList<Button>();
+    level     = new Button(250, 250, 150, 100, 30, "Levels", window);
+    music     = new Button(250, 400, 150, 100, 30, "Music", window);
     customize = new Button(250, 550, 150, 100, 30, "Customize", window);
-    back = new Button(50, 50, 75, 75, 15, "Back", window);
+    back      = new Button(50, 50, 75, 75, 15, "Back", window);
     buttons.add(level);
     buttons.add(music);
     buttons.add(customize);

@@ -73,6 +73,8 @@ public class MainMenu extends PApplet {
    */
   Button settings;
 
+  /****************************************************/
+
   /**
    * Initializes MainMenu object.
    *
@@ -88,13 +90,13 @@ public class MainMenu extends PApplet {
     this.doodle = doodle;
     this.musicOn = musicOn;
     this.musicOff = musicOff;
-    gameMenu = new PauseMenu();
+    gameMenu     = new PauseMenu();
     gameSettings = new GameSettings();
-    death = new DeathMenu();
-    buttons = new ArrayList<Button>();
-    start = new Button(150, 600, 150, 100, 30, "Start Game", window);
+    death        = new DeathMenu();
+    buttons      = new ArrayList<Button>();
+    start        = new Button(150, 600, 150, 100, 30, "Start Game", window);
     leaderboards = new Button(350, 600, 150, 100, 25, "Leaderboards", window);
-    settings = new Button(250, 660, 100, 50, 15, "Settings", window);
+    settings     = new Button(250, 660, 100, 50, 15, "Settings", window);
     buttons.add(start);
     buttons.add(leaderboards);
     buttons.add(settings);

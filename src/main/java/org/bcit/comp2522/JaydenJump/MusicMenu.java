@@ -45,9 +45,9 @@ public class MusicMenu extends PApplet {
   public void init(MenuManager window) {
     this.window = window;
     buttons = new ArrayList<Button>();
-    home = new Button(50, 50, 75, 75, 15, "Back", window);
-    boss = new Button(250, 150, 150, 100, 30,"?", window);
-    dino = new Button(250, 300, 150, 100, 30, "dino", window);
+    home    = new Button(50, 50, 75, 75, 15, "Back", window);
+    boss    = new Button(250, 150, 150, 100, 30,"?", window);
+    dino    = new Button(250, 300, 150, 100, 30, "dino", window);
     buttons.add(home);
     buttons.add(boss);
     buttons.add(dino);

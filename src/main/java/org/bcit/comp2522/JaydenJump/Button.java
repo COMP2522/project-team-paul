@@ -48,13 +48,13 @@ public class Button extends PApplet {
   /**
    * Constructor.
    *
-   * @param x as an int
-   * @param y as an int
-   * @param width as an int
-   * @param height as an int
+   * @param x        as an int
+   * @param y        as an int
+   * @param width    as an int
+   * @param height   as an int
    * @param fontSize as an int
-   * @param label as a string
-   * @param window as a Menu object
+   * @param label    as a string
+   * @param window   as a Menu object
    */
   public Button(int x, int y, int width, int height, int fontSize, String label, MenuManager window) {
     this.x = x;
@@ -85,11 +85,10 @@ public class Button extends PApplet {
    *
    * @param x as an int
    * @param y as an int
-   *
    * @return boolean value
    */
   public boolean isClicked(int x, int y) {
-    return (x >= this.x - width/2 && x <= this.x + width/2 && y >= this.y - height/2 && y <= this.y + height/2);
+    return (x >= this.x - width / 2 && x <= this.x + width / 2 && y >= this.y - height / 2 && y <= this.y + height / 2);
   }
 
   /**
@@ -162,41 +161,5 @@ public class Button extends PApplet {
    */
   public void setHeight(int height) {
     this.height = height;
-  }
-
-  /**
-   * Getter for font size.
-   *
-   * @return font size as an int
-   */
-  public int getFontSize() {
-    return fontSize;
-  }
-
-  /**
-   * Setter for font size.
-   *
-   * @param fontSize as an int
-   */
-  public void setFontSize(int fontSize) {
-    this.fontSize = fontSize;
-  }
-
-  /**
-   * Getter for label.
-   *
-   * @return label as a string
-   */
-  public String getLabel() {
-    return label;
-  }
-
-  /**
-   * Setter for label.
-   *
-   * @param label as a string
-   */
-  public void setLabel(String label) {
-    this.label = label;
   }
 }
