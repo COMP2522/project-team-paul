@@ -43,6 +43,6 @@ public class PauseMenu extends PApplet {
     resume.draw();
     window.textSize(15);
     window.textAlign(CENTER);
-    window.text("Current score: " + Game.getScore(), width / 2 + 20, height / 2);
+    window.text("Current score: " + Game.getScore() + "\nHighscore: " + Game.getHighscore(), width / 2 + 20, height / 2);
   }
 }

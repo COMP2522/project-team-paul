@@ -87,7 +87,7 @@ public class Game extends PApplet {
    */
   public void draw() {
     window.background(255);
-    window.textSize(15);
+    window.textSize(30);
     window.fill(0);
     window.text("" + Game.getScore(), 50, 50);
 
