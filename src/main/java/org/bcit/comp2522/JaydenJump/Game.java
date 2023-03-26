@@ -1,7 +1,6 @@
 package org.bcit.comp2522.JaydenJump;
 
 import processing.core.PApplet;
-import processing.core.PImage;
 
 /**
  * Game class.
@@ -51,6 +50,8 @@ public class Game extends PApplet {
    */
   private static int highscore = 0;
 
+  private int lives = 3;
+
   /*************************************************/
 
   /**
@@ -89,7 +90,9 @@ public class Game extends PApplet {
     window.fill(0);
     window.text("" + Game.getScore(), 50, 50);
 
-    if (!gameOver) {
+    drawHearts(lives);
+
+    if (!gameOver && lives > 0) {
       platformManager.checkCollision(player, minDoubleJumpHeight, jumpHeight);
 
       score++;
@@ -99,7 +102,12 @@ public class Game extends PApplet {
 
       player.update();
       if (player.getYpos() >= window.height - player.getImgSize() / 2) {
-        endGame();
+        lives--;
+        if (lives == 0) {
+          endGame();
+        } else {
+          restartGame();
+        }
       }
       platformManager.updateAndDrawPlatforms();
       platformManager.generatePlatforms();
@@ -109,21 +117,35 @@ public class Game extends PApplet {
   }
 
   /**
-   * Getter for score.
+   * Draws appropriate number of hearts based on number of lives remaining.
    *
-   * @return score as an int
+   * @param lives as an int
    */
-  public static int getScore() {
-    return score;
+  public void drawHearts(int lives) {
+    if (lives == 3) {
+      drawHeart(400);
+      drawHeart(337);
+      drawHeart(275);
+    } else if (lives == 2) {
+      drawHeart(400);
+      drawHeart(337);
+    } else if (lives == 1) {
+      drawHeart(400);
+    }
   }
 
   /**
-   * Getter for highscore.
+   * Draws a heart shape to window.
    *
-   * @return highscore as an int
+   * @param x as an int
    */
-  public static int getHighscore() {
-    return highscore;
+  public void drawHeart(int x) {
+    window.fill(255, 0, 0);
+    window.beginShape();
+    window.vertex(width / 2 + x, height / 4);
+    window.bezierVertex(width / 4 + x, 0, 0 + x, height / 3, width / 2 + x, height / 2);
+    window.bezierVertex(width + x, height / 3, 3 * width / 4  + x, 0, width / 2 + x, height / 4);
+    window.endShape();
   }
 
   /**
@@ -134,16 +156,6 @@ public class Game extends PApplet {
     platformManager.getPlatforms().clear();
     platformManager.generateStartPlatforms();
     gameOver = false;
-    score = 0;
-  }
-
-  /**
-   * Getter for Player object.
-   *
-   * @return player as a Player object
-   */
-  public Player getPlayer() {
-    return player;
   }
 
   /**
@@ -152,6 +164,11 @@ public class Game extends PApplet {
    */
   public void endGame() {
     gameOver = true;
+    lives = 3;
+  }
+
+  public static void startGame() {
+    score = 0;
   }
 
   /**
@@ -182,5 +199,32 @@ public class Game extends PApplet {
     } else if (key == RIGHT || key == 'D') {
       getPlayer().setVx(player.getVx() + 2);
     }
+  }
+
+  /**
+   * Getter for Player object.
+   *
+   * @return player as a Player object
+   */
+  public Player getPlayer() {
+    return player;
+  }
+
+  /**
+   * Getter for score.
+   *
+   * @return score as an int
+   */
+  public static int getScore() {
+    return score;
+  }
+
+  /**
+   * Getter for highscore.
+   *
+   * @return highscore as an int
+   */
+  public static int getHighscore() {
+    return highscore;
   }
 }
