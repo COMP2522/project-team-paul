@@ -57,7 +57,6 @@ public class Game extends PApplet {
    */
   private static int highscore = 0;
 
-
   /**
    * the constructor for the game class.
    *
@@ -92,6 +91,10 @@ public class Game extends PApplet {
    */
   public void draw() {
     window.background(255);
+
+    window.textSize(15);
+    window.fill(0);
+    window.text("" + Game.getScore(), 50, 50);
 
     if (!gameOver) {
       platformManager.checkCollision(player, minDoubleJumpHeight, jumpHeight);

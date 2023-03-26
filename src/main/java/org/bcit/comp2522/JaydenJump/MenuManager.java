@@ -158,6 +158,14 @@ public class MenuManager extends PApplet {
 
   /**
    * Draws to window.
+   *
+   * Screen 0 = Main menu
+   * Screen 1 = Game window
+   * Screen 2 = Game settings menu
+   * Screen 3 = Music menu
+   * Screen 4 = Leaderboards
+   * Screen 5 = Death menu
+   * Screen 6 = Pause menu
    */
   public void draw() {
     if (currentScreen == 0) {
@@ -202,8 +210,6 @@ public class MenuManager extends PApplet {
           sound = true;
         }
       }
-    } else if (currentScreen == 1) {
-      // do nothing
     } else if (currentScreen == 2) {
       if (gameSettings.back.isClicked(mouseX, mouseY)) {
         currentScreen = 0;
@@ -241,7 +247,7 @@ public class MenuManager extends PApplet {
         } catch (LineUnavailableException e) {
           throw new RuntimeException(e);
         }
-      } else {
+      } else if (musicMenu.home.isClicked(mouseX, mouseY)) {
         currentScreen = 0;
       }
     } else if (currentScreen == 4) {
@@ -273,7 +279,11 @@ public class MenuManager extends PApplet {
     } else if (keyCode == RIGHT || keyCode == 'D') {
       game.getPlayer().moveRight();
     } else if (keyCode == 'P') {
-      currentScreen = 6;
+      if (currentScreen == 1) {
+        currentScreen = 6;
+      } else if (currentScreen == 6){
+        currentScreen = 1;
+      }
     } else if (keyCode == ' ') {
       game.restartGame();
     }

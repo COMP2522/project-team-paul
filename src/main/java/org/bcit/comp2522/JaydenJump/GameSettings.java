@@ -35,7 +35,7 @@ public class GameSettings extends PApplet {
   Button customize;
 
   /**
-   * Button used to return back to the main menu.
+   * Button used to return to the main menu.
    */
   Button back;
 
