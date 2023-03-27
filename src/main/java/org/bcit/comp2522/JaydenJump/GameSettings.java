@@ -1,16 +1,17 @@
 package org.bcit.comp2522.JaydenJump;
 
 import java.util.ArrayList;
+import processing.core.PApplet;
 
 /**
  * Game settings menu.
  */
-public class GameSettings extends Menu {
+public class GameSettings extends PApplet implements GameUI {
 
   /**
    * Window that contains menu screen.
    */
-  private Menu window;
+  private MenuManager window;
 
   /**
    * List of buttons displayed on menu screen.
@@ -33,16 +34,18 @@ public class GameSettings extends Menu {
   Button customize;
 
   /**
-   * Button used to return back to the main menu.
+   * Button used to return to the main menu.
    */
   Button back;
+
+  /*******************************************************/
 
   /**
    * Initializes GameSettings object.
    *
    * @param window as a Menu object
    */
-  public void init(Menu window) {
+  public void init(MenuManager window) {
     this.window = window;
     draw();
   }
@@ -52,11 +55,11 @@ public class GameSettings extends Menu {
    */
   public void draw() {
     window.background(35, 150, 170);
-    buttons = new ArrayList<Button>();
-    level = new Button(250, 250, 150, 100, 30, "Levels", window);
-    music = new Button(250, 400, 150, 100, 30, "Music", window);
+    buttons   = new ArrayList<Button>();
+    level     = new Button(250, 250, 150, 100, 30, "Levels", window);
+    music     = new Button(250, 400, 150, 100, 30, "Music", window);
     customize = new Button(250, 550, 150, 100, 30, "Customize", window);
-    back = new Button(50, 50, 75, 75, 15, "Back", window);
+    back      = new Button(50, 50, 75, 75, 15, "Back", window);
     buttons.add(level);
     buttons.add(music);
     buttons.add(customize);

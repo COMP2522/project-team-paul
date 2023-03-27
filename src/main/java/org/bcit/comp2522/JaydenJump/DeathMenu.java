@@ -1,6 +1,7 @@
 package org.bcit.comp2522.JaydenJump;
 
 import java.util.ArrayList;
+import processing.core.PApplet;
 
 /**
  * Death menu.
@@ -8,12 +9,12 @@ import java.util.ArrayList;
  * @author Brian Kwon
  * @version 1.0
  */
-public class DeathMenu extends Menu {
+public class DeathMenu extends PApplet implements GameUI {
 
   /**
    * Window that contains menu screen.
    */
-  private Menu window;
+  private MenuManager window;
 
   /**
    * List of buttons displayed on menu screen.
@@ -38,71 +39,38 @@ public class DeathMenu extends Menu {
   /**
    * Button used to access leaderboards.
    */
-  Button leaderboards;
+  Button home;
+
+  /********************************************************/
 
   /**
    * Initializes DeathMenu object.
    *
    * @param window as a Menu object
    */
-  public void init(Menu window) {
+  public void init(MenuManager window) {
     this.window = window;
     draw();
   }
 
+  /**
+   * Draws to window.
+   */
   public void draw() {
     window.background(35, 150, 170);
     window.textSize(30);
     window.textAlign(CENTER);
     window.text("Game Over!", width * 2 + 50, height);
     window.textSize(25);
-    //score = getCurrentScore();
-    //highscore = getHighscore();
-    window.text("Score: " + score, width * 2 + 40, height * 2 + 25);
-    window.text("Highscore: " + highscore, width * 2 + 40, height * 2 + 50);
-    buttons = new ArrayList<Button>();
+    window.text("Score: " + Game.getScore(), width * 2 + 40, height * 2 + 25);
+    window.text("Highscore: " + Game.getHighscore(), width * 2 + 40, height * 2 + 50);
+    buttons   = new ArrayList<Button>();
     playAgain = new Button(250, 325, 125, 75, 25, "Play again", window);
-    leaderboards = new Button(250, 425, 125, 75, 20,"Leaderboards", window);
+    home      = new Button(250, 425, 125, 75, 20, "Home", window);
     buttons.add(playAgain);
-    buttons.add(leaderboards);
+    buttons.add(home);
     for (Button button : buttons) {
       button.draw();
     }
-  }
-
-  /**
-   * Getter for score.
-   *
-   * @return score as an int
-   */
-  public int getScore() {
-    return score;
-  }
-
-  /**
-   * Setter for score.
-   *
-   * @param score as an int
-   */
-  public void setScore(int score) {
-    this.score = score;
-  }
-
-  /**
-   * Getter for highscore.
-   *
-   * @return highscore as an int
-   */
-  public int getHighscore() {
-    return highscore;
-  }
-
-  /**
-   * Setter for highscore.
-   *
-   * @param highscore as an int
-   */
-  public void setHighscore(int highscore) {
-    this.highscore = highscore;
   }
 }
