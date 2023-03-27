@@ -18,7 +18,7 @@ public class PlatformManager {
   private final ArrayList<Platform> platforms;
   private final int maxPlatforms;
   private final PApplet sketch;
-  private final int platformSpeed;
+  private int platformSpeed;
 
   private final int movableSpeed;
   private static final Color green = new Color(0, 255, 0);
