@@ -2,31 +2,62 @@ package org.bcit.comp2522.JaydenJump;
 
 import processing.core.PApplet;
 
+/**
+ * Button.
+ *
+ * @author Brian Kwon
+ * @version 1.0
+ */
 public class Button extends PApplet {
 
   /**
-   * Instance variables.
+   * X-coordinate of button.
    */
   private int x;
+
+  /**
+   * Y-coordinate of button.
+   */
   private int y;
+
+  /**
+   * Width of button.
+   */
   private int width;
+
+  /**
+   * Height of button.
+   */
   private int height;
-  private String label;
+
+  /**
+   * Font size of label text.
+   */
   private int fontSize;
-  private Menu window;
+
+  /**
+   * Text displayed on button.
+   */
+  private String label;
+
+  /**
+   * Window that contains the button.
+   */
+  private MenuManager window;
 
   /**
    * Constructor.
    *
-   * @param x as an int
-   * @param y as an int
-   * @param width as an int
-   * @param height as an int
+   * @param x        as an int
+   * @param y        as an int
+   * @param width    as an int
+   * @param height   as an int
    * @param fontSize as an int
-   * @param label as a string
-   * @param window as a Menu object
+   * @param label    as a string
+   * @param window   as a Menu object
    */
-  public Button(int x, int y, int width, int height, int fontSize, String label, Menu window) {
+  public Button(int x, int y, int width, int height,
+                int fontSize, String label, MenuManager window) {
     this.x = x;
     this.y = y;
     this.width = width;
@@ -55,21 +86,17 @@ public class Button extends PApplet {
    *
    * @param x as an int
    * @param y as an int
-   *
    * @return boolean value
    */
   public boolean isClicked(int x, int y) {
-    return (x >= this.x - width/2 && x <= this.x + width/2 && y >= this.y - height/2 && y <= this.y + height/2);
-  }
-
-  public void onClick() {
-
+    return (x >= this.x - width / 2 && x <= this.x + width / 2
+        && y >= this.y - height / 2 && y <= this.y + height / 2);
   }
 
   /**
    * Getter for x.
    *
-   * @return x
+   * @return x as an int
    */
   public int getX() {
     return x;
@@ -87,7 +114,7 @@ public class Button extends PApplet {
   /**
    * Getter for y.
    *
-   * @return y
+   * @return y as an int
    */
   public int getY() {
     return y;
@@ -105,7 +132,7 @@ public class Button extends PApplet {
   /**
    * Getter for width.
    *
-   * @return width
+   * @return width as an int
    */
   public int getWidth() {
     return width;
@@ -123,7 +150,7 @@ public class Button extends PApplet {
   /**
    * Getter for height.
    *
-   * @return height
+   * @return height as an int
    */
   public int getHeight() {
     return height;
@@ -136,23 +163,5 @@ public class Button extends PApplet {
    */
   public void setHeight(int height) {
     this.height = height;
-  }
-
-  /**
-   * Getter for label.
-   *
-   * @return label
-   */
-  public String getLabel() {
-    return label;
-  }
-
-  /**
-   * Setter for label.
-   *
-   * @param label as a string
-   */
-  public void setLabel(String label) {
-    this.label = label;
   }
 }

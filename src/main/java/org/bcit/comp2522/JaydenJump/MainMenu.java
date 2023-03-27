@@ -1,102 +1,126 @@
 package org.bcit.comp2522.JaydenJump;
 
+import java.util.ArrayList;
 import processing.core.PApplet;
 import processing.core.PImage;
-//import processing.sound.*;
+import static org.bcit.comp2522.JaydenJump.MenuManager.sound;
 
-import java.util.ArrayList;
-
-public class MainMenu extends Menu {
+/**
+ * Main screen of game.
+ *
+ * @author Brian Kwon
+ * @verison 1.0
+ */
+public class MainMenu extends PApplet {
 
   /**
-   * Instance variables.
+   * Window that contains menu screen.
+   */
+  private MenuManager window;
+
+  /**
+   * Pause menu that can be accessed during gameplay.
+   */
+  private PauseMenu gameMenu;
+
+  /**
+   * Game settings menu.
+   */
+  private GameSettings gameSettings;
+
+  /**
+   * Death menu that is displayed when player loses the game.
+   */
+  private DeathMenu death;
+
+  /**
+   * Image of game title.
    */
   private PImage logo;
+
+  /**
+   * Image of player's avatar.
+   */
   private PImage doodle;
+
+  /**
+   * List of buttons displayed on menu screen.
+   */
   private ArrayList<Button> buttons;
-  private Button start;
-  private Button quit;
-  private Button settings;
-  private PauseMenu gameMenu;
-  private GameSettings gameSettings;
-  private DeathMenu death;
-  private static int currentScreen = 0;
-  boolean clickable = true;
-  //private SoundFile file;
 
-  public void settings() {
-    size(480, 480);
-  }
+  /**
+   * Image displayed when music is turned on.
+   */
+  PImage musicOn;
 
-  public void setup() {
-    this.init();
-  }
+  /**
+   * Image displayed when music is turned off.
+   */
+  PImage musicOff;
 
-  public void init() {
-    //file = new SoundFile(this, "music/music.mp3");
-    //file.play();
-    gameMenu = new PauseMenu();
+  /**
+   * Button used to start the game.
+   */
+  Button start;
+
+  /**
+   * Button used to access the leaderboards.
+   */
+  Button leaderboards;
+
+  /**
+   * Button used to access game settings.
+   */
+  Button settings;
+
+  /****************************************************/
+
+  /**
+   * Initializes MainMenu object.
+   *
+   * @param window as a Menu object
+   * @param logo as a PImage object
+   * @param doodle as a PImage object
+   * @param musicOn as a PImage object
+   * @param musicOff as a PImage object
+   */
+  public void init(MenuManager window, PImage logo, PImage doodle,
+                   PImage musicOn, PImage musicOff) {
+    this.window = window;
+    this.logo = logo;
+    this.doodle = doodle;
+    this.musicOn = musicOn;
+    this.musicOff = musicOff;
+    gameMenu     = new PauseMenu();
     gameSettings = new GameSettings();
-    death = new DeathMenu();
-    logo = loadImage("images/logo.png");
-    doodle = loadImage("images/doodle.png");
-    buttons = new ArrayList<Button>();
-    start = new Button(150, 390, 150, 100, 30, "Start Game", this);
-    quit = new Button(350, 390, 150, 100, 30, "Quit Game", this);
-    settings = new Button(250, 450, 100, 50, 15, "Settings", this);
+    death        = new DeathMenu();
+    buttons      = new ArrayList<Button>();
+    start        = new Button(150, 600, 150, 100, 30, "Start Game", window);
+    leaderboards = new Button(350, 600, 150, 100, 25, "Leaderboards", window);
+    settings     = new Button(250, 660, 100, 50, 15, "Settings", window);
     buttons.add(start);
-    buttons.add(quit);
+    buttons.add(leaderboards);
     buttons.add(settings);
+    draw();
   }
 
   /**
    * Draws to window.
    */
   public void draw() {
-    if (currentScreen == 0) {
-      background(35, 150, 170);
-      image(logo, (width - logo.width) / 2, (height - 500) / 2);
-      image(doodle, width / 4, height / 8);
-      for (Button button : buttons) {
-        button.draw();
-      }
-    } else if (currentScreen == 1) {
-      gameMenu.init(this);
-    } else if (currentScreen == 2) {
-      // open game settings
-      gameSettings.init(this);
+    window.background(35, 150, 170);
+    doodle.resize(400, 400);
+    musicOn.resize(50, 50);
+    musicOff.resize(50, 50);
+    window.image(logo, 0, 0);
+    window.image(doodle, 0, 150);
+    if (sound) {
+      window.image(musicOn, 30, 90, 50, 50);
     } else {
-      death.init(this);
+      window.image(musicOff, 30, 90, 50, 50);
     }
-  }
-
-  /**
-   * Event listener for mouse presses.
-   */
-  public void mousePressed() {
-    if (clickable) {
-      if (start.isClicked(mouseX, mouseY)) {
-        System.out.println("Starting game...");
-        currentScreen = 1;
-        clickable = false;
-      } else if (quit.isClicked(mouseX, mouseY)) {
-        System.out.println("Quitting game...");
-        exit();
-      } else if (settings.isClicked(mouseX, mouseY)) {
-        System.out.println("Opening game settings...");
-        currentScreen = 2;
-        clickable = false;
-        //gameSettings = new GameSettings();
-        //gameSettings.init(this);
-      } else {
-        currentScreen = 3;
-      }
+    for (Button button : buttons) {
+      button.draw();
     }
-  }
-
-  public static void main(String[] args) {
-    String[] appletArgs = new String[]{"MainMenu"};
-    MainMenu mainMenu = new MainMenu();
-    PApplet.runSketch(appletArgs, mainMenu);
   }
 }
