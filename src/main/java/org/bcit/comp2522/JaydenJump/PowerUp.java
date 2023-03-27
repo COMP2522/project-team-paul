@@ -48,13 +48,14 @@ public abstract class PowerUp extends Sprite {
                  float vy,
                  boolean isActive,
                  PApplet sketch,
-                 Player player) {
+                 Player player, PImage image) {
     super(xpos, ypos, vx, vy, sketch);
 
     //maybe just set to false as default?
     this.isActive = isActive;
     //player that recieves the boosts
     this.player = player;
+    this.image = image;
   }
 
   /**
@@ -69,6 +70,10 @@ public abstract class PowerUp extends Sprite {
             POWERUP_SIZE, POWERUP_SIZE);
   }
 
+  public boolean isOnScreen() {
+    return getXpos() >= 0 && getXpos() + POWERUP_SIZE <= super.getSketch().width
+        && getYpos() >= 0 && getYpos() + POWERUP_SIZE <= super.getSketch().height;
+  }
 
   /**
    * Moves the PowerUp across the screen.

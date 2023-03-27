@@ -21,15 +21,22 @@ public class JetPack extends PowerUp {
   /** The amount the y velocity of the player is increased. */
   private int boostVelocity;
 
+  private PImage image;
   /**
    * Creates an Instance of a JetPack in the game.
    *
    * @param xpos The x position of JetPack
+   *
    * @param ypos The y position of JetPack
+   *
    * @param vx The x velocity of JetPack
+   *
    * @param vy The y velocity of JetPack
+   *
    * @param isActive The boolean state that determines whether JetPack is active or not
+   *
    * @param duration The amount of time the JetPack lasts for
+   *
    * @param boostVelocity The amount the y direction of Player is affected by JetPack
    */
   public JetPack(float xpos,
@@ -40,8 +47,8 @@ public class JetPack extends PowerUp {
                  PApplet sketch,
                  int duration,
                  int boostVelocity,
-                 Player player) {
-    super(xpos, ypos, vx, vy, isActive, sketch, player);
+                 Player player, PImage image) {
+    super(xpos, ypos, vx, vy, isActive, sketch, player, image);
     this.duration = duration;
     this.boostVelocity = boostVelocity;
   }
@@ -55,6 +62,8 @@ public class JetPack extends PowerUp {
       getPlayer().setVy(getBoostVelocity());
       if (duration > 0) {
         duration--;
+      } else {
+        deactivate();
       }
     }
   }

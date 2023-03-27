@@ -1,6 +1,7 @@
 package org.bcit.comp2522.JaydenJump;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 
 /**
  * The Tire class is a type of PowerUp that the Player can interact
@@ -14,6 +15,7 @@ import processing.core.PApplet;
  */
 
 public class Tire extends PowerUp {
+  private PImage image;
 
   /** The amount that affects the y velocity of the Player. */
   private int boostHeight;
@@ -38,8 +40,8 @@ public class Tire extends PowerUp {
               int boostHeight,
               boolean isActive,
               PApplet sketch,
-              Player player) {
-    super(xpos, ypos, vx, vy, isActive, sketch, player);
+              Player player, PImage image) {
+    super(xpos, ypos, vx, vy, isActive, sketch, player,image);
     this.boostHeight = boostHeight;
   }
 
@@ -86,6 +88,5 @@ public class Tire extends PowerUp {
   public void setBoostHeight(int boostHeight) {
     this.boostHeight = boostHeight;
   }
-
 
 }

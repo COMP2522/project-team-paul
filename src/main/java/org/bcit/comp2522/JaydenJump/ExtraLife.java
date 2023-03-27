@@ -15,34 +15,42 @@ import processing.core.PImage;
 
 public class ExtraLife extends PowerUp {
 
+  private PImage image;
+
   /**
-   * Creates an instance of ExtraLife powerup in the game.
+   * Creates an instance of ExtraLife PowerUp in the game.
    *
    * @param xpos The x position of ExtraLife
+   *
    * @param ypos The y position of ExtraLife
+   *
    * @param vx The x velocity of ExtraLife
+   *
    * @param vy The y velocity of ExtraLife
+   *
    * @param isActive The boolean state that determines whether ExtraLife is active or not
    */
-  public ExtraLife(int xpos,
-                   int ypos,
-                   int vx,
-                   int vy,
+  public ExtraLife(float xpos,
+                   float ypos,
+                   float vx,
+                   float vy,
                    boolean isActive,
                    PApplet sketch,
-                   Player player) {
-    super(xpos, ypos, vx, vy, isActive, sketch, player);
+                   Player player, PImage image) {
+    super(xpos, ypos, vx, vy, isActive, sketch, player, image);
   }
 
   /**
    * Increases the life of the Player by one.
    */
   public void increaseLife() {
-    //getPlayer().setLives(getPlayer().getLives() + 1);
+//    if (getPlayer().getLives() < MAXIMUMLIVES) {
+//      //getPlayer().setLives(getPlayer().getLives() + 1);
+//    }
   }
 
   /**
-   * Activates the ExtraLife powerup.
+   * Activates the ExtraLife PowerUp.
    */
   @Override
   public void activate() {
@@ -52,7 +60,7 @@ public class ExtraLife extends PowerUp {
   }
 
   /**
-   * Deactivates the ExtraLife powerup.
+   * Deactivates the ExtraLife PowerUp.
    */
   @Override
   public void deactivate() {
