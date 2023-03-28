@@ -1,10 +1,10 @@
 package org.bcit.comp2522.JaydenJump;
 
-import java.io.File;
-import java.io.IOException;
-import javax.sound.sampled.*;
 import processing.core.PApplet;
 import processing.core.PImage;
+import javax.sound.sampled.*;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Starting point of game.

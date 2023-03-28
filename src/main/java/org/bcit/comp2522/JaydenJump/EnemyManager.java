@@ -11,13 +11,40 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class EnemyManager {
+
+  /**
+   * the arraylist of enemies in the game.
+   */
   private final ArrayList<Enemy> enemies;
+
+  /**
+   * the sketch for the enemy manager.
+   */
   private final PApplet sketch;
+
+  /**
+   * the spawn rate of enemies.
+   */
   private final float spawnRate;
+
+  /**
+   * the spawn counter for enemies.
+   */
   private int spawnCounter;
+
+  /**
+   * the image for the enemies.
+   */
   PImage image;
 
 
+  /**
+   * constructor for the enemy manager class.
+   *
+   * @param sketch the sketch for the enemy manager
+   * @param spawnRate the spawnrate for the enemies
+   * @param img the image for the enemies
+   */
   public EnemyManager(PApplet sketch, float spawnRate, PImage img) {
     this.enemies = new ArrayList<>();
     this.sketch = sketch;
@@ -26,6 +53,9 @@ public class EnemyManager {
     this.image = img;
   }
 
+  /**
+   * update method for the enemy manager class.
+   */
   public void update() {
 
     spawnCounter++;
@@ -34,21 +64,11 @@ public class EnemyManager {
       spawnCounter = 0;
     }
 
-    System.out.println(Game.getPlayer().getLives());
-
     for (int i = enemies.size() - 1; i >= 0; i--) {
       Enemy enemy = enemies.get(i);
       enemy.update();
 
-      // Check for collision with player
-      if (enemy.collides(Game.getPlayer())) {
-        Game.getPlayer().setLives(Game.getPlayer().getLives() - 1);
-        enemies.remove(enemy);
-        enemy.update();
-        System.out.println(Game.getPlayer().getLives());
-      }
-
-      if(enemy.collides(Game.getPlayer().getProjectile())){
+      if (enemy.collides(Game.getPlayer().getProjectile())) {
         enemies.remove(enemy);
         enemy.update();
       }
@@ -57,22 +77,28 @@ public class EnemyManager {
 
   }
 
+  /**
+   * draw method for the enemy manager class.
+   */
   public void draw() {
     for (Enemy enemy : enemies) {
       enemy.draw();
     }
   }
 
+  /**
+   * Method to spawn enemies.
+   */
   private void spawnEnemy() {
     int width = 50;
     int height = 50;
     int health = 1;
     int speed = 5;
 
-    // generate a random number between 0 and 1
+
     float randomNum = sketch.random(100);
 
-    // check if the random number is less than the spawn rate
+
     if (randomNum < spawnRate) {
       float x = sketch.random(sketch.width - width);
       float y = 0;
@@ -81,6 +107,11 @@ public class EnemyManager {
     }
   }
 
+  /**
+   * getter for the arraylist of enemies.
+   *
+   * @return the array list of enemies
+   */
   public ArrayList<Enemy> getEnemies() {
     return enemies;
   }

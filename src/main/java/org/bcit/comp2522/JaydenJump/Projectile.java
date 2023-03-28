@@ -1,7 +1,8 @@
 package org.bcit.comp2522.JaydenJump;
 
-import java.awt.Color;
 import processing.core.PApplet;
+
+import java.awt.*;
 
 
 
@@ -19,9 +20,8 @@ public class Projectile extends Sprite {
   /** the color of the projectile. */
   private Color color = Color.blue;
 
+  /** instance of the player. */
   private Player player;
-
-  private boolean toBeRemoved;
 
   /**
    * Constructor for the projectile class.
@@ -37,7 +37,6 @@ public class Projectile extends Sprite {
     this.damage = damage;
     this.color = color;
     this.player = player;
-    this.toBeRemoved = false;
   }
 
   /**
@@ -56,49 +55,6 @@ public class Projectile extends Sprite {
     setYpos(getYpos() + getVy());
   }
 
-  public void remove() {
-    this.toBeRemoved = true;
-  }
-
-  public boolean isToBeRemoved() {
-    return toBeRemoved;
-  }
-
-  /**
-   * getter for the damage the projectile does.
-   *
-   * @return the damage
-   */
-  public int getDamage() {
-    return damage;
-  }
-
-  /**
-   * setter for the damage the projectile does.
-   *
-   * @param damage the value you want to set the damage too
-   */
-  public void setDamage(int damage) {
-    this.damage = damage;
-  }
-
-  /**
-   * getter for the color of the projectile.
-   *
-   * @return the color of the projectile
-   */
-  public Color getColor() {
-    return color;
-  }
-
-  /**
-   * setter for the color of the projectile.
-   *
-   * @param color the color you want to set the projectile too
-   */
-  public void setColor(Color color) {
-    this.color = color;
-  }
 
   /**
    * collide method to see if projectile collided with the enemy.
@@ -112,7 +68,7 @@ public class Projectile extends Sprite {
     if (o instanceof Enemy) {
       Enemy enemy = (Enemy) o;
       float distance = PApplet.dist(getXpos(), getYpos(), enemy.getXpos(), enemy.getYpos());
-      float radiusSum = 5 + enemy.getWidth(); // Assuming the projectile radius is 5
+      float radiusSum = 5 + enemy.getWidth();
       return distance < radiusSum;
     }
     return false;

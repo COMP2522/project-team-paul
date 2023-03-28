@@ -322,9 +322,9 @@ public class Player extends Sprite {
   }
 
   /**
-   * Gets the image.
+   * setter for the image.
    *
-   * @return image
+   * @param image the value you want to set the image too
    */
   public void setImage(PImage image) {
     this.image = image;

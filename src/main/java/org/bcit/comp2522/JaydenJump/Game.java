@@ -1,6 +1,8 @@
 package org.bcit.comp2522.JaydenJump;
 
 import processing.core.PApplet;
+import java.util.Iterator;
+
 
 /**
  * Game class.
@@ -28,7 +30,7 @@ public class Game extends PApplet {
   /**
    * Flag for indicating if game is over.
    */
-  boolean gameOver;
+  static boolean gameOver;
 
   /**
    * Platform manager.
@@ -53,7 +55,7 @@ public class Game extends PApplet {
   /**
    * Lives the player has.
    */
-  private int lives = 3;
+  private static int lives = 3;
 
   /**
    * Manager for the enemies.
@@ -118,6 +120,20 @@ public class Game extends PApplet {
           restartGame();
         }
       }
+
+      Iterator<Enemy> enemyIterator = enemyManager.getEnemies().iterator();
+      while (enemyIterator.hasNext()) {
+        Enemy enemy = enemyIterator.next();
+        if (enemy.collides(player)) {
+          lives--;
+          if (lives == 0) {
+            endGame();
+          } else {
+            restartGame();
+          }
+          enemyIterator.remove();
+        }
+      }
       platformManager.updateAndDrawPlatforms();
       platformManager.generatePlatforms();
       platformManager.checkCollision(player, minDoubleJumpHeight, jumpHeight);
@@ -173,7 +189,7 @@ public class Game extends PApplet {
    * end the game.
    * called when the player goes above or below the screen limits.
    */
-  public void endGame() {
+  public static void endGame() {
     gameOver = true;
     lives = 3;
   }
@@ -239,6 +255,24 @@ public class Game extends PApplet {
    */
   public static int getHighscore() {
     return highscore;
+  }
+
+  /**
+   * get the lives of the player.
+   *
+   * @return the lives of the player
+   */
+  public static int getLives() {
+    return lives;
+  }
+
+  /**
+   * Sets the lives.
+   *
+   * @param lives the player's lives
+   */
+  public static void setLives(int lives) {
+    Game.lives = lives;
   }
 
 }
