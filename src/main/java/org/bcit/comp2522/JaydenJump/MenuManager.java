@@ -40,6 +40,11 @@ public class MenuManager extends PApplet {
   private PImage playerImg;
 
   /**
+   * Image for the enemies.
+   */
+  private PImage enemyImg;
+
+  /**
    * Audio file for background music.
    */
   File dino;
@@ -100,11 +105,15 @@ public class MenuManager extends PApplet {
   private static int currentScreen = 0;
 
   /**
+   * Manager for the enemies.
+   */
+  private EnemyManager enemyManager;
+
+  /**
    * Flag indicating whether sound is currently enabled.
    */
   static boolean sound = true;
 
-  /*****************************************************/
 
   /**
    * Sets up initial size of game window.
@@ -122,6 +131,8 @@ public class MenuManager extends PApplet {
     musicOn   = loadImage("images/music_on.png");
     musicOff  = loadImage("images/music_off.png");
     playerImg = loadImage("images/doodleguy.png");
+    enemyImg = loadImage("./Images/enemy.png");
+
     frameRate(60);
     init();
   }
@@ -162,18 +173,18 @@ public class MenuManager extends PApplet {
                                 80,
                                 5,
                                 0.5f);
+    enemyManager = new EnemyManager(this, 50f, enemyImg);
     game = new Game(15,
                     2,
                     12,
                     player,
                     6,
                     6,
-                    this);
+                    this, enemyManager);
   }
 
   /**
    * Draws to window.
-   *
    * Screen 0 = Main menu
    * Screen 1 = Game window
    * Screen 2 = Game settings menu
@@ -266,7 +277,7 @@ public class MenuManager extends PApplet {
   /**
    * Plays Like A Dino soundtrack.
    */
-  public void playLikeADinoSong() {
+  public void playLikeAdinoSong() {
     clip.stop();
     try {
       AudioInputStream ais = AudioSystem.getAudioInputStream(dino);
@@ -290,7 +301,7 @@ public class MenuManager extends PApplet {
     if (musicMenu.boss.isClicked(mouseX, mouseY)) {
       playBossSong();
     } else if (musicMenu.dino.isClicked(mouseX, mouseY)) {
-      playLikeADinoSong();
+      playLikeAdinoSong();
     } else if (musicMenu.home.isClicked(mouseX, mouseY)) {
       currentScreen = 0;
     }

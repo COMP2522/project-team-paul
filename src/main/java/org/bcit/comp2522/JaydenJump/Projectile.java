@@ -21,6 +21,8 @@ public class Projectile extends Sprite {
 
   private Player player;
 
+  private boolean toBeRemoved;
+
   /**
    * Constructor for the projectile class.
    *
@@ -35,6 +37,7 @@ public class Projectile extends Sprite {
     this.damage = damage;
     this.color = color;
     this.player = player;
+    this.toBeRemoved = false;
   }
 
   /**
@@ -53,20 +56,13 @@ public class Projectile extends Sprite {
     setYpos(getYpos() + getVy());
   }
 
-  /**
-   * Method to end the game.
-   */
-  public void endGame() {}
+  public void remove() {
+    this.toBeRemoved = true;
+  }
 
-  /**
-   * Method to remove Sprite when projectile hits it.
-   */
-  public void removeSprite() {}
-
-  /**
-   * Method to damage Sprite when projectile hits it.
-   */
-  public void damageSprite() {}
+  public boolean isToBeRemoved() {
+    return toBeRemoved;
+  }
 
   /**
    * getter for the damage the projectile does.
@@ -102,6 +98,24 @@ public class Projectile extends Sprite {
    */
   public void setColor(Color color) {
     this.color = color;
+  }
+
+  /**
+   * collide method to see if projectile collided with the enemy.
+   *
+   * @param o The object to check for collision
+   *
+   * @return if they have collided or not
+   */
+  @Override
+  public boolean collides(Object o) {
+    if (o instanceof Enemy) {
+      Enemy enemy = (Enemy) o;
+      float distance = PApplet.dist(getXpos(), getYpos(), enemy.getXpos(), enemy.getYpos());
+      float radiusSum = 5 + enemy.getWidth(); // Assuming the projectile radius is 5
+      return distance < radiusSum;
+    }
+    return false;
   }
 
 }

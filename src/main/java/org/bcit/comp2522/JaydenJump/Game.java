@@ -13,7 +13,7 @@ public class Game extends PApplet {
   /**
    * Instance for the player.
    */
-  private final Player player;
+  private static Player player;
 
   /**
    * the height of the jump.
@@ -50,9 +50,15 @@ public class Game extends PApplet {
    */
   private static int highscore = 0;
 
+  /**
+   * Lives the player has.
+   */
   private int lives = 3;
 
-  /*************************************************/
+  /**
+   * Manager for the enemies.
+   */
+  private EnemyManager enemyManager;
 
   /**
    * the constructor for the game class.
@@ -69,7 +75,7 @@ public class Game extends PApplet {
               Player player,
               int platformSpeed,
               int platformMoveableSpeed,
-              MenuManager window
+              MenuManager window, EnemyManager enemy
               ) {
     this.window = window;
     this.jumpHeight = jumpHeight;
@@ -79,7 +85,9 @@ public class Game extends PApplet {
                                                       platformSpeed, platformMoveableSpeed);
     platformManager.generateStartPlatforms();
     this.gameOver = false;
+    this.enemyManager = enemy;
   }
+
 
   /**
    * draw the game, called at every frame.
@@ -91,6 +99,7 @@ public class Game extends PApplet {
     window.text("" + Game.getScore(), 50, 50);
 
     drawHearts(lives);
+
 
     if (!gameOver && lives > 0) {
       platformManager.checkCollision(player, minDoubleJumpHeight, jumpHeight);
@@ -113,6 +122,8 @@ public class Game extends PApplet {
       platformManager.generatePlatforms();
       platformManager.checkCollision(player, minDoubleJumpHeight, jumpHeight);
       player.draw();
+      enemyManager.draw();
+      enemyManager.update();
     }
   }
 
@@ -198,7 +209,7 @@ public class Game extends PApplet {
       getPlayer().setVx(player.getVx() - 2);
     } else if (key == RIGHT || key == 'D') {
       getPlayer().setVx(player.getVx() + 2);
-    } else if (key == 81){
+    } else if (key == 81) {
       getPlayer().shootProjectile();
     }
   }
@@ -208,7 +219,7 @@ public class Game extends PApplet {
    *
    * @return player as a Player object
    */
-  public Player getPlayer() {
+  public static Player getPlayer() {
     return player;
   }
 
@@ -229,4 +240,5 @@ public class Game extends PApplet {
   public static int getHighscore() {
     return highscore;
   }
+
 }

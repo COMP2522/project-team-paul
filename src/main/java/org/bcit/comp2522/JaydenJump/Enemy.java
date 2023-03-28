@@ -53,6 +53,26 @@ public class Enemy extends Sprite{
 
   }
 
+  @Override
+  public boolean collides(Object o) {
+    if (o instanceof Player) {
+      Player player = (Player) o;
+      float distance = PApplet.dist(player.getXpos(), player.getYpos(), getXpos(), getYpos());
+      if (distance < (player.getImgSize() + getWidth()) / 2) {
+        player.setLives(player.getLives() - 1);
+        return true;
+      }
+    } else if (o instanceof Projectile) {
+      Projectile projectile = (Projectile) o;
+      float distance = PApplet.dist(projectile.getXpos(), projectile.getYpos(), getXpos(), getYpos());
+      if (distance < (10 + getWidth()) / 2) {
+        setToBeRemoved(true);
+        return true;
+      }
+    }
+    return false;
+  }
+
   public int getHealth() {
     return health;
   }
