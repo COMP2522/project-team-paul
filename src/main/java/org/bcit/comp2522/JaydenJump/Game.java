@@ -198,6 +198,8 @@ public class Game extends PApplet {
       getPlayer().setVx(player.getVx() - 2);
     } else if (key == RIGHT || key == 'D') {
       getPlayer().setVx(player.getVx() + 2);
+    } else if (key == 81){
+      getPlayer().shootProjectile();
     }
   }
 

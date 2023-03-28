@@ -15,19 +15,41 @@ public class Enemy extends Sprite{
 
   private PImage image;
 
-  private PApplet sketch;
+  private boolean toBeRemoved;
 
-  public Enemy(int xpos, int ypos, int vx, int vy, int health, int speed, int width, int height, PImage image, PApplet sketch) {
+  public Enemy(float xpos, float ypos, float vx, float vy, int health, int speed, int width, int height, PImage image, PApplet sketch) {
     super(xpos, ypos, vx, vy, sketch);
     this.health = health;
     this.speed = speed;
     this.width = width;
     this.height = height;
     this.image = image;
+    toBeRemoved = false;
 
   }
 
-  public void endGame() {
+  @Override
+  public void update() {
+    setYpos(getYpos() + speed);
+    if (getYpos() > getSketch().height) {
+      setToBeRemoved(true);
+    }
+  }
+
+  @Override
+  public void draw() {
+    getSketch().image(image, getXpos(), getYpos(), width, height);
+  }
+
+  public boolean isToBeRemoved() {
+    return toBeRemoved;
+  }
+
+  public void setToBeRemoved(boolean b) {
+    toBeRemoved = b;
+  }
+
+    public void endGame() {
 
   }
 
