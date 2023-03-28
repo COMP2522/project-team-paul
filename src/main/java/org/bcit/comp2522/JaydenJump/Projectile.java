@@ -1,7 +1,8 @@
 package org.bcit.comp2522.JaydenJump;
 
-import java.awt.Color;
 import processing.core.PApplet;
+
+import java.awt.*;
 
 
 
@@ -19,6 +20,9 @@ public class Projectile extends Sprite {
   /** the color of the projectile. */
   private Color color = Color.blue;
 
+  /** instance of the player. */
+  private Player player;
+
   /**
    * Constructor for the projectile class.
    *
@@ -26,21 +30,21 @@ public class Projectile extends Sprite {
    * @param ypos the y position of the projectile
    * @param vx the x velocity of the projectile
    * @param vy the y velocity of the projectile
-   * @param sketch the sketch for the projectile
    * @param damage the damage the projectile does
    */
-  public Projectile(float xpos, float ypos, int vx, int vy, PApplet sketch, int damage) {
-    super(xpos, ypos, vx, vy, sketch);
+  public Projectile(float xpos, float ypos, int vx, int vy, int damage, Player player) {
+    super(xpos, ypos, vx, vy, null);
     this.damage = damage;
     this.color = color;
+    this.player = player;
   }
 
   /**
    * Draw method for the projectile.
    */
   public void draw() {
-    getSketch().fill(color.getRGB());
-    getSketch().ellipse(getXpos(), getYpos(), 10, 10);
+    player.getSketch().fill(color.getRGB());
+    player.getSketch().ellipse(getXpos(), getYpos(), 10, 10);
   }
 
   /**
@@ -51,55 +55,23 @@ public class Projectile extends Sprite {
     setYpos(getYpos() + getVy());
   }
 
-  /**
-   * Method to end the game.
-   */
-  public void endGame() {}
 
   /**
-   * Method to remove Sprite when projectile hits it.
-   */
-  public void removeSprite() {}
-
-  /**
-   * Method to damage Sprite when projectile hits it.
-   */
-  public void damageSprite() {}
-
-  /**
-   * getter for the damage the projectile does.
+   * collide method to see if projectile collided with the enemy.
    *
-   * @return the damage
-   */
-  public int getDamage() {
-    return damage;
-  }
-
-  /**
-   * setter for the damage the projectile does.
+   * @param o The object to check for collision
    *
-   * @param damage the value you want to set the damage too
+   * @return if they have collided or not
    */
-  public void setDamage(int damage) {
-    this.damage = damage;
-  }
-
-  /**
-   * getter for the color of the projectile.
-   *
-   * @return the color of the projectile
-   */
-  public Color getColor() {
-    return color;
-  }
-
-  /**
-   * setter for the color of the projectile.
-   *
-   * @param color the color you want to set the projectile too
-   */
-  public void setColor(Color color) {
-    this.color = color;
+  @Override
+  public boolean collides(Object o) {
+    if (o instanceof Enemy) {
+      Enemy enemy = (Enemy) o;
+      float distance = PApplet.dist(getXpos(), getYpos(), enemy.getXpos(), enemy.getYpos());
+      float radiusSum = 5 + enemy.getWidth();
+      return distance < radiusSum;
+    }
+    return false;
   }
 
 }

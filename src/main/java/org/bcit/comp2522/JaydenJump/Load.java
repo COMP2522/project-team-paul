@@ -1,7 +1,5 @@
 package org.bcit.comp2522.JaydenJump;
 
-import static com.mongodb.client.model.Filters.eq;
-
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.ServerApi;
@@ -11,6 +9,8 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.UpdateOptions;
 import org.bson.Document;
+
+import static com.mongodb.client.model.Filters.eq;
 
 
 
