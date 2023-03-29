@@ -1,6 +1,7 @@
 package org.bcit.comp2522.JaydenJump;
 
 import processing.core.PApplet;
+
 import java.util.Iterator;
 
 
@@ -63,6 +64,11 @@ public class Game extends PApplet {
   private EnemyManager enemyManager;
 
   /**
+   * the boss for the game.
+   */
+  private Boss boss;
+
+  /**
    * the constructor for the game class.
    *
    * @param jumpHeight the height of the jump
@@ -77,7 +83,7 @@ public class Game extends PApplet {
               Player player,
               int platformSpeed,
               int platformMoveableSpeed,
-              MenuManager window, EnemyManager enemy
+              MenuManager window, EnemyManager enemy, Boss boss
               ) {
     this.window = window;
     this.jumpHeight = jumpHeight;
@@ -88,6 +94,7 @@ public class Game extends PApplet {
     platformManager.generateStartPlatforms();
     this.gameOver = false;
     this.enemyManager = enemy;
+    this.boss = boss;
   }
 
 
@@ -134,12 +141,24 @@ public class Game extends PApplet {
           enemyIterator.remove();
         }
       }
+
+      if(boss.collides(player)){
+        lives--;
+        if(lives == 0){
+          endGame();
+        } else {
+          restartGame();
+        }
+      }
       platformManager.updateAndDrawPlatforms();
       platformManager.generatePlatforms();
       platformManager.checkCollision(player, minDoubleJumpHeight, jumpHeight);
       player.draw();
       enemyManager.draw();
       enemyManager.update();
+      boss.draw();
+      boss.update();
+
     }
   }
 
