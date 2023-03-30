@@ -10,15 +10,16 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.UpdateOptions;
+import java.util.ArrayList;
+import java.util.List;
 import org.bson.Document;
-
 
 
 /**
  * Class to load and save game data.
  *
  * @author Maximillian Yong
- * @version 1.0
+ * @version 1.1
  */
 public class Load {
 
@@ -87,30 +88,63 @@ public class Load {
   }
 
   /**
-   * Gets the leaderboard, top 10 players.
+   * Gets the leaderboard for the given difficulty.
+   * 1 = easy, 2 = medium, 3 = hard
+   * Returns an array of strings with the format:
+   * "Name: Score"
    *
-   * @return the leaderboard as a JSON string
+   * @param difficulty the difficulty easy, medium, hard
+   * @return the leaderboard
    */
-  public String getLeaderboard() {
-    Document find = database.getCollection("LeaderBoard")
-        .find(eq("LeaderBoard", "JaydenJump")).first();
-    if (find != null) {
-      return find.toJson();
-    } else {
-      return "";
+  public String[] getLeaderboard(int difficulty) {
+    List<Document> leaderboard = database.getCollection("leaderboard")
+        .find(eq("Difficulty", difficulty))
+        .sort(new Document("Score", -1))
+        .into(new ArrayList<>());
+
+    // Format the leaderboard into an array of strings
+    String[] result = new String[leaderboard.size()];
+    for (int i = 0; i < leaderboard.size(); i++) {
+      Document entry = leaderboard.get(i);
+      result[i] = entry.getString("Name") + ": " + entry.getInteger("Score");
     }
+    return result;
   }
 
-  public void updateLeaderboard(String saveId, int score) {
-    Document updateFields = new Document();
-    updateFields.append("Score", score);
+  /**
+   * Checks the leaderboard and updates it if the score is higher than the lowest score.
+   * Top 10 scores are kept.
+   * 1 = easy, 2 = medium, 3 = hard
+   *
+   * @param name the name
+   * @param score the score
+   * @param difficulty the difficulty easy, medium, hard
+   */
+  public void updateLeaderboard(String name, int score, int difficulty) {
+    new Thread(() -> {
+      Document lowestScoreEntry = database.getCollection("leaderboard")
+          .find(eq("Difficulty", difficulty))
+          .sort(new Document("Score", 1))
+          .first();
 
-    Document updateQuery = new Document("$set", updateFields);
+      if (lowestScoreEntry == null || score > lowestScoreEntry.getInteger("Score")) {
+        Document newEntry = new Document();
+        newEntry.append("Name", name);
+        newEntry.append("Score", score);
+        newEntry.append("Difficulty", difficulty);
 
-    new Thread(() -> database.getCollection("saves")
-        .updateOne(eq("SaveID", saveId), updateQuery, new UpdateOptions().upsert(true))).start();
+        // Insert the new score
+        database.getCollection("leaderboard").insertOne(newEntry);
 
-
+        // Remove the lowest score if there are more than 10 entries
+        long count = database.getCollection("leaderboard")
+            .countDocuments(eq("Difficulty", difficulty));
+        if (count > 10) {
+          database.getCollection("leaderboard")
+              .deleteOne(eq("_id", lowestScoreEntry.getObjectId("_id")));
+        }
+      }
+    }).start();
   }
 
 }
