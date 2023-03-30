@@ -41,9 +41,9 @@ public class MenuManager extends PApplet {
   private PImage playerImg;
 
   /**
-   * Image for the enemies.
+   * Image used to display the PowerUps in the game.
    */
-  private PImage enemyImg;
+  private PImage powerUpImg;
 
   /**
    * Audio file for background music.
@@ -132,8 +132,7 @@ public class MenuManager extends PApplet {
     musicOn   = loadImage("images/music_on.png");
     musicOff  = loadImage("images/music_off.png");
     playerImg = loadImage("images/doodleguy.png");
-    enemyImg = loadImage("./Images/enemy.png");
-
+    powerUpImg = loadImage("images/qMarkNoBackground.png");
     frameRate(60);
     init();
   }
@@ -177,11 +176,13 @@ public class MenuManager extends PApplet {
     enemyManager = new EnemyManager(this, 50f, enemyImg);
     game = new Game(15,
                     2,
+                    1,
                     12,
                     player,
                     6,
                     6,
-                    this, enemyManager);
+                    this,
+                    powerUpImg);
   }
 
   /**
