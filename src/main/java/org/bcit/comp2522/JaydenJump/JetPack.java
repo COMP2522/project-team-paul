@@ -59,6 +59,7 @@ public class JetPack extends PowerUp {
   @Override
   public void activate() {
     if (isActive()) {
+      super.getSketch().text("JETPACK", getSketch().CENTER, getSketch().CENTER);
       getPlayer().setVy(getBoostVelocity());
       if (duration > 0) {
         duration--;

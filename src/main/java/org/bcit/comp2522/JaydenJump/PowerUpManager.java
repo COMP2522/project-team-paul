@@ -69,16 +69,14 @@ public class PowerUpManager {
    * @param powerUpSpeed the speed of the PowerUp as it moves down the game screen
    *
    * @param player the player object in the game
-   *
-   * @param platformManager the instance of the PlatformManager that is in the game
    */
-  private PowerUpManager(int maxPowerUps, PApplet sketch, int powerUpSpeed, Player player, PlatformManager platformManager) {
+  private PowerUpManager(int maxPowerUps, PApplet sketch, int powerUpSpeed, Player player, PImage powerUpImg) {
     this.maxPowerUps = maxPowerUps;
     this.sketch = sketch;
     this.powerUpSpeed = powerUpSpeed;
     powerups = new ArrayList<>();
     this.player = player;
-    this.image = null;
+    this.image = powerUpImg;
   }
 
   /**
@@ -93,13 +91,11 @@ public class PowerUpManager {
    *
    * @param player the player in the game
    *
-   * @param platformManager the instance of the platform manager in the game
-   *
-   * @return
+   * @return PowerUpManager instance in the game
    */
-  public static PowerUpManager getInstance(int maxPowerUps, PApplet sketch, int powerUpSpeed, Player player, PlatformManager platformManager) {
+  public static PowerUpManager getInstance(int maxPowerUps, PApplet sketch, int powerUpSpeed, Player player, PImage powerUpImg) {
     if (instance == null) {
-      instance = new PowerUpManager(maxPowerUps, sketch, powerUpSpeed, player, platformManager);
+      instance = new PowerUpManager(maxPowerUps, sketch, powerUpSpeed, player, powerUpImg);
     }
     return instance;
   }

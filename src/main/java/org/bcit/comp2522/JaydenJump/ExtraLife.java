@@ -15,6 +15,8 @@ import processing.core.PImage;
 
 public class ExtraLife extends PowerUp {
 
+  private static final int MAXIMUMLIVES = 3;
+
   private PImage image;
 
   /**
@@ -44,9 +46,9 @@ public class ExtraLife extends PowerUp {
    * Increases the life of the Player by one.
    */
   public void increaseLife() {
-//    if (getPlayer().getLives() < MAXIMUMLIVES) {
-//      //getPlayer().setLives(getPlayer().getLives() + 1);
-//    }
+    if (Game.getLives() < MAXIMUMLIVES) {
+      Game.setLives(Game.getLives() + 1);
+    }
   }
 
   /**
@@ -56,6 +58,7 @@ public class ExtraLife extends PowerUp {
   public void activate() {
     if (isActive()) {
       increaseLife();
+      super.getSketch().text("1 life", getSketch().CENTER, getSketch().CENTER);
     }
   }
 

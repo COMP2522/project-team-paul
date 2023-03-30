@@ -1,6 +1,7 @@
 package org.bcit.comp2522.JaydenJump;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 
 /**
  * Game class.
@@ -36,6 +37,11 @@ public class Game extends PApplet {
   private final PlatformManager platformManager;
 
   /**
+   * PowerUp Manager.
+   */
+  private final PowerUpManager powerUpManager;
+
+  /**
    * Window for displaying game.
    */
   private MenuManager window;
@@ -50,7 +56,15 @@ public class Game extends PApplet {
    */
   private static int highscore = 0;
 
-  private int lives = 3;
+  /**
+   * The lives of the player
+   */
+  private static int lives = 3;
+
+  /**
+   * Image of PowerUp
+   */
+  private PImage powerUpImg;
 
   /*************************************************/
 
@@ -65,11 +79,13 @@ public class Game extends PApplet {
    */
   public Game(int jumpHeight,
               int minDoubleJumpHeight,
+              int maxPowerUps,
               int maxPlatforms,
               Player player,
               int platformSpeed,
               int platformMoveableSpeed,
-              MenuManager window
+              MenuManager window,
+              PImage powerUpImg
               ) {
     this.window = window;
     this.jumpHeight = jumpHeight;
@@ -77,7 +93,9 @@ public class Game extends PApplet {
     this.player = player;
     this.platformManager = PlatformManager.getInstance(maxPlatforms, window,
                                                       platformSpeed, platformMoveableSpeed);
+    this.powerUpManager = PowerUpManager.getInstance(maxPowerUps, window, platformSpeed, player, powerUpImg);
     platformManager.generateStartPlatforms();
+    powerUpManager.generateStartPowerUps();
     this.gameOver = false;
   }
 
@@ -94,6 +112,7 @@ public class Game extends PApplet {
 
     if (!gameOver && lives > 0) {
       platformManager.checkCollision(player, minDoubleJumpHeight, jumpHeight);
+      powerUpManager.checkCollision(player);
 
       score++;
       if (score > highscore) {
@@ -110,8 +129,11 @@ public class Game extends PApplet {
         }
       }
       platformManager.updateAndDrawPlatforms();
+      powerUpManager.updateAndDrawPowerUps();
       platformManager.generatePlatforms();
+      powerUpManager.generatePowerUps();
       platformManager.checkCollision(player, minDoubleJumpHeight, jumpHeight);
+      powerUpManager.checkCollision(player);
       player.draw();
     }
   }
@@ -154,7 +176,9 @@ public class Game extends PApplet {
   public void restartGame() {
     player.reset(width / 2, 0, 0, 0);
     platformManager.getPlatforms().clear();
+    powerUpManager.getPowerups().clear();
     platformManager.generateStartPlatforms();
+    platformManager.generatePlatforms();
     gameOver = false;
   }
 
@@ -226,5 +250,23 @@ public class Game extends PApplet {
    */
   public static int getHighscore() {
     return highscore;
+  }
+
+  /**
+   * Retrieves the player's current lives in game.
+   *
+   * @return player's life count while in game.
+   */
+  public static int getLives() {
+    return lives;
+  }
+
+  /**
+   * Changes Player's lives to a specific amount.
+   *
+   * @param lives increased
+   */
+  public static void setLives(int lives) {
+    Game.lives = lives;
   }
 }
