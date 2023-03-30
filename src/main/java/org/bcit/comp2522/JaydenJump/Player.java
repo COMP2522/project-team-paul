@@ -51,7 +51,7 @@ public class Player extends Sprite {
   /**
    * the projectile the player will shoot.
    */
-  private Projectile projectile;
+  private static Projectile projectile;
 
   /**
    * the score of the player.
@@ -84,11 +84,12 @@ public class Player extends Sprite {
   private Player(float xpos, float ypos, float vx, float vy, PApplet sketch, PImage image,
                  int imgSize, float moveMentspeed, float gravity) {
     super(xpos, ypos, vx, vy, sketch);
+    System.out.println(super.getSketch());
     this.image = image;
     this.imgSize = imgSize;
     this.moveMentspeed = moveMentspeed;
     this.gravity = gravity;
-    projectile = new Projectile(xpos, ypos, 0, -2, super.getSketch(), 1);
+    this.projectile = new Projectile(getXpos(), getYpos(), 0, -2, 1, this);
   }
 
   /**
@@ -99,9 +100,11 @@ public class Player extends Sprite {
    * @return instance of the player
    */
   public static Player getInstance(float xpos, float ypos, float vx, float vy, PApplet sketch,
-                                   PImage image, int imgSize, float moveMentspeed, float gravity) {
+                                   PImage image, int imgSize, float moveMentspeed,
+                                   float gravity) {
     if (instance == null) {
-      instance = new Player(xpos, ypos, vx, vy, sketch, image, imgSize, moveMentspeed, gravity);
+      instance = new Player(xpos, ypos, vx, vy, sketch, image, imgSize, moveMentspeed,
+              gravity);
       isFacingRight = true;
     }
     return instance;
@@ -129,6 +132,13 @@ public class Player extends Sprite {
       System.err.println("Image is null. Please check the image loading process.");
     }
 
+    if (isShooting) {
+      projectile.update();
+      if (projectile.getYpos() < 0) {
+        stopShooting();
+      }
+    }
+
 
   }
 
@@ -137,6 +147,7 @@ public class Player extends Sprite {
    */
   @Override
   public void update() {
+
     setVy(getVy() + gravity);
 
     setXpos(getXpos() + getVx());
@@ -296,7 +307,7 @@ public class Player extends Sprite {
    *
    * @return projectile the projectile
    */
-  public Projectile getProjectile() {
+  public static Projectile getProjectile() {
     return projectile;
   }
 
@@ -311,9 +322,9 @@ public class Player extends Sprite {
   }
 
   /**
-   * Gets the image.
+   * setter for the image.
    *
-   * @return image
+   * @param image the value you want to set the image too
    */
   public void setImage(PImage image) {
     this.image = image;
@@ -372,5 +383,7 @@ public class Player extends Sprite {
   public static void setUnlocked(int unlocked) {
     Player.unlocked = unlocked;
   }
+
+
 
 }
