@@ -23,6 +23,9 @@ public class Projectile extends Sprite {
   /** instance of the player. */
   private Player player;
 
+  /** check if a projectile has hit before. */
+  private boolean hasHit;
+
   /**
    * Constructor for the projectile class.
    *
@@ -37,6 +40,7 @@ public class Projectile extends Sprite {
     this.damage = damage;
     this.color = color;
     this.player = player;
+    hasHit = false;
   }
 
   /**
@@ -74,4 +78,20 @@ public class Projectile extends Sprite {
     return false;
   }
 
+  /**
+   * getter for the damage the projectile does.
+   *
+   * @return the damage the projectile
+   */
+  public int getDamage() {
+    return damage;
+  }
+
+  public boolean isHasHit() {
+    return hasHit;
+  }
+
+  public void setHasHit(boolean hasHit) {
+    this.hasHit = hasHit;
+  }
 }

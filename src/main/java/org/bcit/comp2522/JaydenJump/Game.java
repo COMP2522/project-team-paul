@@ -73,6 +73,11 @@ public class Game extends PApplet {
   private EnemyManager enemyManager;
 
   /**
+   * the boss.
+   */
+  private Boss boss;
+
+  /**
    * the constructor for the game class.
    *
    * @param jumpHeight the height of the jump
@@ -89,7 +94,7 @@ public class Game extends PApplet {
               int platformSpeed,
               int platformMoveableSpeed,
               MenuManager window,
-              PImage powerUpImg, EnemyManager enemy
+              PImage powerUpImg, EnemyManager enemy, Boss boss
               ) {
     this.window = window;
     this.jumpHeight = jumpHeight;
@@ -102,6 +107,7 @@ public class Game extends PApplet {
     powerUpManager.generateStartPowerUps();
     this.gameOver = false;
     this.enemyManager = enemy;
+    this.boss = boss;
   }
 
 
@@ -149,6 +155,32 @@ public class Game extends PApplet {
           enemyIterator.remove();
         }
       }
+
+      if(boss.collides(player)){
+        lives--;
+        if(lives == 0){
+          endGame();
+        } else {
+          restartGame();
+        }
+      }
+
+      if(boss.collides(player.getProjectile())){
+        boss.setHealth(boss.getHealth() - player.getProjectile().getDamage());
+        player.setShooting(false);
+        if(boss.getHealth() == 0){
+          boss.getBosses().remove(boss);
+        }
+      }
+
+      if(score >= 10) {
+        for (Boss boss : boss.getBosses()) {
+          boss.update();
+          boss.draw();
+        }
+      }
+
+
       platformManager.updateAndDrawPlatforms();
       powerUpManager.updateAndDrawPowerUps();
       platformManager.generatePlatforms();
@@ -158,6 +190,7 @@ public class Game extends PApplet {
       player.draw();
       enemyManager.draw();
       enemyManager.update();
+
     }
   }
 
@@ -197,7 +230,7 @@ public class Game extends PApplet {
    * restart the game.
    */
   public void restartGame() {
-    player.reset(width / 2, 0, 0, 0);
+    player.reset(width / 2, 200, 0, 0);
     platformManager.getPlatforms().clear();
     powerUpManager.getPowerups().clear();
     platformManager.generateStartPlatforms();

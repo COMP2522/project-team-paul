@@ -68,6 +68,7 @@ public class Player extends Sprite {
    */
   private static int unlocked = 1;
 
+
   /**
    * constructor for the player class.
    *
@@ -186,6 +187,13 @@ public class Player extends Sprite {
       boolean abovePlatform = playerBottom < platformTop + platform.getHeight() / 2;
 
       return horizontallyOverlapping && verticallyOverlapping && abovePlatform;
+    } else if (o instanceof Projectile) {
+      Projectile projectile = (Projectile) o;
+      if(!projectile.isHasHit()) {
+        projectile.setHasHit(true);
+        return (getXpos() + imgSize >= projectile.getXpos() && getXpos() <= projectile.getXpos() + 10)
+                && getYpos() + imgSize >= projectile.getYpos() && getYpos() <= projectile.getYpos() + 10;
+      }
     }
     return false;
   }

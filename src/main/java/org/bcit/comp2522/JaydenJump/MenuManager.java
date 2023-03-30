@@ -120,6 +120,16 @@ public class MenuManager extends PApplet {
    */
   private PImage enemyImg;
 
+  /**
+   * The boss for the game.
+   */
+  private Boss theboss;
+
+  /**
+   * the image for the boss.
+   */
+  private PImage bossImg;
+
 
   /**
    * Sets up initial size of game window.
@@ -139,6 +149,7 @@ public class MenuManager extends PApplet {
     playerImg = loadImage("images/doodleguy.png");
     powerUpImg = loadImage("images/qMarkNoBackground.png");
     enemyImg = loadImage("images/enemy.png");
+    bossImg = loadImage("./Images/Boss.png");
     frameRate(60);
     init();
   }
@@ -180,6 +191,7 @@ public class MenuManager extends PApplet {
                                 5,
                                 0.5f);
     enemyManager = new EnemyManager(this, 50f, enemyImg);
+    theboss = new Boss(170, 10, 5, 0, 150, 150, bossImg, this, player, 5);
     game = new Game(15,
                     2,
                     1,
@@ -188,7 +200,7 @@ public class MenuManager extends PApplet {
                     6,
                     6,
                     this,
-                    powerUpImg, enemyManager);
+                    powerUpImg, enemyManager, theboss);
   }
 
   /**
