@@ -2,8 +2,6 @@ package org.bcit.comp2522.JaydenJump;
 
 import processing.core.PApplet;
 
-import java.awt.*;
-
 /**
  * Start menu of game that shows game controls.
  *
@@ -26,6 +24,16 @@ public class StartMenu extends PApplet {
    */
   public void init(MenuManager window) {
     this.window = window;
+    draw();
+  }
 
+  /**
+   * Draws to window.
+   */
+  public void draw() {
+    window.background(35, 150, 170);
+    window.textSize(20);
+    window.fill(0);
+    window.text("no one likes shawn", window.width / 2, window.height / 2);
   }
 }

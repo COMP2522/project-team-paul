@@ -222,10 +222,10 @@ public class Game extends PApplet {
     } else if (key == RIGHT || key == 'D') {
       getPlayer().moveRight();
     } else if (key == 'P') {
-      if (MenuManager.getCurrentScreen() == 1) {
-        MenuManager.setCurrentScreen(4);
-      } else if (MenuManager.getCurrentScreen() == 4) {
-        MenuManager.setCurrentScreen(1);
+      if (MenuManager.getCurrentScreen() == 6) {
+        MenuManager.setCurrentScreen(5);
+      } else if (MenuManager.getCurrentScreen() == 5) {
+        MenuManager.setCurrentScreen(6);
       }
     }
   }
@@ -238,7 +238,7 @@ public class Game extends PApplet {
       getPlayer().setVx(player.getVx() - 2);
     } else if (key == RIGHT || key == 'D') {
       getPlayer().setVx(player.getVx() + 2);
-    } else if (key == 81) {
+    } else if (key == ' ') {
       getPlayer().shootProjectile();
     }
   }

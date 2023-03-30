@@ -65,6 +65,11 @@ public class MenuManager extends PApplet {
   private StartMenu startMenu;
 
   /**
+   * Instance of difficulty menu.
+   */
+  private DifficultyMenu difficultyMenu;
+
+  /**
    * Instance of main menu.
    */
   private MainMenu mainMenu;
@@ -156,6 +161,7 @@ public class MenuManager extends PApplet {
 
     startMenu        = new StartMenu();
     mainMenu         = new MainMenu();
+    difficultyMenu   = new DifficultyMenu();
     deathMenu        = new DeathMenu();
     leaderboardsMenu = new LeaderboardsMenu();
     pauseMenu        = new PauseMenu();
@@ -217,39 +223,67 @@ public class MenuManager extends PApplet {
    * Draws to window.
    *
    * Screen 0 = Start Menu
-   *
-   * Screen 0 = Main Menu
-   * Screen 1 = Game Window
-   * Screen 2 = Leaderboards
-   * Screen 3 = Death Menu
-   * Screen 4 = Pause Menu
+   * Screen 1 = Main Menu
+   * Screen 2 = Difficulty Menu
+   * Screen 3 = Leaderboards
+   * Screen 4 = Death Menu
+   * Screen 5 = Pause Menu
+   * Screen 6 = Game Window
    */
   public void draw() {
     switch (currentScreen) {
       case 0:
-        mainMenu.init(this,
-                    logo,
-                    doodle,
-                    musicOn,
-                    musicOff);
+        startMenu.init(this);
         break;
       case 1:
-        game.draw();
-        if (game.gameOver == true) {
-          currentScreen = 3;
-        }
+        mainMenu.init(this,
+            logo,
+            doodle,
+            musicOn,
+            musicOff);
         break;
       case 2:
-        leaderboardsMenu.init(this);
+        difficultyMenu.init(this);
         break;
       case 3:
-        deathMenu.init(this);
+        leaderboardsMenu.init(this);
         break;
       case 4:
+        deathMenu.init(this);
+        break;
+      case 5:
         pauseMenu.init(this);
+        break;
+      case 6:
+        game.draw();
+        if (game.gameOver == true) {
+          currentScreen = 4;
+        }
         break;
       default:
         break;
+    }
+  }
+
+  /**
+   * Handles mouse clicks in the start menu.
+   */
+//  public void handleMouseClicksInStartMenu() {
+//    if (currentScreen == 0 && keyPressed && key == ' ') {
+//      currentScreen = 1;
+//    }
+//  }
+
+  /**
+   * Handles mouse clicks in the difficulty menu.
+   */
+  public void handleMouseClicksInDifficultyMenu() {
+    if (difficultyMenu.easy.isClicked(mouseX, mouseY)) {
+      currentScreen = 6;
+    } else if (difficultyMenu.medium.isClicked(mouseX, mouseY)) {
+      currentScreen = 6;
+    } else if (difficultyMenu.hard.isClicked(mouseX, mouseY)) {
+      currentScreen = 6;
     }
   }
 
@@ -258,10 +292,10 @@ public class MenuManager extends PApplet {
    */
   public void handleMouseClicksInMainMenu() {
     if (mainMenu.start.isClicked(mouseX, mouseY)) {
-      currentScreen = 1;
+      currentScreen = 2;
       game.startGame();
     } else if (mainMenu.leaderboards.isClicked(mouseX, mouseY)) {
-      currentScreen = 2;
+      currentScreen = 3;
     } else if (mouseX >= 30 && mouseX < 30 + mainMenu.musicOn.width
         && mouseY >= 90 && mouseY < 90 + mainMenu.musicOn.height) {
       if (sound) {
@@ -307,7 +341,7 @@ public class MenuManager extends PApplet {
    */
   public void handleMouseClicksInLeaderboards() {
     if (leaderboardsMenu.back.isClicked(mouseX, mouseY)) {
-      currentScreen = 0;
+      currentScreen = 1;
     }
   }
 
@@ -316,11 +350,11 @@ public class MenuManager extends PApplet {
    */
   public void handleMouseClicksInDeathMenu() {
     if (deathMenu.playAgain.isClicked(mouseX, mouseY)) {
-      currentScreen = 1;
+      currentScreen = 6;
       game.restartGame();
       game.startGame();
     } else if (deathMenu.home.isClicked(mouseX, mouseY)) {
-      currentScreen = 0;
+      currentScreen = 1;
       game.restartGame();
     }
   }
@@ -330,7 +364,7 @@ public class MenuManager extends PApplet {
    */
   public void handleMouseClicksInPauseMenu() {
     if (pauseMenu.resume.isClicked(mouseX, mouseY)) {
-      currentScreen = 1;
+      currentScreen = 5;
     }
   }
 
@@ -339,16 +373,19 @@ public class MenuManager extends PApplet {
    */
   public void mousePressed() {
     switch (currentScreen) {
-      case 0:
+      case 1:
         handleMouseClicksInMainMenu();
         break;
       case 2:
-        handleMouseClicksInLeaderboards();
+        handleMouseClicksInDifficultyMenu();
         break;
       case 3:
-        handleMouseClicksInDeathMenu();
+        handleMouseClicksInLeaderboards();
         break;
       case 4:
+        handleMouseClicksInDeathMenu();
+        break;
+      case 5:
         handleMouseClicksInPauseMenu();
         break;
       default:
@@ -362,8 +399,11 @@ public class MenuManager extends PApplet {
   public void keyPressed() {
     keyCode = keyEvent.getKeyCode();
     game.keyPressedListener(keyCode);
-    if (currentScreen == 3 && keyPressed && key == ' ') {
+
+    if (currentScreen == 0 && keyPressed && key == ' ') {
       currentScreen = 1;
+    } else if (currentScreen == 4 && keyPressed && key == ' ') {
+      currentScreen = 6;
       game.startGame();
       game.restartGame();
     }
