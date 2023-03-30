@@ -89,7 +89,7 @@ public class Game extends PApplet {
               int platformSpeed,
               int platformMoveableSpeed,
               MenuManager window,
-              PImage powerUpImg
+              PImage powerUpImg, EnemyManager enemy
               ) {
     this.window = window;
     this.jumpHeight = jumpHeight;
