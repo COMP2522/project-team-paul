@@ -86,4 +86,31 @@ public class Load {
         .updateOne(eq("SaveID", saveId), updateQuery, new UpdateOptions().upsert(true))).start();
   }
 
+  /**
+   * Gets the leaderboard, top 10 players.
+   *
+   * @return the leaderboard as a JSON string
+   */
+  public String getLeaderboard() {
+    Document find = database.getCollection("LeaderBoard")
+        .find(eq("LeaderBoard", "JaydenJump")).first();
+    if (find != null) {
+      return find.toJson();
+    } else {
+      return "";
+    }
+  }
+
+  public void updateLeaderboard(String saveId, int score) {
+    Document updateFields = new Document();
+    updateFields.append("Score", score);
+
+    Document updateQuery = new Document("$set", updateFields);
+
+    new Thread(() -> database.getCollection("saves")
+        .updateOne(eq("SaveID", saveId), updateQuery, new UpdateOptions().upsert(true))).start();
+
+
+  }
+
 }
