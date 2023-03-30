@@ -9,7 +9,7 @@ import static org.bcit.comp2522.JaydenJump.MenuManager.sound;
  * Main screen of game.
  *
  * @author Brian Kwon
- * @verison 1.0
+ * @verison 1.1
  */
 public class MainMenu extends PApplet {
 

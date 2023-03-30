@@ -1,14 +1,14 @@
 package org.bcit.comp2522.JaydenJump;
 
+import java.util.Iterator;
 import processing.core.PApplet;
 import processing.core.PImage;
-import java.util.Iterator;
 
 /**
  * Game class.
  *
  * @author Shawn, Birring; Brian Kwon
- * @version 1.1
+ * @version 1.2
  */
 public class Game extends PApplet {
 
@@ -58,19 +58,16 @@ public class Game extends PApplet {
   private static int highscore = 0;
 
   /**
-   * The lives of the player
+   * The lives of the player.
    */
   private static int lives = 3;
-
-  /**
-   * Image of PowerUp
-   */
-  private PImage powerUpImg;
 
   /**
    * Manager for the enemies.
    */
   private EnemyManager enemyManager;
+
+  /**************************************************/
 
   /**
    * the constructor for the game class.
@@ -97,7 +94,8 @@ public class Game extends PApplet {
     this.player = player;
     this.platformManager = PlatformManager.getInstance(maxPlatforms, window,
                                                       platformSpeed, platformMoveableSpeed);
-    this.powerUpManager = PowerUpManager.getInstance(maxPowerUps, window, platformSpeed, player, powerUpImg);
+    this.powerUpManager = PowerUpManager.getInstance(maxPowerUps, window,
+        platformSpeed, player, powerUpImg);
     platformManager.generateStartPlatforms();
     powerUpManager.generateStartPowerUps();
     this.gameOver = false;
@@ -106,7 +104,7 @@ public class Game extends PApplet {
 
 
   /**
-   * draw the game, called at every frame.
+   * Draws to window.
    */
   public void draw() {
     window.background(255);
@@ -114,8 +112,7 @@ public class Game extends PApplet {
     window.fill(0);
     window.text("" + Game.getScore(), 50, 50);
 
-    drawHearts(lives);
-
+    drawPlayerLives(lives);
 
     if (!gameOver && lives > 0) {
       platformManager.checkCollision(player, minDoubleJumpHeight, jumpHeight);
@@ -149,6 +146,7 @@ public class Game extends PApplet {
           enemyIterator.remove();
         }
       }
+
       platformManager.updateAndDrawPlatforms();
       powerUpManager.updateAndDrawPowerUps();
       platformManager.generatePlatforms();
@@ -166,7 +164,7 @@ public class Game extends PApplet {
    *
    * @param lives as an int
    */
-  public void drawHearts(int lives) {
+  public void drawPlayerLives(int lives) {
     if (lives == 3) {
       drawHeart(400);
       drawHeart(337);
@@ -194,7 +192,8 @@ public class Game extends PApplet {
   }
 
   /**
-   * restart the game.
+   * Restarts the game when the player goes below
+   * the screen or makes contact with an enemy.
    */
   public void restartGame() {
     player.reset(width / 2, 0, 0, 0);
@@ -206,20 +205,22 @@ public class Game extends PApplet {
   }
 
   /**
-   * end the game.
-   * called when the player goes above or below the screen limits.
+   * Ends the game when the player runs out of lives.
    */
   public static void endGame() {
     gameOver = true;
     lives = 3;
   }
 
+  /**
+   * Starts the game.
+   */
   public static void startGame() {
     score = 0;
   }
 
   /**
-   * check for key presses and call the appropriate methods.
+   * Event listener for key presses.
    */
   public void keyPressedListener(int key) {
     if (key == LEFT || key == 'A') {
@@ -236,9 +237,7 @@ public class Game extends PApplet {
   }
 
   /**
-   * test this method better, but it should.
-   * reduce how fast the player can move left and right.
-   * after letting go of left/right or a/d.
+   * Event listener for key releases.
    */
   public void keyReleasedListener(int key) {
     if (key == LEFT || key == 'A') {

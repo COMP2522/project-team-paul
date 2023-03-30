@@ -1,17 +1,16 @@
 package org.bcit.comp2522.JaydenJump;
 
-import processing.core.PApplet;
-import processing.core.PImage;
-import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
-
+import javax.sound.sampled.*;
+import processing.core.PApplet;
+import processing.core.PImage;
 
 /**
  * Starting point of game.
  *
  * @author Brian Kwon
- * @version 1.1
+ * @version 1.2
  */
 public class MenuManager extends PApplet {
 
@@ -120,6 +119,7 @@ public class MenuManager extends PApplet {
    */
   private PImage enemyImg;
 
+  /***************************************************/
 
   /**
    * Sets up initial size of game window.
@@ -138,7 +138,7 @@ public class MenuManager extends PApplet {
     musicOff  = loadImage("images/music_off.png");
     playerImg = loadImage("images/doodleguy.png");
     powerUpImg = loadImage("images/qMarkNoBackground.png");
-    enemyImg = loadImage("images/enemy.png");
+    enemyImg  = loadImage("images/enemy.png");
     frameRate(60);
     init();
   }
@@ -155,11 +155,7 @@ public class MenuManager extends PApplet {
       clip.open(ais);
       clip.loop(Clip.LOOP_CONTINUOUSLY);
       sound = true;
-    } catch (UnsupportedAudioFileException e) {
-      throw new RuntimeException(e);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    } catch (LineUnavailableException e) {
+    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
       throw new RuntimeException(e);
     }
 
@@ -193,6 +189,7 @@ public class MenuManager extends PApplet {
 
   /**
    * Draws to window.
+   *
    * Screen 0 = Main menu
    * Screen 1 = Game window
    * Screen 2 = Game settings menu
@@ -202,27 +199,37 @@ public class MenuManager extends PApplet {
    * Screen 6 = Pause menu
    */
   public void draw() {
-    if (currentScreen == 0) {
-      mainMenu.init(this,
+    switch (currentScreen) {
+      case 0:
+        mainMenu.init(this,
                     logo,
                     doodle,
                     musicOn,
                     musicOff);
-    } else if (currentScreen == 1) {
-      game.draw();
-      if (game.gameOver == true) {
-        currentScreen = 5;
-      }
-    } else if (currentScreen == 2) {
-      gameSettings.init(this);
-    } else if (currentScreen == 3) {
-      musicMenu.init(this);
-    } else if (currentScreen == 4) {
-      leaderboardsMenu.init(this);
-    } else if (currentScreen == 5) {
-      deathMenu.init(this);
-    } else if (currentScreen == 6) {
-      pauseMenu.init(this);
+        break;
+      case 1:
+        game.draw();
+        if (game.gameOver == true) {
+          currentScreen = 5;
+        }
+        break;
+      case 2:
+        gameSettings.init(this);
+        break;
+      case 3:
+        musicMenu.init(this);
+        break;
+      case 4:
+        leaderboardsMenu.init(this);
+        break;
+      case 5:
+        deathMenu.init(this);
+        break;
+      case 6:
+        pauseMenu.init(this);
+        break;
+      default:
+        break;
     }
   }
 
@@ -273,11 +280,7 @@ public class MenuManager extends PApplet {
       clip.open(ais);
       clip.loop(Clip.LOOP_CONTINUOUSLY);
       sound = true;
-    } catch (UnsupportedAudioFileException e) {
-      throw new RuntimeException(e);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    } catch (LineUnavailableException e) {
+    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
       throw new RuntimeException(e);
     }
   }
@@ -293,11 +296,7 @@ public class MenuManager extends PApplet {
       clip.open(ais);
       clip.loop(Clip.LOOP_CONTINUOUSLY);
       sound = true;
-    } catch (UnsupportedAudioFileException e) {
-      throw new RuntimeException(e);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    } catch (LineUnavailableException e) {
+    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
       throw new RuntimeException(e);
     }
   }
@@ -351,19 +350,27 @@ public class MenuManager extends PApplet {
    * Event listener for mouse presses.
    */
   public void mousePressed() {
-    if (currentScreen == 0) {
-      handleMouseClicksInMainMenu();
-    } else if (currentScreen == 2) {
-      handleMouseClicksInGameSettings();
-    } else if (currentScreen == 3) {
-      handleMouseClicksInMusicMenu();
-    } else if (currentScreen == 4) {
-      handleMouseClicksInLeaderboards();
-      //leaderboardsMenu.handleMouseClick(mouseX, mouseY);
-    } else if (currentScreen == 5) {
-      handleMouseClicksInDeathMenu();
-    } else if (currentScreen == 6) {
-      handleMouseClicksInPauseMenu();
+    switch (currentScreen) {
+      case 0:
+        handleMouseClicksInMainMenu();
+        break;
+      case 2:
+        handleMouseClicksInGameSettings();
+        break;
+      case 3:
+        handleMouseClicksInMusicMenu();
+        break;
+      case 4:
+        handleMouseClicksInLeaderboards();
+        break;
+      case 5:
+        handleMouseClicksInDeathMenu();
+        break;
+      case 6:
+        handleMouseClicksInPauseMenu();
+        break;
+      default:
+        break;
     }
   }
 
@@ -381,9 +388,7 @@ public class MenuManager extends PApplet {
   }
 
   /**
-   * test this method better, but it should.
-   * reduce how fast the player can move left and right.
-   * after letting go of left/right or a/d.
+   * Event listener for key releases.
    */
   public void keyReleased() {
     keyCode = keyEvent.getKeyCode();
