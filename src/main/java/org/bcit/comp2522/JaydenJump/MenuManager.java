@@ -60,6 +60,11 @@ public class MenuManager extends PApplet {
   private Clip clip;
 
   /**
+   * Instance of start menu.
+   */
+  private StartMenu startMenu;
+
+  /**
    * Instance of main menu.
    */
   private MainMenu mainMenu;
@@ -70,19 +75,9 @@ public class MenuManager extends PApplet {
   private PauseMenu pauseMenu;
 
   /**
-   * Instance of game settings menu.
-   */
-  private GameSettings gameSettings;
-
-  /**
    * Instance of death menu.
    */
   private DeathMenu deathMenu;
-
-  /**
-   * Instance of music menu.
-   */
-  private MusicMenu musicMenu;
 
   /**
    * Instance of leaderboards menu.
@@ -132,13 +127,13 @@ public class MenuManager extends PApplet {
    * Loads images.
    */
   public void setup() {
-    logo      = loadImage("images/logo.png");
-    doodle    = loadImage("images/doodle.png");
-    musicOn   = loadImage("images/music_on.png");
-    musicOff  = loadImage("images/music_off.png");
-    playerImg = loadImage("images/doodleguy.png");
+    logo       = loadImage("images/logo.png");
+    doodle     = loadImage("images/doodle.png");
+    musicOn    = loadImage("images/music_on.png");
+    musicOff   = loadImage("images/music_off.png");
+    playerImg  = loadImage("images/doodleguy.png");
     powerUpImg = loadImage("images/qMarkNoBackground.png");
-    enemyImg  = loadImage("images/enemy.png");
+    enemyImg   = loadImage("images/enemy.png");
     frameRate(60);
     init();
   }
@@ -159,10 +154,9 @@ public class MenuManager extends PApplet {
       throw new RuntimeException(e);
     }
 
+    startMenu        = new StartMenu();
     mainMenu         = new MainMenu();
-    gameSettings     = new GameSettings();
     deathMenu        = new DeathMenu();
-    musicMenu        = new MusicMenu();
     leaderboardsMenu = new LeaderboardsMenu();
     pauseMenu        = new PauseMenu();
 
@@ -188,15 +182,47 @@ public class MenuManager extends PApplet {
   }
 
   /**
+   * Plays boss soundtrack.
+   */
+//  public void playBossSong() {
+//    clip.stop();
+//    try {
+//      AudioInputStream ais = AudioSystem.getAudioInputStream(boss);
+//      clip = AudioSystem.getClip();
+//      clip.open(ais);
+//      clip.loop(Clip.LOOP_CONTINUOUSLY);
+//      sound = true;
+//    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+//      throw new RuntimeException(e);
+//    }
+//  }
+//
+//  /**
+//   * Plays Like A Dino soundtrack.
+//   */
+//  public void playLikeAdinoSong() {
+//    clip.stop();
+//    try {
+//      AudioInputStream ais = AudioSystem.getAudioInputStream(dino);
+//      clip = AudioSystem.getClip();
+//      clip.open(ais);
+//      clip.loop(Clip.LOOP_CONTINUOUSLY);
+//      sound = true;
+//    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+//      throw new RuntimeException(e);
+//    }
+//  }
+
+  /**
    * Draws to window.
    *
-   * Screen 0 = Main menu
-   * Screen 1 = Game window
-   * Screen 2 = Game settings menu
-   * Screen 3 = Music menu
-   * Screen 4 = Leaderboards
-   * Screen 5 = Death menu
-   * Screen 6 = Pause menu
+   * Screen 0 = Start Menu
+   *
+   * Screen 0 = Main Menu
+   * Screen 1 = Game Window
+   * Screen 2 = Leaderboards
+   * Screen 3 = Death Menu
+   * Screen 4 = Pause Menu
    */
   public void draw() {
     switch (currentScreen) {
@@ -210,22 +236,16 @@ public class MenuManager extends PApplet {
       case 1:
         game.draw();
         if (game.gameOver == true) {
-          currentScreen = 5;
+          currentScreen = 3;
         }
         break;
       case 2:
-        gameSettings.init(this);
-        break;
-      case 3:
-        musicMenu.init(this);
-        break;
-      case 4:
         leaderboardsMenu.init(this);
         break;
-      case 5:
+      case 3:
         deathMenu.init(this);
         break;
-      case 6:
+      case 4:
         pauseMenu.init(this);
         break;
       default:
@@ -240,10 +260,8 @@ public class MenuManager extends PApplet {
     if (mainMenu.start.isClicked(mouseX, mouseY)) {
       currentScreen = 1;
       game.startGame();
-    } else if (mainMenu.settings.isClicked(mouseX, mouseY)) {
-      currentScreen = 2;
     } else if (mainMenu.leaderboards.isClicked(mouseX, mouseY)) {
-      currentScreen = 4;
+      currentScreen = 2;
     } else if (mouseX >= 30 && mouseX < 30 + mainMenu.musicOn.width
         && mouseY >= 90 && mouseY < 90 + mainMenu.musicOn.height) {
       if (sound) {
@@ -261,58 +279,28 @@ public class MenuManager extends PApplet {
   /**
    * Handles mouse clicks in the settings menu.
    */
-  public void handleMouseClicksInGameSettings() {
-    if (gameSettings.back.isClicked(mouseX, mouseY)) {
-      currentScreen = 0;
-    } else if (gameSettings.music.isClicked(mouseX, mouseY)) {
-      currentScreen = 3;
-    }
-  }
+//  public void handleMouseClicksInGameSettings() {
+//    if (gameSettings.back.isClicked(mouseX, mouseY)) {
+//      currentScreen = 0;
+//    } else if (gameSettings.music.isClicked(mouseX, mouseY)) {
+//      currentScreen = 3;
+//    }
+//  }
 
-  /**
-   * Plays boss soundtrack.
-   */
-  public void playBossSong() {
-    clip.stop();
-    try {
-      AudioInputStream ais = AudioSystem.getAudioInputStream(boss);
-      clip = AudioSystem.getClip();
-      clip.open(ais);
-      clip.loop(Clip.LOOP_CONTINUOUSLY);
-      sound = true;
-    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-      throw new RuntimeException(e);
-    }
-  }
 
-  /**
-   * Plays Like A Dino soundtrack.
-   */
-  public void playLikeAdinoSong() {
-    clip.stop();
-    try {
-      AudioInputStream ais = AudioSystem.getAudioInputStream(dino);
-      clip = AudioSystem.getClip();
-      clip.open(ais);
-      clip.loop(Clip.LOOP_CONTINUOUSLY);
-      sound = true;
-    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-      throw new RuntimeException(e);
-    }
-  }
 
   /**
    * Handles mouse clicks in the music menu.
    */
-  public void handleMouseClicksInMusicMenu() {
-    if (musicMenu.boss.isClicked(mouseX, mouseY)) {
-      playBossSong();
-    } else if (musicMenu.dino.isClicked(mouseX, mouseY)) {
-      playLikeAdinoSong();
-    } else if (musicMenu.home.isClicked(mouseX, mouseY)) {
-      currentScreen = 0;
-    }
-  }
+//  public void handleMouseClicksInMusicMenu() {
+//    if (musicMenu.boss.isClicked(mouseX, mouseY)) {
+//      playBossSong();
+//    } else if (musicMenu.dino.isClicked(mouseX, mouseY)) {
+//      playLikeAdinoSong();
+//    } else if (musicMenu.home.isClicked(mouseX, mouseY)) {
+//      currentScreen = 0;
+//    }
+//  }
 
   /**
    * Handles mouse clicks in the leaderboards menu.
@@ -329,8 +317,8 @@ public class MenuManager extends PApplet {
   public void handleMouseClicksInDeathMenu() {
     if (deathMenu.playAgain.isClicked(mouseX, mouseY)) {
       currentScreen = 1;
-      game.startGame();
       game.restartGame();
+      game.startGame();
     } else if (deathMenu.home.isClicked(mouseX, mouseY)) {
       currentScreen = 0;
       game.restartGame();
@@ -355,18 +343,12 @@ public class MenuManager extends PApplet {
         handleMouseClicksInMainMenu();
         break;
       case 2:
-        handleMouseClicksInGameSettings();
-        break;
-      case 3:
-        handleMouseClicksInMusicMenu();
-        break;
-      case 4:
         handleMouseClicksInLeaderboards();
         break;
-      case 5:
+      case 3:
         handleMouseClicksInDeathMenu();
         break;
-      case 6:
+      case 4:
         handleMouseClicksInPauseMenu();
         break;
       default:
@@ -380,7 +362,7 @@ public class MenuManager extends PApplet {
   public void keyPressed() {
     keyCode = keyEvent.getKeyCode();
     game.keyPressedListener(keyCode);
-    if (currentScreen == 5 && keyPressed && key == ' ') {
+    if (currentScreen == 3 && keyPressed && key == ' ') {
       currentScreen = 1;
       game.startGame();
       game.restartGame();

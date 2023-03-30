@@ -102,7 +102,6 @@ public class Game extends PApplet {
     this.enemyManager = enemy;
   }
 
-
   /**
    * Draws to window.
    */
@@ -165,15 +164,10 @@ public class Game extends PApplet {
    * @param lives as an int
    */
   public void drawPlayerLives(int lives) {
-    if (lives == 3) {
-      drawHeart(400);
-      drawHeart(337);
-      drawHeart(275);
-    } else if (lives == 2) {
-      drawHeart(400);
-      drawHeart(337);
-    } else if (lives == 1) {
-      drawHeart(400);
+    int[] heartPositions = {400, 337, 275};
+
+    for (int i = 0; i < lives; i++) {
+      drawHeart(heartPositions[i]);
     }
   }
 
@@ -229,8 +223,8 @@ public class Game extends PApplet {
       getPlayer().moveRight();
     } else if (key == 'P') {
       if (MenuManager.getCurrentScreen() == 1) {
-        MenuManager.setCurrentScreen(6);
-      } else if (MenuManager.getCurrentScreen() == 6) {
+        MenuManager.setCurrentScreen(4);
+      } else if (MenuManager.getCurrentScreen() == 4) {
         MenuManager.setCurrentScreen(1);
       }
     }

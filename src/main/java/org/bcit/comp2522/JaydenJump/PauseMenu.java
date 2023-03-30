@@ -25,7 +25,7 @@ public class PauseMenu extends PApplet implements GameUI {
   /**
    * Initializes PauseMenu object.
    *
-   * @param window as a Menu object
+   * @param window as a MenuManager object
    */
   public void init(MenuManager window) {
     this.window = window;
