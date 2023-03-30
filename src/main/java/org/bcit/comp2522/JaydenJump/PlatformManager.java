@@ -84,7 +84,7 @@ public class PlatformManager {
       boolean isBreakable = sketch.random(1.0f) < 0.1;
       Color platformColor = isBreakable ? red : green;
       float lastPlatformY = platforms.get(platforms.size() - 1).getYpos();
-      float newY = lastPlatformY - 100 - Platform.getHeight();
+      float newY = lastPlatformY - Platform.getWidth() - Platform.getHeight();
 
       float vx = 0;
       if (sketch.random(1.0f) < 0.1) {

@@ -115,6 +115,11 @@ public class MenuManager extends PApplet {
    */
   static boolean sound = true;
 
+  /**
+   * Image used to display the enemies in the game.
+   */
+  private PImage enemyImg;
+
 
   /**
    * Sets up initial size of game window.
@@ -133,6 +138,7 @@ public class MenuManager extends PApplet {
     musicOff  = loadImage("images/music_off.png");
     playerImg = loadImage("images/doodleguy.png");
     powerUpImg = loadImage("images/qMarkNoBackground.png");
+    enemyImg = loadImage("images/enemy.png");
     frameRate(60);
     init();
   }
@@ -182,7 +188,7 @@ public class MenuManager extends PApplet {
                     6,
                     6,
                     this,
-                    powerUpImg);
+                    powerUpImg, enemyManager);
   }
 
   /**
