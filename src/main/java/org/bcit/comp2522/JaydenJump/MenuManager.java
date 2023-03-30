@@ -1,10 +1,11 @@
 package org.bcit.comp2522.JaydenJump;
 
-import java.io.File;
-import java.io.IOException;
-import javax.sound.sampled.*;
 import processing.core.PApplet;
 import processing.core.PImage;
+import javax.sound.sampled.*;
+import java.io.File;
+import java.io.IOException;
+
 
 /**
  * Starting point of game.
@@ -105,11 +106,15 @@ public class MenuManager extends PApplet {
   private static int currentScreen = 0;
 
   /**
+   * Manager for the enemies.
+   */
+  private EnemyManager enemyManager;
+
+  /**
    * Flag indicating whether sound is currently enabled.
    */
   static boolean sound = true;
 
-  /*****************************************************/
 
   /**
    * Sets up initial size of game window.
@@ -168,6 +173,7 @@ public class MenuManager extends PApplet {
                                 80,
                                 5,
                                 0.5f);
+    enemyManager = new EnemyManager(this, 50f, enemyImg);
     game = new Game(15,
                     2,
                     1,
@@ -181,7 +187,6 @@ public class MenuManager extends PApplet {
 
   /**
    * Draws to window.
-   *
    * Screen 0 = Main menu
    * Screen 1 = Game window
    * Screen 2 = Game settings menu
@@ -274,7 +279,7 @@ public class MenuManager extends PApplet {
   /**
    * Plays Like A Dino soundtrack.
    */
-  public void playLikeADinoSong() {
+  public void playLikeAdinoSong() {
     clip.stop();
     try {
       AudioInputStream ais = AudioSystem.getAudioInputStream(dino);
@@ -298,7 +303,7 @@ public class MenuManager extends PApplet {
     if (musicMenu.boss.isClicked(mouseX, mouseY)) {
       playBossSong();
     } else if (musicMenu.dino.isClicked(mouseX, mouseY)) {
-      playLikeADinoSong();
+      playLikeAdinoSong();
     } else if (musicMenu.home.isClicked(mouseX, mouseY)) {
       currentScreen = 0;
     }

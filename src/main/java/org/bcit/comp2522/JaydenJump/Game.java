@@ -2,6 +2,7 @@ package org.bcit.comp2522.JaydenJump;
 
 import processing.core.PApplet;
 import processing.core.PImage;
+import java.util.Iterator;
 
 /**
  * Game class.
@@ -14,7 +15,7 @@ public class Game extends PApplet {
   /**
    * Instance for the player.
    */
-  private final Player player;
+  private static Player player;
 
   /**
    * the height of the jump.
@@ -29,7 +30,7 @@ public class Game extends PApplet {
   /**
    * Flag for indicating if game is over.
    */
-  boolean gameOver;
+  static boolean gameOver;
 
   /**
    * Platform manager.
@@ -66,7 +67,10 @@ public class Game extends PApplet {
    */
   private PImage powerUpImg;
 
-  /*************************************************/
+  /**
+   * Manager for the enemies.
+   */
+  private EnemyManager enemyManager;
 
   /**
    * the constructor for the game class.
@@ -97,7 +101,9 @@ public class Game extends PApplet {
     platformManager.generateStartPlatforms();
     powerUpManager.generateStartPowerUps();
     this.gameOver = false;
+    this.enemyManager = enemy;
   }
+
 
   /**
    * draw the game, called at every frame.
@@ -109,6 +115,7 @@ public class Game extends PApplet {
     window.text("" + Game.getScore(), 50, 50);
 
     drawHearts(lives);
+
 
     if (!gameOver && lives > 0) {
       platformManager.checkCollision(player, minDoubleJumpHeight, jumpHeight);
@@ -128,6 +135,20 @@ public class Game extends PApplet {
           restartGame();
         }
       }
+
+      Iterator<Enemy> enemyIterator = enemyManager.getEnemies().iterator();
+      while (enemyIterator.hasNext()) {
+        Enemy enemy = enemyIterator.next();
+        if (enemy.collides(player)) {
+          lives--;
+          if (lives == 0) {
+            endGame();
+          } else {
+            restartGame();
+          }
+          enemyIterator.remove();
+        }
+      }
       platformManager.updateAndDrawPlatforms();
       powerUpManager.updateAndDrawPowerUps();
       platformManager.generatePlatforms();
@@ -135,6 +156,8 @@ public class Game extends PApplet {
       platformManager.checkCollision(player, minDoubleJumpHeight, jumpHeight);
       powerUpManager.checkCollision(player);
       player.draw();
+      enemyManager.draw();
+      enemyManager.update();
     }
   }
 
@@ -186,7 +209,7 @@ public class Game extends PApplet {
    * end the game.
    * called when the player goes above or below the screen limits.
    */
-  public void endGame() {
+  public static void endGame() {
     gameOver = true;
     lives = 3;
   }
@@ -222,6 +245,8 @@ public class Game extends PApplet {
       getPlayer().setVx(player.getVx() - 2);
     } else if (key == RIGHT || key == 'D') {
       getPlayer().setVx(player.getVx() + 2);
+    } else if (key == 81) {
+      getPlayer().shootProjectile();
     }
   }
 
@@ -230,7 +255,7 @@ public class Game extends PApplet {
    *
    * @return player as a Player object
    */
-  public Player getPlayer() {
+  public static Player getPlayer() {
     return player;
   }
 
