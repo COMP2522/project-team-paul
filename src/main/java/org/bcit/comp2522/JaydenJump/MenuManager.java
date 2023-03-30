@@ -2,7 +2,6 @@ package org.bcit.comp2522.JaydenJump;
 
 import processing.core.PApplet;
 import processing.core.PImage;
-
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
@@ -42,9 +41,9 @@ public class MenuManager extends PApplet {
   private PImage playerImg;
 
   /**
-   * Image for the enemies.
+   * Image used to display the PowerUps in the game.
    */
-  private PImage enemyImg;
+  private PImage powerUpImg;
 
   /**
    * Audio file for background music.
@@ -116,9 +115,10 @@ public class MenuManager extends PApplet {
    */
   static boolean sound = true;
 
-  private Boss theBoss;
-
-  private PImage bossImg;
+  /**
+   * Image used to display the enemies in the game.
+   */
+  private PImage enemyImg;
 
 
   /**
@@ -137,9 +137,8 @@ public class MenuManager extends PApplet {
     musicOn   = loadImage("images/music_on.png");
     musicOff  = loadImage("images/music_off.png");
     playerImg = loadImage("images/doodleguy.png");
-    enemyImg = loadImage("./Images/enemy.png");
-    bossImg = loadImage("./Images/Boss.png");
-
+    powerUpImg = loadImage("images/qMarkNoBackground.png");
+    enemyImg = loadImage("images/enemy.png");
     frameRate(60);
     init();
   }
@@ -181,14 +180,15 @@ public class MenuManager extends PApplet {
                                 5,
                                 0.5f);
     enemyManager = new EnemyManager(this, 50f, enemyImg);
-    theBoss = new Boss(150, 10, 5, 0, 150, 150,bossImg, this, player);
     game = new Game(15,
                     2,
+                    1,
                     12,
                     player,
                     6,
                     6,
-                    this, enemyManager, theBoss);
+                    this,
+                    powerUpImg, enemyManager);
   }
 
   /**

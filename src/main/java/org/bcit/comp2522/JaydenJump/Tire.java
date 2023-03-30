@@ -41,8 +41,9 @@ public class Tire extends PowerUp {
               boolean isActive,
               PApplet sketch,
               Player player, PImage image) {
-    super(xpos, ypos, vx, vy, isActive, sketch, player,image);
+    super(xpos, ypos, vx, vy, isActive, sketch, player, image);
     this.boostHeight = boostHeight;
+    image = sketch.loadImage("images/doodle.png");
   }
 
   /**
@@ -61,6 +62,7 @@ public class Tire extends PowerUp {
   public void activate() {
     setActive(true);
     boostPlayer();
+    super.getSketch().text("TIRE BOOST", getSketch().CENTER, getSketch().CENTER);
   }
 
   /**
