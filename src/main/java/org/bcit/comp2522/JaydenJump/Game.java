@@ -43,6 +43,7 @@ public class Game extends PApplet {
    * PowerUp Manager.
    */
   private final PowerUpManager powerUpManager;
+  private final CoinManager coinManager;
 
   /**
    * Window for displaying game.
@@ -60,9 +61,12 @@ public class Game extends PApplet {
   private static int highscore = 0;
 
   /**
-   * The lives of the player.
+   * The lives of the player
    */
   private static int lives = 3;
+
+  private static int maxCoins = 3;
+
 
   /**
    * Image of PowerUp.
@@ -114,17 +118,20 @@ public class Game extends PApplet {
               PImage powerUpImg,
               EnemyManager enemy,
               Boss boss,
+              PImage[] coinImg,
               PImage backgroundImage) {
+
     this.window = window;
     this.jumpHeight = jumpHeight;
     this.minDoubleJumpHeight = minDoubleJumpHeight;
     this.player = player;
     this.platformManager = PlatformManager.getInstance(maxPlatforms, window,
                                                       platformSpeed, platformMoveableSpeed);
-    this.powerUpManager = PowerUpManager.getInstance(maxPowerUps, window, platformSpeed,
-            player, powerUpImg);
+    this.powerUpManager = PowerUpManager.getInstance(maxPowerUps, window, platformSpeed, player, powerUpImg);
+    this.coinManager = CoinManager.getInstance(maxCoins, window, platformSpeed, player, coinImg);
     platformManager.generateStartPlatforms();
     powerUpManager.generateStartPowerUps();
+    coinManager.generateStartCoins();
     this.gameOver = false;
     this.enemyManager = enemy;
     this.boss = boss;
@@ -149,6 +156,7 @@ public class Game extends PApplet {
     if (!gameOver && lives > 0) {
       platformManager.checkCollision(player, minDoubleJumpHeight, jumpHeight);
       powerUpManager.checkCollision(player);
+      coinManager.checkCollision(player);
 
       score++;
       if (score > highscore) {
@@ -199,7 +207,7 @@ public class Game extends PApplet {
         }
       }
 
-      if (score >= 250) {
+      if (score >= 1000) {
         for (Boss boss : boss.getBosses()) {
           boss.update();
           boss.draw();
@@ -209,10 +217,13 @@ public class Game extends PApplet {
 
       platformManager.updateAndDrawPlatforms();
       powerUpManager.updateAndDrawPowerUps();
+      coinManager.updateAndDrawCoins();
       platformManager.generatePlatforms();
       powerUpManager.generatePowerUps();
+      coinManager.generateCoins();
       platformManager.checkCollision(player, minDoubleJumpHeight, jumpHeight);
       powerUpManager.checkCollision(player);
+      coinManager.checkCollision(player);
       player.draw();
       enemyManager.draw();
       enemyManager.update();
@@ -276,8 +287,10 @@ public class Game extends PApplet {
     player.reset(width / 2, 200, 0, 0);
     platformManager.getPlatforms().clear();
     powerUpManager.getPowerups().clear();
+    coinManager.getCoins().clear();
     platformManager.generateStartPlatforms();
-    platformManager.generatePlatforms();
+    powerUpManager.generateStartPowerUps();
+    coinManager.generateStartCoins();
     gameOver = false;
   }
 
@@ -342,6 +355,15 @@ public class Game extends PApplet {
    */
   public static int getScore() {
     return score;
+  }
+
+  /**
+   * Setter for score.
+   *
+   * @return score as an int
+   */
+  public static int increaseScore(int increase) {
+    return score = score + increase;
   }
 
   /**
