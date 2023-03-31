@@ -45,6 +45,8 @@ public class MenuManager extends PApplet {
    */
   private PImage powerUpImg;
 
+  private PImage[] coinImg;
+
   /**
    * Audio file for background music.
    */
@@ -147,6 +149,16 @@ public class MenuManager extends PApplet {
    * Loads images.
    */
   public void setup() {
+    logo      = loadImage("images/logo.png");
+    doodle    = loadImage("images/doodle.png");
+    musicOn   = loadImage("images/music_on.png");
+    musicOff  = loadImage("images/music_off.png");
+    playerImg = loadImage("images/doodleguy.png");
+    powerUpImg = loadImage("images/qMarkNoBackground.png");
+    coinImg = new PImage[6];
+    loadCoinImages(coinImg);
+    enemyImg = loadImage("images/enemy.png");
+    bossImg = loadImage("./Images/Boss.png");
     logo            = loadImage("images/logo.png");
     doodle          = loadImage("images/doodle.png");
     musicOn         = loadImage("images/music_on.png");
@@ -158,6 +170,16 @@ public class MenuManager extends PApplet {
     backgroundImage = loadImage("images/background.png");
     frameRate(60);
     init();
+  }
+
+  public PImage[] loadCoinImages(PImage[] coinImg) {
+    coinImg[0] = loadImage("images/Coin1.png");
+    coinImg[1] = loadImage("images/Coin2.png");
+    coinImg[2] = loadImage("images/Coin3.png");
+    coinImg[3] = loadImage("images/Coin4.png");
+    coinImg[4] = loadImage("images/Coin5.png");
+    coinImg[5] = loadImage("images/Coin6.png");
+    return coinImg;
   }
 
   /**
@@ -209,6 +231,7 @@ public class MenuManager extends PApplet {
                     powerUpImg,
                     enemyManager,
                     theboss,
+                    coinImg,
                     backgroundImage);
   }
 
@@ -268,6 +291,7 @@ public class MenuManager extends PApplet {
       } else {
         clip.loop(Clip.LOOP_CONTINUOUSLY);
         sound = true;
+        Coin.resumeSound();
       }
     }
   }
