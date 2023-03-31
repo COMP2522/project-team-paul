@@ -1,8 +1,10 @@
 package org.bcit.comp2522.JaydenJump;
 
+import java.util.Iterator;
 import processing.core.PApplet;
 import processing.core.PImage;
-import java.util.Iterator;
+import processing.core.PVector;
+
 
 /**
  * Game class.
@@ -78,6 +80,21 @@ public class Game extends PApplet {
   private Boss boss;
 
   /**
+   * the background image.
+   */
+  private PImage backgroundImage;
+
+  /**
+   * the position of the background image.
+   */
+  private PVector backgroundPos;
+
+  /**
+   * the speed of the background.
+   */
+  private int scrollSpeed;
+
+  /**
    * the constructor for the game class.
    *
    * @param jumpHeight the height of the jump
@@ -94,8 +111,10 @@ public class Game extends PApplet {
               int platformSpeed,
               int platformMoveableSpeed,
               MenuManager window,
-              PImage powerUpImg, EnemyManager enemy, Boss boss
-              ) {
+              PImage powerUpImg,
+              EnemyManager enemy,
+              Boss boss,
+              PImage backgroundImage) {
     this.window = window;
     this.jumpHeight = jumpHeight;
     this.minDoubleJumpHeight = minDoubleJumpHeight;
@@ -109,6 +128,9 @@ public class Game extends PApplet {
     this.gameOver = false;
     this.enemyManager = enemy;
     this.boss = boss;
+    this.backgroundImage = backgroundImage;
+    this.backgroundPos = new PVector(0, 0);
+    this.scrollSpeed = 1;
   }
 
 
@@ -116,10 +138,10 @@ public class Game extends PApplet {
    * draw the game, called at every frame.
    */
   public void draw() {
-    window.background(255);
+    drawBackground();
     window.textSize(30);
     window.fill(0);
-    window.text("" + Game.getScore(), 50, 50);
+    window.text("Score: " + Game.getScore(), 50, 50);
 
     drawHearts(lives);
 
@@ -177,7 +199,7 @@ public class Game extends PApplet {
         }
       }
 
-      if (score >= 2000) {
+      if (score >= 250) {
         for (Boss boss : boss.getBosses()) {
           boss.update();
           boss.draw();
@@ -195,6 +217,23 @@ public class Game extends PApplet {
       enemyManager.draw();
       enemyManager.update();
 
+    }
+  }
+
+  /**
+   * making the background scroll.
+   */
+  public void drawBackground() {
+    backgroundPos.y += scrollSpeed;
+    backgroundPos.x = 0;
+
+    int offsetX = (int) (backgroundPos.x % backgroundImage.width - backgroundImage.width);
+    int offsetY = (int) (backgroundPos.y % backgroundImage.height - backgroundImage.height);
+
+    for (int x = offsetX; x < window.width; x += backgroundImage.width) {
+      for (int y = offsetY; y < window.height; y += backgroundImage.height) {
+        window.image(backgroundImage, x, y);
+      }
     }
   }
 
