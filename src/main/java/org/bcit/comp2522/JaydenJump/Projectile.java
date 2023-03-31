@@ -1,9 +1,7 @@
 package org.bcit.comp2522.JaydenJump;
 
 import processing.core.PApplet;
-
 import java.awt.*;
-
 
 
 /**
@@ -94,4 +92,5 @@ public class Projectile extends Sprite {
   public void setHasHit(boolean hasHit) {
     this.hasHit = hasHit;
   }
+
 }

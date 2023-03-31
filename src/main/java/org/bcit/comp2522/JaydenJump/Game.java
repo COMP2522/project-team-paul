@@ -58,12 +58,12 @@ public class Game extends PApplet {
   private static int highscore = 0;
 
   /**
-   * The lives of the player
+   * The lives of the player.
    */
   private static int lives = 3;
 
   /**
-   * Image of PowerUp
+   * Image of PowerUp.
    */
   private PImage powerUpImg;
 
@@ -102,7 +102,8 @@ public class Game extends PApplet {
     this.player = player;
     this.platformManager = PlatformManager.getInstance(maxPlatforms, window,
                                                       platformSpeed, platformMoveableSpeed);
-    this.powerUpManager = PowerUpManager.getInstance(maxPowerUps, window, platformSpeed, player, powerUpImg);
+    this.powerUpManager = PowerUpManager.getInstance(maxPowerUps, window, platformSpeed,
+            player, powerUpImg);
     platformManager.generateStartPlatforms();
     powerUpManager.generateStartPowerUps();
     this.gameOver = false;
@@ -136,6 +137,7 @@ public class Game extends PApplet {
       if (player.getYpos() >= window.height - player.getImgSize() / 2) {
         lives--;
         if (lives == 0) {
+          bossReset();
           endGame();
         } else {
           restartGame();
@@ -148,6 +150,7 @@ public class Game extends PApplet {
         if (enemy.collides(player)) {
           lives--;
           if (lives == 0) {
+            bossReset();
             endGame();
           } else {
             restartGame();
@@ -156,24 +159,25 @@ public class Game extends PApplet {
         }
       }
 
-      if(boss.collides(player)){
+      if (boss.collides(player)) {
         lives--;
-        if(lives == 0){
+        if (lives == 0) {
+          bossReset();
           endGame();
         } else {
           restartGame();
         }
       }
 
-      if(boss.collides(player.getProjectile())){
+      if (boss.collides(player.getProjectile())) {
         boss.setHealth(boss.getHealth() - player.getProjectile().getDamage());
         player.setShooting(false);
-        if(boss.getHealth() == 0){
-          boss.getBosses().remove(boss);
+        if (boss.getHealth() == 0) {
+          boss.getBosses().clear();
         }
       }
 
-      if(score >= 10) {
+      if (score >= 2000) {
         for (Boss boss : boss.getBosses()) {
           boss.update();
           boss.draw();
@@ -326,5 +330,16 @@ public class Game extends PApplet {
    */
   public static void setLives(int lives) {
     Game.lives = lives;
+  }
+
+  /**
+   * Reset the boss after the player dies.
+   */
+  public void bossReset() {
+    if (boss.getBosses().isEmpty()) {
+      boss = new Boss(170, 10, 5, 0, 150, 150, MenuManager.getBossImg(), boss.getSketch(),
+              player, 5);
+      boss.getBosses().add(boss);
+    }
   }
 }

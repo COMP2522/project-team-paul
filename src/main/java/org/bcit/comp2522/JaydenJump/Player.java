@@ -189,10 +189,12 @@ public class Player extends Sprite {
       return horizontallyOverlapping && verticallyOverlapping && abovePlatform;
     } else if (o instanceof Projectile) {
       Projectile projectile = (Projectile) o;
-      if(!projectile.isHasHit()) {
+      if (!projectile.isHasHit()) {
         projectile.setHasHit(true);
-        return (getXpos() + imgSize >= projectile.getXpos() && getXpos() <= projectile.getXpos() + 10)
-                && getYpos() + imgSize >= projectile.getYpos() && getYpos() <= projectile.getYpos() + 10;
+        return (getXpos() + imgSize >= projectile.getXpos() && getXpos()
+                <= projectile.getXpos() + 10)
+                && getYpos() + imgSize >= projectile.getYpos() && getYpos()
+                <= projectile.getYpos() + 10;
       }
     }
     return false;

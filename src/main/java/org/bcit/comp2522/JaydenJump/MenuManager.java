@@ -128,7 +128,7 @@ public class MenuManager extends PApplet {
   /**
    * the image for the boss.
    */
-  private PImage bossImg;
+  private static PImage bossImg;
 
 
   /**
@@ -418,6 +418,10 @@ public class MenuManager extends PApplet {
    */
   public static void setCurrentScreen(int currentScreen) {
     MenuManager.currentScreen = currentScreen;
+  }
+
+  public static PImage getBossImg() {
+    return bossImg;
   }
 
   /**
