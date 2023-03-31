@@ -130,6 +130,11 @@ public class MenuManager extends PApplet {
    */
   private static PImage bossImg;
 
+  /**
+   * the background image of the game.
+   */
+  private static PImage backgroundImage;
+
 
   /**
    * Sets up initial size of game window.
@@ -142,14 +147,15 @@ public class MenuManager extends PApplet {
    * Loads images.
    */
   public void setup() {
-    logo      = loadImage("images/logo.png");
-    doodle    = loadImage("images/doodle.png");
-    musicOn   = loadImage("images/music_on.png");
-    musicOff  = loadImage("images/music_off.png");
-    playerImg = loadImage("images/doodleguy.png");
-    powerUpImg = loadImage("images/qMarkNoBackground.png");
-    enemyImg = loadImage("images/enemy.png");
-    bossImg = loadImage("./Images/Boss.png");
+    logo            = loadImage("images/logo.png");
+    doodle          = loadImage("images/doodle.png");
+    musicOn         = loadImage("images/music_on.png");
+    musicOff        = loadImage("images/music_off.png");
+    playerImg       = loadImage("images/doodleguy.png");
+    powerUpImg      = loadImage("images/qMarkNoBackground.png");
+    enemyImg        = loadImage("images/enemy.png");
+    bossImg         = loadImage("./Images/Boss.png");
+    backgroundImage = loadImage("images/background.png");
     frameRate(60);
     init();
   }
@@ -197,10 +203,13 @@ public class MenuManager extends PApplet {
                     1,
                     12,
                     player,
-                    6,
+                    4,
                     6,
                     this,
-                    powerUpImg, enemyManager, theboss);
+                    powerUpImg,
+                    enemyManager,
+                    theboss,
+                    backgroundImage);
   }
 
   /**
