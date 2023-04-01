@@ -118,7 +118,7 @@ public class Game extends PApplet {
     this.platformManager = PlatformManager.getInstance(10, window, 5, 5, 10, 15, player);
     this.powerUpManager = PowerUpManager.getInstance(5, window, 5, player, powerUpImage);
     this.coinManager = CoinManager.getInstance(3, window, 5, player, coinImages);
-    this.enemyManager = new EnemyManager(window, 0.121f, enemyImage);
+    this.enemyManager = new EnemyManager(window, 0.51f, enemyImage);
   }
 
   private void initializeLevel2(PImage[] coinImages, PImage powerUpImage,  PImage enemyImage) {
@@ -126,7 +126,7 @@ public class Game extends PApplet {
     this.platformManager = PlatformManager.getInstance(10, window, 5, 5, 10, 15, player);
     this.powerUpManager = PowerUpManager.getInstance(5, window, 5, player, powerUpImage);
     this.coinManager = CoinManager.getInstance(3, window, 5, player, coinImages);
-    this.enemyManager = new EnemyManager(window, 0.1f, enemyImage);
+    this.enemyManager = new EnemyManager(window, 0.5f, enemyImage);
   }
 
   private void initializeLevel3(PImage[] coinImages, PImage powerUpImage,  PImage enemyImage) {
@@ -134,7 +134,7 @@ public class Game extends PApplet {
     this.platformManager = PlatformManager.getInstance(10, window, 5, 5, 10, 15, player);
     this.powerUpManager = PowerUpManager.getInstance(5, window, 5, player, powerUpImage);
     this.coinManager = CoinManager.getInstance(3, window, 5, player, coinImages);
-    this.enemyManager = new EnemyManager(window, 0.1f, enemyImage);
+    this.enemyManager = new EnemyManager(window, 0.5f, enemyImage);
   }
 
 
@@ -165,6 +165,7 @@ public class Game extends PApplet {
         lives--;
         if (lives == 0) {
 //          bossReset();
+          player.stopShooting();
           endGame();
         } else {
           restartGame();
@@ -178,6 +179,7 @@ public class Game extends PApplet {
           lives--;
           if (lives == 0) {
 //            bossReset();
+            player.stopShooting();
             endGame();
           } else {
             restartGame();
