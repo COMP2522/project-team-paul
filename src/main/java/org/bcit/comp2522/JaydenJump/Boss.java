@@ -38,10 +38,6 @@ public class Boss extends Sprite {
    */
   private Player player;
 
-  /**
-   * array list of bosses for new games.
-   */
-  private ArrayList<Boss> bosses = new ArrayList<>();
 
   /**
    * boolean to see which direction boss is moving.
@@ -96,7 +92,6 @@ public class Boss extends Sprite {
     this.height = height;
     this.player = player;
     this.movingRight = true;
-    bosses.add(this);
     this.health = health;
     this.projectile = new Projectile(getXpos(), getYpos(), 0, 20, 1, player);
   }
@@ -114,6 +109,7 @@ public class Boss extends Sprite {
    * update method for the boss.
    */
   public void update() {
+
     if (movingRight) {
       setXpos(getXpos() + getVx());
     } else {
@@ -135,7 +131,7 @@ public class Boss extends Sprite {
       Projectile projectile = iterator.next();
       projectile.draw();
       projectile.update();
-      if (player.collides(projectile)) {
+      if (projectile.collides(player)) {
         Game.setLives(Game.getLives() - 1);
         if (Game.getLives() == 0) {
           Game.endGame();
@@ -147,21 +143,6 @@ public class Boss extends Sprite {
       }
     }
 
-    for (Iterator<Projectile> iterator = projectiles.iterator(); iterator.hasNext(); ) {
-      Projectile projectile = iterator.next();
-      projectile.draw();
-      projectile.update();
-      if (player.collides(projectile)) {
-        Game.setLives(Game.getLives() - 1);
-        if (Game.getLives() == 0) {
-          Game.endGame();
-        }
-        if (projectile.getYpos() > sketch.height || projectile.collides(player)) {
-          iterator.remove();
-          projectileCounter--;
-        }
-      }
-    }
   }
 
 
@@ -191,14 +172,6 @@ public class Boss extends Sprite {
     return false;
   }
 
-  /**
-   * getter for the boss arraylist.
-   *
-   * @return the boss array list
-   */
-  public ArrayList<Boss> getBosses() {
-    return bosses;
-  }
 
   /**
    * getter for the boss health.

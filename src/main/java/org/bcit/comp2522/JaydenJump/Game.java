@@ -1,5 +1,6 @@
 package org.bcit.comp2522.JaydenJump;
 
+import java.awt.*;
 import java.util.Iterator;
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -55,7 +56,7 @@ public class Game extends PApplet {
   private static int highscore = 0;
 
   /**
-   * The lives of the player
+   * The lives of the player.
    */
   private static int lives = 3;
 
@@ -65,9 +66,9 @@ public class Game extends PApplet {
   private EnemyManager enemyManager;
 
   /**
-   * the boss.
+   * the boss manager.
    */
-  private Boss boss;
+  private BossManager bossManager;
 
   /**
    * the background image.
@@ -86,6 +87,7 @@ public class Game extends PApplet {
 
   /**
    * the level of the game.
+   *
    * @param level the level of the game
    * @param window the window for the game
    * @param powerUpImage the image for the power up
@@ -100,7 +102,8 @@ public class Game extends PApplet {
     this.window = window;
     this.backgroundImage = backgroundImage;
     this.backgroundPos = new PVector(0, 0);
-    this.player = Player.getInstance(window.width / 2,0f, 0f,0f,window, playerImage, 80, 5f, 0.5f);
+    this.player = Player.getInstance(window.width / 2, 0f, 0f, 0f, window,
+            playerImage, 80, 5f, 0.5f);
 
     switch (level) {
       case 1 -> initializeLevel1(coinImages, powerUpImage, enemyImage);
@@ -118,7 +121,8 @@ public class Game extends PApplet {
     this.platformManager = PlatformManager.getInstance(10, window, 5, 5, 10, 15, player);
     this.powerUpManager = PowerUpManager.getInstance(5, window, 5, player, powerUpImage);
     this.coinManager = CoinManager.getInstance(3, window, 5, player, coinImages);
-    this.enemyManager = new EnemyManager(window, 0.51f, enemyImage);
+    this.enemyManager = new EnemyManager(window, 0.121f, enemyImage);
+    this.bossManager = new BossManager(MenuManager.getBossImg(), 150, 150, window, player, 1);
   }
 
   private void initializeLevel2(PImage[] coinImages, PImage powerUpImage,  PImage enemyImage) {
@@ -126,7 +130,8 @@ public class Game extends PApplet {
     this.platformManager = PlatformManager.getInstance(10, window, 5, 5, 10, 15, player);
     this.powerUpManager = PowerUpManager.getInstance(5, window, 5, player, powerUpImage);
     this.coinManager = CoinManager.getInstance(3, window, 5, player, coinImages);
-    this.enemyManager = new EnemyManager(window, 0.5f, enemyImage);
+    this.enemyManager = new EnemyManager(window, 0.1f, enemyImage);
+    this.bossManager = new BossManager(MenuManager.getBossImg(), 150, 150, window, player, 1);
   }
 
   private void initializeLevel3(PImage[] coinImages, PImage powerUpImage,  PImage enemyImage) {
@@ -134,7 +139,8 @@ public class Game extends PApplet {
     this.platformManager = PlatformManager.getInstance(10, window, 5, 5, 10, 15, player);
     this.powerUpManager = PowerUpManager.getInstance(5, window, 5, player, powerUpImage);
     this.coinManager = CoinManager.getInstance(3, window, 5, player, coinImages);
-    this.enemyManager = new EnemyManager(window, 0.5f, enemyImage);
+    this.enemyManager = new EnemyManager(window, 0.1f, enemyImage);
+    this.bossManager = new BossManager(MenuManager.getBossImg(), 150, 150, window, player, 1);
   }
 
 
@@ -164,8 +170,7 @@ public class Game extends PApplet {
       if (player.getYpos() >= window.height - player.getImgSize() / 2) {
         lives--;
         if (lives == 0) {
-//          bossReset();
-          player.stopShooting();
+          bossManager.setIsAlive(false);
           endGame();
         } else {
           restartGame();
@@ -178,8 +183,7 @@ public class Game extends PApplet {
         if (enemy.collides(player)) {
           lives--;
           if (lives == 0) {
-//            bossReset();
-            player.stopShooting();
+            bossManager.setIsAlive(false);
             endGame();
           } else {
             restartGame();
@@ -187,32 +191,6 @@ public class Game extends PApplet {
           enemyIterator.remove();
         }
       }
-//
-//      if (boss.collides(player)) {
-//        lives--;
-//        if (lives == 0) {
-//          bossReset();
-//          endGame();
-//        } else {
-//          restartGame();
-//        }
-//      }
-//
-//      if (boss.collides(player.getProjectile())) {
-//        boss.setHealth(boss.getHealth() - player.getProjectile().getDamage());
-//        player.setShooting(false);
-//        if (boss.getHealth() == 0) {
-//          boss.getBosses().clear();
-//        }
-//      }
-//
-//      if (score >= 1000) {
-//        for (Boss boss : boss.getBosses()) {
-//          boss.update();
-//          boss.draw();
-//        }
-//      }
-
 
       platformManager.updateAndDrawPlatforms();
       powerUpManager.updateAndDrawPowerUps();
@@ -229,6 +207,10 @@ public class Game extends PApplet {
       enemyManager.update();
       enemyManager.draw();
 
+      if (score >= 2000) {
+        bossManager.draw();
+        bossManager.update();
+      }
 
     }
   }
@@ -395,14 +377,6 @@ public class Game extends PApplet {
     Game.lives = lives;
   }
 
-  /**
-   * Reset the boss after the player dies.
-   */
-  public void bossReset() {
-    if (boss.getBosses().isEmpty()) {
-      boss = new Boss(170, 10, 5, 0, 150, 150, MenuManager.getBossImg(), boss.getSketch(),
-              player, 5);
-      boss.getBosses().add(boss);
-    }
-  }
+
 }
+
