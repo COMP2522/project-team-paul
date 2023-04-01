@@ -149,23 +149,16 @@ public class MenuManager extends PApplet {
    * Loads images.
    */
   public void setup() {
-    logo      = loadImage("images/logo.png");
-    doodle    = loadImage("images/doodle.png");
-    musicOn   = loadImage("images/music_on.png");
-    musicOff  = loadImage("images/music_off.png");
-    playerImg = loadImage("images/doodleguy.png");
-    powerUpImg = loadImage("images/qMarkNoBackground.png");
-    coinImg = new PImage[6];
-    loadCoinImages(coinImg);
-    enemyImg = loadImage("images/enemy.png");
-    bossImg = loadImage("./Images/Boss.png");
     logo            = loadImage("images/logo.png");
     doodle          = loadImage("images/doodle.png");
     musicOn         = loadImage("images/music_on.png");
     musicOff        = loadImage("images/music_off.png");
     playerImg       = loadImage("images/doodleguy.png");
     powerUpImg      = loadImage("images/qMarkNoBackground.png");
+    coinImg         = new PImage[6];
+    loadCoinImages(coinImg);
     enemyImg        = loadImage("images/enemy.png");
+    bossImg         = loadImage("./Images/Boss.png");
     bossImg         = loadImage("./Images/Boss.png");
     backgroundImage = loadImage("images/background.png");
     frameRate(60);
@@ -201,38 +194,15 @@ public class MenuManager extends PApplet {
     } catch (LineUnavailableException e) {
       throw new RuntimeException(e);
     }
-
     mainMenu         = new MainMenu();
     gameSettings     = new GameSettings();
     deathMenu        = new DeathMenu();
     musicMenu        = new MusicMenu();
     leaderboardsMenu = new LeaderboardsMenu();
     pauseMenu        = new PauseMenu();
-
-    player = Player.getInstance(width / 2,
-                                0,
-                                0,
-                                0,
-                                this,
-                                playerImg,
-                                80,
-                                5,
-                                0.5f);
-    enemyManager = new EnemyManager(this, 50f, enemyImg);
-    theboss = new Boss(170, 10, 5, 0, 150, 150, bossImg, this, player, 5);
-    game = new Game(15,
-                    2,
-                    1,
-                    12,
-                    player,
-                    4,
-                    6,
-                    this,
-                    powerUpImg,
-                    enemyManager,
-                    theboss,
-                    coinImg,
-                    backgroundImage);
+    game             = new Game(1, this,
+                            powerUpImg, backgroundImage,
+                              enemyImg, playerImg, coinImg);
   }
 
   /**

@@ -20,17 +20,28 @@ public class PlatformManager {
   private final PApplet sketch;
   private int platformSpeed;
 
+  private final int playerJumpHeight;
+
   private final int movableSpeed;
   private static final Color green = new Color(0, 255, 0);
   private static final Color red = new Color(255, 0, 0);
   private static final int startingPlatforms = 6;
 
-  private PlatformManager(int maxPlatforms, PApplet sketch, int platformSpeed, int movableSpeed) {
+  private Player player;
+
+  private int jumpThroughHeight;
+
+  private PlatformManager(int maxPlatforms, PApplet sketch,
+                          int platformSpeed, int movableSpeed,
+                           int jumpThroughHeight, int playerJumpHeight, Player player) {
     this.maxPlatforms = maxPlatforms;
     this.sketch = sketch;
     this.platformSpeed = platformSpeed;
     platforms = new ArrayList<>();
     this.movableSpeed = movableSpeed;
+    this.jumpThroughHeight = jumpThroughHeight;
+    this.playerJumpHeight = playerJumpHeight;
+    this.player = player;
   }
 
   /**
@@ -38,7 +49,7 @@ public class PlatformManager {
    *
    * @param maxPlatforms the maximum number of platforms
    *
-   * @param parent the parent sketch
+   * @param window the parent sketch
    *
    * @param platformSpeed the speed of the platforms
    *
@@ -46,10 +57,12 @@ public class PlatformManager {
    *
    * @return the instance of the platform manager
    */
-  public static PlatformManager getInstance(int maxPlatforms, PApplet parent,
-                                            int platformSpeed, int moveableSpeed) {
+  public static PlatformManager getInstance(int maxPlatforms, PApplet window,
+                                            int platformSpeed, int moveableSpeed,
+                                            int jumpThroughHeight, int playerJumpHeight, Player player) {
     if (instance == null) {
-      instance = new PlatformManager(maxPlatforms, parent, platformSpeed, moveableSpeed);
+      instance = new PlatformManager(maxPlatforms, window, platformSpeed,
+              moveableSpeed, jumpThroughHeight, playerJumpHeight, player);
     }
     return instance;
   }
@@ -151,22 +164,16 @@ public class PlatformManager {
    * Checks for collisions between the player and the platforms.
    * If the player collides with a breakable platform, it is removed.
    * If the player collides with a platform, the player's y velocity is set to -jumpHeight.
-   *
-   * @param player the player
-   *
-   * @param minDoubleJumpHeight the minimum height for double jumping
-   *
-   * @param jumpHeight the height of the jump
    */
-  public void checkCollision(Player player, int minDoubleJumpHeight, int jumpHeight) {
+  public void checkCollision() {
     Iterator<Platform> platformIterator = platforms.iterator();
     while (platformIterator.hasNext()) {
       Platform platform = platformIterator.next();
-      if (player.collides(platform) && player.getVy() > minDoubleJumpHeight) {
+      if (this.player.collides(platform) && this.player.getVy() > jumpThroughHeight) {
         if (platform.isBreakable()) {
           platformIterator.remove();
         }
-        player.setVy(-jumpHeight);
+        player.setVy(-playerJumpHeight);
         break;
       }
     }
