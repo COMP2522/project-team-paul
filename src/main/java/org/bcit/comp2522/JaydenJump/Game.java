@@ -20,16 +20,6 @@ public class Game extends PApplet {
   private static Player player;
 
   /**
-   * the height of the jump.
-   */
-  private final int jumpHeight;
-
-  /**
-   * the minimum height of the double jump.
-   */
-  private final int minDoubleJumpHeight;
-
-  /**
    * Flag for indicating if game is over.
    */
   static boolean gameOver;
@@ -37,13 +27,17 @@ public class Game extends PApplet {
   /**
    * Platform manager.
    */
-  private final PlatformManager platformManager;
+  private PlatformManager platformManager;
 
   /**
    * PowerUp Manager.
    */
-  private final PowerUpManager powerUpManager;
-  private final CoinManager coinManager;
+  private PowerUpManager powerUpManager;
+
+  /**
+   * Coin Manager.
+   */
+  private CoinManager coinManager;
 
   /**
    * Window for displaying game.
@@ -65,14 +59,6 @@ public class Game extends PApplet {
    */
   private static int lives = 3;
 
-  private static int maxCoins = 3;
-
-
-  /**
-   * Image of PowerUp.
-   */
-  private PImage powerUpImg;
-
   /**
    * Manager for the enemies.
    */
@@ -86,12 +72,12 @@ public class Game extends PApplet {
   /**
    * the background image.
    */
-  private PImage backgroundImage;
+  private final PImage backgroundImage;
 
   /**
    * the position of the background image.
    */
-  private PVector backgroundPos;
+  private final PVector backgroundPos;
 
   /**
    * the speed of the background.
@@ -99,45 +85,56 @@ public class Game extends PApplet {
   private int scrollSpeed;
 
   /**
-   * the constructor for the game class.
-   *
-   * @param jumpHeight the height of the jump
-   *
-   * @param minDoubleJumpHeight the minimum height of the double jump
-   *
-   * @param maxPlatforms the maximum number of platforms that can be on the screen at once
+   * the level of the game.
+   * @param level the level of the game
+   * @param window the window for the game
+   * @param powerUpImage the image for the power up
+   * @param backgroundImage the image for the background
+   * @param enemyImage the image for the enemy
+   * @param playerImage the image for the player
+   * @param coinImages the images for the coins
    */
-  public Game(int jumpHeight,
-              int minDoubleJumpHeight,
-              int maxPowerUps,
-              int maxPlatforms,
-              Player player,
-              int platformSpeed,
-              int platformMoveableSpeed,
-              MenuManager window,
-              PImage powerUpImg,
-              EnemyManager enemy,
-              Boss boss,
-              PImage[] coinImg,
-              PImage backgroundImage) {
-
+  public Game(int level, MenuManager window,
+              PImage powerUpImage, PImage backgroundImage, PImage enemyImage,
+              PImage playerImage, PImage[] coinImages) {
     this.window = window;
-    this.jumpHeight = jumpHeight;
-    this.minDoubleJumpHeight = minDoubleJumpHeight;
-    this.player = player;
-    this.platformManager = PlatformManager.getInstance(maxPlatforms, window,
-                                                      platformSpeed, platformMoveableSpeed);
-    this.powerUpManager = PowerUpManager.getInstance(maxPowerUps, window, platformSpeed, player, powerUpImg);
-    this.coinManager = CoinManager.getInstance(maxCoins, window, platformSpeed, player, coinImg);
+    this.backgroundImage = backgroundImage;
+    this.backgroundPos = new PVector(0, 0);
+    this.player = Player.getInstance(window.width / 2,0f, 0f,0f,window, playerImage, 80, 5f, 0.5f);
+
+    switch (level) {
+      case 1 -> initializeLevel1(coinImages, powerUpImage, enemyImage);
+      case 2 -> initializeLevel2(coinImages, powerUpImage, enemyImage);
+      case 3 -> initializeLevel3(coinImages, powerUpImage, enemyImage);
+    }
     platformManager.generateStartPlatforms();
     powerUpManager.generateStartPowerUps();
     coinManager.generateStartCoins();
-    this.gameOver = false;
-    this.enemyManager = enemy;
-    this.boss = boss;
-    this.backgroundImage = backgroundImage;
-    this.backgroundPos = new PVector(0, 0);
-    this.scrollSpeed = 1;
+    gameOver = false;
+  }
+
+  private void initializeLevel1(PImage[] coinImages, PImage powerUpImage, PImage enemyImage) {
+    this.scrollSpeed = 4;
+    this.platformManager = PlatformManager.getInstance(10, window, 5, 5, 10, 15, player);
+    this.powerUpManager = PowerUpManager.getInstance(5, window, 5, player, powerUpImage);
+    this.coinManager = CoinManager.getInstance(3, window, 5, player, coinImages);
+    this.enemyManager = new EnemyManager(window, 0.121f, enemyImage);
+  }
+
+  private void initializeLevel2(PImage[] coinImages, PImage powerUpImage,  PImage enemyImage) {
+    this.scrollSpeed = 8;
+    this.platformManager = PlatformManager.getInstance(10, window, 5, 5, 10, 15, player);
+    this.powerUpManager = PowerUpManager.getInstance(5, window, 5, player, powerUpImage);
+    this.coinManager = CoinManager.getInstance(3, window, 5, player, coinImages);
+    this.enemyManager = new EnemyManager(window, 0.1f, enemyImage);
+  }
+
+  private void initializeLevel3(PImage[] coinImages, PImage powerUpImage,  PImage enemyImage) {
+    this.scrollSpeed = 12;
+    this.platformManager = PlatformManager.getInstance(10, window, 5, 5, 10, 15, player);
+    this.powerUpManager = PowerUpManager.getInstance(5, window, 5, player, powerUpImage);
+    this.coinManager = CoinManager.getInstance(3, window, 5, player, coinImages);
+    this.enemyManager = new EnemyManager(window, 0.1f, enemyImage);
   }
 
 
@@ -154,7 +151,7 @@ public class Game extends PApplet {
 
 
     if (!gameOver && lives > 0) {
-      platformManager.checkCollision(player, minDoubleJumpHeight, jumpHeight);
+      platformManager.checkCollision();
       powerUpManager.checkCollision(player);
       coinManager.checkCollision(player);
 
@@ -167,7 +164,7 @@ public class Game extends PApplet {
       if (player.getYpos() >= window.height - player.getImgSize() / 2) {
         lives--;
         if (lives == 0) {
-          bossReset();
+//          bossReset();
           endGame();
         } else {
           restartGame();
@@ -180,7 +177,7 @@ public class Game extends PApplet {
         if (enemy.collides(player)) {
           lives--;
           if (lives == 0) {
-            bossReset();
+//            bossReset();
             endGame();
           } else {
             restartGame();
@@ -188,31 +185,31 @@ public class Game extends PApplet {
           enemyIterator.remove();
         }
       }
-
-      if (boss.collides(player)) {
-        lives--;
-        if (lives == 0) {
-          bossReset();
-          endGame();
-        } else {
-          restartGame();
-        }
-      }
-
-      if (boss.collides(player.getProjectile())) {
-        boss.setHealth(boss.getHealth() - player.getProjectile().getDamage());
-        player.setShooting(false);
-        if (boss.getHealth() == 0) {
-          boss.getBosses().clear();
-        }
-      }
-
-      if (score >= 1000) {
-        for (Boss boss : boss.getBosses()) {
-          boss.update();
-          boss.draw();
-        }
-      }
+//
+//      if (boss.collides(player)) {
+//        lives--;
+//        if (lives == 0) {
+//          bossReset();
+//          endGame();
+//        } else {
+//          restartGame();
+//        }
+//      }
+//
+//      if (boss.collides(player.getProjectile())) {
+//        boss.setHealth(boss.getHealth() - player.getProjectile().getDamage());
+//        player.setShooting(false);
+//        if (boss.getHealth() == 0) {
+//          boss.getBosses().clear();
+//        }
+//      }
+//
+//      if (score >= 1000) {
+//        for (Boss boss : boss.getBosses()) {
+//          boss.update();
+//          boss.draw();
+//        }
+//      }
 
 
       platformManager.updateAndDrawPlatforms();
@@ -221,12 +218,15 @@ public class Game extends PApplet {
       platformManager.generatePlatforms();
       powerUpManager.generatePowerUps();
       coinManager.generateCoins();
-      platformManager.checkCollision(player, minDoubleJumpHeight, jumpHeight);
+      platformManager.checkCollision();
       powerUpManager.checkCollision(player);
       coinManager.checkCollision(player);
       player.draw();
-      enemyManager.draw();
+
+
       enemyManager.update();
+      enemyManager.draw();
+
 
     }
   }
