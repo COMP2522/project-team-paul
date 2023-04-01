@@ -90,8 +90,8 @@ public class EnemyManager {
    * Method to spawn enemies.
    */
   private void spawnEnemy() {
-    int width = 50;
-    int height = 50;
+    int width = 60;
+    int height = 60;
     int health = 1;
     int speed = 5;
 

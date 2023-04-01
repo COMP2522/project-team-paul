@@ -25,6 +25,16 @@ public class Projectile extends Sprite {
   private boolean hasHit;
 
   /**
+   * the projectile height.
+   */
+  private int height;
+
+  /**
+   * the projectile width.
+   */
+  private int width;
+
+  /**
    * Constructor for the projectile class.
    *
    * @param xpos the x position of the projectile
@@ -39,6 +49,8 @@ public class Projectile extends Sprite {
     this.color = color;
     this.player = player;
     hasHit = false;
+    this.height = 20;
+    this.width = 20;
   }
 
   /**
@@ -46,7 +58,7 @@ public class Projectile extends Sprite {
    */
   public void draw() {
     player.getSketch().fill(color.getRGB());
-    player.getSketch().ellipse(getXpos(), getYpos(), 10, 10);
+    player.getSketch().ellipse(getXpos(), getYpos(), height, width);
   }
 
   /**
@@ -85,12 +97,39 @@ public class Projectile extends Sprite {
     return damage;
   }
 
+  /**
+   * getter to see if projectile has hit something.
+   *
+   * @return if it has hit or not
+   */
   public boolean isHasHit() {
     return hasHit;
   }
 
+  /**
+   * setter to if the projectile has hit or not.
+   *
+   * @param hasHit the value you want to set hit too
+   */
   public void setHasHit(boolean hasHit) {
     this.hasHit = hasHit;
   }
 
+  /**
+   * getter for the height of the projectile.
+   *
+   * @return the height of the projectile
+   */
+  public int getHeight() {
+    return height;
+  }
+
+  /**
+   * getter for the width of the projectile.
+   *
+   * @return the width of the projectile
+   */
+  public int getWidth() {
+    return width;
+  }
 }

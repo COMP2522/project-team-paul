@@ -192,9 +192,9 @@ public class Player extends Sprite {
       if (!projectile.isHasHit()) {
         projectile.setHasHit(true);
         return (getXpos() + imgSize >= projectile.getXpos() && getXpos()
-                <= projectile.getXpos() + 10)
+                <= projectile.getXpos() + projectile.getHeight())
                 && getYpos() + imgSize >= projectile.getYpos() && getYpos()
-                <= projectile.getYpos() + 10;
+                <= projectile.getYpos() + projectile.getWidth();
       }
     }
     return false;
