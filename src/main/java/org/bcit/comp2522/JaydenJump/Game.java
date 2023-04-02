@@ -87,11 +87,6 @@ public class Game extends PApplet {
   private int scrollSpeed;
 
   /**
-   *
-   */
-  private Level level;
-
-  /**
    * the level of the game.
    *
    * @param level the level of the game
