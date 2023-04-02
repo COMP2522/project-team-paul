@@ -375,6 +375,22 @@ public class Game extends PApplet {
     Game.lives = lives;
   }
 
+  /**
+   * Gets the current scroll speed of the game.
+   *
+   * @return ScrollSpeed
+   */
+  public int getScrollSpeed() {
+    return scrollSpeed;
+  }
 
+  /**
+   * Sets the scroll speed of the game.
+   *
+   * @param scrollSpeed to set
+   */
+  public void setScrollSpeed(int scrollSpeed) {
+    this.scrollSpeed = scrollSpeed;
+  }
 }
 
