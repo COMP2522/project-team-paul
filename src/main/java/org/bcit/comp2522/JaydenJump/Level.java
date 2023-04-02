@@ -133,6 +133,31 @@ public class Level {
 
   /**
    * Level Constructor.
+   * Reads the level details from a json file and sets the level details.
+   *
+   * playerSpeed : float
+   * gravity : float
+   * scrollSpeed : int
+   * maxPlatform : int
+   * platformSpeed : int
+   * moveableSpeed : int
+   * jumpThroughHeight : int
+   * playerJumpHeight : int
+   * maxPowerUps : int
+   * powerUpSpeed : int
+   * maxCoins : int
+   * coinSpeed : int
+   * spawnRate : float
+   * maxBosses : int
+   *
+   * @param lvl
+   */
+  public Level(int lvl) {
+
+  }
+
+  /**
+   * Level Constructor.
    * Creates the level based on the level details.
    * TODO: loadLevel method that calls the constructor? details from json
    *

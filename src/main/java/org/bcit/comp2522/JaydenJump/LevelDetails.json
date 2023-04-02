@@ -1,0 +1,55 @@
+{
+  "levels": [
+    {
+      "level": 1,
+      "playerSpeed": 5.0,
+      "gravity": 0.5,
+      "scrollSpeed": 4,
+      "maxPlatform": 10,
+      "platformSpeed": 5,
+      "moveableSpeed": 5,
+      "jumpThroughHeight": 10,
+      "playerJumpHeight": 15,
+      "maxPowerUps": 5,
+      "powerUpSpeed": 5,
+      "maxCoins": 3,
+      "coinSpeed": 5,
+      "spawnRate": 0.5,
+      "maxBosses": 1
+    },
+    {
+      "level": 2,
+      "playerSpeed": 5.0,
+      "gravity": 0.5,
+      "scrollSpeed": 8,
+      "maxPlatform": 10,
+      "platformSpeed": 5,
+      "moveableSpeed": 5,
+      "jumpThroughHeight": 10,
+      "playerJumpHeight": 15,
+      "maxPowerUps": 5,
+      "powerUpSpeed": 5,
+      "maxCoins": 3,
+      "coinSpeed": 5,
+      "spawnRate": 0.5,
+      "maxBosses": 1
+    },
+    {
+      "level": 3,
+      "playerSpeed": 5.0,
+      "gravity": 0.5,
+      "scrollSpeed": 12,
+      "maxPlatform": 10,
+      "platformSpeed": 5,
+      "moveableSpeed": 5,
+      "jumpThroughHeight": 10,
+      "playerJumpHeight": 15,
+      "maxPowerUps": 5,
+      "powerUpSpeed": 5,
+      "maxCoins": 3,
+      "coinSpeed": 5,
+      "spawnRate": 0.5,
+      "maxBosses": 1
+    }
+  ]
+}
