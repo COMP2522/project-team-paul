@@ -9,40 +9,127 @@ import processing.core.PImage;
 /**
  * Represents a level in JaydenJump.
  *
- * @version 1.0
+ * @version 1.1
  * @author Maximillian Yong
  */
 public class Level {
 
-  /* The time left in the level. */
+  /**
+   * The time left in the level.
+   */
   private volatile int time;
 
-  /* Unused at the moment. */
+  /**
+   * Unused at the moment.
+   */
   private long start;
 
   /* Unused at the moment. */
   private long end;
 
-  /* The background image of the level. */
+  /**
+   * The background image of the level.
+   */
   private PImage background;
 
-  /* The level number. */
+  /**
+   * The level number. */
   private int levelNumber;
 
-  /* The speed of elements in the level. */
+  /**
+   * The speed of elements in the level.
+   */
   private int speed;
 
-  /* The players score in the current level. */
+  /**
+   * The players score in the current level.
+   */
   private int score;
 
-  /* Used for timer for the level. */
+  /**
+   * Used for timer for the level.
+   */
   private ScheduledExecutorService scheduledExecutorService;
 
-  /* Used for timer for the level. */
+  /**
+   * Used for timer for the level.
+   */
   private ScheduledFuture<?> scheduledFuture;
 
-  /* Unused at the moment. */
+  /**
+   *  Unused at the moment.
+   */
   private String weather;
+
+  /**
+   * The player speed.
+   */
+  private float playerSpeed;
+
+  /**
+   * The gravity.
+   */
+  private float gravity;
+
+  /**
+   * The max platforms.
+   */
+  private int scrollSpeed;
+
+  /**
+   * The max platforms.
+   */
+  private int maxPlatform;
+
+  /**
+   * The platform speed.
+   */
+  private int platformSpeed;
+
+  /**
+   * The moveable speed.
+   */
+  private int moveableSpeed;
+
+  /**
+   * The jump through height.
+   */
+  private int jumpThroughHeight;
+
+  /**
+   * The player jump height.
+   */
+  private int playerJumpHeight;
+
+  /**
+   * The max power ups.
+   */
+  private int maxPowerUps;
+
+  /**
+   * The power up speed.
+   */
+  private int powerUpSpeed;
+
+  /**
+   * The max coins.
+   */
+  private int maxCoins;
+
+  /**
+   * The coin speed.
+   */
+  private int coinSpeed;
+
+  /**
+   * The spawn rate.
+   */
+  private float spawnRate;
+
+  /**
+   * The max bosses.
+   */
+  private int maxBosses;
 
   /**
    * Level Constructor.
@@ -186,5 +273,131 @@ public class Level {
    */
   public void setScore(int score) {
     this.score = score;
+  }
+
+  /**
+   * Gets the player speed.
+   *
+   * @return The player speed (float)
+   */
+  public float getPlayerSpeed() {
+    return playerSpeed;
+  }
+
+  /**
+   * Gets the gravity.
+   *
+   * @return The gravity (float)
+   */
+  public float getGravity() {
+    return gravity;
+  }
+
+  /**
+   * Gets the scroll speed.
+   *
+   * @return The scroll speed (int)
+   */
+  public int getScrollSpeed() {
+    return scrollSpeed;
+  }
+
+  /**
+   * Gets the max platforms.
+   *
+   * @return The max platforms (int)
+   */
+  public int getMaxPlatform() {
+    return maxPlatform;
+  }
+
+  /**
+   * Gets the platform speed.
+   *
+   * @return The platform speed (int)
+   */
+  public int getPlatformSpeed() {
+    return platformSpeed;
+  }
+
+  /**
+   * Gets the moveable speed.
+   *
+   * @return The moveable speed (int)
+   */
+  public int getMoveableSpeed() {
+    return moveableSpeed;
+  }
+
+  /**
+   * Gets the max moveables.
+   *
+   * @return The max moveables (int)
+   */
+  public int getJumpThroughHeight() {
+    return jumpThroughHeight;
+  }
+
+  /**
+   * Gets the jump through height.
+   *
+   * @return The jump through height (int)
+   */
+  public int getPlayerJumpHeight() {
+    return playerJumpHeight;
+  }
+
+  /**
+   * Gets the player jump height.
+   *
+   * @return The player jump height (int)
+   */
+  public int getMaxPowerUps() {
+    return maxPowerUps;
+  }
+
+  /**
+   * Gets the power up speed.
+   *
+   * @return The power up speed (int)
+   */
+  public int getPowerUpSpeed() {
+    return powerUpSpeed;
+  }
+
+  /**
+   * Gets the max coins.
+   *
+   * @return The max coins (int)
+   */
+  public int getMaxCoins() {
+    return maxCoins;
+  }
+
+  /**
+   * Gets the coin speed.
+   *
+   * @return The coin speed (int)
+   */
+  public int getCoinSpeed() {
+    return coinSpeed;
+  }
+
+  /**
+   * Gets the spawn rate.
+   *
+   * @return The spawn rate (float)
+   */
+  public float getSpawnRate() {
+    return spawnRate;
+  }
+
+  /**
+   * Gets the max bosses.
+   *
+   * @return The max bosses (int)
+   */
+  public int getMaxBosses() {
+    return maxBosses;
   }
 }
