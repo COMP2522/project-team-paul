@@ -103,19 +103,17 @@ public class Game extends PApplet {
     this.window = window;
     this.backgroundImage = backgroundImage;
     this.backgroundPos = new PVector(0, 0);
-    this.player = Player.getInstance(window.width / 2, 0f, 0f, 0f, window,
-            playerImage, 80, 5f, 0.5f);
-
     Level level = new Level(diff);
-    initializeLevel(level, coinImages, powerUpImage, enemyImage);
-
+    initializeLevel(level, coinImages, powerUpImage, enemyImage, playerImage);
     platformManager.generateStartPlatforms();
     powerUpManager.generateStartPowerUps();
     coinManager.generateStartCoins();
     gameOver = false;
   }
 
-  private void initializeLevel(Level level, PImage[] coinImages, PImage powerUpImage, PImage enemyImage) {
+  private void initializeLevel(Level level, PImage[] coinImages, PImage powerUpImage, PImage enemyImage, PImage playerImage) {
+    this.player = Player.getInstance(window.width / 2, 0f, 0f, 0f, window,
+            playerImage, 80, level.getPlayerSpeed(), level.getGravity());
     this.scrollSpeed = level.getScrollSpeed();
     this.platformManager = PlatformManager.getInstance(level.getMaxPlatform(), window, level.getPlatformSpeed(), level.getMoveableSpeed(), level.getJumpThroughHeight(), level.getPlayerJumpHeight(), player);
     this.powerUpManager = PowerUpManager.getInstance(level.getMaxPowerUps(), window, level.getPowerUpSpeed(), player, powerUpImage);
