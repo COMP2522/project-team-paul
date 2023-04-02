@@ -103,8 +103,7 @@ public class Game extends PApplet {
     this.window = window;
     this.backgroundImage = backgroundImage;
     this.backgroundPos = new PVector(0, 0);
-    this.player = Player.getInstance(window.width / 2, 0f, 0f, 0f, window,
-            playerImage, 80, 5f, 0.5f);
+    this.player = Player.getInstance(window, playerImage, 5, 0.5f);
 
     switch (level) {
       case 1 -> initializeLevel1(coinImages, powerUpImage, enemyImage);
@@ -167,7 +166,7 @@ public class Game extends PApplet {
       }
 
       player.update();
-      if (player.getYpos() >= window.height - player.getImgSize() / 2) {
+      if (player.getYpos() >= window.height - player.getPlayerSize() / 2) {
         lives--;
         if (lives == 0) {
           bossManager.setIsAlive(false);
@@ -313,11 +312,11 @@ public class Game extends PApplet {
    */
   public static void keyReleasedListener(int key) {
     if (key == LEFT || key == 'A') {
-      MenuManager.getPlayer().setVx(player.getVx() - 2);
+      player.setVx(player.getVx() - 2);
     } else if (key == RIGHT || key == 'D') {
-      MenuManager.getPlayer().setVx(player.getVx() + 2);
+      player.setVx(player.getVx() + 2);
     } else if (key == ' ') {
-      MenuManager.getPlayer().shootProjectile();
+      player.shootProjectile();
     }
   }
 

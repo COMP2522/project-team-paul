@@ -41,7 +41,7 @@ public class Player extends Sprite {
    * size of the player usesd as width and height.
    * since the player is a square.
    */
-  private final int imgSize;
+  private final int playerSize;
 
   /**
    * Check to see if the player is shooting.
@@ -68,26 +68,23 @@ public class Player extends Sprite {
    */
   private static int unlocked = 1;
 
+  /**
+   * Size of the player image.
+   */
+  private static final int IMAGE_SIZE = 80;
+
 
   /**
    * constructor for the player class.
-   *
-   * @param xpos the x position of the player
-   * @param ypos the y position of the player
-   * @param vx the x velocity of the player
-   * @param vy the y velocity of the player
    * @param sketch the sketch for the player
    * @param image the image to set the player to
-   * @param imgSize the size of the player
    * @param moveMentspeed the speed of the player
    * @param gravity the gravity on the player
    */
-  private Player(float xpos, float ypos, float vx, float vy, PApplet sketch, PImage image,
-                 int imgSize, float moveMentspeed, float gravity) {
-    super(xpos, ypos, vx, vy, sketch);
-    System.out.println(super.getSketch());
+  private Player(PApplet sketch, PImage image, float moveMentspeed, float gravity) {
+    super(sketch.width / 2, 0f, 0f, 0f, sketch);
     this.image = image;
-    this.imgSize = imgSize;
+    this.playerSize = IMAGE_SIZE;
     this.moveMentspeed = moveMentspeed;
     this.gravity = gravity;
     this.projectile = new Projectile(getXpos(), getYpos(), 0, -2, 1, this);
@@ -100,12 +97,10 @@ public class Player extends Sprite {
    * @param image the image for the player
    * @return instance of the player
    */
-  public static Player getInstance(float xpos, float ypos, float vx, float vy, PApplet sketch,
-                                   PImage image, int imgSize, float moveMentspeed,
+  public static Player getInstance(PApplet sketch, PImage image, float moveMentspeed,
                                    float gravity) {
     if (instance == null) {
-      instance = new Player(xpos, ypos, vx, vy, sketch, image, imgSize, moveMentspeed,
-              gravity);
+      instance = new Player(sketch, image, moveMentspeed, gravity);
       isFacingRight = true;
     }
     return instance;
@@ -120,11 +115,11 @@ public class Player extends Sprite {
   public void draw() {
     if (image != null) {
       super.getSketch().pushMatrix();
-      super.getSketch().translate(getXpos() + imgSize / 2, getYpos() + imgSize / 2);
+      super.getSketch().translate(getXpos() + playerSize / 2, getYpos() + playerSize / 2);
       if (!isFacingRight) {
         super.getSketch().scale(-1, 1);
       }
-      super.getSketch().image(image, -imgSize / 2, -imgSize / 2, imgSize, imgSize);
+      super.getSketch().image(image, -playerSize / 2, -playerSize / 2, playerSize, playerSize);
       super.getSketch().popMatrix();
       if (isShooting) {
         projectile.draw();
@@ -155,9 +150,9 @@ public class Player extends Sprite {
     setYpos(getYpos() + getVy());
 
     setXpos(super.getSketch().constrain(getXpos(),
-        imgSize / 10, super.getSketch().width - imgSize / 2));
+        playerSize / 10, super.getSketch().width - playerSize / 2));
     setYpos(super.getSketch().constrain(getYpos(),
-        imgSize / 2, super.getSketch().height - imgSize / 2));
+        playerSize / 2, super.getSketch().height - playerSize / 2));
   }
 
   /**
@@ -172,10 +167,10 @@ public class Player extends Sprite {
     if (o instanceof Platform) {
       Platform platform = (Platform) o;
 
-      float playerLeft = getXpos() - imgSize / 2;
-      float playerRight = getXpos() + imgSize / 2;
-      float playerTop = getYpos() - imgSize / 2;
-      float playerBottom = getYpos() + imgSize / 2;
+      float playerLeft = getXpos() - playerSize / 2;
+      float playerRight = getXpos() + playerSize / 2;
+      float playerTop = getYpos() - playerSize / 2;
+      float playerBottom = getYpos() + playerSize / 2;
 
       float platformLeft = platform.getXpos() - platform.getWidth() / 2;
       float platformRight = platform.getXpos() + platform.getWidth() / 2;
@@ -282,8 +277,8 @@ public class Player extends Sprite {
    *
    * @return image size
    */
-  public int getImgSize() {
-    return imgSize;
+  public int getPlayerSize() {
+    return playerSize;
   }
 
   /**

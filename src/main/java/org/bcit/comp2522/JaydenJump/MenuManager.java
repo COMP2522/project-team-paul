@@ -207,16 +207,13 @@ public class MenuManager extends PApplet {
     submitMenu       = new SubmitMenu();
 
     enemyManager = new EnemyManager(this, 50f, enemyImg);
-
-    player = Player.getInstance(width / 2,
-                                0,
-                                0,
-                                0,
-                                this,
-                                playerImg,
-                                80,
-                                5,
-                                0.5f);
+    game = new Game(difficulty,
+                    this,
+                    powerUpImg,
+                    backgroundImage,
+                    enemyImg,
+                    playerImg,
+                    coinImg);
 //    game = new Game(difficulty,
 //                    this,
 //                    powerUpImg,
