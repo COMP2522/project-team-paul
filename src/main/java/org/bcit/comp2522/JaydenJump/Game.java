@@ -35,17 +35,17 @@ public class Game extends PApplet {
   /**
    * Platform manager.
    */
-  private final PlatformManager platformManager;
+  private static PlatformManager platformManager = null;
 
   /**
    * PowerUp Manager.
    */
-  private final PowerUpManager powerUpManager;
+  private static PowerUpManager powerUpManager = null;
 
   /**
    * Window for displaying game.
    */
-  private MenuManager window;
+  private static MenuManager window;
 
   /**
    * Current score.
@@ -189,8 +189,8 @@ public class Game extends PApplet {
    * Restarts the game when the player goes below
    * the screen or makes contact with an enemy.
    */
-  public void restartGame() {
-    player.reset(width / 2, 0, 0, 0);
+  public static void restartGame() {
+    player.reset(window.width / 2, 0, 0, 0);
     platformManager.getPlatforms().clear();
     powerUpManager.getPowerups().clear();
     platformManager.generateStartPlatforms();
@@ -213,6 +213,10 @@ public class Game extends PApplet {
     score = 0;
   }
 
+  public static void resetHighscore() {
+    highscore = 0;
+  }
+
   /**
    * Event listener for key presses.
    */
@@ -222,10 +226,10 @@ public class Game extends PApplet {
     } else if (key == RIGHT || key == 'D') {
       getPlayer().moveRight();
     } else if (key == 'P') {
-      if (MenuManager.getCurrentScreen() == 6) {
+      if (MenuManager.getCurrentScreen() == 7) {
         MenuManager.setCurrentScreen(5);
       } else if (MenuManager.getCurrentScreen() == 5) {
-        MenuManager.setCurrentScreen(6);
+        MenuManager.setCurrentScreen(7);
       }
     }
   }

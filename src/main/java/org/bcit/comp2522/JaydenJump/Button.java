@@ -8,7 +8,7 @@ import processing.core.PApplet;
  * @author Brian Kwon
  * @version 1.0
  */
-public class Button extends PApplet {
+public class Button {
 
   /**
    * X-coordinate of button.
@@ -71,14 +71,14 @@ public class Button extends PApplet {
    * Draws to window.
    */
   public void draw() {
-    window.ellipseMode(CENTER);
+    window.ellipseMode(window.CENTER);
     window.stroke(0);
     window.fill(35, 150, 250);
     window.ellipse(x, y, width, height);
     window.fill(0);
     window.textSize(fontSize);
     window.text(label, x, y);
-    window.textAlign(CENTER, CENTER);
+    window.textAlign(window.CENTER, window.CENTER);
   }
 
   /**

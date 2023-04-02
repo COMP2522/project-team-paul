@@ -65,19 +65,19 @@ public class MenuManager extends PApplet {
   private StartMenu startMenu;
 
   /**
-   * Instance of difficulty menu.
-   */
-  private DifficultyMenu difficultyMenu;
-
-  /**
    * Instance of main menu.
    */
   private MainMenu mainMenu;
 
   /**
-   * Instance of pause menu.
+   * Instance of difficulty menu.
    */
-  private PauseMenu pauseMenu;
+  private DifficultyMenu difficultyMenu;
+
+  /**
+   * Instance of leaderboards menu.
+   */
+  private LeaderboardsMenu leaderboardsMenu;
 
   /**
    * Instance of death menu.
@@ -85,9 +85,14 @@ public class MenuManager extends PApplet {
   private DeathMenu deathMenu;
 
   /**
-   * Instance of leaderboards menu.
+   * Instance of pause menu.
    */
-  private LeaderboardsMenu leaderboardsMenu;
+  private PauseMenu pauseMenu;
+
+  /**
+   * Instance of submission menu.
+   */
+  private SubmitMenu submitMenu;
 
   /**
    * Game object that manages the overall game state.
@@ -118,6 +123,10 @@ public class MenuManager extends PApplet {
    * Image used to display the enemies in the game.
    */
   private PImage enemyImg;
+
+  private static int difficulty;
+  Load load = new Load();
+  String[] str;
 
   /***************************************************/
 
@@ -162,9 +171,12 @@ public class MenuManager extends PApplet {
     startMenu        = new StartMenu();
     mainMenu         = new MainMenu();
     difficultyMenu   = new DifficultyMenu();
-    deathMenu        = new DeathMenu();
     leaderboardsMenu = new LeaderboardsMenu();
+    deathMenu        = new DeathMenu();
     pauseMenu        = new PauseMenu();
+    submitMenu       = new SubmitMenu();
+
+    enemyManager = new EnemyManager(this, 50f, enemyImg);
 
     player = Player.getInstance(width / 2,
                                 0,
@@ -175,7 +187,6 @@ public class MenuManager extends PApplet {
                                 80,
                                 5,
                                 0.5f);
-    enemyManager = new EnemyManager(this, 50f, enemyImg);
     game = new Game(15,
                     2,
                     1,
@@ -228,7 +239,8 @@ public class MenuManager extends PApplet {
    * Screen 3 = Leaderboards
    * Screen 4 = Death Menu
    * Screen 5 = Pause Menu
-   * Screen 6 = Game Window
+   * Screen 6 = Submit Menu
+   * Screen 7 = Game Window
    */
   public void draw() {
     switch (currentScreen) {
@@ -246,7 +258,8 @@ public class MenuManager extends PApplet {
         difficultyMenu.init(this);
         break;
       case 3:
-        leaderboardsMenu.init(this);
+        str = load.getLeaderboard(1);
+        leaderboardsMenu.init(this, str);
         break;
       case 4:
         deathMenu.init(this);
@@ -255,8 +268,11 @@ public class MenuManager extends PApplet {
         pauseMenu.init(this);
         break;
       case 6:
+        submitMenu.init(this);
+        break;
+      case 7:
         game.draw();
-        if (game.gameOver == true) {
+        if (game.gameOver) {
           currentScreen = 4;
         }
         break;
@@ -279,12 +295,15 @@ public class MenuManager extends PApplet {
    */
   public void handleMouseClicksInDifficultyMenu() {
     if (difficultyMenu.easy.isClicked(mouseX, mouseY)) {
-      currentScreen = 6;
+      difficulty = 1;
+      PlatformManager.setPlatformSpeed(6);
     } else if (difficultyMenu.medium.isClicked(mouseX, mouseY)) {
-      currentScreen = 6;
+      difficulty = 2;
     } else if (difficultyMenu.hard.isClicked(mouseX, mouseY)) {
-      currentScreen = 6;
+      difficulty = 3;
+      PlatformManager.setPlatformSpeed(10);
     }
+    currentScreen = 7;
   }
 
   /**
@@ -293,8 +312,8 @@ public class MenuManager extends PApplet {
   public void handleMouseClicksInMainMenu() {
     if (mainMenu.start.isClicked(mouseX, mouseY)) {
       currentScreen = 2;
-      game.startGame();
     } else if (mainMenu.leaderboards.isClicked(mouseX, mouseY)) {
+      str = load.getLeaderboard(1);
       currentScreen = 3;
     } else if (mouseX >= 30 && mouseX < 30 + mainMenu.musicOn.width
         && mouseY >= 90 && mouseY < 90 + mainMenu.musicOn.height) {
@@ -350,12 +369,22 @@ public class MenuManager extends PApplet {
    */
   public void handleMouseClicksInDeathMenu() {
     if (deathMenu.playAgain.isClicked(mouseX, mouseY)) {
-      currentScreen = 6;
+      currentScreen = 7;
       game.restartGame();
       game.startGame();
+      game.resetHighscore();
+    } else if (deathMenu.changeDifficulty.isClicked(mouseX, mouseY)) {
+      currentScreen = 2;
+      game.restartGame();
+      game.startGame();
+      game.resetHighscore();
     } else if (deathMenu.home.isClicked(mouseX, mouseY)) {
       currentScreen = 1;
       game.restartGame();
+      game.startGame();
+      game.resetHighscore();
+    } else if (deathMenu.submit.isClicked(mouseX, mouseY)) {
+      currentScreen = 6;
     }
   }
 
@@ -364,8 +393,16 @@ public class MenuManager extends PApplet {
    */
   public void handleMouseClicksInPauseMenu() {
     if (pauseMenu.resume.isClicked(mouseX, mouseY)) {
-      currentScreen = 5;
+      currentScreen = 7;
+    } else if (pauseMenu.home.isClicked(mouseX, mouseY)) {
+      currentScreen = 1;
+      game.restartGame();
+      game.startGame();
     }
+  }
+
+  public void handleMouseClicksInSubmitMenu() {
+
   }
 
   /**
@@ -388,6 +425,9 @@ public class MenuManager extends PApplet {
       case 5:
         handleMouseClicksInPauseMenu();
         break;
+      case 6:
+        handleMouseClicksInSubmitMenu();
+        break;
       default:
         break;
     }
@@ -403,7 +443,7 @@ public class MenuManager extends PApplet {
     if (currentScreen == 0 && keyPressed && key == ' ') {
       currentScreen = 1;
     } else if (currentScreen == 4 && keyPressed && key == ' ') {
-      currentScreen = 6;
+      currentScreen = 7;
       game.startGame();
       game.restartGame();
     }
@@ -434,6 +474,11 @@ public class MenuManager extends PApplet {
   public static void setCurrentScreen(int currentScreen) {
     MenuManager.currentScreen = currentScreen;
   }
+
+  public static int getDifficulty() {
+    return difficulty;
+  }
+
 
   /**
    * Drives the program.

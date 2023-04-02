@@ -39,7 +39,17 @@ public class DeathMenu extends PApplet implements GameUI {
   /**
    * Button used to access leaderboards.
    */
+  Button changeDifficulty;
+
+  /**
+   * Button used to return to main menu.
+   */
   Button home;
+
+  /**
+   * Button used to submit highscore to leaderboards.
+   */
+  Button submit;
 
   /********************************************************/
 
@@ -64,11 +74,15 @@ public class DeathMenu extends PApplet implements GameUI {
     window.textSize(25);
     window.text("Score: " + Game.getScore(), width * 2 + 40, height * 2 + 25);
     window.text("Highscore: " + Game.getHighscore(), width * 2 + 40, height * 2 + 50);
-    buttons   = new ArrayList<Button>();
-    playAgain = new Button(250, 325, 125, 75, 25, "Play again", window);
-    home      = new Button(250, 425, 125, 75, 20, "Home", window);
+    buttons          = new ArrayList<Button>();
+    playAgain        = new Button(window.width / 2, 325, 125, 75, 25, "Play again", window);
+    changeDifficulty = new Button(window.width / 2, 425, 125, 75, 15, "Change difficulty", window);
+    home             = new Button(window.width / 2, 525, 125, 75, 25, "Home", window);
+    submit           = new Button(window.width / 2, 625, 125, 75, 25, "Submit", window);
     buttons.add(playAgain);
+    buttons.add(changeDifficulty);
     buttons.add(home);
+    buttons.add(submit);
     for (Button button : buttons) {
       button.draw();
     }

@@ -24,11 +24,6 @@ public class MainMenu extends PApplet {
   private PauseMenu gameMenu;
 
   /**
-   * Game settings menu.
-   */
-  //private GameSettings gameSettings;
-
-  /**
    * Death menu that is displayed when player loses the game.
    */
   private DeathMenu death;
