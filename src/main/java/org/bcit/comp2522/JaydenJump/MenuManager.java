@@ -10,7 +10,7 @@ import processing.core.PImage;
  * Starting point of game.
  *
  * @author Brian Kwon
- * @version 1.2
+ * @version 1.3
  */
 public class MenuManager extends PApplet {
 
@@ -43,6 +43,8 @@ public class MenuManager extends PApplet {
    * Image used to display the PowerUps in the game.
    */
   private PImage powerUpImg;
+
+  private PImage[] coinImg;
 
   /**
    * Audio file for background music.
@@ -124,11 +126,26 @@ public class MenuManager extends PApplet {
    */
   private PImage enemyImg;
 
+  /**
+   * The boss for the game.
+   */
+  private Boss theboss;
+
+  /**
+   * the image for the boss.
+   */
+  private static PImage bossImg;
+
+  /**
+   * the background image of the game.
+   */
+  private static PImage backgroundImage;
+
   private static int difficulty;
   Load load = new Load();
   String[] str;
 
-  /***************************************************/
+  /****************************************************/
 
   /**
    * Sets up initial size of game window.
@@ -141,15 +158,30 @@ public class MenuManager extends PApplet {
    * Loads images.
    */
   public void setup() {
-    logo       = loadImage("images/logo.png");
-    doodle     = loadImage("images/doodle.png");
-    musicOn    = loadImage("images/music_on.png");
-    musicOff   = loadImage("images/music_off.png");
-    playerImg  = loadImage("images/doodleguy.png");
-    powerUpImg = loadImage("images/qMarkNoBackground.png");
-    enemyImg   = loadImage("images/enemy.png");
+    logo            = loadImage("images/logo.png");
+    doodle          = loadImage("images/doodle.png");
+    musicOn         = loadImage("images/music_on.png");
+    musicOff        = loadImage("images/music_off.png");
+    playerImg       = loadImage("images/doodleguy.png");
+    powerUpImg      = loadImage("images/qMarkNoBackground.png");
+    enemyImg        = loadImage("images/enemy.png");
+    bossImg         = loadImage("./Images/Boss.png");
+    bossImg         = loadImage("./Images/Boss.png");
+    backgroundImage = loadImage("images/background.png");
+    coinImg         = new PImage[6];
+    loadCoinImages(coinImg);
     frameRate(60);
     init();
+  }
+
+  public PImage[] loadCoinImages(PImage[] coinImg) {
+    coinImg[0] = loadImage("images/Coin1.png");
+    coinImg[1] = loadImage("images/Coin2.png");
+    coinImg[2] = loadImage("images/Coin3.png");
+    coinImg[3] = loadImage("images/Coin4.png");
+    coinImg[4] = loadImage("images/Coin5.png");
+    coinImg[5] = loadImage("images/Coin6.png");
+    return coinImg;
   }
 
   /**
@@ -187,15 +219,13 @@ public class MenuManager extends PApplet {
                                 80,
                                 5,
                                 0.5f);
-    game = new Game(15,
-                    2,
-                    1,
-                    12,
-                    player,
-                    6,
-                    6,
+    game = new Game(1,
                     this,
-                    powerUpImg, enemyManager);
+                    powerUpImg,
+                    backgroundImage,
+                    enemyImg,
+                    playerImg,
+                    coinImg);
   }
 
   /**
@@ -244,40 +274,24 @@ public class MenuManager extends PApplet {
    */
   public void draw() {
     switch (currentScreen) {
-      case 0:
-        startMenu.init(this);
-        break;
-      case 1:
-        mainMenu.init(this,
-            logo,
-            doodle,
-            musicOn,
-            musicOff);
-        break;
-      case 2:
-        difficultyMenu.init(this);
-        break;
-      case 3:
-        str = load.getLeaderboard(1);
-        leaderboardsMenu.init(this, str);
-        break;
-      case 4:
-        deathMenu.init(this);
-        break;
-      case 5:
-        pauseMenu.init(this);
-        break;
-      case 6:
-        submitMenu.init(this);
-        break;
-      case 7:
-        game.draw();
-        if (game.gameOver) {
-          currentScreen = 4;
-        }
-        break;
-      default:
-        break;
+      case 0 -> startMenu.init(this);
+      case 1 -> mainMenu.init(this,
+                                      logo,
+                                      doodle,
+                                      musicOn,
+                                      musicOff);
+      case 2 -> difficultyMenu.init(this);
+      case 3 -> {str = load.getLeaderboard(1);
+                leaderboardsMenu.init(this, str);
+      }
+      case 4 -> deathMenu.init(this);
+      case 5 -> pauseMenu.init(this);
+      case 6 -> submitMenu.init(this);
+      case 7 -> {game.draw();
+                if (game.gameOver) {
+                  currentScreen = 4;
+                }
+      }
     }
   }
 
@@ -325,6 +339,7 @@ public class MenuManager extends PApplet {
       } else {
         clip.loop(Clip.LOOP_CONTINUOUSLY);
         sound = true;
+        Coin.resumeSound();
       }
     }
   }
@@ -410,26 +425,12 @@ public class MenuManager extends PApplet {
    */
   public void mousePressed() {
     switch (currentScreen) {
-      case 1:
-        handleMouseClicksInMainMenu();
-        break;
-      case 2:
-        handleMouseClicksInDifficultyMenu();
-        break;
-      case 3:
-        handleMouseClicksInLeaderboards();
-        break;
-      case 4:
-        handleMouseClicksInDeathMenu();
-        break;
-      case 5:
-        handleMouseClicksInPauseMenu();
-        break;
-      case 6:
-        handleMouseClicksInSubmitMenu();
-        break;
-      default:
-        break;
+      case 1 -> handleMouseClicksInMainMenu();
+      case 2 -> handleMouseClicksInDifficultyMenu();
+      case 3 -> handleMouseClicksInLeaderboards();
+      case 4 -> handleMouseClicksInDeathMenu();
+      case 5 -> handleMouseClicksInPauseMenu();
+      case 6 -> handleMouseClicksInSubmitMenu();
     }
   }
 
@@ -479,6 +480,9 @@ public class MenuManager extends PApplet {
     return difficulty;
   }
 
+  public static PImage getBossImg() {
+    return bossImg;
+  }
 
   /**
    * Drives the program.

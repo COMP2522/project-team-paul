@@ -68,6 +68,7 @@ public class Player extends Sprite {
    */
   private static int unlocked = 1;
 
+
   /**
    * constructor for the player class.
    *
@@ -187,6 +188,7 @@ public class Player extends Sprite {
 
       return horizontallyOverlapping && verticallyOverlapping && abovePlatform;
     }
+
     return false;
   }
 
@@ -383,7 +385,6 @@ public class Player extends Sprite {
   public static void setUnlocked(int unlocked) {
     Player.unlocked = unlocked;
   }
-
 
 
 }

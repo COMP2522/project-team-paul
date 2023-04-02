@@ -1,62 +1,103 @@
 package org.bcit.comp2522.JaydenJump;
 
 import processing.core.PApplet;
+import processing.core.PImage;
+import java.io.File;
+import java.io.IOException;
+import javax.sound.sampled.*;
 
-public class Coin extends Sprite{
+public class Coin extends Sprite {
 
-  private int value;
+  private static Clip clip;
 
-  private int width;
+  private File coinSound;
 
-  private int height;
+  private int index = 0;
 
-  private String color;
+  private PImage animationFrames[];
 
-  public Coin(float xpos, float ypos, float vx, float vy, int value, int width, int height, String color, PApplet sketch) {
+  private final Player player;
+
+  private static boolean play = true;
+
+  private final static int COINSIZE = 25;
+
+  private final static int SCORE_INCREASE = 25;
+
+  public Coin(float xpos, float ypos, float vx, float vy, PApplet sketch, Player player, PImage[] animationFrames) {
     super(xpos, ypos, vx, vy, sketch);
-    this.value = value;
-    this.width = width;
-    this.height = height;
-    this.color = color;
+    this.player = player;
+    this.animationFrames = animationFrames;
+    coinSound = new File("music/coin_sound.wav");
+    try {
+      AudioInputStream ais = AudioSystem.getAudioInputStream(coinSound);
+      clip = AudioSystem.getClip();
+      clip.open(ais);
+    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  @Override
+  public void draw() {
+    super.getSketch().image(animationFrames[index % animationFrames.length], getXpos(), getYpos(), COINSIZE, COINSIZE);
+    animate();
+  }
+
+
+  public void animate() {
+    if(super.getSketch().frameCount % 6 == 0) {
+      this.index++;
+    }
+  }
+
+  @Override
+  public void update() {
+    super.setXpos(super.getXpos() + super.getVx());
+    super.setYpos(super.getYpos() + super.getVy());
+  }
+
+  @Override
+  public boolean collides(Object o) {
+    if (o instanceof Player) {
+      if (player.getXpos() + player.getImgSize() >= super.getXpos()
+          && player.getXpos() <= super.getXpos() + COINSIZE
+          && player.getYpos() + player.getImgSize() >= super.getYpos()
+          && player.getYpos() <= super.getYpos() + COINSIZE) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public static int getCoinSize() {
+    return COINSIZE;
   }
 
   public void addToScore() {
-
+    Game.increaseScore(SCORE_INCREASE);
+    playSound();
   }
 
   public void playSound() {
-
+    if (play) {
+      clip.setFramePosition(0);
+      clip.start();
+    }
   }
 
-  public int getValue() {
-    return value;
+  public static void stopSound() {
+    clip.stop();
+    clip.drain();
+    play = false;
   }
 
-  public void setValue(int value) {
-    this.value = value;
+  public static void resumeSound() {
+    play = true;
   }
 
-  public int getWidth() {
-    return width;
-  }
-
-  public void setWidth(int width) {
-    this.width = width;
-  }
-
-  public int getHeight() {
-    return height;
-  }
-
-  public void setHeight(int height) {
-    this.height = height;
-  }
-
-  public String getColor() {
-    return color;
-  }
-
-  public void setColor(String color) {
-    this.color = color;
+  public boolean isOnScreen() {
+    return getXpos() >= 0 && getXpos() + COINSIZE <= super.getSketch().width
+        && getYpos() >= 0 && getYpos() + COINSIZE <= super.getSketch().height;
   }
 }

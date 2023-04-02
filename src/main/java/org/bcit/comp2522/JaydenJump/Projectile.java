@@ -1,9 +1,7 @@
 package org.bcit.comp2522.JaydenJump;
 
 import processing.core.PApplet;
-
 import java.awt.*;
-
 
 
 /**
@@ -23,6 +21,19 @@ public class Projectile extends Sprite {
   /** instance of the player. */
   private Player player;
 
+  /** check if a projectile has hit before. */
+  private boolean hasHit;
+
+  /**
+   * the projectile height.
+   */
+  private int height;
+
+  /**
+   * the projectile width.
+   */
+  private int width;
+
   /**
    * Constructor for the projectile class.
    *
@@ -37,6 +48,9 @@ public class Projectile extends Sprite {
     this.damage = damage;
     this.color = color;
     this.player = player;
+    hasHit = false;
+    this.height = 20;
+    this.width = 20;
   }
 
   /**
@@ -44,7 +58,7 @@ public class Projectile extends Sprite {
    */
   public void draw() {
     player.getSketch().fill(color.getRGB());
-    player.getSketch().ellipse(getXpos(), getYpos(), 10, 10);
+    player.getSketch().ellipse(getXpos(), getYpos(), height, width);
   }
 
   /**
@@ -70,8 +84,57 @@ public class Projectile extends Sprite {
       float distance = PApplet.dist(getXpos(), getYpos(), enemy.getXpos(), enemy.getYpos());
       float radiusSum = 5 + enemy.getWidth();
       return distance < radiusSum;
+    } else if (o instanceof Player) {
+      Player player = (Player) o;
+      float distance = PApplet.dist(getXpos(), getYpos(), player.getXpos(), player.getYpos());
+      float radiusSum = 5 + player.getImgSize();
+      return distance < radiusSum;
     }
     return false;
   }
 
+  /**
+   * getter for the damage the projectile does.
+   *
+   * @return the damage the projectile
+   */
+  public int getDamage() {
+    return damage;
+  }
+
+  /**
+   * getter to see if projectile has hit something.
+   *
+   * @return if it has hit or not
+   */
+  public boolean isHasHit() {
+    return hasHit;
+  }
+
+  /**
+   * setter to if the projectile has hit or not.
+   *
+   * @param hasHit the value you want to set hit too
+   */
+  public void setHasHit(boolean hasHit) {
+    this.hasHit = hasHit;
+  }
+
+  /**
+   * getter for the height of the projectile.
+   *
+   * @return the height of the projectile
+   */
+  public int getHeight() {
+    return height;
+  }
+
+  /**
+   * getter for the width of the projectile.
+   *
+   * @return the width of the projectile
+   */
+  public int getWidth() {
+    return width;
+  }
 }
