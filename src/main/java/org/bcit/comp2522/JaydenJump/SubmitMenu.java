@@ -36,7 +36,7 @@ public class SubmitMenu extends PApplet {
     userInput = JOptionPane.showInputDialog("Please enter your name:");
 
     //Load load = new Load();
-    Load.updateLeaderboard(userInput, Game.getHighscore(), 1);
+    Load.updateLeaderboard(userInput, Game.getHighscore(), MenuManager.getDifficulty());
     Game.restartGame();
     Game.startGame();
     Game.resetHighscore();

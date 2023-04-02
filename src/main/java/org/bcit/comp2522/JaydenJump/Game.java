@@ -1,5 +1,6 @@
 package org.bcit.comp2522.JaydenJump;
 
+import java.awt.*;
 import java.util.Iterator;
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -149,7 +150,7 @@ public class Game extends PApplet {
    */
   public void draw() {
     drawBackground();
-    window.textSize(30);
+    window.textSize(20);
     window.fill(0);
     window.text("Score: " + Game.getScore(), 50, 50);
 
@@ -293,7 +294,7 @@ public class Game extends PApplet {
   /**
    * Event listener for key presses.
    */
-  public void keyPressedListener(int key) {
+  public static void keyPressedListener(int key) {
     if (key == LEFT || key == 'A') {
       getPlayer().moveLeft();
     } else if (key == RIGHT || key == 'D') {
@@ -310,13 +311,13 @@ public class Game extends PApplet {
   /**
    * Event listener for key releases.
    */
-  public void keyReleasedListener(int key) {
+  public static void keyReleasedListener(int key) {
     if (key == LEFT || key == 'A') {
-      getPlayer().setVx(player.getVx() - 2);
+      MenuManager.getPlayer().setVx(player.getVx() - 2);
     } else if (key == RIGHT || key == 'D') {
-      getPlayer().setVx(player.getVx() + 2);
+      MenuManager.getPlayer().setVx(player.getVx() + 2);
     } else if (key == ' ') {
-      getPlayer().shootProjectile();
+      MenuManager.getPlayer().shootProjectile();
     }
   }
 

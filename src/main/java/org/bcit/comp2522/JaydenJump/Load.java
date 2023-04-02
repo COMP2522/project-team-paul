@@ -93,12 +93,11 @@ public class Load {
    * Returns an array of strings with the format:
    * "Name: Score"
    *
-   * @param difficulty the difficulty easy, medium, hard
    * @return the leaderboard
    */
-  public String[] getLeaderboard(int difficulty) {
+  public String[] getLeaderboard() {
     List<Document> leaderboard = database.getCollection("leaderboard")
-        .find(eq("Difficulty", difficulty))
+        .find()
         .sort(new Document("Score", -1))
         .into(new ArrayList<>());
 
@@ -106,7 +105,7 @@ public class Load {
     String[] result = new String[leaderboard.size()];
     for (int i = 0; i < leaderboard.size(); i++) {
       Document entry = leaderboard.get(i);
-      result[i] = entry.getString("Name") + ": " + entry.getInteger("Score");
+      result[i] = entry.getString("Name") + ":" + entry.getInteger("Score") + ":" + entry.getInteger("Difficulty");
     }
     return result;
   }
