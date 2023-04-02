@@ -87,6 +87,11 @@ public class Game extends PApplet {
   private int scrollSpeed;
 
   /**
+   *
+   */
+  private Level level;
+
+  /**
    * the level of the game.
    *
    * @param level the level of the game
@@ -373,24 +378,6 @@ public class Game extends PApplet {
    */
   public static void setLives(int lives) {
     Game.lives = lives;
-  }
-
-  /**
-   * Gets the current scroll speed of the game.
-   *
-   * @return ScrollSpeed
-   */
-  public int getScrollSpeed() {
-    return scrollSpeed;
-  }
-
-  /**
-   * Sets the scroll speed of the game.
-   *
-   * @param scrollSpeed to set
-   */
-  public void setScrollSpeed(int scrollSpeed) {
-    this.scrollSpeed = scrollSpeed;
   }
 }
 
