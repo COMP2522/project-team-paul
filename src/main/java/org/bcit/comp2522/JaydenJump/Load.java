@@ -24,7 +24,7 @@ import static com.mongodb.client.model.Filters.eq;
 public class Load {
 
   /** The database. */
-  MongoDatabase database;
+  static MongoDatabase database;
 
   /**
    * Constructor for Load.
@@ -93,12 +93,11 @@ public class Load {
    * Returns an array of strings with the format:
    * "Name: Score"
    *
-   * @param difficulty the difficulty easy, medium, hard
    * @return the leaderboard
    */
-  public String[] getLeaderboard(int difficulty) {
+  public String[] getLeaderboard() {
     List<Document> leaderboard = database.getCollection("leaderboard")
-        .find(eq("Difficulty", difficulty))
+        .find()
         .sort(new Document("Score", -1))
         .into(new ArrayList<>());
 
@@ -106,7 +105,7 @@ public class Load {
     String[] result = new String[leaderboard.size()];
     for (int i = 0; i < leaderboard.size(); i++) {
       Document entry = leaderboard.get(i);
-      result[i] = entry.getString("Name") + ": " + entry.getInteger("Score");
+      result[i] = entry.getString("Name") + ":" + entry.getInteger("Score") + ":" + entry.getInteger("Difficulty");
     }
     return result;
   }
@@ -120,29 +119,27 @@ public class Load {
    * @param score the score
    * @param difficulty the difficulty easy, medium, hard
    */
-  public void updateLeaderboard(String name, int score, int difficulty) {
+  public static void updateLeaderboard(String name, int score, int difficulty) {
     new Thread(() -> {
       Document lowestScoreEntry = database.getCollection("leaderboard")
           .find(eq("Difficulty", difficulty))
           .sort(new Document("Score", 1))
           .first();
 
-      if (lowestScoreEntry == null || score > lowestScoreEntry.getInteger("Score")) {
-        Document newEntry = new Document();
-        newEntry.append("Name", name);
-        newEntry.append("Score", score);
-        newEntry.append("Difficulty", difficulty);
+      Document newEntry = new Document();
+      newEntry.append("Name", name);
+      newEntry.append("Score", score);
+      newEntry.append("Difficulty", difficulty);
 
-        // Insert the new score
-        database.getCollection("leaderboard").insertOne(newEntry);
+      // Insert the new score
+      database.getCollection("leaderboard").insertOne(newEntry);
 
-        // Remove the lowest score if there are more than 10 entries
-        long count = database.getCollection("leaderboard")
-            .countDocuments(eq("Difficulty", difficulty));
-        if (count > 10) {
-          database.getCollection("leaderboard")
-              .deleteOne(eq("_id", lowestScoreEntry.getObjectId("_id")));
-        }
+      // Remove the lowest score if there are more than 10 entries
+      long count = database.getCollection("leaderboard")
+          .countDocuments(eq("Difficulty", difficulty));
+      if (count > 10) {
+        database.getCollection("leaderboard")
+            .deleteOne(eq("_id", lowestScoreEntry.getObjectId("_id")));
       }
     }).start();
   }
