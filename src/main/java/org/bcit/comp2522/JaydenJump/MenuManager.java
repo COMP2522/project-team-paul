@@ -1,17 +1,16 @@
 package org.bcit.comp2522.JaydenJump;
 
-import processing.core.PApplet;
-import processing.core.PImage;
-import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
-
+import javax.sound.sampled.*;
+import processing.core.PApplet;
+import processing.core.PImage;
 
 /**
  * Starting point of game.
  *
  * @author Brian Kwon
- * @version 1.1
+ * @version 1.3
  */
 public class MenuManager extends PApplet {
 
@@ -41,10 +40,13 @@ public class MenuManager extends PApplet {
   private PImage playerImg;
 
   /**
-   * Image used to display the PowerUps in the game.
+   * Image used to display the power ups.
    */
   private PImage powerUpImg;
 
+  /**
+   * Image used to display coins.
+   */
   private PImage[] coinImg;
 
   /**
@@ -63,19 +65,24 @@ public class MenuManager extends PApplet {
   private Clip clip;
 
   /**
+   * Instance of start menu.
+   */
+  private StartMenu startMenu;
+
+  /**
    * Instance of main menu.
    */
   private MainMenu mainMenu;
 
   /**
-   * Instance of pause menu.
+   * Instance of difficulty menu.
    */
-  private PauseMenu pauseMenu;
+  private DifficultyMenu difficultyMenu;
 
   /**
-   * Instance of game settings menu.
+   * Instance of leaderboards menu.
    */
-  private GameSettings gameSettings;
+  private LeaderboardsMenu leaderboardsMenu;
 
   /**
    * Instance of death menu.
@@ -83,14 +90,14 @@ public class MenuManager extends PApplet {
   private DeathMenu deathMenu;
 
   /**
-   * Instance of music menu.
+   * Instance of pause menu.
    */
-  private MusicMenu musicMenu;
+  private PauseMenu pauseMenu;
 
   /**
-   * Instance of leaderboards menu.
+   * Instance of submission menu.
    */
-  private LeaderboardsMenu leaderboardsMenu;
+  private SubmitMenu submitMenu;
 
   /**
    * Game object that manages the overall game state.
@@ -100,7 +107,7 @@ public class MenuManager extends PApplet {
   /**
    * Player object that represents the user-controlled character.
    */
-  private Player player;
+  private static Player player;
 
   /**
    * Index of current screen being displayed.
@@ -123,11 +130,6 @@ public class MenuManager extends PApplet {
   private PImage enemyImg;
 
   /**
-   * The boss for the game.
-   */
-  private Boss theboss;
-
-  /**
    * the image for the boss.
    */
   private static PImage bossImg;
@@ -137,6 +139,11 @@ public class MenuManager extends PApplet {
    */
   private static PImage backgroundImage;
 
+  private static int difficulty = 1;
+  Load load = new Load();
+  String[] str;
+
+  /****************************************************/
 
   /**
    * Sets up initial size of game window.
@@ -155,12 +162,12 @@ public class MenuManager extends PApplet {
     musicOff        = loadImage("images/music_off.png");
     playerImg       = loadImage("images/doodleguy.png");
     powerUpImg      = loadImage("images/qMarkNoBackground.png");
-    coinImg         = new PImage[6];
-    loadCoinImages(coinImg);
     enemyImg        = loadImage("images/enemy.png");
     bossImg         = loadImage("./Images/Boss.png");
     bossImg         = loadImage("./Images/Boss.png");
     backgroundImage = loadImage("images/background.png");
+    coinImg         = new PImage[6];
+    loadCoinImages(coinImg);
     frameRate(60);
     init();
   }
@@ -187,57 +194,94 @@ public class MenuManager extends PApplet {
       clip.open(ais);
       clip.loop(Clip.LOOP_CONTINUOUSLY);
       sound = true;
-    } catch (UnsupportedAudioFileException e) {
-      throw new RuntimeException(e);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    } catch (LineUnavailableException e) {
+    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
       throw new RuntimeException(e);
     }
+
+    startMenu        = new StartMenu();
     mainMenu         = new MainMenu();
-    gameSettings     = new GameSettings();
-    deathMenu        = new DeathMenu();
-    musicMenu        = new MusicMenu();
+    difficultyMenu   = new DifficultyMenu();
     leaderboardsMenu = new LeaderboardsMenu();
+    deathMenu        = new DeathMenu();
     pauseMenu        = new PauseMenu();
-    game             = new Game(1, this,
-                            powerUpImg, backgroundImage,
-                              enemyImg, playerImg, coinImg);
+    submitMenu       = new SubmitMenu();
+
+    enemyManager = new EnemyManager(this, 50f, enemyImg);
+
+    player = Player.getInstance(width / 2,
+                                0,
+                                0,
+                                0,
+                                this,
+                                playerImg,
+                                80,
+                                5,
+                                0.5f);
+//    game = new Game(difficulty,
+//                    this,
+//                    powerUpImg,
+//                    backgroundImage,
+//                    enemyImg,
+//                    playerImg,
+//                    coinImg);
   }
 
   /**
    * Draws to window.
-   * Screen 0 = Main menu
-   * Screen 1 = Game window
-   * Screen 2 = Game settings menu
-   * Screen 3 = Music menu
-   * Screen 4 = Leaderboards
-   * Screen 5 = Death menu
-   * Screen 6 = Pause menu
+   *
+   * Screen 0 = Start Menu
+   * Screen 1 = Main Menu
+   * Screen 2 = Difficulty Menu
+   * Screen 3 = Leaderboards
+   * Screen 4 = Death Menu
+   * Screen 5 = Pause Menu
+   * Screen 6 = Submit Menu
+   * Screen 7 = Game Window
    */
   public void draw() {
-    if (currentScreen == 0) {
-      mainMenu.init(this,
-                    logo,
-                    doodle,
-                    musicOn,
-                    musicOff);
-    } else if (currentScreen == 1) {
-      game.draw();
-      if (game.gameOver == true) {
-        currentScreen = 5;
+    switch (currentScreen) {
+      case 0 -> startMenu.init(this);
+      case 1 -> mainMenu.init(this,
+                                      logo,
+                                      doodle,
+                                      musicOn,
+                                      musicOff);
+      case 2 -> difficultyMenu.init(this);
+      case 3 -> {str = load.getLeaderboard();
+                leaderboardsMenu.init(this, str);
       }
-    } else if (currentScreen == 2) {
-      gameSettings.init(this);
-    } else if (currentScreen == 3) {
-      musicMenu.init(this);
-    } else if (currentScreen == 4) {
-      leaderboardsMenu.init(this);
-    } else if (currentScreen == 5) {
-      deathMenu.init(this);
-    } else if (currentScreen == 6) {
-      pauseMenu.init(this);
+      case 4 -> deathMenu.init(this);
+      case 5 -> pauseMenu.init(this);
+      case 6 -> submitMenu.init(this);
+      case 7 -> {game.draw();
+                if (game.gameOver) {
+                  currentScreen = 4;
+                }
+      }
     }
+  }
+
+  /**
+   * Handles mouse clicks in the difficulty menu.
+   */
+  public void handleMouseClicksInDifficultyMenu() {
+    if (difficultyMenu.easy.isClicked(mouseX, mouseY)) {
+      difficulty = 1;
+    } else if (difficultyMenu.medium.isClicked(mouseX, mouseY)) {
+      difficulty = 2;
+    } else if (difficultyMenu.hard.isClicked(mouseX, mouseY)) {
+      difficulty = 3;
+    }
+
+    game = new Game(difficulty,
+        this,
+        powerUpImg,
+        backgroundImage,
+        enemyImg,
+        playerImg,
+        coinImg);
+
+    currentScreen = 7;
   }
 
   /**
@@ -245,12 +289,10 @@ public class MenuManager extends PApplet {
    */
   public void handleMouseClicksInMainMenu() {
     if (mainMenu.start.isClicked(mouseX, mouseY)) {
-      currentScreen = 1;
-      game.startGame();
-    } else if (mainMenu.settings.isClicked(mouseX, mouseY)) {
       currentScreen = 2;
     } else if (mainMenu.leaderboards.isClicked(mouseX, mouseY)) {
-      currentScreen = 4;
+      str = load.getLeaderboard();
+      currentScreen = 3;
     } else if (mouseX >= 30 && mouseX < 30 + mainMenu.musicOn.width
         && mouseY >= 90 && mouseY < 90 + mainMenu.musicOn.height) {
       if (sound) {
@@ -267,75 +309,11 @@ public class MenuManager extends PApplet {
   }
 
   /**
-   * Handles mouse clicks in the settings menu.
-   */
-  public void handleMouseClicksInGameSettings() {
-    if (gameSettings.back.isClicked(mouseX, mouseY)) {
-      currentScreen = 0;
-    } else if (gameSettings.music.isClicked(mouseX, mouseY)) {
-      currentScreen = 3;
-    }
-  }
-
-  /**
-   * Plays boss soundtrack.
-   */
-  public void playBossSong() {
-    clip.stop();
-    try {
-      AudioInputStream ais = AudioSystem.getAudioInputStream(boss);
-      clip = AudioSystem.getClip();
-      clip.open(ais);
-      clip.loop(Clip.LOOP_CONTINUOUSLY);
-      sound = true;
-    } catch (UnsupportedAudioFileException e) {
-      throw new RuntimeException(e);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    } catch (LineUnavailableException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  /**
-   * Plays Like A Dino soundtrack.
-   */
-  public void playLikeAdinoSong() {
-    clip.stop();
-    try {
-      AudioInputStream ais = AudioSystem.getAudioInputStream(dino);
-      clip = AudioSystem.getClip();
-      clip.open(ais);
-      clip.loop(Clip.LOOP_CONTINUOUSLY);
-      sound = true;
-    } catch (UnsupportedAudioFileException e) {
-      throw new RuntimeException(e);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    } catch (LineUnavailableException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  /**
-   * Handles mouse clicks in the music menu.
-   */
-  public void handleMouseClicksInMusicMenu() {
-    if (musicMenu.boss.isClicked(mouseX, mouseY)) {
-      playBossSong();
-    } else if (musicMenu.dino.isClicked(mouseX, mouseY)) {
-      playLikeAdinoSong();
-    } else if (musicMenu.home.isClicked(mouseX, mouseY)) {
-      currentScreen = 0;
-    }
-  }
-
-  /**
-   * Handles mouse clicks in the leaderboards menu.
+   * Handles mouse clicks in leaderboards menu.
    */
   public void handleMouseClicksInLeaderboards() {
     if (leaderboardsMenu.back.isClicked(mouseX, mouseY)) {
-      currentScreen = 0;
+      currentScreen = 1;
     }
   }
 
@@ -344,12 +322,22 @@ public class MenuManager extends PApplet {
    */
   public void handleMouseClicksInDeathMenu() {
     if (deathMenu.playAgain.isClicked(mouseX, mouseY)) {
-      currentScreen = 1;
+      currentScreen = 7;
+      game.restartGame();
       game.startGame();
+      game.resetHighscore();
+    } else if (deathMenu.changeDifficulty.isClicked(mouseX, mouseY)) {
+      currentScreen = 2;
       game.restartGame();
+      game.startGame();
+      game.resetHighscore();
     } else if (deathMenu.home.isClicked(mouseX, mouseY)) {
-      currentScreen = 0;
+      currentScreen = 1;
       game.restartGame();
+      game.startGame();
+      game.resetHighscore();
+    } else if (deathMenu.submit.isClicked(mouseX, mouseY)) {
+      currentScreen = 6;
     }
   }
 
@@ -358,7 +346,11 @@ public class MenuManager extends PApplet {
    */
   public void handleMouseClicksInPauseMenu() {
     if (pauseMenu.resume.isClicked(mouseX, mouseY)) {
+      currentScreen = 7;
+    } else if (pauseMenu.home.isClicked(mouseX, mouseY)) {
       currentScreen = 1;
+      game.restartGame();
+      game.startGame();
     }
   }
 
@@ -366,19 +358,12 @@ public class MenuManager extends PApplet {
    * Event listener for mouse presses.
    */
   public void mousePressed() {
-    if (currentScreen == 0) {
-      handleMouseClicksInMainMenu();
-    } else if (currentScreen == 2) {
-      handleMouseClicksInGameSettings();
-    } else if (currentScreen == 3) {
-      handleMouseClicksInMusicMenu();
-    } else if (currentScreen == 4) {
-      handleMouseClicksInLeaderboards();
-      //leaderboardsMenu.handleMouseClick(mouseX, mouseY);
-    } else if (currentScreen == 5) {
-      handleMouseClicksInDeathMenu();
-    } else if (currentScreen == 6) {
-      handleMouseClicksInPauseMenu();
+    switch (currentScreen) {
+      case 1 -> handleMouseClicksInMainMenu();
+      case 2 -> handleMouseClicksInDifficultyMenu();
+      case 3 -> handleMouseClicksInLeaderboards();
+      case 4 -> handleMouseClicksInDeathMenu();
+      case 5 -> handleMouseClicksInPauseMenu();
     }
   }
 
@@ -387,22 +372,23 @@ public class MenuManager extends PApplet {
    */
   public void keyPressed() {
     keyCode = keyEvent.getKeyCode();
-    game.keyPressedListener(keyCode);
-    if (currentScreen == 5 && keyPressed && key == ' ') {
+    Game.keyPressedListener(keyCode);
+
+    if (currentScreen == 0 && keyPressed && key == ' ') {
       currentScreen = 1;
+    } else if (currentScreen == 4 && keyPressed && key == ' ') {
+      currentScreen = 7;
       game.startGame();
       game.restartGame();
     }
   }
 
   /**
-   * test this method better, but it should.
-   * reduce how fast the player can move left and right.
-   * after letting go of left/right or a/d.
+   * Event listener for key releases.
    */
   public void keyReleased() {
     keyCode = keyEvent.getKeyCode();
-    game.keyReleasedListener(keyCode);
+    Game.keyReleasedListener(keyCode);
   }
 
   /**
@@ -423,8 +409,26 @@ public class MenuManager extends PApplet {
     MenuManager.currentScreen = currentScreen;
   }
 
+  /**
+   *  Getter for boss image.
+   *
+   * @return boss image as a PImage object
+   */
   public static PImage getBossImg() {
     return bossImg;
+  }
+
+  /**
+   * Getter for Player object.
+   *
+   * @return Player object
+   */
+  public static Player getPlayer() {
+    return player;
+  }
+
+  public static int getDifficulty() {
+    return difficulty;
   }
 
   /**

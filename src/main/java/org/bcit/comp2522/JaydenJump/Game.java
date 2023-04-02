@@ -6,12 +6,11 @@ import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
 
-
 /**
  * Game class.
  *
  * @author Shawn, Birring; Brian Kwon
- * @version 1.1
+ * @version 1.3
  */
 public class Game extends PApplet {
 
@@ -28,22 +27,22 @@ public class Game extends PApplet {
   /**
    * Platform manager.
    */
-  private PlatformManager platformManager;
+  private static PlatformManager platformManager;
 
   /**
    * PowerUp Manager.
    */
-  private PowerUpManager powerUpManager;
+  private static PowerUpManager powerUpManager;
 
   /**
    * Coin Manager.
    */
-  private CoinManager coinManager;
+  private static CoinManager coinManager;
 
   /**
    * Window for displaying game.
    */
-  private MenuManager window;
+  private static MenuManager window;
 
   /**
    * Current score.
@@ -64,6 +63,8 @@ public class Game extends PApplet {
    * Manager for the enemies.
    */
   private EnemyManager enemyManager;
+
+  /**************************************************/
 
   /**
    * the boss manager.
@@ -110,6 +111,7 @@ public class Game extends PApplet {
       case 2 -> initializeLevel2(coinImages, powerUpImage, enemyImage);
       case 3 -> initializeLevel3(coinImages, powerUpImage, enemyImage);
     }
+
     platformManager.generateStartPlatforms();
     powerUpManager.generateStartPowerUps();
     coinManager.generateStartCoins();
@@ -143,18 +145,16 @@ public class Game extends PApplet {
     this.bossManager = new BossManager(MenuManager.getBossImg(), 150, 150, window, player, 1);
   }
 
-
   /**
-   * draw the game, called at every frame.
+   * Draws to window.
    */
   public void draw() {
     drawBackground();
-    window.textSize(30);
+    window.textSize(20);
     window.fill(0);
     window.text("Score: " + Game.getScore(), 50, 50);
 
-    drawHearts(lives);
-
+    drawPlayerLives(lives);
 
     if (!gameOver && lives > 0) {
       platformManager.checkCollision();
@@ -203,7 +203,6 @@ public class Game extends PApplet {
       coinManager.checkCollision(player);
       player.draw();
 
-
       enemyManager.update();
       enemyManager.draw();
 
@@ -211,7 +210,6 @@ public class Game extends PApplet {
         bossManager.draw();
         bossManager.update();
       }
-
     }
   }
 
@@ -237,16 +235,11 @@ public class Game extends PApplet {
    *
    * @param lives as an int
    */
-  public void drawHearts(int lives) {
-    if (lives == 3) {
-      drawHeart(400);
-      drawHeart(337);
-      drawHeart(275);
-    } else if (lives == 2) {
-      drawHeart(400);
-      drawHeart(337);
-    } else if (lives == 1) {
-      drawHeart(400);
+  public void drawPlayerLives(int lives) {
+    int[] heartPositions = {400, 337, 275};
+
+    for (int i = 0; i < lives; i++) {
+      drawHeart(heartPositions[i]);
     }
   }
 
@@ -265,10 +258,11 @@ public class Game extends PApplet {
   }
 
   /**
-   * restart the game.
+   * Restarts the game when the player goes below
+   * the screen or makes contact with an enemy.
    */
-  public void restartGame() {
-    player.reset(width / 2, 200, 0, 0);
+  public static void restartGame() {
+    player.reset(window.width / 2, 0, 0, 0);
     platformManager.getPlatforms().clear();
     powerUpManager.getPowerups().clear();
     coinManager.getCoins().clear();
@@ -279,47 +273,51 @@ public class Game extends PApplet {
   }
 
   /**
-   * end the game.
-   * called when the player goes above or below the screen limits.
+   * Ends the game when the player runs out of lives.
    */
   public static void endGame() {
     gameOver = true;
     lives = 3;
   }
 
+  /**
+   * Starts the game.
+   */
   public static void startGame() {
     score = 0;
   }
 
+  public static void resetHighscore() {
+    highscore = 0;
+  }
+
   /**
-   * check for key presses and call the appropriate methods.
+   * Event listener for key presses.
    */
-  public void keyPressedListener(int key) {
+  public static void keyPressedListener(int key) {
     if (key == LEFT || key == 'A') {
       getPlayer().moveLeft();
     } else if (key == RIGHT || key == 'D') {
       getPlayer().moveRight();
     } else if (key == 'P') {
-      if (MenuManager.getCurrentScreen() == 1) {
-        MenuManager.setCurrentScreen(6);
-      } else if (MenuManager.getCurrentScreen() == 6) {
-        MenuManager.setCurrentScreen(1);
+      if (MenuManager.getCurrentScreen() == 7) {
+        MenuManager.setCurrentScreen(5);
+      } else if (MenuManager.getCurrentScreen() == 5) {
+        MenuManager.setCurrentScreen(7);
       }
     }
   }
 
   /**
-   * test this method better, but it should.
-   * reduce how fast the player can move left and right.
-   * after letting go of left/right or a/d.
+   * Event listener for key releases.
    */
-  public void keyReleasedListener(int key) {
+  public static void keyReleasedListener(int key) {
     if (key == LEFT || key == 'A') {
-      getPlayer().setVx(player.getVx() - 2);
+      MenuManager.getPlayer().setVx(player.getVx() - 2);
     } else if (key == RIGHT || key == 'D') {
-      getPlayer().setVx(player.getVx() + 2);
-    } else if (key == 81) {
-      getPlayer().shootProjectile();
+      MenuManager.getPlayer().setVx(player.getVx() + 2);
+    } else if (key == ' ') {
+      MenuManager.getPlayer().shootProjectile();
     }
   }
 

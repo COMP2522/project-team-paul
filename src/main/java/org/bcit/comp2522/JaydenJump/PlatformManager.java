@@ -18,7 +18,7 @@ public class PlatformManager {
   private final ArrayList<Platform> platforms;
   private final int maxPlatforms;
   private final PApplet sketch;
-  private int platformSpeed;
+  private static int platformSpeed;
 
   private final int playerJumpHeight;
 
@@ -177,5 +177,9 @@ public class PlatformManager {
         break;
       }
     }
+  }
+
+  public static void setPlatformSpeed(int platformSpeed) {
+    PlatformManager.platformSpeed = platformSpeed;
   }
 }
