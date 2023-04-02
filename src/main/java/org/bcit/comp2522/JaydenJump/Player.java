@@ -76,18 +76,13 @@ public class Player extends Sprite {
 
   /**
    * constructor for the player class.
-   *
-   * @param xpos the x position of the player
-   * @param ypos the y position of the player
-   * @param vx the x velocity of the player
-   * @param vy the y velocity of the player
    * @param sketch the sketch for the player
    * @param image the image to set the player to
    * @param moveMentspeed the speed of the player
    * @param gravity the gravity on the player
    */
-  private Player(float xpos, float ypos, float vx, float vy, PApplet sketch, PImage image, float moveMentspeed, float gravity) {
-    super(xpos, ypos, vx, vy, sketch);
+  private Player(PApplet sketch, PImage image, float moveMentspeed, float gravity) {
+    super(sketch.width / 2, 0f, 0f, 0f, sketch);
     this.image = image;
     this.playerSize = IMAGE_SIZE;
     this.moveMentspeed = moveMentspeed;
@@ -105,11 +100,7 @@ public class Player extends Sprite {
   public static Player getInstance(PApplet sketch, PImage image, float moveMentspeed,
                                    float gravity) {
     if (instance == null) {
-      float xpos = sketch.width / 2;
-      float ypos = 0f;
-      float vx = 0f;
-      float vy = 0f;
-      instance = new Player(xpos, ypos, vx, vy, sketch, image, moveMentspeed, gravity);
+      instance = new Player(sketch, image, moveMentspeed, gravity);
       isFacingRight = true;
     }
     return instance;
