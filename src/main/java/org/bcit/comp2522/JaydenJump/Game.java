@@ -121,7 +121,7 @@ public class Game extends PApplet {
     this.platformManager = PlatformManager.getInstance(10, window, 5, 5, 10, 15, player);
     this.powerUpManager = PowerUpManager.getInstance(5, window, 5, player, powerUpImage);
     this.coinManager = CoinManager.getInstance(3, window, 5, player, coinImages);
-    this.enemyManager = new EnemyManager(window, 0.121f, enemyImage);
+    this.enemyManager = new EnemyManager(window, 0.5f, enemyImage);
     this.bossManager = new BossManager(MenuManager.getBossImg(), 150, 150, window, player, 1);
   }
 
@@ -130,7 +130,7 @@ public class Game extends PApplet {
     this.platformManager = PlatformManager.getInstance(10, window, 5, 5, 10, 15, player);
     this.powerUpManager = PowerUpManager.getInstance(5, window, 5, player, powerUpImage);
     this.coinManager = CoinManager.getInstance(3, window, 5, player, coinImages);
-    this.enemyManager = new EnemyManager(window, 0.1f, enemyImage);
+    this.enemyManager = new EnemyManager(window, 0.5f, enemyImage);
     this.bossManager = new BossManager(MenuManager.getBossImg(), 150, 150, window, player, 1);
   }
 
@@ -139,7 +139,7 @@ public class Game extends PApplet {
     this.platformManager = PlatformManager.getInstance(10, window, 5, 5, 10, 15, player);
     this.powerUpManager = PowerUpManager.getInstance(5, window, 5, player, powerUpImage);
     this.coinManager = CoinManager.getInstance(3, window, 5, player, coinImages);
-    this.enemyManager = new EnemyManager(window, 0.1f, enemyImage);
+    this.enemyManager = new EnemyManager(window, 0.5f, enemyImage);
     this.bossManager = new BossManager(MenuManager.getBossImg(), 150, 150, window, player, 1);
   }
 
