@@ -1,15 +1,14 @@
 package org.bcit.comp2522.JaydenJump;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import processing.core.PImage;
 
 /**
@@ -141,34 +140,16 @@ public class Level {
    * Level Constructor.
    * Reads the level details from a json file and sets the level details.
    *
-   * playerSpeed : float
-   * gravity : float
-   * scrollSpeed : int
-   * maxPlatform : int
-   * platformSpeed : int
-   * moveableSpeed : int
-   * jumpThroughHeight : int
-   * playerJumpHeight : int
-   * maxPowerUps : int
-   * powerUpSpeed : int
-   * maxCoins : int
-   * coinSpeed : int
-   * spawnRate : float
-   * maxBosses : int
-   *
    * @param lvl the level number
    */
   public Level(int lvl) {
     // reads the level details from LevelDetails.json
-    //System.out.println("Level " + lvl);
     String json = readFileAsString("LevelData/LevelDetails.json");
-    //System.out.println(json);
 
     JSONObject obj = new JSONObject(json);
     JSONArray levels = obj.getJSONArray("levels");
     JSONObject level = levels.getJSONObject(lvl - 1);
 
-    System.out.println(level.getInt("level"));
     playerSpeed = level.getFloat("playerSpeed");
     gravity = level.getFloat("gravity");
     scrollSpeed = level.getInt("scrollSpeed");
@@ -183,6 +164,9 @@ public class Level {
     coinSpeed = level.getInt("coinSpeed");
     spawnRate = level.getFloat("spawnRate");
     maxBosses = level.getInt("maxBosses");
+
+    this.time = 0;
+    this.scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
   }
 
   /**
@@ -205,25 +189,24 @@ public class Level {
     return contentBuilder.toString();
   }
 
-  /**
-   * Level Constructor.
-   * Creates the level based on the level details.
-   * TODO: loadLevel method that calls the constructor? details from json
-   *
-   * @param time        The time limit for the level
-   * @param background  The background image for the level
-   * @param levelNumber The level number
-   * @param speed       The speed of the elements for the level
-   * @param score       The player score for the level
-   */
-  public Level(int time, PImage background, int levelNumber, int speed, int score) {
-    this.time = time;
-    this.background = background;
-    this.levelNumber = levelNumber;
-    this.speed = speed;
-    this.score = score;
-    this.scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-  }
+  //  /**
+  //   * Level Constructor.
+  //   * Creates the level based on the level details.
+  //   *
+  //   * @param time        The time limit for the level
+  //   * @param background  The background image for the level
+  //   * @param levelNumber The level number
+  //   * @param speed       The speed of the elements for the level
+  //   * @param score       The player score for the level
+  //   */
+  //  public Level(int time, PImage background, int levelNumber, int speed, int score) {
+  //    this.time = time;
+  //    this.background = background;
+  //    this.levelNumber = levelNumber;
+  //    this.speed = speed;
+  //    this.score = score;
+  //    this.scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+  //  }
 
   /**
    *  Starts the timer for the level, updates time every second.
