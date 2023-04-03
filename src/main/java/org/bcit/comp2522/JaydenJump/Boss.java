@@ -70,6 +70,12 @@ public class Boss extends Sprite {
   private int projectileCounter = 0;
 
   /**
+   * check if projectile has already hit boss once.
+   */
+  private boolean hasBeenHit = false;
+
+
+  /**
    * constructor for the boss class.
    *
    * @param xpos x position of the boss
@@ -164,9 +170,9 @@ public class Boss extends Sprite {
     } else if (o instanceof Projectile) {
       Projectile projectile = (Projectile) o;
       if (player.isShooting()) {
-        return (getXpos() + width >= projectile.getXpos() && getXpos() <= projectile.getXpos() + 10)
+        return (getXpos() + width >= projectile.getXpos() && getXpos() <= projectile.getXpos() + projectile.getHeight())
                 && getYpos() + height >= projectile.getYpos() && getYpos()
-                <= projectile.getYpos() + 10;
+                <= projectile.getYpos() + projectile.getWidth();
       }
     }
     return false;
@@ -189,6 +195,24 @@ public class Boss extends Sprite {
    */
   public void setHealth(int health) {
     this.health = health;
+  }
+
+  /**
+   * getter for the has been hit.
+   *
+   * @return the value of has been hit
+   */
+  public boolean hasBeenHit() {
+    return hasBeenHit;
+  }
+
+  /**
+   * setter for has been hit.
+   *
+   * @param hit the value you want to set the has been hit too
+   */
+  public void setHasBeenHit(boolean hit) {
+    hasBeenHit = hit;
   }
 
 }
