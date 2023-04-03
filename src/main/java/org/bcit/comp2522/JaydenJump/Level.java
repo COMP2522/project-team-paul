@@ -189,25 +189,6 @@ public class Level {
     return contentBuilder.toString();
   }
 
-  //  /**
-  //   * Level Constructor.
-  //   * Creates the level based on the level details.
-  //   *
-  //   * @param time        The time limit for the level
-  //   * @param background  The background image for the level
-  //   * @param levelNumber The level number
-  //   * @param speed       The speed of the elements for the level
-  //   * @param score       The player score for the level
-  //   */
-  //  public Level(int time, PImage background, int levelNumber, int speed, int score) {
-  //    this.time = time;
-  //    this.background = background;
-  //    this.levelNumber = levelNumber;
-  //    this.speed = speed;
-  //    this.score = score;
-  //    this.scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-  //  }
-
   /**
    *  Starts the timer for the level, updates time every second.
    *  TimerTask should be creating a new Thread to not hold up main.
