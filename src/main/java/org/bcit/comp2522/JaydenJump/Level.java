@@ -4,6 +4,12 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import processing.core.PImage;
 
 /**
@@ -150,10 +156,53 @@ public class Level {
    * spawnRate : float
    * maxBosses : int
    *
-   * @param lvl
+   * @param lvl the level number
    */
   public Level(int lvl) {
+    // reads the level details from LevelDetails.json
+    //System.out.println("Level " + lvl);
+    String json = readFileAsString("LevelData/LevelDetails.json");
+    //System.out.println(json);
 
+    JSONObject obj = new JSONObject(json);
+    JSONArray levels = obj.getJSONArray("levels");
+    JSONObject level = levels.getJSONObject(lvl - 1);
+
+    System.out.println(level.getInt("level"));
+    playerSpeed = level.getFloat("playerSpeed");
+    gravity = level.getFloat("gravity");
+    scrollSpeed = level.getInt("scrollSpeed");
+    maxPlatform = level.getInt("maxPlatform");
+    platformSpeed = level.getInt("platformSpeed");
+    moveableSpeed = level.getInt("moveableSpeed");
+    jumpThroughHeight = level.getInt("jumpThroughHeight");
+    playerJumpHeight = level.getInt("playerJumpHeight");
+    maxPowerUps = level.getInt("maxPowerUps");
+    powerUpSpeed = level.getInt("powerUpSpeed");
+    maxCoins = level.getInt("maxCoins");
+    coinSpeed = level.getInt("coinSpeed");
+    spawnRate = level.getFloat("spawnRate");
+    maxBosses = level.getInt("maxBosses");
+  }
+
+  /**
+   * Reads the file as a string.
+   * Doesn't seem to work without this.
+   *
+   * @param filePath the file path
+   * @return the string
+   */
+  private String readFileAsString(String filePath) {
+    StringBuilder contentBuilder = new StringBuilder();
+    try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+      String line;
+      while ((line = br.readLine()) != null) {
+        contentBuilder.append(line);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return contentBuilder.toString();
   }
 
   /**
