@@ -116,7 +116,7 @@ public class Enemy extends Sprite {
     if (o instanceof Player) {
       Player player = (Player) o;
       float distance = PApplet.dist(player.getXpos(), player.getYpos(), getXpos(), getYpos());
-      if (distance < (player.getImgSize() + getWidth()) / 2) {
+      if (distance < (player.getPlayerSize() + getWidth()) / 2) {
         player.setLives(player.getLives() - 1);
         return true;
       }

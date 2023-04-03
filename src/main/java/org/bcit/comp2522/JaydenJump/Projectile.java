@@ -87,7 +87,7 @@ public class Projectile extends Sprite {
     } else if (o instanceof Player) {
       Player player = (Player) o;
       float distance = PApplet.dist(getXpos(), getYpos(), player.getXpos(), player.getYpos());
-      float radiusSum = 5 + player.getImgSize();
+      float radiusSum = 5 + player.getPlayerSize();
       return distance < radiusSum;
     }
     return false;

@@ -112,8 +112,7 @@ public class Game extends PApplet {
   }
 
   private void initializeLevel(Level level, PImage[] coinImages, PImage powerUpImage, PImage enemyImage, PImage playerImage) {
-    this.player = Player.getInstance(window.width / 2, 0f, 0f, 0f, window,
-            playerImage, 80, level.getPlayerSpeed(), level.getGravity());
+    this.player = Player.getInstance(window, playerImage, level.getPlayerSpeed(), level.getGravity());
     this.scrollSpeed = level.getScrollSpeed();
     this.platformManager = PlatformManager.getInstance(level.getMaxPlatform(), window, level.getPlatformSpeed(), level.getMoveableSpeed(), level.getJumpThroughHeight(), level.getPlayerJumpHeight(), player);
     this.powerUpManager = PowerUpManager.getInstance(level.getMaxPowerUps(), window, level.getPowerUpSpeed(), player, powerUpImage);
@@ -145,7 +144,7 @@ public class Game extends PApplet {
       }
 
       player.update();
-      if (player.getYpos() >= window.height - player.getImgSize() / 2) {
+      if (player.getYpos() >= window.height - player.getPlayerSize() / 2) {
         lives--;
         if (lives == 0) {
           bossManager.setIsAlive(false);
@@ -291,11 +290,11 @@ public class Game extends PApplet {
    */
   public static void keyReleasedListener(int key) {
     if (key == LEFT || key == 'A') {
-      MenuManager.getPlayer().setVx(player.getVx() - 2);
+      player.setVx(player.getVx() - 2);
     } else if (key == RIGHT || key == 'D') {
-      MenuManager.getPlayer().setVx(player.getVx() + 2);
+      player.setVx(player.getVx() + 2);
     } else if (key == ' ') {
-      MenuManager.getPlayer().shootProjectile();
+      player.shootProjectile();
     }
   }
 

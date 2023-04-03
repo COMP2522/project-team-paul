@@ -158,9 +158,9 @@ public class Boss extends Sprite {
     if (o instanceof Player) {
       Player player = (Player) o;
       return (getXpos() + width >= player.getXpos() && getXpos()
-              <= player.getXpos() + player.getImgSize()
+              <= player.getXpos() + player.getPlayerSize()
               && getYpos() + height >= player.getYpos() && getYpos()
-              <= player.getYpos() + player.getImgSize());
+              <= player.getYpos() + player.getPlayerSize());
     } else if (o instanceof Projectile) {
       Projectile projectile = (Projectile) o;
       if (player.isShooting()) {
