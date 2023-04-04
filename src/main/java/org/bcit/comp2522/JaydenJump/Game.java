@@ -89,7 +89,7 @@ public class Game extends PApplet {
   /**
    * the level of the game.
    *
-   * @param diff the level of the game
+   * @param level the level of the game
    * @param window the window for the game
    * @param powerUpImage the image for the power up
    * @param backgroundImage the image for the background
@@ -97,16 +97,12 @@ public class Game extends PApplet {
    * @param playerImage the image for the player
    * @param coinImages the images for the coins
    */
-  public Game(int diff, MenuManager window,
+  public Game(int level, MenuManager window,
               PImage powerUpImage, PImage backgroundImage, PImage enemyImage,
               PImage playerImage, PImage[] coinImages) {
     this.window = window;
     this.backgroundImage = backgroundImage;
     this.backgroundPos = new PVector(0, 0);
-<<<<<<< Updated upstream
-    Level level = new Level(diff);
-    initializeLevel(level, coinImages, powerUpImage, enemyImage, playerImage);
-=======
     this.player = Player.getInstance(window, playerImage, 5, 0.5f);
 
     switch (level) {
@@ -115,23 +111,38 @@ public class Game extends PApplet {
       case 3 -> initializeLevel3(coinImages, powerUpImage, enemyImage);
     }
 
->>>>>>> Stashed changes
     platformManager.generateStartPlatforms();
     powerUpManager.generateStartPowerUps();
     coinManager.generateStartCoins();
     gameOver = false;
   }
 
-  private void initializeLevel(Level level, PImage[] coinImages, PImage powerUpImage, PImage enemyImage, PImage playerImage) {
-    this.player = Player.getInstance(window, playerImage, level.getPlayerSpeed(), level.getGravity());
-    this.scrollSpeed = level.getScrollSpeed();
-    this.platformManager = PlatformManager.getInstance(level.getMaxPlatform(), window, level.getPlatformSpeed(), level.getMoveableSpeed(), level.getJumpThroughHeight(), level.getPlayerJumpHeight(), player);
-    this.powerUpManager = PowerUpManager.getInstance(level.getMaxPowerUps(), window, level.getPowerUpSpeed(), player, powerUpImage);
-    this.coinManager = CoinManager.getInstance(level.getMaxCoins(), window, level.getCoinSpeed(), player, coinImages);
-    this.enemyManager = new EnemyManager(window, level.getSpawnRate(), enemyImage);
+  private void initializeLevel1(PImage[] coinImages, PImage powerUpImage, PImage enemyImage) {
+    this.scrollSpeed = 4;
+    this.platformManager = PlatformManager.getInstance(10, window, 5, 5, 10, 15, player);
+    this.powerUpManager = PowerUpManager.getInstance(5, window, 5, player, powerUpImage);
+    this.coinManager = CoinManager.getInstance(3, window, 5, player, coinImages);
+    this.enemyManager = new EnemyManager(window, 0.5f, enemyImage);
     this.bossManager = new BossManager(MenuManager.getBossImg(), 150, 150, window, player, 1);
   }
 
+  private void initializeLevel2(PImage[] coinImages, PImage powerUpImage,  PImage enemyImage) {
+    this.scrollSpeed = 8;
+    this.platformManager = PlatformManager.getInstance(10, window, 5, 5, 10, 15, player);
+    this.powerUpManager = PowerUpManager.getInstance(5, window, 5, player, powerUpImage);
+    this.coinManager = CoinManager.getInstance(3, window, 5, player, coinImages);
+    this.enemyManager = new EnemyManager(window, 0.5f, enemyImage);
+    this.bossManager = new BossManager(MenuManager.getBossImg(), 150, 150, window, player, 1);
+  }
+
+  private void initializeLevel3(PImage[] coinImages, PImage powerUpImage,  PImage enemyImage) {
+    this.scrollSpeed = 12;
+    this.platformManager = PlatformManager.getInstance(10, window, 5, 5, 10, 15, player);
+    this.powerUpManager = PowerUpManager.getInstance(5, window, 5, player, powerUpImage);
+    this.coinManager = CoinManager.getInstance(3, window, 5, player, coinImages);
+    this.enemyManager = new EnemyManager(window, 0.5f, enemyImage);
+    this.bossManager = new BossManager(MenuManager.getBossImg(), 150, 150, window, player, 1);
+  }
 
   /**
    * Draws to window.
@@ -362,5 +373,7 @@ public class Game extends PApplet {
   public static void setLives(int lives) {
     Game.lives = lives;
   }
+
+
 }
 
