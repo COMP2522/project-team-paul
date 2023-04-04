@@ -183,7 +183,7 @@ public class Game extends PApplet {
       enemyManager.update();
       enemyManager.draw();
 
-      if (score >= 200) {
+      if (score >= 2000) {
         bossManager.draw();
         bossManager.update();
       }

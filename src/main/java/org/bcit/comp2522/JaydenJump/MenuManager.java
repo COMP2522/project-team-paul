@@ -214,13 +214,6 @@ public class MenuManager extends PApplet {
                     enemyImg,
                     playerImg,
                     coinImg);
-//    game = new Game(difficulty,
-//                    this,
-//                    powerUpImg,
-//                    backgroundImage,
-//                    enemyImg,
-//                    playerImg,
-//                    coinImg);
   }
 
   /**
