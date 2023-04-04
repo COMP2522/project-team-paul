@@ -110,7 +110,9 @@ public class BossManager {
         }
       }
       if (boss.collides(player.getProjectile())) {
+        player.setShooting(false);
         boss.setHealth(boss.getHealth() - player.getProjectile().getDamage());
+
       }
       if (boss.getHealth() == 0) {
         isAlive = true;

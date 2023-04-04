@@ -69,6 +69,7 @@ public class Boss extends Sprite {
    */
   private int projectileCounter = 0;
 
+
   /**
    * constructor for the boss class.
    *
@@ -164,9 +165,10 @@ public class Boss extends Sprite {
     } else if (o instanceof Projectile) {
       Projectile projectile = (Projectile) o;
       if (player.isShooting()) {
-        return (getXpos() + width >= projectile.getXpos() && getXpos() <= projectile.getXpos() + 10)
+        return (getXpos() + width >= projectile.getXpos() && getXpos() <= projectile.getXpos()
+                + projectile.getHeight())
                 && getYpos() + height >= projectile.getYpos() && getYpos()
-                <= projectile.getYpos() + 10;
+                <= projectile.getYpos() + projectile.getWidth();
       }
     }
     return false;
@@ -190,5 +192,6 @@ public class Boss extends Sprite {
   public void setHealth(int health) {
     this.health = health;
   }
+
 
 }
