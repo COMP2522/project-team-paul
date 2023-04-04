@@ -113,6 +113,7 @@ public class Player extends Sprite {
    */
   @Override
   public void draw() {
+
     if (image != null) {
       super.getSketch().pushMatrix();
       super.getSketch().translate(getXpos() + playerSize / 2, getYpos() + playerSize / 2);
