@@ -103,8 +103,19 @@ public class Game extends PApplet {
     this.window = window;
     this.backgroundImage = backgroundImage;
     this.backgroundPos = new PVector(0, 0);
+<<<<<<< Updated upstream
     Level level = new Level(diff);
     initializeLevel(level, coinImages, powerUpImage, enemyImage, playerImage);
+=======
+    this.player = Player.getInstance(window, playerImage, 5, 0.5f);
+
+    switch (level) {
+      case 1 -> initializeLevel1(coinImages, powerUpImage, enemyImage);
+      case 2 -> initializeLevel2(coinImages, powerUpImage, enemyImage);
+      case 3 -> initializeLevel3(coinImages, powerUpImage, enemyImage);
+    }
+
+>>>>>>> Stashed changes
     platformManager.generateStartPlatforms();
     powerUpManager.generateStartPowerUps();
     coinManager.generateStartCoins();
