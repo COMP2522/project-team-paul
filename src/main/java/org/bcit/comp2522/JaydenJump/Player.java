@@ -25,7 +25,7 @@ public class Player extends Sprite {
   /**
    * for the image for the player.
    */
-  private PImage image;
+  private PImage[] image;
 
   /**
    * gravity for the jumps.
@@ -81,7 +81,7 @@ public class Player extends Sprite {
    * @param moveMentspeed the speed of the player
    * @param gravity the gravity on the player
    */
-  private Player(PApplet sketch, PImage image, float moveMentspeed, float gravity) {
+  private Player(PApplet sketch, PImage[] image, float moveMentspeed, float gravity) {
     super(sketch.width / 2, 0f, 0f, 0f, sketch);
     this.image = image;
     this.playerSize = IMAGE_SIZE;
@@ -97,7 +97,7 @@ public class Player extends Sprite {
    * @param image the image for the player
    * @return instance of the player
    */
-  public static Player getInstance(PApplet sketch, PImage image, float moveMentspeed,
+  public static Player getInstance(PApplet sketch, PImage[] image, float moveMentspeed,
                                    float gravity) {
     if (instance == null) {
       instance = new Player(sketch, image, moveMentspeed, gravity);
@@ -115,14 +115,24 @@ public class Player extends Sprite {
   public void draw() {
 
     if (image != null) {
-      super.getSketch().pushMatrix();
-      super.getSketch().translate(getXpos() + playerSize / 2, getYpos() + playerSize / 2);
-      if (!isFacingRight) {
-        super.getSketch().scale(-1, 1);
-      }
-      super.getSketch().image(image, -playerSize / 2, -playerSize / 2, playerSize, playerSize);
-      super.getSketch().popMatrix();
-      if (isShooting) {
+      if (!isShooting) {
+        if (!isFacingRight) {
+          super.getSketch().pushMatrix();
+          super.getSketch().translate(getXpos() + playerSize / 2, getYpos() + playerSize / 2);
+          super.getSketch().scale(-1, 1);
+          super.getSketch().image(image[0], -playerSize / 2, -playerSize / 2, playerSize, playerSize);
+          super.getSketch().popMatrix();
+        } else {
+          super.getSketch().pushMatrix();
+          super.getSketch().translate(getXpos() + playerSize / 2, getYpos() + playerSize / 2);
+          super.getSketch().image(image[0], -playerSize / 2, -playerSize / 2, playerSize, playerSize);
+          super.getSketch().popMatrix();
+        }
+      } else {
+        super.getSketch().pushMatrix();
+        super.getSketch().translate(getXpos() + playerSize / 2, getYpos() + playerSize / 2);
+        super.getSketch().image(image[1], -playerSize / 2, -playerSize / 2, playerSize, playerSize);
+        super.getSketch().popMatrix();
         projectile.draw();
       }
     } else {
@@ -135,8 +145,6 @@ public class Player extends Sprite {
         stopShooting();
       }
     }
-
-
   }
 
   /**
@@ -324,7 +332,7 @@ public class Player extends Sprite {
    *
    * @param image the value you want to set the image too
    */
-  public void setImage(PImage image) {
+  public void setImage(PImage[] image) {
     this.image = image;
   }
 

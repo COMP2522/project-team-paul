@@ -98,8 +98,8 @@ public class Game extends PApplet {
    * @param coinImages the images for the coins
    */
   public Game(int diff, MenuManager window,
-              PImage powerUpImage, PImage backgroundImage, PImage enemyImage,
-              PImage playerImage, PImage[] coinImages) {
+              PImage[] powerUpImage, PImage backgroundImage, PImage enemyImage,
+              PImage[] playerImage, PImage[] coinImages) {
     this.window = window;
     this.backgroundImage = backgroundImage;
     this.backgroundPos = new PVector(0, 0);
@@ -111,7 +111,7 @@ public class Game extends PApplet {
     gameOver = false;
   }
 
-  private void initializeLevel(Level level, PImage[] coinImages, PImage powerUpImage, PImage enemyImage, PImage playerImage) {
+  private void initializeLevel(Level level, PImage[] coinImages, PImage[] powerUpImage, PImage enemyImage, PImage[] playerImage) {
     this.player = Player.getInstance(window, playerImage, level.getPlayerSpeed(), level.getGravity());
     this.scrollSpeed = level.getScrollSpeed();
     this.platformManager = PlatformManager.getInstance(level.getMaxPlatform(), window, level.getPlatformSpeed(), level.getMoveableSpeed(), level.getJumpThroughHeight(), level.getPlayerJumpHeight(), player);

@@ -2,6 +2,7 @@ package org.bcit.comp2522.JaydenJump;
 
 import processing.core.PApplet;
 import processing.core.PImage;
+import javax.sound.sampled.*;
 
 /**
  * The JetPack class is a type of PowerUp that allows the Player to fly up
@@ -14,14 +15,16 @@ import processing.core.PImage;
  * @since 2023-03-23
  */
 
-public class JetPack extends PowerUp {
+public class JetPack extends PowerUp implements Audible{
   /** The amount of time the JetPack lasts. */
   private int duration;
 
   /** The amount the y velocity of the player is increased. */
   private int boostVelocity;
 
-  private PImage image;
+  /** Audio clip used for playing JetPack PowerUp. */
+  private Clip clip;
+
   /**
    * Creates an Instance of a JetPack in the game.
    *
@@ -51,6 +54,7 @@ public class JetPack extends PowerUp {
     super(xpos, ypos, vx, vy, isActive, sketch, player, image);
     this.duration = duration;
     this.boostVelocity = boostVelocity;
+    this.clip = loadSound("jetpack.wav");
   }
 
   /**
@@ -59,6 +63,7 @@ public class JetPack extends PowerUp {
   @Override
   public void activate() {
     if (isActive()) {
+      playSound();
       super.getSketch().text("JETPACK", getSketch().CENTER, getSketch().CENTER);
       getPlayer().setVy(getBoostVelocity());
       if (duration > 0) {
@@ -113,4 +118,14 @@ public class JetPack extends PowerUp {
   public void setBoostVelocity(int boostVelocity) {
     this.boostVelocity = boostVelocity;
   }
+
+  /** Plays sound clip of JetPack if MenuManager's sound is on */
+  @Override
+  public void playSound() {
+    if (MenuManager.sound) {
+      clip.setFramePosition(0);
+      clip.start();
+    }
+  }
+
 }
