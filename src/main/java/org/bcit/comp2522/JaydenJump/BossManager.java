@@ -104,7 +104,7 @@ public class BossManager {
       boss.update();
       if (boss.collides(player)) {
         Game.setLives(Game.getLives() - 1);
-        player.reset(player.getXpos(), 400, 0, 0);
+        player.reset();
         if (Game.getLives() == 0) {
           Game.endGame();
         }

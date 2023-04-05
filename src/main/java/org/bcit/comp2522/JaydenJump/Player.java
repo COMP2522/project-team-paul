@@ -6,11 +6,10 @@ import processing.core.PImage;
 /**
  * The Doodle guy or the player class.
  *
- * @author Ravdeep, Aulakh and Maximillian Yong
+ * @author Ravdeep, Aulakh and Maximillian Yong, Shawn Birring
  * @version 1.1
  */
 public class Player extends Sprite {
-
 
   /**
    * Check to see which way the player is facing.
@@ -20,132 +19,107 @@ public class Player extends Sprite {
   /**
    * instance for the player.
    */
-  private static Player instance = null;
+  private static Player instance;
 
   /**
    * for the image for the player.
    */
-  private PImage[] image;
+  private final PImage[] image;
 
   /**
    * gravity for the jumps.
    */
-  private float gravity;
+  private final float gravity;
 
   /**
    * speed for moving left and right.
    */
-  private final float moveMentspeed;
-
-  /**
-   * size of the player usesd as width and height.
-   * since the player is a square.
-   */
-  private final int playerSize;
+  private final float movementSpeed;
 
   /**
    * Check to see if the player is shooting.
    */
-  private boolean isShooting = false;
+  private boolean isShooting;
 
   /**
    * the projectile the player will shoot.
    */
-  private static Projectile projectile;
-
-  /**
-   * the score of the player.
-   */
-  private static int score = 0;
-
-  /**
-   * the lives of the player.
-   */
-  private static int lives = 3;
-
-  /**
-   * the unlocked levels of the player.
-   */
-  private static int unlocked = 1;
+  private final Projectile projectile;
 
   /**
    * Size of the player image.
    */
   private static final int IMAGE_SIZE = 80;
 
-
   /**
    * constructor for the player class.
-   * @param sketch the sketch for the player
+   *
+   * @param sketch the sketch of where the player will be drawn
+   *
    * @param image the image to set the player to
-   * @param moveMentspeed the speed of the player
+   *
+   * @param movementSpeed the speed of the player
+   *
    * @param gravity the gravity on the player
    */
-  private Player(PApplet sketch, PImage[] image, float moveMentspeed, float gravity) {
-    super(sketch.width / 2, 0f, 0f, 0f, sketch);
+  private Player(PApplet sketch, PImage[] image, float movementSpeed, float gravity) {
+    super(sketch.width / 2f, 0f, 0f, 0f, sketch);
     this.image = image;
-    this.playerSize = IMAGE_SIZE;
-    this.moveMentspeed = moveMentspeed;
+    this.movementSpeed = movementSpeed;
     this.gravity = gravity;
     this.projectile = new Projectile(getXpos(), getYpos(), 0, -2, 1, this);
+    isFacingRight = true;
   }
 
   /**
-   * since this is singleton design this is to get a instance of the player.
+   * since this is singleton design this is to get an instance of the player.
    *
    * @param sketch the sketch
    * @param image the image for the player
-   * @return instance of the player
    */
-  public static Player getInstance(PApplet sketch, PImage[] image, float moveMentspeed,
-                                   float gravity) {
+  public static Player getInstance(PApplet sketch, PImage[] image,
+                                   float movementSpeed, float gravity) {
     if (instance == null) {
-      instance = new Player(sketch, image, moveMentspeed, gravity);
-      isFacingRight = true;
+      instance = new Player(sketch, image, movementSpeed, gravity);
     }
     return instance;
   }
 
   /**
+   * getInstance method to get the instance of the player.
+   *
+   * @return instance of the player
+   */
+  public static Player getInstance() {
+    if (instance == null) throw new IllegalStateException("Player has not been initialized");
+    return instance;
+  }
+
+  /**
    * draw the player onto the screen.
-   * also does some projectile stuff and
-   * will flip player if facing left or right.
+   * will also draw the projectile if the player is shooting.
+   * and will update the photo if the player is shooting/facing left or right.
    */
   @Override
   public void draw() {
-
-    if (image != null) {
-      if (!isShooting) {
-        if (!isFacingRight) {
-          super.getSketch().pushMatrix();
-          super.getSketch().translate(getXpos() + playerSize / 2, getYpos() + playerSize / 2);
-          super.getSketch().scale(-1, 1);
-          super.getSketch().image(image[0], -playerSize / 2, -playerSize / 2, playerSize, playerSize);
-          super.getSketch().popMatrix();
-        } else {
-          super.getSketch().pushMatrix();
-          super.getSketch().translate(getXpos() + playerSize / 2, getYpos() + playerSize / 2);
-          super.getSketch().image(image[0], -playerSize / 2, -playerSize / 2, playerSize, playerSize);
-          super.getSketch().popMatrix();
-        }
-      } else {
-        super.getSketch().pushMatrix();
-        super.getSketch().translate(getXpos() + playerSize / 2, getYpos() + playerSize / 2);
-        super.getSketch().image(image[1], -playerSize / 2, -playerSize / 2, playerSize, playerSize);
-        super.getSketch().popMatrix();
-        projectile.draw();
-      }
+    float halfSize = IMAGE_SIZE / 2f;
+    PApplet sketch = super.getSketch();
+    sketch.pushMatrix();
+    sketch.translate(getXpos() + halfSize, getYpos() + halfSize);
+    if (!isShooting) {
+      if (!isFacingRight) sketch.scale(-1, 1);
+      sketch.image(image[0], -halfSize, -halfSize, IMAGE_SIZE, IMAGE_SIZE);
     } else {
-      System.err.println("Image is null. Please check the image loading process.");
-    }
-
-    if (isShooting) {
+      sketch.image(image[1], -halfSize, -halfSize, IMAGE_SIZE, IMAGE_SIZE);
+      sketch.popMatrix();
       projectile.update();
-      if (projectile.getYpos() < 0) {
-        stopShooting();
-      }
+      if (projectile.getYpos() < 0) stopShooting();
+      projectile.draw();
+      return;
     }
+    sketch.popMatrix();
   }
+
 
   /**
    * update the players position after he jumps and moves side to side.
@@ -158,37 +132,46 @@ public class Player extends Sprite {
     setXpos(getXpos() + getVx());
     setYpos(getYpos() + getVy());
 
-    setXpos(super.getSketch().constrain(getXpos(),
-        playerSize / 10, super.getSketch().width - playerSize / 2));
-    setYpos(super.getSketch().constrain(getYpos(),
-        playerSize / 2, super.getSketch().height - playerSize / 2));
+    float halfSize = IMAGE_SIZE / 2f;
+    // constrain the player to the screen width and height
+    setXpos(PApplet.constrain(getXpos(),
+        IMAGE_SIZE / 10f, super.getSketch().width - halfSize));
+    setYpos(PApplet.constrain(getYpos(),
+            halfSize, super.getSketch().height - halfSize));
   }
 
   /**
    * check to see if the player is colliding with a platform.
    *
-   * @param o The object to check for collision
+   * @param o -> platform The platform to check for collision
    *
    * @return true if the player is colliding with a platform else false
    */
   @Override
   public boolean collides(Object o) {
-    if (o instanceof Platform) {
-      Platform platform = (Platform) o;
+    if (o instanceof Platform platform) {
 
-      float playerLeft = getXpos() - playerSize / 2;
-      float playerRight = getXpos() + playerSize / 2;
-      float playerTop = getYpos() - playerSize / 2;
-      float playerBottom = getYpos() + playerSize / 2;
 
-      float platformLeft = platform.getXpos() - Platform.getPlatformWidth() / 2;
-      float platformRight = platform.getXpos() + Platform.getPlatformWidth() / 2;
-      float platformTop = platform.getYpos() - Platform.getPlatformHeight() / 2;
-      float platformBottom = platform.getYpos() + Platform.getPlatformHeight() / 2;
+      float halfSize = IMAGE_SIZE / 2f;
+      float halfPlatformWidth = Platform.getPlatformWidth() / 2f;
+      float halfPlatformHeight = Platform.getPlatformHeight() / 2f;
+
+
+      float playerLeft = getXpos() - halfSize;
+      float playerRight = getXpos() + halfSize;
+      float playerTop = getYpos() - halfSize;
+      float playerBottom = getYpos() + halfSize;
+
+
+      float platformLeft = platform.getXpos() - halfPlatformWidth;
+      float platformRight = platform.getXpos() + halfPlatformWidth;
+      float platformTop = platform.getYpos() - halfPlatformHeight;
+      float platformBottom = platform.getYpos() + halfPlatformHeight;
+
 
       boolean horizontallyOverlapping = playerLeft < platformRight && playerRight > platformLeft;
       boolean verticallyOverlapping = playerTop < platformBottom && playerBottom > platformTop;
-      boolean abovePlatform = playerBottom < platformTop + Platform.getPlatformHeight() / 2;
+      boolean abovePlatform = playerBottom < platformTop + halfPlatformHeight;
 
       return horizontallyOverlapping && verticallyOverlapping && abovePlatform;
     }
@@ -200,7 +183,7 @@ public class Player extends Sprite {
    * move the player to the left.
    */
   public void moveLeft() {
-    setVx(-moveMentspeed);
+    setVx(-movementSpeed);
     isFacingRight = false;
   }
 
@@ -208,12 +191,8 @@ public class Player extends Sprite {
    * move the player to the right.
    */
   public void moveRight() {
-    setVx(moveMentspeed);
+    setVx(movementSpeed);
     isFacingRight = true;
-  }
-
-  public void stopMoving() {
-    setVx(0);
   }
 
 
@@ -238,47 +217,12 @@ public class Player extends Sprite {
 
   /**
    * Method to reset the player.
-   *
-   * @param x postion
-   *
-   * @param y position
-   *
-   * @param vx velocity
-   *
-   * @param vy velocity
    */
-  public void reset(float x, float y, float vx, float vy) {
-    setXpos(x);
-    setYpos(y);
-    setVx(vx);
-    setVy(vy);
-  }
-
-  /**
-   * Method to get the gravity.
-   *
-   * @return gravity
-   */
-  public float getGravity() {
-    return gravity;
-  }
-
-  /**
-   * Method to set the gravity.
-   *
-   * @param gravity used to set the gravity
-   */
-  public void setGravity(float gravity) {
-    this.gravity = gravity;
-  }
-
-  /**
-   * Method to get the moveMentspeed.
-   *
-   * @return moveMentspeed
-   */
-  public float getMoveMentspeed() {
-    return moveMentspeed;
+  public void reset() {
+    setXpos(super.getSketch().width / 2.0f);
+    setYpos(0);
+    setVx(0);
+    setVy(0);
   }
 
   /**
@@ -287,7 +231,7 @@ public class Player extends Sprite {
    * @return image size
    */
   public int getPlayerSize() {
-    return playerSize;
+    return IMAGE_SIZE;
   }
 
   /**
@@ -313,82 +257,7 @@ public class Player extends Sprite {
    *
    * @return projectile the projectile
    */
-  public static Projectile getProjectile() {
+  public Projectile getProjectile() {
     return projectile;
   }
-
-  /**
-   * Method to set the projectile.
-   *
-   * @param projectile used to set the projectile
-   *
-   */
-  public void setProjectile(Projectile projectile) {
-    this.projectile = projectile;
-  }
-
-  /**
-   * setter for the image.
-   *
-   * @param image the value you want to set the image too
-   */
-  public void setImage(PImage[] image) {
-    this.image = image;
-  }
-
-  /**
-   * Gets the score.
-   *
-   * @return score
-   */
-  public static int getScore() {
-    return score;
-  }
-
-  /**
-   * Sets the score.
-   *
-   * @param score the player's score
-   */
-  public static void setScore(int score) {
-    Player.score = score;
-  }
-
-  /**
-   * Gets the lives.
-   *
-   * @return lives
-   */
-  public static int getLives() {
-    return lives;
-  }
-
-  /**
-   * Sets the lives.
-   *
-   * @param lives the player's lives
-   */
-  public static void setLives(int lives) {
-    Player.lives = lives;
-  }
-
-  /**
-   * Gets the unlocked levels.
-   *
-   * @return unlocked
-   */
-  public static int getUnlocked() {
-    return unlocked;
-  }
-
-  /**
-   * Sets the unlocked levels.
-   *
-   * @param unlocked the player's unlocked levels
-   */
-  public static void setUnlocked(int unlocked) {
-    Player.unlocked = unlocked;
-  }
-
-
 }
