@@ -84,23 +84,23 @@ public class Game extends PApplet {
   /**
    * the speed of the background.
    */
-  private int scrollSpeed;
+  private static int scrollSpeed;
 
   /**
    * the level of the game.
    *
    * @param diff the level of the game
-   * @param window the window for the game
+   * @param sketch the window for the game
    * @param powerUpImage the image for the power up
    * @param backgroundImage the image for the background
    * @param enemyImage the image for the enemy
    * @param playerImage the image for the player
    * @param coinImages the images for the coins
    */
-  public Game(int diff, MenuManager window,
+  public Game(int diff, MenuManager sketch,
               PImage[] powerUpImage, PImage backgroundImage, PImage enemyImage,
               PImage[] playerImage, PImage[] coinImages) {
-    this.window = window;
+    window = sketch;
     this.backgroundImage = backgroundImage;
     this.backgroundPos = new PVector(0, 0);
     Level level = new Level(diff);
@@ -112,11 +112,11 @@ public class Game extends PApplet {
   }
 
   private void initializeLevel(Level level, PImage[] coinImages, PImage[] powerUpImage, PImage enemyImage, PImage[] playerImage) {
-    this.player = Player.getInstance(window, playerImage, level.getPlayerSpeed(), level.getGravity());
-    this.scrollSpeed = level.getScrollSpeed();
-    this.platformManager = PlatformManager.getInstance(level.getMaxPlatform(), window, level.getPlatformSpeed(), level.getMoveableSpeed(), level.getJumpThroughHeight(), level.getPlayerJumpHeight(), player);
-    this.powerUpManager = PowerUpManager.getInstance(level.getMaxPowerUps(), window, level.getPowerUpSpeed(), player, powerUpImage);
-    this.coinManager = CoinManager.getInstance(level.getMaxCoins(), window, level.getCoinSpeed(), player, coinImages);
+    player = Player.getInstance(window, playerImage, level.getPlayerSpeed(), level.getGravity());
+    scrollSpeed = level.getScrollSpeed();
+    platformManager = PlatformManager.getInstance(level.getMaxPlatform(), window, level.getPlatformSpeed(), level.getMoveableSpeed(), level.getJumpThroughHeight(), level.getPlayerJumpHeight(), player);
+    powerUpManager = PowerUpManager.getInstance(level.getMaxPowerUps(), window, level.getPowerUpSpeed(), player, powerUpImage);
+    coinManager = CoinManager.getInstance(level.getMaxCoins(), window, level.getCoinSpeed(), player, coinImages);
     this.enemyManager = new EnemyManager(window, level.getSpawnRate(), enemyImage);
     this.bossManager = new BossManager(MenuManager.getBossImg(), 150, 150, window, player, level.getMaxBosses());
   }
@@ -239,7 +239,7 @@ public class Game extends PApplet {
    * the screen or makes contact with an enemy.
    */
   public static void restartGame() {
-    player.reset(window.width / 2, 0, 0, 0);
+    player.reset();
     platformManager.getPlatforms().clear();
     powerUpManager.getPowerups().clear();
     coinManager.getCoins().clear();
@@ -282,6 +282,8 @@ public class Game extends PApplet {
       } else if (MenuManager.getCurrentScreen() == 5) {
         MenuManager.setCurrentScreen(7);
       }
+    } else if (key == ' ') {
+      getPlayer().shootProjectile();
     }
   }
 
