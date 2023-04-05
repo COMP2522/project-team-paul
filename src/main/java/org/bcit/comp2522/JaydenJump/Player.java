@@ -113,6 +113,7 @@ public class Player extends Sprite {
    */
   @Override
   public void draw() {
+
     if (image != null) {
       if (!isShooting) {
         if (!isFacingRight) {

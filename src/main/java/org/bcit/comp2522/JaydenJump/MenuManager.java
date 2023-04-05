@@ -1,10 +1,11 @@
 package org.bcit.comp2522.JaydenJump;
 
-import java.io.File;
-import java.io.IOException;
-import javax.sound.sampled.*;
 import processing.core.PApplet;
 import processing.core.PImage;
+
+import javax.sound.sampled.*;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Starting point of game.
@@ -226,7 +227,6 @@ public class MenuManager extends PApplet {
     pauseMenu        = new PauseMenu();
     submitMenu       = new SubmitMenu();
 
-    enemyManager = new EnemyManager(this, 50f, enemyImg);
     game = new Game(difficulty,
                     this,
                     powerUpImg,
@@ -234,13 +234,6 @@ public class MenuManager extends PApplet {
                     enemyImg,
                     playerImg,
                     coinImg);
-//    game = new Game(difficulty,
-//                    this,
-//                    powerUpImg,
-//                    backgroundImage,
-//                    enemyImg,
-//                    playerImg,
-//                    coinImg);
   }
 
   /**
