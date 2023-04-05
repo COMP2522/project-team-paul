@@ -5,23 +5,23 @@ import processing.core.PApplet;
 
 /**
  * platform class.
- *
- * @author Ravdeep, Aulakh
+ * represents the platforms in the game
+ * @author Shawn Birring, Rav
  * @version 1.0
  */
 public class Platform extends Sprite {
 
   /** the height of the platform. */
-  private static int height = 20;
+  private static final int PLATFORM_HEIGHT = 20;
 
   /** the width of the platform. */
-  private static int width = 100;
+  private static final int PLATFORM_WIDTH = 100;
 
   /** color for the platform. */
-  private Color color;
+  private final Color color;
 
   /** variable to check if it is normal or breakable platform. */
-  private boolean breakable;
+  private final boolean breakable;
 
   /**
    * constructor for the platform class.
@@ -34,38 +34,41 @@ public class Platform extends Sprite {
    * @param vy the y velocity of the platform
    */
   public Platform(PApplet sketch, float x, float y,
-                  Color color, float vx, float vy, boolean breakable) {
+                  Color color, float vx, float vy,
+                  boolean breakable) {
     super(x, y, vx, vy, sketch);
     this.color = color;
     this.breakable = breakable;
-
   }
 
   /**
    * update method to update the position of the platform.
+   * moving platform will bounce off the left and right sides of the game
    */
   @Override
   public void update() {
     super.setXpos(super.getXpos() + super.getVx());
     super.setYpos(super.getYpos() + super.getVy());
 
-    // Make the platform bounce off the left and right sides of the game if it's moving
+    // Make the platform bounce off the left and right sides of the game if it's moving platform
     if (super.getVx() != 0) {
       if (super.getXpos() <= 0) {
-        super.setXpos(0); // Adjust position to be at the left edge
-        super.setVx(Math.abs(super.getVx())); // Make sure the platform moves right
-      } else if (super.getXpos() + width >= getSketch().width) {
-        super.setXpos(getSketch().width - width); // Adjust position to be at the right edge
-        super.setVx(-Math.abs(super.getVx())); // Make sure the platform moves left
+        super.setXpos(0);
+        super.setVx(Math.abs(super.getVx()));
+      } else if (super.getXpos() + PLATFORM_WIDTH >= getSketch().width) {
+        super.setXpos(getSketch().width - PLATFORM_WIDTH);
+        super.setVx(-Math.abs(super.getVx()));
       }
     }
   }
 
-  /** draw method to make the platforms appear in the game. */
+  /**
+   * draw method to make the platforms appear in the game.
+   */
   @Override
   public void draw() {
     super.getSketch().fill(color.getRGB());
-    super.getSketch().rect(getXpos(), getYpos(), width, height);
+    super.getSketch().rect(getXpos(), getYpos(), PLATFORM_WIDTH, PLATFORM_HEIGHT);
   }
 
   /**
@@ -74,12 +77,8 @@ public class Platform extends Sprite {
    * @return true or false if the platform still on screen
    */
   public boolean isOnScreen() {
-    return getXpos() >= 0 && getXpos() + width <= super.getSketch().width
-        && getYpos() >= 0 && getYpos() + height <= super.getSketch().height;
-  }
-
-
-  public void breakPlatform() {
+    return getXpos() >= 0 && getXpos() + PLATFORM_WIDTH <= super.getSketch().width
+        && getYpos() >= 0 && getYpos() + PLATFORM_HEIGHT <= super.getSketch().height;
   }
 
   /**
@@ -87,17 +86,8 @@ public class Platform extends Sprite {
    *
    * @return the width of the platform
    */
-  public static int getWidth() {
-    return width;
-  }
-
-  /**
-   * setter for the width of the platform.
-   *
-   * @param width the value you want to the set the width of the platform too
-   */
-  public void setWidth(int width) {
-    this.width = width;
+  public static int getPlatformWidth() {
+    return PLATFORM_WIDTH;
   }
 
   /**
@@ -105,35 +95,8 @@ public class Platform extends Sprite {
    *
    * @return the height of the platform
    */
-  public static int getHeight() {
-    return height;
-  }
-
-  /**
-   * setter for the height of the platform.
-   *
-   * @param height the height you want to set the platform too
-   */
-  public void setHeight(int height) {
-    this.height = height;
-  }
-
-  /**
-   * getter for the color of the platform.
-   *
-   * @return the color of the platform
-   */
-  public Color getColor() {
-    return color;
-  }
-
-  /**
-   * setter for the color of the platform.
-   *
-   * @param color the value you want to set the color too
-   */
-  public void setColor(Color color) {
-    this.color = color;
+  public static int getPlatformHeight() {
+    return PLATFORM_HEIGHT;
   }
 
   /**
@@ -145,12 +108,4 @@ public class Platform extends Sprite {
     return breakable;
   }
 
-  /**
-   * setter for if the platform is breakable or not.
-   *
-   * @param breakable the value you want to set the platforms breakability too
-   */
-  public void setBreakable(boolean breakable) {
-    this.breakable = breakable;
-  }
 }

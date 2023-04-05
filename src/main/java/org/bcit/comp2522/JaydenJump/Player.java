@@ -181,14 +181,14 @@ public class Player extends Sprite {
       float playerTop = getYpos() - playerSize / 2;
       float playerBottom = getYpos() + playerSize / 2;
 
-      float platformLeft = platform.getXpos() - platform.getWidth() / 2;
-      float platformRight = platform.getXpos() + platform.getWidth() / 2;
-      float platformTop = platform.getYpos() - platform.getHeight() / 2;
-      float platformBottom = platform.getYpos() + platform.getHeight() / 2;
+      float platformLeft = platform.getXpos() - Platform.getPlatformWidth() / 2;
+      float platformRight = platform.getXpos() + Platform.getPlatformWidth() / 2;
+      float platformTop = platform.getYpos() - Platform.getPlatformHeight() / 2;
+      float platformBottom = platform.getYpos() + Platform.getPlatformHeight() / 2;
 
       boolean horizontallyOverlapping = playerLeft < platformRight && playerRight > platformLeft;
       boolean verticallyOverlapping = playerTop < platformBottom && playerBottom > platformTop;
-      boolean abovePlatform = playerBottom < platformTop + platform.getHeight() / 2;
+      boolean abovePlatform = playerBottom < platformTop + Platform.getPlatformHeight() / 2;
 
       return horizontallyOverlapping && verticallyOverlapping && abovePlatform;
     }
