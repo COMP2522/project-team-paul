@@ -7,33 +7,93 @@ import processing.core.PApplet;
 
 /**
  * PlatformManager class.
+ * This class will be managing all the platforms for the game
+ * Since we only need one instance of this class, we will be using the singleton
  *
- * @author Shawn, Birring
+ * @author Shawn Birring
  * @version 1.0
  */
 public class PlatformManager {
 
+  /**
+   * Instance of the platform manager.
+   */
   private static PlatformManager instance;
 
+  /**
+   * The platform's arraylist.
+   */
   private final ArrayList<Platform> platforms;
-  private final int maxPlatforms;
-  private final PApplet sketch;
-  private static int platformSpeed;
 
+  /**
+   * The maximum number of platforms on the screen at a time.
+   */
+  private final int maxPlatforms;
+
+  /**
+   * The parent sketch, where we will draw things to.
+   * (this is a reference to the MenuManager class, make it a singleton,
+   * so that we don't hae to pass it in as a parameter)
+   */
+  private final PApplet sketch;
+
+  /**
+   * The speed of the platforms (moving down).
+   */
+  private final int platformSpeed;
+
+  /**
+   * The height the player gets from jumping off a platform.
+   */
   private final int playerJumpHeight;
 
+
+  /**
+   * The speed of the movable platforms.
+   */
   private final int movableSpeed;
+
+  /**
+   * The color green for non-breakable platforms.
+   */
   private static final Color green = new Color(0, 255, 0);
+
+  /**
+   * The color red for breakable platforms.
+   */
   private static final Color red = new Color(255, 0, 0);
-  private static final int startingPlatforms = 6;
 
-  private Player player;
+  /**
+   * The number of starting platforms to be generated at the beginning of the game.
+   */
+  private static final int STARTING_PLATFORMS = 6;
 
-  private int jumpThroughHeight;
+  /**
+   * The player. (just make this a getInstance call,
+   * instead of passing in as parameter and storing as an instance variable)
+   */
+  private final Player player;
 
+  /**
+   * How much a player has to be falling for it to be considered a jump.
+   */
+  private final int jumpThroughHeight;
+
+  /**
+   * Private constructor for the platform manager.
+   *
+   * @param maxPlatforms the maximum number of platforms
+   *
+   * @param sketch the parent sketch, where to draw things to
+   *
+   * @param platformSpeed the speed of the platforms moving down
+   *
+   * @param movableSpeed the speed of the movable platforms
+   */
   private PlatformManager(int maxPlatforms, PApplet sketch,
                           int platformSpeed, int movableSpeed,
-                           int jumpThroughHeight, int playerJumpHeight, Player player) {
+                          int jumpThroughHeight, int playerJumpHeight,
+                          Player player) {
     this.maxPlatforms = maxPlatforms;
     this.sketch = sketch;
     this.platformSpeed = platformSpeed;
@@ -53,27 +113,19 @@ public class PlatformManager {
    *
    * @param platformSpeed the speed of the platforms
    *
-   * @param moveableSpeed the speed of the moveable platforms
+   * @param movableSpeed the speed of the movable platforms
    *
    * @return the instance of the platform manager
    */
   public static PlatformManager getInstance(int maxPlatforms, PApplet window,
-                                            int platformSpeed, int moveableSpeed,
-                                            int jumpThroughHeight, int playerJumpHeight, Player player) {
+                                            int platformSpeed, int movableSpeed,
+                                            int jumpThroughHeight, int playerJumpHeight,
+                                            Player player) {
     if (instance == null) {
       instance = new PlatformManager(maxPlatforms, window, platformSpeed,
-              moveableSpeed, jumpThroughHeight, playerJumpHeight, player);
+              movableSpeed, jumpThroughHeight, playerJumpHeight, player);
     }
     return instance;
-  }
-
-  /**
-   * Gets the platforms.
-   *
-   * @return the platforms
-   */
-  public ArrayList<Platform> getPlatforms() {
-    return platforms;
   }
 
   /**
@@ -81,8 +133,8 @@ public class PlatformManager {
    */
   public void generateStartPlatforms() {
     float y = 0;
-    for (int i = 0; i < startingPlatforms; i++) {
-      float x = sketch.random(sketch.width - 100);
+    for (int i = 0; i < STARTING_PLATFORMS; i++) {
+      float x = sketch.random(sketch.width - Platform.getPlatformWidth());
       platforms.add(new Platform(sketch, x, y, green, 0, platformSpeed, false));
       y += 150;
     }
@@ -90,15 +142,19 @@ public class PlatformManager {
 
   /**
    * Generates the platforms.
+   * This method will be called every frame.
    */
   public void generatePlatforms() {
+
+    // Remove platforms that are off the screen and add new ones
     while (platforms.size() < maxPlatforms) {
-      float x = sketch.random(sketch.width - Platform.getWidth());
+      float x = sketch.random(sketch.width - Platform.getPlatformWidth());
       boolean isBreakable = sketch.random(1.0f) < 0.1;
       Color platformColor = isBreakable ? red : green;
       float lastPlatformY = platforms.get(platforms.size() - 1).getYpos();
-      float newY = lastPlatformY - Platform.getWidth() - Platform.getHeight();
+      float newY = lastPlatformY - Platform.getPlatformWidth() - Platform.getPlatformHeight();
 
+      // Randomly generate a movable platform
       float vx = 0;
       if (sketch.random(1.0f) < 0.1) {
         float randomDirection = sketch.random(1.0f);
@@ -109,6 +165,7 @@ public class PlatformManager {
         }
       }
 
+      // Create the new platform
       Platform newPlatform = new Platform(sketch, x, newY, platformColor,
               vx, platformSpeed, isBreakable);
 
@@ -121,6 +178,7 @@ public class PlatformManager {
         }
       }
 
+      // If no overlap, add the platform
       if (!isOverlapping) {
         platforms.add(newPlatform);
       }
@@ -137,10 +195,10 @@ public class PlatformManager {
    * @return true if the platforms are overlapping, false otherwise
    */
   public boolean isOverlapping(Platform p1, Platform p2) {
-    return p1.getXpos() + p1.getWidth() > p2.getXpos()
-            && p2.getXpos() + p2.getWidth() > p1.getXpos()
-            && p1.getYpos() + p1.getHeight() > p2.getYpos()
-            && p2.getYpos() + p2.getHeight() > p1.getYpos();
+    return p1.getXpos() + Platform.getPlatformWidth() > p2.getXpos()
+            && p2.getXpos() + Platform.getPlatformWidth() > p1.getXpos()
+            && p1.getYpos() + Platform.getPlatformHeight() > p2.getYpos()
+            && p2.getYpos() + Platform.getPlatformHeight() > p1.getYpos();
   }
 
   /**
@@ -179,7 +237,12 @@ public class PlatformManager {
     }
   }
 
-  public static void setPlatformSpeed(int platformSpeed) {
-    PlatformManager.platformSpeed = platformSpeed;
+  /**
+   * Gets the platforms array list.
+   *
+   * @return the platforms
+   */
+  public ArrayList<Platform> getPlatforms() {
+    return platforms;
   }
 }
