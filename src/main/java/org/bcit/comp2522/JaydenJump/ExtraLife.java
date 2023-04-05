@@ -3,6 +3,8 @@ package org.bcit.comp2522.JaydenJump;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+import javax.sound.sampled.Clip;
+
 /**
  * A type of PowerUp that gives the player an extra life in the game.
  *
@@ -13,11 +15,11 @@ import processing.core.PImage;
  * @since 2023-03-22
  */
 
-public class ExtraLife extends PowerUp {
+public class ExtraLife extends PowerUp implements Audible{
+
+  private Clip clip;
 
   private static final int MAXIMUMLIVES = 3;
-
-  private PImage image;
 
   /**
    * Creates an instance of ExtraLife PowerUp in the game.
@@ -40,6 +42,7 @@ public class ExtraLife extends PowerUp {
                    PApplet sketch,
                    Player player, PImage image) {
     super(xpos, ypos, vx, vy, isActive, sketch, player, image);
+    this.clip = loadSound("extralife.wav");
   }
 
   /**
@@ -57,6 +60,7 @@ public class ExtraLife extends PowerUp {
   @Override
   public void activate() {
     if (isActive()) {
+      playSound();
       increaseLife();
       super.getSketch().text("1 life", getSketch().CENTER, getSketch().CENTER);
     }
@@ -69,6 +73,14 @@ public class ExtraLife extends PowerUp {
   public void deactivate() {
     if (isActive()) {
       setActive(false);
+    }
+  }
+
+  @Override
+  public void playSound() {
+    if (MenuManager.sound) {
+      clip.setFramePosition(0);
+      clip.start();
     }
   }
 }

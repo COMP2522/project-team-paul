@@ -37,12 +37,12 @@ public class MenuManager extends PApplet {
   /**
    * Image used to display the player character.
    */
-  private PImage playerImg;
+  private PImage[] playerImg;
 
   /**
    * Image used to display the power ups.
    */
-  private PImage powerUpImg;
+  private PImage[] powerUpImg;
 
   /**
    * Image used to display coins.
@@ -122,7 +122,7 @@ public class MenuManager extends PApplet {
   /**
    * Flag indicating whether sound is currently enabled.
    */
-  static boolean sound = true;
+  public static boolean sound = true;
 
   /**
    * Image used to display the enemies in the game.
@@ -156,35 +156,55 @@ public class MenuManager extends PApplet {
    * Loads images.
    */
   public void setup() {
-    logo            = loadImage("images/logo.png");
-    doodle          = loadImage("images/doodle.png");
-    musicOn         = loadImage("images/music_on.png");
-    musicOff        = loadImage("images/music_off.png");
-    playerImg       = loadImage("images/doodleguy.png");
-    powerUpImg      = loadImage("images/qMarkNoBackground.png");
-    enemyImg        = loadImage("images/enemy.png");
+    logo            = loadImage("./Images/logo.png");
+    doodle          = loadImage("./Images/JaydenFrontPage.png");
+    musicOn         = loadImage("./Images/music_on.png");
+    musicOff        = loadImage("./Images/music_off.png");
+    enemyImg        = loadImage("./Images/enemy.png");
     bossImg         = loadImage("./Images/Boss.png");
     bossImg         = loadImage("./Images/Boss.png");
-    backgroundImage = loadImage("images/background.png");
-    coinImg         = new PImage[6];
-    loadCoinImages(coinImg);
+    backgroundImage = loadImage("./Images/background.png");
+    playerImg       = loadPlayerImages();
+    coinImg         = loadCoinImages();
+    powerUpImg      = loadPowerUpImages();
     frameRate(60);
     init();
   }
 
-  public PImage[] loadCoinImages(PImage[] coinImg) {
-    coinImg[0] = loadImage("images/Coin1.png");
-    coinImg[1] = loadImage("images/Coin2.png");
-    coinImg[2] = loadImage("images/Coin3.png");
-    coinImg[3] = loadImage("images/Coin4.png");
-    coinImg[4] = loadImage("images/Coin5.png");
-    coinImg[5] = loadImage("images/Coin6.png");
-    return coinImg;
+  private PImage[] loadPowerUpImages() {
+    PImage[] powerUpImages = new PImage[3];
+    for (int i = 0; i < powerUpImages.length; i++) {
+      switch (i) {
+        case 0 -> powerUpImages[i] = loadImage("./Images/heart.png");
+        case 1 -> powerUpImages[i] = loadImage("./Images/thejetpack.png");
+        case 2 -> powerUpImages[i] = loadImage("./Images/thespring.png");
+      }
+    }
+    return powerUpImages;
   }
 
-  /**
-   * Initializes all Menu objects.
-   */
+  private PImage[] loadCoinImages() {
+    PImage[] coinImages = new PImage[6];
+    for (int i = 0; i < coinImages.length; i++) {
+      coinImages[i] = loadImage("./Images/Coin" + (i + 1) + ".png");
+    }
+    return coinImages;
+  }
+
+  private PImage[] loadPlayerImages() {
+    PImage[] playerImages = new PImage[2];
+    for (int i = 0; i < playerImages.length; i++) {
+      switch (i) {
+        case 0 -> playerImages[i] = loadImage("./Images/Jayden.png");
+        case 1 -> playerImages[i] = loadImage("./Images/JaydenShoot.png");
+      }
+    }
+    return playerImages;
+  }
+
+    /**
+     * Initializes all Menu objects.
+     */
   public void init() {
     try {
       dino = new File("music/like_a_dino.wav");
@@ -296,11 +316,12 @@ public class MenuManager extends PApplet {
         clip.stop();
         clip.drain();
         clip.setFramePosition(0);
+//        Coin.stopSound();
         sound = false;
       } else {
         clip.loop(Clip.LOOP_CONTINUOUSLY);
         sound = true;
-        Coin.resumeSound();
+//        Coin.resumeSound();
       }
     }
   }

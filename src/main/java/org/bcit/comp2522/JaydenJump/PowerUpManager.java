@@ -47,7 +47,7 @@ public class PowerUpManager {
   /**
    * The image of power up.
    */
-  private PImage image;
+  private PImage[] image;
 
   /**
    * The player in the game.
@@ -70,7 +70,7 @@ public class PowerUpManager {
    *
    * @param player the player object in the game
    */
-  private PowerUpManager(int maxPowerUps, PApplet sketch, int powerUpSpeed, Player player, PImage powerUpImg) {
+  private PowerUpManager(int maxPowerUps, PApplet sketch, int powerUpSpeed, Player player, PImage[] powerUpImg) {
     this.maxPowerUps = maxPowerUps;
     this.sketch = sketch;
     this.powerUpSpeed = powerUpSpeed;
@@ -93,7 +93,7 @@ public class PowerUpManager {
    *
    * @return PowerUpManager instance in the game
    */
-  public static PowerUpManager getInstance(int maxPowerUps, PApplet sketch, int powerUpSpeed, Player player, PImage powerUpImg) {
+  public static PowerUpManager getInstance(int maxPowerUps, PApplet sketch, int powerUpSpeed, Player player, PImage[] powerUpImg) {
     if (instance == null) {
       instance = new PowerUpManager(maxPowerUps, sketch, powerUpSpeed, player, powerUpImg);
     }
@@ -105,7 +105,7 @@ public class PowerUpManager {
    *
    * @param image
    */
-  public void setImage(PImage image) {
+  public void setImage(PImage[] image) {
     this.image = image;
   }
 
@@ -199,16 +199,16 @@ public class PowerUpManager {
    *
    * @return PowerUp that is randomly generated (Tire, ExtraLife, or JetPack)
    */
-  public PowerUp createRandomPowerUp(float xpos, float ypos, float vx, float vy, PApplet sketch, Player player, PImage image) {
+  public PowerUp createRandomPowerUp(float xpos, float ypos, float vx, float vy, PApplet sketch, Player player, PImage[] image) {
     int randomInt = (int) (Math.random() * 3);
 
     // Create and return an instance of a randomly selected subclass
     if (randomInt == 0) {
-      return new Tire(xpos, ypos, vx, vy, 2, true, sketch, player, image);
+      return new Tire(xpos, ypos, vx, vy, 5, true, sketch, player, image[2]);
     } else if (randomInt == 1) {
-      return new JetPack(xpos, ypos, vx, vy, true, sketch, 2, -10, player, image);
+      return new JetPack(xpos, ypos, vx, vy, true, sketch, 2, -10, player, image[1]);
     } else {
-      return new ExtraLife(xpos, ypos, vx, vy, true, sketch, player, image);
+      return new ExtraLife(xpos, ypos, vx, vy, true, sketch, player, image[0]);
     }
   }
 

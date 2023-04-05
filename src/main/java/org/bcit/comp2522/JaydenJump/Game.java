@@ -98,8 +98,8 @@ public class Game extends PApplet {
    * @param coinImages the images for the coins
    */
   public Game(int level, MenuManager window,
-              PImage powerUpImage, PImage backgroundImage, PImage enemyImage,
-              PImage playerImage, PImage[] coinImages) {
+              PImage[] powerUpImage, PImage backgroundImage, PImage enemyImage,
+              PImage playerImage[], PImage[] coinImages) {
     this.window = window;
     this.backgroundImage = backgroundImage;
     this.backgroundPos = new PVector(0, 0);
@@ -117,7 +117,7 @@ public class Game extends PApplet {
     gameOver = false;
   }
 
-  private void initializeLevel1(PImage[] coinImages, PImage powerUpImage, PImage enemyImage) {
+  private void initializeLevel1(PImage[] coinImages, PImage[] powerUpImage, PImage enemyImage) {
     this.scrollSpeed = 4;
     this.platformManager = PlatformManager.getInstance(10, window, 5, 5, 10, 15, player);
     this.powerUpManager = PowerUpManager.getInstance(5, window, 5, player, powerUpImage);
@@ -126,7 +126,7 @@ public class Game extends PApplet {
     this.bossManager = new BossManager(MenuManager.getBossImg(), 150, 150, window, player, 1);
   }
 
-  private void initializeLevel2(PImage[] coinImages, PImage powerUpImage,  PImage enemyImage) {
+  private void initializeLevel2(PImage[] coinImages, PImage[] powerUpImage,  PImage enemyImage) {
     this.scrollSpeed = 8;
     this.platformManager = PlatformManager.getInstance(10, window, 5, 5, 10, 15, player);
     this.powerUpManager = PowerUpManager.getInstance(5, window, 5, player, powerUpImage);
@@ -135,7 +135,7 @@ public class Game extends PApplet {
     this.bossManager = new BossManager(MenuManager.getBossImg(), 150, 150, window, player, 1);
   }
 
-  private void initializeLevel3(PImage[] coinImages, PImage powerUpImage,  PImage enemyImage) {
+  private void initializeLevel3(PImage[] coinImages, PImage[] powerUpImage,  PImage enemyImage) {
     this.scrollSpeed = 12;
     this.platformManager = PlatformManager.getInstance(10, window, 5, 5, 10, 15, player);
     this.powerUpManager = PowerUpManager.getInstance(5, window, 5, player, powerUpImage);

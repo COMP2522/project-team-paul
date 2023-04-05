@@ -6,19 +6,15 @@ import java.io.File;
 import java.io.IOException;
 import javax.sound.sampled.*;
 
-public class Coin extends Sprite {
+public class Coin extends Sprite implements Audible{
 
-  private static Clip clip;
-
-  private File coinSound;
+  private Clip clip;
 
   private int index = 0;
 
   private PImage animationFrames[];
 
   private final Player player;
-
-  private static boolean play = true;
 
   private final static int COINSIZE = 25;
 
@@ -28,14 +24,7 @@ public class Coin extends Sprite {
     super(xpos, ypos, vx, vy, sketch);
     this.player = player;
     this.animationFrames = animationFrames;
-    coinSound = new File("music/coin_sound.wav");
-    try {
-      AudioInputStream ais = AudioSystem.getAudioInputStream(coinSound);
-      clip = AudioSystem.getClip();
-      clip.open(ais);
-    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-      throw new RuntimeException(e);
-    }
+    clip = loadSound("coin_sound.wav");
   }
 
   @Override
@@ -79,22 +68,23 @@ public class Coin extends Sprite {
     playSound();
   }
 
+  @Override
   public void playSound() {
-    if (play) {
+    if (MenuManager.sound) {
       clip.setFramePosition(0);
       clip.start();
     }
   }
 
-  public static void stopSound() {
-    clip.stop();
-    clip.drain();
-    play = false;
-  }
-
-  public static void resumeSound() {
-    play = true;
-  }
+//  public static void stopSound() {
+//    clip.stop();
+//    clip.drain();
+//    play = false;
+//  }
+//
+//  public static void resumeSound() {
+//    play = true;
+//  }
 
   public boolean isOnScreen() {
     return getXpos() >= 0 && getXpos() + COINSIZE <= super.getSketch().width
