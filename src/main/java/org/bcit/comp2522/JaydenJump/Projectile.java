@@ -21,9 +21,6 @@ public class Projectile extends Sprite {
   /** instance of the player. */
   private Player player;
 
-  /** check if a projectile has hit before. */
-  private boolean hasHit;
-
   /**
    * the projectile height.
    */
@@ -48,7 +45,6 @@ public class Projectile extends Sprite {
     this.damage = damage;
     this.color = color;
     this.player = player;
-    hasHit = false;
     this.height = 20;
     this.width = 20;
   }
@@ -100,24 +96,6 @@ public class Projectile extends Sprite {
    */
   public int getDamage() {
     return damage;
-  }
-
-  /**
-   * getter to see if projectile has hit something.
-   *
-   * @return if it has hit or not
-   */
-  public boolean isHasHit() {
-    return hasHit;
-  }
-
-  /**
-   * setter to if the projectile has hit or not.
-   *
-   * @param hasHit the value you want to set hit too
-   */
-  public void setHasHit(boolean hasHit) {
-    this.hasHit = hasHit;
   }
 
   /**
