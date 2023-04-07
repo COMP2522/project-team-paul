@@ -6,7 +6,7 @@ Maximillian Yong - \
 Hyuk Park - 
 
 ## How to Start Game
-In order to start a new game select the *<b>"MenuManager"</b>* \
+In order to start a new game select the *<b>"Main"</b>* \
 class and run it. A window similar to this will pop up:
 
 ![img.png](Images/Mainmenu.png)

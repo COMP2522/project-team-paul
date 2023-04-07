@@ -131,11 +131,11 @@ public class EnemyManager {
   /**
    * Handle collision between enemy and player.
    */
-  public void checkCollision(Player player) {
+  public void checkCollision() {
     Iterator<Enemy> enemyIterator = enemies.iterator();
     while (enemyIterator.hasNext()) {
       Enemy enemy = enemyIterator.next();
-      if (enemy.collides(player)) {
+      if (enemy.collides(Game.getPlayer())) {
         Game.setLives(Game.getLives() - 1);
         if (Game.getLives() == 0) {
           Game.getBossManager().setIsAlive(false);
