@@ -14,7 +14,7 @@ class LevelTest {
   @BeforeEach
   void setUp() {
     backgroundImage = new PImage();
-    level = new Level(60, backgroundImage, 1, 5, 0);
+    level = new Level(3);
   }
   @Test
   void startTime_endTime() {
