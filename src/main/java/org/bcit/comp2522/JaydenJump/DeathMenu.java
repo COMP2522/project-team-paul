@@ -22,16 +22,6 @@ public class DeathMenu extends PApplet implements GameUI {
   private ArrayList<Button> buttons;
 
   /**
-   * Player's score at the end of the game.
-   */
-  private int score = 0;
-
-  /**
-   * Player's highest score achieved in the game so far.
-   */
-  private int highscore = 0;
-
-  /**
    * Button used to start a new game.
    */
   Button playAgain;
@@ -51,6 +41,18 @@ public class DeathMenu extends PApplet implements GameUI {
    */
   Button submit;
 
+  /**
+   * Constants.
+   */
+  private static final int FONT_SIZE = 25;
+  private static final int FONT_SIZE_BIG = 40;
+  private static final int FONT_SIZE_SMALL = 15;
+  private static final int SCORE_OFFSET = 40;
+  private static final int BUTTON = 325;
+  private static final int BUTTON_OFFSET = 100;
+  private static final int BUTTON_WIDTH = 125;
+  private static final int BUTTON_HEIGHT = 75;
+
   /********************************************************/
 
   /**
@@ -68,17 +70,17 @@ public class DeathMenu extends PApplet implements GameUI {
    */
   public void draw() {
     window.background(35, 150, 170);
-    window.textSize(30);
     window.textAlign(CENTER);
-    window.text("Game Over!", width * 2 + 50, height);
-    window.textSize(25);
-    window.text("Score: " + Game.getScore(), width * 2 + 40, height * 2 + 25);
-    window.text("Highscore: " + Game.getHighscore(), width * 2 + 40, height * 2 + 50);
+    window.textSize(FONT_SIZE_BIG);
+    window.text("Game Over!", window.width / 2, window.height / 8);
+    window.textSize(FONT_SIZE);
+    window.text("Score: " + Game.getScore(), window.width / 2, window.height / 4);
+    window.text("Highscore: " + Game.getHighscore(), window.width / 2, window.height / 4 + SCORE_OFFSET);
     buttons          = new ArrayList<Button>();
-    playAgain        = new Button(window.width / 2, 325, 125, 75, 25, "Play again", window);
-    changeDifficulty = new Button(window.width / 2, 425, 125, 75, 15, "Change difficulty", window);
-    home             = new Button(window.width / 2, 525, 125, 75, 25, "Home", window);
-    submit           = new Button(window.width / 2, 625, 125, 75, 25, "Submit", window);
+    playAgain        = new Button(window.width / 2, BUTTON, BUTTON_WIDTH, BUTTON_HEIGHT, FONT_SIZE, "Play again", window);
+    changeDifficulty = new Button(window.width / 2, BUTTON + BUTTON_OFFSET, BUTTON_WIDTH, BUTTON_HEIGHT, FONT_SIZE_SMALL, "Change difficulty", window);
+    home             = new Button(window.width / 2, BUTTON + BUTTON_OFFSET * 2, BUTTON_WIDTH, BUTTON_HEIGHT, FONT_SIZE, "Home", window);
+    submit           = new Button(window.width / 2, BUTTON + BUTTON_OFFSET * 3, BUTTON_WIDTH, BUTTON_HEIGHT, FONT_SIZE, "Submit", window);
     buttons.add(playAgain);
     buttons.add(changeDifficulty);
     buttons.add(home);
