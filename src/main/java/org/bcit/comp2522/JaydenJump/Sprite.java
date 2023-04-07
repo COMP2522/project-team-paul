@@ -8,7 +8,7 @@ import processing.core.PApplet;
  * @author Ravdeep, Aulakh & Shawn Birring.
  * @version 1.0
  */
-public abstract class Sprite implements Drawable, Collideable {
+public abstract class Sprite implements Drawable, Collidable {
 
   /** x position of sprite. */
   private float xpos;
