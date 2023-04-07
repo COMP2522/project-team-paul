@@ -16,7 +16,7 @@ public class Game extends PApplet {
   /**
    * Instance for the player.
    */
-  private static Player player;
+  static Player player;
 
   /**
    * Flag for indicating if game is over.

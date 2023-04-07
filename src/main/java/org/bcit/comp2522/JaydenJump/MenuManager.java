@@ -204,13 +204,9 @@ public class MenuManager extends PApplet {
   String[] str;
 
   /**
-   * Constant.
+   * Constants.
    */
   private static int X = 30;
-
-  /**
-   * Constant.
-   */
   private static int Y = 90;
 
   /****************************************************/
