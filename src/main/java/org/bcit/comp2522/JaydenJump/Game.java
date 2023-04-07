@@ -141,6 +141,7 @@ public class Game extends PApplet {
     lives = PLAYER_LIVES;
   }
 
+
   /**
    * Draws to window.
    * called every frame.
@@ -182,8 +183,8 @@ public class Game extends PApplet {
    */
   private void checkCollisions() {
     platformManager.checkCollision();
-    powerUpManager.checkCollision(player);
-    coinManager.checkCollision(player);
+    powerUpManager.checkCollision();
+    coinManager.checkCollision();
   }
 
   /**
