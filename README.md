@@ -56,7 +56,7 @@ as colliding with enemies will take a life from you.
 
 ### Boss
 There is a boss in the game that will appear once
-per game. He spawns at score 2000. The boss takes
+per game. He spawns at score 3000. The boss takes
 3 hits from the players projectiles to kill. The boss
 spawns at the top of the window and moves left and right
 while shooting projectiles down at the player. Colliding

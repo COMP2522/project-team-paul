@@ -38,6 +38,11 @@ public class EnemyManager {
    */
   PImage image;
 
+  /**
+   * The instance of the EnemyManager class.
+   */
+  private static EnemyManager instance;
+
 
   /**
    * constructor for the enemy manager class.
@@ -46,12 +51,27 @@ public class EnemyManager {
    * @param level the spawnrate for the enemies
    * @param img the image for the enemies
    */
-  public EnemyManager(PApplet sketch, Level level, PImage img) {
+  private EnemyManager(PApplet sketch, Level level, PImage img) {
     this.enemies = new ArrayList<>();
     this.sketch = sketch;
     this.spawnRate = level.getSpawnRate();
     this.spawnCounter = 0;
     this.image = img;
+  }
+
+  /**
+   * Returns the instance of the EnemyManager class.
+   *
+   * @param sketch the sketch for the enemy manager
+   * @param level the spawnrate for the enemies
+   * @param img the image for the enemies
+   * @return the instance of the EnemyManager class
+   */
+  public static EnemyManager getInstance(PApplet sketch, Level level, PImage img) {
+    if (instance == null) {
+      instance = new EnemyManager(sketch, level, img);
+    }
+    return instance;
   }
 
   /**
@@ -119,6 +139,7 @@ public class EnemyManager {
         Game.setLives(Game.getLives() - 1);
         if (Game.getLives() == 0) {
           Game.getBossManager().setIsAlive(false);
+          Game.getBossManager().setBossHealth(3);
           Game.endGame();
         }
         enemyIterator.remove();

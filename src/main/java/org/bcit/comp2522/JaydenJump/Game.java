@@ -124,8 +124,8 @@ public class Game extends PApplet {
             level.getPowerUpSpeed(), player, powerUpImage);
     coinManager = CoinManager.getInstance(level.getMaxCoins(), window, level.getCoinSpeed(),
             player, coinImages);
-    this.enemyManager = new EnemyManager(window, level, enemyImage);
-    this.bossManager = new BossManager(MenuManager.getBossImg(), 150, 150, window,
+    this.enemyManager = EnemyManager.getInstance(window, level, enemyImage);
+    this.bossManager = BossManager.getInstance(MenuManager.getBossImg(), 150, 150, window,
             player, level);
   }
 
@@ -149,7 +149,7 @@ public class Game extends PApplet {
       updateAndDrawGameElements();
       generateGameElements();
 
-      if (score >= 2000) {
+      if (score >= 3000) {
         drawAndUpdateBoss();
       }
     }
@@ -198,8 +198,10 @@ public class Game extends PApplet {
    */
   private void handlePlayerLanding() {
     lives--;
+    restartGame();
     if (lives == 0) {
       bossManager.setIsAlive(false);
+      bossManager.setBossHealth(3);
       endGame();
     }
   }
@@ -279,6 +281,7 @@ public class Game extends PApplet {
             0, width / 2f + x, height / 4f);
     window.endShape();
   }
+
 
   /**
    * Restarts the game when the player goes below

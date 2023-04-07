@@ -60,6 +60,16 @@ public class BossManager {
    */
   private boolean isAlive;
 
+  /**
+   * the health of the boss.
+   */
+  private int bossHealth;
+
+  /**
+   * The single instance of BossManager.
+   */
+  private static BossManager instance;
+
 
   /**
    * constructor for the boss manager class.
@@ -71,7 +81,7 @@ public class BossManager {
    * @param player the player instance
    * @param level the max amount of bosses
    */
-  public BossManager(PImage image, int width, int height, PApplet sketch,
+  private BossManager(PImage image, int width, int height, PApplet sketch,
                      Player player, Level level) {
     this.image = image;
     this.width = width;
@@ -80,7 +90,28 @@ public class BossManager {
     this.player = player;
     this.maxBosses = level.getMaxBosses();
     this.isAlive = false;
+    this.bossHealth = 3;
   }
+
+  /**
+   * Get the single instance of BossManager.
+   *
+   * @param image  the image of the boss
+   * @param width  the width of the boss
+   * @param height the height of the boss
+   * @param sketch the sketch for the boss
+   * @param player the player instance
+   * @param level  the max amount of bosses
+   * @return the single instance of BossManager
+   */
+  public static BossManager getInstance(PImage image, int width, int height, PApplet sketch,
+                                        Player player, Level level) {
+    if (instance == null) {
+      instance = new BossManager(image, width, height, sketch, player, level);
+    }
+    return instance;
+  }
+
 
   /**
    * update method for the boss manager class.
@@ -91,7 +122,7 @@ public class BossManager {
       int ypos = 70;
       int vx = 5;
       int vy = 0;
-      int health = 3;
+      int health = bossHealth;
       Boss boss = new Boss(xpos, ypos, vx, vy, width, height, image, sketch, player, health);
       bosses.add(boss);
       bossCounter++;
@@ -103,8 +134,10 @@ public class BossManager {
       boss.update();
       if (boss.collides(player)) {
         Game.setLives(Game.getLives() - 1);
-        player.reset();
+        player.bossReset();
         if (Game.getLives() == 0) {
+          setIsAlive(false);
+          boss.setHealth(3);
           Game.endGame();
         }
       }
@@ -138,5 +171,14 @@ public class BossManager {
    */
   public void setIsAlive(boolean isAlive) {
     this.isAlive = isAlive;
+  }
+
+  /**
+   * setter for the boss health.
+   *
+   * @param bossHealth what you want to set the boss health to
+   */
+  public void setBossHealth(int bossHealth) {
+    this.bossHealth = bossHealth;
   }
 }
