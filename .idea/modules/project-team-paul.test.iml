@@ -38,6 +38,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="Gradle: org.mongodb:mongodb-driver-sync:4.9.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.json:json:20171018" level="project" />
     <orderEntry type="library" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.8.1" level="project" />
     <orderEntry type="library" name="Gradle: org.mongodb:mongodb-driver-core:4.9.0" level="project" />
     <orderEntry type="library" name="Gradle: org.mongodb:bson:4.9.0" level="project" />
