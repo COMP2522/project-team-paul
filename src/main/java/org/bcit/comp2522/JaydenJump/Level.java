@@ -25,14 +25,6 @@ public class Level {
   private volatile int time;
 
   /**
-   * Unused at the moment.
-   */
-  private long start;
-
-  /* Unused at the moment. */
-  private long end;
-
-  /**
    * The background image of the level.
    */
   private PImage background;
@@ -60,11 +52,6 @@ public class Level {
    * Used for timer for the level.
    */
   private ScheduledFuture<?> scheduledFuture;
-
-  /**
-   *  Unused at the moment.
-   */
-  private String weather;
 
   /**
    * The player speed.
