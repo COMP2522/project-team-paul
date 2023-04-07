@@ -209,6 +209,11 @@ public class MenuManager extends PApplet {
   private static int X = 30;
   private static int Y = 90;
 
+  /**
+   * Static instance of MenuManager class.
+   */
+  private static MenuManager instance = null;
+
   /****************************************************/
 
   /**
@@ -236,6 +241,23 @@ public class MenuManager extends PApplet {
     load            = new Load();
     frameRate(FPS);
     init();
+  }
+
+  /**
+   * Private constructor to prevent creating multiple instances.
+   */
+  private MenuManager() {}
+
+  /**
+   * Returns static instance of MenuManager class.
+   *
+   * @return MenuManger object
+   */
+  public static MenuManager getInstance() {
+    if (instance == null) {
+      instance = new MenuManager();
+    }
+    return instance;
   }
 
   /**
@@ -515,16 +537,5 @@ public class MenuManager extends PApplet {
    */
   public static int getDifficulty() {
     return difficulty;
-  }
-
-  /**
-   * Drives the program.
-   *
-   * @param args unused
-   */
-  public static void main(String[] args) {
-    String[] appletArgs = new String[]{"MenuManager"};
-    MenuManager menuManager = new MenuManager();
-    PApplet.runSketch(appletArgs, menuManager);
   }
 }
