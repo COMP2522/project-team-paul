@@ -18,6 +18,11 @@ public class SubmitMenu extends PApplet {
    */
   String userInput;
 
+  /**
+   * Constant.
+   */
+  private static final int FONT_SIZE = 30;
+
   /***************************************************/
 
   public void init(MenuManager window) {
@@ -30,18 +35,15 @@ public class SubmitMenu extends PApplet {
    */
   public void draw() {
     window.background(35, 150, 170);
-    window.textSize(30);
+    window.textSize(FONT_SIZE);
     window.textAlign(CENTER);
 
     userInput = JOptionPane.showInputDialog("Please enter your name:");
 
-    //Load load = new Load();
     Load.updateLeaderboard(userInput, Game.getHighscore(), MenuManager.getDifficulty());
     Game.restartGame();
     Game.startGame();
     Game.resetHighscore();
     MenuManager.setCurrentScreen(1);
-
-    //window.text(userInput, window.width / 2, window.height / 2);
   }
 }
