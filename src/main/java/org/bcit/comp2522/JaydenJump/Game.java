@@ -1,10 +1,9 @@
 package org.bcit.comp2522.JaydenJump;
 
+import java.util.Iterator;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
-
-import java.util.Iterator;
 
 /**
  * Game class.
@@ -85,6 +84,20 @@ public class Game extends PApplet {
   private static int scrollSpeed;
 
   /**
+   * Constants.
+   */
+  private static int BOSS = 2000;
+  private static int FONT_SIZE = 20;
+  private static int X_OFFSET = 75;
+  private static int Y_OFFSET = 50;
+  private static int HEART1 = 400;
+  private static int HEART2 = 337;
+  private static int HEART3= 275;
+  private static int PLAYER_LIVES = 3;
+
+  /**********************************************************/
+
+  /**
    * the level of the game.
    *
    * @param diff the level of the game
@@ -129,6 +142,7 @@ public class Game extends PApplet {
             player, level);
   }
 
+
   /**
    * Draws to window.
    * called every frame.
@@ -149,7 +163,7 @@ public class Game extends PApplet {
       updateAndDrawGameElements();
       generateGameElements();
 
-      if (score >= 3000) {
+      if (score >= BOSS) {
         drawAndUpdateBoss();
       }
     }
@@ -159,9 +173,9 @@ public class Game extends PApplet {
    * draws the score on the screen.
    */
   private void displayScore() {
-    window.textSize(20);
+    window.textSize(FONT_SIZE);
     window.fill(0);
-    window.text("Score: " + Game.getScore(), 50, 50);
+    window.text("Score: " + Game.getScore(), X_OFFSET, Y_OFFSET);
   }
 
   /**
@@ -169,8 +183,8 @@ public class Game extends PApplet {
    */
   private void checkCollisions() {
     platformManager.checkCollision();
-    powerUpManager.checkCollision(player);
-    coinManager.checkCollision(player);
+    powerUpManager.checkCollision();
+    coinManager.checkCollision();
     enemyManager.checkCollision(player);
   }
 
@@ -260,7 +274,7 @@ public class Game extends PApplet {
    * @param lives as an int
    */
   public void drawPlayerLives(int lives) {
-    int[] heartPositions = {400, 337, 275};
+    int[] heartPositions = {HEART1, HEART2, HEART3};
     for (int i = 0; i < lives; i++) {
       drawHeart(heartPositions[i]);
     }
@@ -272,15 +286,23 @@ public class Game extends PApplet {
    * @param x as an int
    */
   public void drawHeart(int x) {
-    window.fill(255, 0, 0);
+    int heartColorRed = 255;
+    float controlPoint1X = width / 4f + x;
+    float controlPoint2X = 3 * width / 4f + x;
+    float startPointX = width / 2f + x;
+    float startPointY = height / 4f;
+    float endPointX = startPointX;
+    float endPointY = height / 2f;
+    float controlPointY = 0;
+    float anchorPointY = height / 3f;
+
+    window.fill(heartColorRed, 0, 0);
     window.beginShape();
-    window.vertex(width / 2f + x, height / 4f);
-    window.bezierVertex(width / 4f + x, 0, x, height / 3f,
-            width / 2f + x, height / 2f);
-    window.bezierVertex(width + x, height / 3f, 3 * width / 4f  + x,
-            0, width / 2f + x, height / 4f);
+    window.vertex(startPointX, startPointY);
+    window.bezierVertex(controlPoint1X, controlPointY, x, anchorPointY, endPointX, endPointY);
+    window.bezierVertex(width + x, anchorPointY, controlPoint2X, controlPointY, startPointX, startPointY);
     window.endShape();
-  }
+    }
 
 
   /**
@@ -303,7 +325,7 @@ public class Game extends PApplet {
    */
   public static void endGame() {
     gameOver = true;
-    lives = 3;
+    lives = PLAYER_LIVES;
   }
 
   /**
@@ -403,6 +425,4 @@ public class Game extends PApplet {
     return bossManager;
   }
 }
-
-
 

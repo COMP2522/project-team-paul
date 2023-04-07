@@ -1,18 +1,37 @@
 package org.bcit.comp2522.JaydenJump;
 
-import processing.core.PApplet;
-import processing.core.PImage;
-import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import processing.core.PApplet;
+import processing.core.PImage;
 
 /**
  * Menu manager.
  *
  * @author Brian Kwon
- * @version 1.3
+ * @version 1.4
  */
 public class MenuManager extends PApplet {
+
+  /**
+   * Window width.
+   */
+  private static final int WIDTH = 480;
+
+  /**
+   * Window height.
+   */
+  private static final int HEIGHT = 800;
+
+  /**
+   * Frames per second.
+   */
+  private static final int FPS = 60;
 
   /**
    * Image of game title.
@@ -105,19 +124,49 @@ public class MenuManager extends PApplet {
   private Game game;
 
   /**
-   * Player object that represents the user-controlled character.
-   */
-  private static Player player;
-
-  /**
    * Index of current screen being displayed.
    */
   private static int currentScreen = 0;
 
   /**
-   * Manager for the enemies.
+   * Start menu.
    */
-  private EnemyManager enemyManager;
+  private static final int START_MENU = 0;
+
+  /**
+   * Main menu.
+   */
+  private static final int MAIN_MENU = 1;
+
+  /**
+   * Difficulty menu.
+   */
+  private static final int DIFFICULTY_MENU = 2;
+
+  /**
+   * Leaderboards menu.
+   */
+  private static final int LEADERBOARDS_MENU = 3;
+
+  /**
+   * Death menu.
+   */
+  private static final int DEATH_MENU = 4;
+
+  /**
+   * Pause menu.
+   */
+  private static final int PAUSE_MENU = 5;
+
+  /**
+   * Submit Menu.
+   */
+  private static final int SUBMIT_MENU = 6;
+
+  /**
+   * Game window.
+   */
+  private static final int GAME = 7;
 
   /**
    * Flag indicating whether sound is currently enabled.
@@ -130,18 +179,44 @@ public class MenuManager extends PApplet {
   private PImage enemyImg;
 
   /**
-   * the image for the boss.
+   * Image used to display the boss.
    */
   private static PImage bossImg;
 
   /**
-   * the background image of the game.
+   * Image used to display the background.
    */
   private static PImage backgroundImage;
 
+  /**
+   * Difficulty setting.
+   */
   private static int difficulty = 1;
-  Load load = new Load();
+
+  /**
+   * Load object for grabbing player stats from database.
+   */
+  Load load;
+
+  /**
+   * String used to store player stats.
+   */
   String[] str;
+
+  /**
+   * Constant.
+   */
+  private static int X = 30;
+
+  /**
+   * Constant.
+   */
+  private static int Y = 90;
+
+  /**
+   * Static instance of MenuManager class.
+   */
+  private static MenuManager instance = null;
 
   /****************************************************/
 
@@ -149,7 +224,7 @@ public class MenuManager extends PApplet {
    * Sets up initial size of game window.
    */
   public void settings() {
-    size(480, 800);
+    size(WIDTH, HEIGHT);
   }
 
   /**
@@ -167,8 +242,26 @@ public class MenuManager extends PApplet {
     playerImg       = loadPlayerImages();
     coinImg         = loadCoinImages();
     powerUpImg      = loadPowerUpImages();
-    frameRate(60);
+    load            = new Load();
+    frameRate(FPS);
     init();
+  }
+
+  /**
+   * Private constructor to prevent creating multiple instances.
+   */
+  private MenuManager() {}
+
+  /**
+   * Returns static instance of MenuManager class.
+   *
+   * @return MenuManger object
+   */
+  public static MenuManager getInstance() {
+    if (instance == null) {
+      instance = new MenuManager();
+    }
+    return instance;
   }
 
   /**
@@ -176,7 +269,8 @@ public class MenuManager extends PApplet {
    * @return PImage array for PowerUps
    */
   private PImage[] loadPowerUpImages() {
-    PImage[] powerUpImages = new PImage[3];
+    final int n = 3;
+    PImage[] powerUpImages = new PImage[n];
     for (int i = 0; i < powerUpImages.length; i++) {
       switch (i) {
         case 0 -> powerUpImages[i] = loadImage("./Images/heart.png");
@@ -192,7 +286,8 @@ public class MenuManager extends PApplet {
    * @return PImage array for Coin
    */
   private PImage[] loadCoinImages() {
-    PImage[] coinImages = new PImage[6];
+    final int n = 6;
+    PImage[] coinImages = new PImage[n];
     for (int i = 0; i < coinImages.length; i++) {
       coinImages[i] = loadImage("./Images/Coin" + (i + 1) + ".png");
     }
@@ -239,12 +334,12 @@ public class MenuManager extends PApplet {
     submitMenu       = new SubmitMenu();
 
     game = new Game(difficulty,
-                    this,
-                    powerUpImg,
-                    backgroundImage,
-                    enemyImg,
-                    playerImg,
-                    coinImg);
+        this,
+        powerUpImg,
+        backgroundImage,
+        enemyImg,
+        playerImg,
+        coinImg);
   }
 
   /**
@@ -261,23 +356,23 @@ public class MenuManager extends PApplet {
    */
   public void draw() {
     switch (currentScreen) {
-      case 0 -> startMenu.init(this);
-      case 1 -> mainMenu.init(this,
-                                      logo,
-                                      doodle,
-                                      musicOn,
-                                      musicOff);
-      case 2 -> difficultyMenu.init(this);
-      case 3 -> {str = load.getLeaderboard();
-                leaderboardsMenu.init(this, str);
+      case START_MENU -> startMenu.init(this);
+      case MAIN_MENU -> mainMenu.init(this,
+          logo,
+          doodle,
+          musicOn,
+          musicOff);
+      case DIFFICULTY_MENU -> difficultyMenu.init(this);
+      case LEADERBOARDS_MENU -> {str = load.getLeaderboard();
+        leaderboardsMenu.init(this, str);
       }
-      case 4 -> deathMenu.init(this);
-      case 5 -> pauseMenu.init(this);
-      case 6 -> submitMenu.init(this);
-      case 7 -> {game.draw();
-                if (game.gameOver) {
-                  currentScreen = 4;
-                }
+      case DEATH_MENU -> deathMenu.init(this);
+      case PAUSE_MENU -> pauseMenu.init(this);
+      case SUBMIT_MENU -> submitMenu.init(this);
+      case GAME -> {game.draw();
+        if (game.gameOver) {
+          currentScreen = DEATH_MENU;
+        }
       }
     }
   }
@@ -302,7 +397,7 @@ public class MenuManager extends PApplet {
         playerImg,
         coinImg);
 
-    currentScreen = 7;
+    currentScreen = GAME;
   }
 
   /**
@@ -310,12 +405,12 @@ public class MenuManager extends PApplet {
    */
   public void handleMouseClicksInMainMenu() {
     if (mainMenu.start.isClicked(mouseX, mouseY)) {
-      currentScreen = 2;
+      currentScreen = DIFFICULTY_MENU;
     } else if (mainMenu.leaderboards.isClicked(mouseX, mouseY)) {
       str = load.getLeaderboard();
-      currentScreen = 3;
-    } else if (mouseX >= 30 && mouseX < 30 + mainMenu.musicOn.width
-        && mouseY >= 90 && mouseY < 90 + mainMenu.musicOn.height) {
+      currentScreen = LEADERBOARDS_MENU;
+    } else if (mouseX >= X && mouseX < X + mainMenu.musicOn.width
+        && mouseY >= Y && mouseY < Y + mainMenu.musicOn.height) {
       if (sound) {
         clip.stop();
         clip.drain();
@@ -334,7 +429,7 @@ public class MenuManager extends PApplet {
    */
   public void handleMouseClicksInLeaderboards() {
     if (leaderboardsMenu.back.isClicked(mouseX, mouseY)) {
-      currentScreen = 1;
+      currentScreen = MAIN_MENU;
     }
   }
 
@@ -343,22 +438,22 @@ public class MenuManager extends PApplet {
    */
   public void handleMouseClicksInDeathMenu() {
     if (deathMenu.playAgain.isClicked(mouseX, mouseY)) {
-      currentScreen = 7;
+      currentScreen = GAME;
       game.restartGame();
       game.startGame();
       game.resetHighscore();
     } else if (deathMenu.changeDifficulty.isClicked(mouseX, mouseY)) {
-      currentScreen = 2;
+      currentScreen = DIFFICULTY_MENU;
       game.restartGame();
       game.startGame();
       game.resetHighscore();
     } else if (deathMenu.home.isClicked(mouseX, mouseY)) {
-      currentScreen = 1;
+      currentScreen = MAIN_MENU;
       game.restartGame();
       game.startGame();
       game.resetHighscore();
     } else if (deathMenu.submit.isClicked(mouseX, mouseY)) {
-      currentScreen = 6;
+      currentScreen = SUBMIT_MENU;
     }
   }
 
@@ -367,9 +462,9 @@ public class MenuManager extends PApplet {
    */
   public void handleMouseClicksInPauseMenu() {
     if (pauseMenu.resume.isClicked(mouseX, mouseY)) {
-      currentScreen = 7;
+      currentScreen = GAME;
     } else if (pauseMenu.home.isClicked(mouseX, mouseY)) {
-      currentScreen = 1;
+      currentScreen = MAIN_MENU;
       game.restartGame();
       game.startGame();
     }
@@ -380,11 +475,11 @@ public class MenuManager extends PApplet {
    */
   public void mousePressed() {
     switch (currentScreen) {
-      case 1 -> handleMouseClicksInMainMenu();
-      case 2 -> handleMouseClicksInDifficultyMenu();
-      case 3 -> handleMouseClicksInLeaderboards();
-      case 4 -> handleMouseClicksInDeathMenu();
-      case 5 -> handleMouseClicksInPauseMenu();
+      case MAIN_MENU -> handleMouseClicksInMainMenu();
+      case DIFFICULTY_MENU -> handleMouseClicksInDifficultyMenu();
+      case LEADERBOARDS_MENU -> handleMouseClicksInLeaderboards();
+      case DEATH_MENU -> handleMouseClicksInDeathMenu();
+      case PAUSE_MENU -> handleMouseClicksInPauseMenu();
     }
   }
 
@@ -395,10 +490,10 @@ public class MenuManager extends PApplet {
     keyCode = keyEvent.getKeyCode();
     Game.keyPressedListener(keyCode);
 
-    if (currentScreen == 0 && keyPressed && key == ' ') {
-      currentScreen = 1;
-    } else if (currentScreen == 4 && keyPressed && key == ' ') {
-      currentScreen = 7;
+    if (currentScreen == START_MENU && keyPressed && key == ' ') {
+      currentScreen = MAIN_MENU;
+    } else if (currentScreen == DEATH_MENU && keyPressed && key == ' ') {
+      currentScreen = GAME;
       game.startGame();
       game.restartGame();
     }
@@ -440,26 +535,11 @@ public class MenuManager extends PApplet {
   }
 
   /**
-   * Getter for Player object.
+   * Getter for difficulty.
    *
-   * @return Player object
+   * @return difficulty as an int
    */
-  public static Player getPlayer() {
-    return player;
-  }
-
   public static int getDifficulty() {
     return difficulty;
-  }
-
-  /**
-   * Drives the program.
-   *
-   * @param args unused
-   */
-  public static void main(String[] args) {
-    String[] appletArgs = new String[]{"MenuManager"};
-    MenuManager menuManager = new MenuManager();
-    PApplet.runSketch(appletArgs, menuManager);
   }
 }

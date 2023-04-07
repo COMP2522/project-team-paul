@@ -32,6 +32,15 @@ public class PauseMenu extends PApplet implements GameUI {
    */
   Button home;
 
+  /**
+   * Constants.
+   */
+  private static final int FONT_SIZE = 30;
+  private static final int BUTTON = 350;
+  private static final int BUTTON_WIDTH = 150;
+  private static final int BUTTON_HEIGHT = 100;
+
+
   /******************************************************/
 
   /**
@@ -49,13 +58,13 @@ public class PauseMenu extends PApplet implements GameUI {
    */
   public void draw() {
     window.background(35, 150, 170);
-    window.textSize(15);
     window.textAlign(CENTER);
+    window.textSize(FONT_SIZE);
     window.text("Current score: " + Game.getScore() + "\nHighscore: " + Game.getHighscore(),
-        width / 2 + 20, height / 2);
+        window.width / 2, window.height / 4);
     buttons = new ArrayList<>();
-    resume = new Button(window.width / 2, 350, 150, 100, 30, "Resume", window);
-    home = new Button(window.width / 2, 500, 150, 100, 30, "Home", window);
+    resume = new Button(window.width / 2, BUTTON, BUTTON_WIDTH, BUTTON_HEIGHT, FONT_SIZE, "Resume", window);
+    home = new Button(window.width / 2, BUTTON + BUTTON_WIDTH, BUTTON_WIDTH, BUTTON_HEIGHT, FONT_SIZE, "Home", window);
     buttons.add(resume);
     buttons.add(home);
     for (Button button : buttons) {

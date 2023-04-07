@@ -1,8 +1,9 @@
 package org.bcit.comp2522.JaydenJump;
 
+import javax.sound.sampled.Clip;
 import processing.core.PApplet;
 import processing.core.PImage;
-import javax.sound.sampled.Clip;
+
 
 /**
  * A type of PowerUp that gives the player an extra life in the game.
@@ -14,11 +15,14 @@ import javax.sound.sampled.Clip;
  * @since 2023-03-22
  */
 
-public class ExtraLife extends PowerUp implements Audible{
+public class ExtraLife extends PowerUp implements Audible {
 
   /** Audio clip used for playing ExtraLife PowerUp. */
   private Clip clip;
 
+  /**
+   * Maxmimum amount of ExtraLife sprites that are spawned in each cycle.
+   */
   private static final int MAXIMUMLIVES = 3;
 
   /**
@@ -76,7 +80,7 @@ public class ExtraLife extends PowerUp implements Audible{
     }
   }
 
-  /** Plays sound clip of ExtraLife if MenuManager's sound is on */
+  /** Plays sound clip of ExtraLife if MenuManager's sound is on. */
   @Override
   public void playSound() {
     if (MenuManager.sound) {

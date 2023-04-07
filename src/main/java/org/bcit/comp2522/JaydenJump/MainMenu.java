@@ -1,6 +1,5 @@
 package org.bcit.comp2522.JaydenJump;
 
-import java.awt.*;
 import java.util.ArrayList;
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -64,6 +63,31 @@ public class MainMenu extends PApplet {
    */
   Button leaderboards;
 
+  /**
+   * Constant.
+   */
+  private static final int X_GAP = 100;
+
+  /**
+   * Constant.
+   */
+  private static final int Y_GAP = 150;
+
+  /**
+   * Constant.
+   */
+  private static final int X = 30;
+
+  /**
+   * Constant.
+   */
+  private static final int Y = 90;
+
+  /**
+   * Constant.
+   */
+  private static final int SIZE = 50;
+
   /****************************************************/
 
   /**
@@ -85,10 +109,8 @@ public class MainMenu extends PApplet {
     gameMenu     = new PauseMenu();
     death        = new DeathMenu();
     buttons      = new ArrayList<Button>();
-
-    int gap = 100;
-    start        = new Button(window.width / 2 - gap, 600, 150, 100, 30, "Start Game", window);
-    leaderboards = new Button(window.width / 2 + gap, 600, 150, 100, 25, "Leaderboards", window);
+    start        = new Button(window.width / 2 - X_GAP, window.height - Y_GAP, 150, 100, 30, "Start Game", window);
+    leaderboards = new Button(window.width / 2 + X_GAP, window.height - Y_GAP, 150, 100, 25, "Leaderboards", window);
     buttons.add(start);
     buttons.add(leaderboards);
     draw();
@@ -100,15 +122,11 @@ public class MainMenu extends PApplet {
   public void draw() {
     window.background(35, 150, 170);
     window.image(logo, 0, 0);
-    window.image(doodle, window.width / 2 - doodle.width / 2, window.height / 4);
-
-    int x = 30;
-    int y = 90;
-    int size = 50;
+    window.image(doodle, window.width / 2 - doodle.width / 2, window.height / 2 - doodle.height / 2);
     if (sound) {
-      window.image(musicOn, x, y, size, size);
+      window.image(musicOn, X, Y, SIZE, SIZE);
     } else {
-      window.image(musicOff, x, y, size, size);
+      window.image(musicOff, X, Y, SIZE, SIZE);
     }
     for (Button button : buttons) {
       button.draw();
