@@ -64,28 +64,12 @@ public class MainMenu extends PApplet {
   Button leaderboards;
 
   /**
-   * Constant.
+   * Constants.
    */
   private static final int X_GAP = 100;
-
-  /**
-   * Constant.
-   */
   private static final int Y_GAP = 150;
-
-  /**
-   * Constant.
-   */
   private static final int X = 30;
-
-  /**
-   * Constant.
-   */
   private static final int Y = 90;
-
-  /**
-   * Constant.
-   */
   private static final int SIZE = 50;
 
   /****************************************************/
