@@ -1,5 +1,6 @@
 package org.bcit.comp2522.JaydenJump;
 
+import java.awt.*;
 import java.util.ArrayList;
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -63,11 +64,6 @@ public class MainMenu extends PApplet {
    */
   Button leaderboards;
 
-  /**
-   * Button used to access game settings.
-   */
-  //Button settings;
-
   /****************************************************/
 
   /**
@@ -87,15 +83,14 @@ public class MainMenu extends PApplet {
     this.musicOn = musicOn;
     this.musicOff = musicOff;
     gameMenu     = new PauseMenu();
-    //gameSettings = new GameSettings();
     death        = new DeathMenu();
     buttons      = new ArrayList<Button>();
-    start        = new Button(150, 600, 150, 100, 30, "Start Game", window);
-    leaderboards = new Button(350, 600, 150, 100, 25, "Leaderboards", window);
-    //settings     = new Button(250, 660, 100, 50, 15, "Settings", window);
+
+    int gap = 100;
+    start        = new Button(window.width / 2 - gap, 600, 150, 100, 30, "Start Game", window);
+    leaderboards = new Button(window.width / 2 + gap, 600, 150, 100, 25, "Leaderboards", window);
     buttons.add(start);
     buttons.add(leaderboards);
-    //buttons.add(settings);
     draw();
   }
 
@@ -104,15 +99,16 @@ public class MainMenu extends PApplet {
    */
   public void draw() {
     window.background(35, 150, 170);
-    doodle.resize(400, 400);
-    musicOn.resize(50, 50);
-    musicOff.resize(50, 50);
     window.image(logo, 0, 0);
-    window.image(doodle, 0, 150);
+    window.image(doodle, window.width / 2 - doodle.width / 2, window.height / 4);
+
+    int x = 30;
+    int y = 90;
+    int size = 50;
     if (sound) {
-      window.image(musicOn, 30, 90, 50, 50);
+      window.image(musicOn, x, y, size, size);
     } else {
-      window.image(musicOff, 30, 90, 50, 50);
+      window.image(musicOff, x, y, size, size);
     }
     for (Button button : buttons) {
       button.draw();
