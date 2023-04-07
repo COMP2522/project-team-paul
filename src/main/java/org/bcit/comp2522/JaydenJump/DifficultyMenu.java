@@ -7,7 +7,7 @@ import processing.core.PApplet;
  * Menu where the player chooses their desired difficulty.
  *
  * @author Brian Kwon
- * @version 1.0
+ * @version 1.1
  */
 public class DifficultyMenu extends PApplet {
 
@@ -36,6 +36,14 @@ public class DifficultyMenu extends PApplet {
    */
   Button hard;
 
+  /**
+   * Constants.
+   */
+  private static final int BUTTON = 200;
+  private static final int BUTTON_WIDTH = 150;
+  private static final int BUTTON_HEIGHT = 100;
+  private static final int FONT_SIZE = 20;
+
   /******************************************************/
 
   /**
@@ -46,9 +54,9 @@ public class DifficultyMenu extends PApplet {
   public void init(MenuManager window) {
     this.window = window;
     buttons = new ArrayList<Button>();
-    easy = new Button(window.width / 2, 200, 150, 100, 20, "Easy", window);
-    medium = new Button(window.width / 2, 400, 150, 100, 20, "Medium", window);
-    hard = new Button(window.width / 2, 600, 150, 100, 20, "Hard", window);
+    easy = new Button(window.width / 2, BUTTON, BUTTON_WIDTH, BUTTON_HEIGHT, FONT_SIZE, "Easy", window);
+    medium = new Button(window.width / 2, BUTTON * 2, BUTTON_WIDTH, BUTTON_HEIGHT, FONT_SIZE, "Medium", window);
+    hard = new Button(window.width / 2, BUTTON * 3, BUTTON_WIDTH, BUTTON_HEIGHT, FONT_SIZE, "Hard", window);
     buttons.add(easy);
     buttons.add(medium);
     buttons.add(hard);
