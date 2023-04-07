@@ -14,12 +14,12 @@ class and run it. A window similar to this will pop up:
 From this menu you want to press on the space bar to continue
 after which you will be greeted with this menu:
 
-![img.png](MainMenuReadme2/img.png)
+![img.png](Images/MainMenu2.png)
 
 On this menu you want to select *<b>"Start Game"</b>*.
 After you select that you should be greeted with this menu:
 
-![img.png](DIffcultSelectReadme/img.png)
+![img.png](Images/DiffcultSelectReadme.png)
 
 Here you want to select the difficulty you want to play on.
 
@@ -66,12 +66,13 @@ to lose a life.
 ![img.png](Images/BossReadme.png)
 
 ### Power Ups
-The game also has power ups. They are the squares
-with question marks in them and when the player 
-collides with them, they will either be jumped up
-similar to how a platform might or they will gain a
-life as long as they have less than 3 lives. The 
-power ups spawn in random locations in the window.
+The game also has power ups. There are 3 different types
+of power ups. The first is the spring landing on it will
+jump you up similar to a platform. The second is the
+jetpack landing on it will boost you up a little higher
+than a platform would. The final power up is the heart,
+landing on it will give you another life as long as you
+have less than 3 hearts.
 
 ### Coins
 The player can collect coins as well throughout

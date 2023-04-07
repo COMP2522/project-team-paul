@@ -67,7 +67,7 @@ public class Game extends PApplet {
   /**
    * the boss manager.
    */
-  private BossManager bossManager;
+  private static BossManager bossManager;
 
   /**
    * the background image.
@@ -109,6 +109,10 @@ public class Game extends PApplet {
     gameOver = false;
   }
 
+  public static Player getPlayer() {
+    return player;
+  }
+
   private void initializeLevel(Level level, PImage[] coinImages, PImage[] powerUpImage,
                                PImage enemyImage, PImage[] playerImage) {
     player = Player.getInstance(window, playerImage, level.getPlayerSpeed(), level.getGravity());
@@ -142,7 +146,6 @@ public class Game extends PApplet {
         handlePlayerLanding();
       }
 
-      handleEnemyCollisions();
       updateAndDrawGameElements();
       generateGameElements();
 
@@ -168,6 +171,7 @@ public class Game extends PApplet {
     platformManager.checkCollision();
     powerUpManager.checkCollision(player);
     coinManager.checkCollision(player);
+    enemyManager.checkCollision(player);
   }
 
   /**
@@ -200,25 +204,6 @@ public class Game extends PApplet {
     }
   }
 
-  /**
-   * TODO: will need to put this in a separate class.
-   */
-  private void handleEnemyCollisions() {
-    Iterator<Enemy> enemyIterator = enemyManager.getEnemies().iterator();
-    while (enemyIterator.hasNext()) {
-      Enemy enemy = enemyIterator.next();
-      if (enemy.collides(player)) {
-        lives--;
-        if (lives == 0) {
-          bossManager.setIsAlive(false);
-          endGame();
-        } else {
-          restartGame();
-        }
-        enemyIterator.remove();
-      }
-    }
-  }
 
   /**
    * updates and draws the game elements.
@@ -405,5 +390,16 @@ public class Game extends PApplet {
   public static void setLives(int lives) {
     Game.lives = lives;
   }
+
+  /**
+   * getter for the boss manager.
+   *
+   * @return the boss manager
+   */
+  public static BossManager getBossManager() {
+    return bossManager;
+  }
 }
+
+
 

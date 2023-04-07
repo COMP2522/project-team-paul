@@ -3,6 +3,7 @@ package org.bcit.comp2522.JaydenJump;
 import processing.core.PApplet;
 import processing.core.PImage;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Enemy manager class to manage the enemies.
@@ -108,11 +109,21 @@ public class EnemyManager {
   }
 
   /**
-   * getter for the arraylist of enemies.
-   *
-   * @return the array list of enemies
+   * Handle collision between enemy and player.
    */
-  public ArrayList<Enemy> getEnemies() {
-    return enemies;
+  public void checkCollision(Player player) {
+    Iterator<Enemy> enemyIterator = enemies.iterator();
+    while (enemyIterator.hasNext()) {
+      Enemy enemy = enemyIterator.next();
+      if (enemy.collides(player)) {
+        Game.setLives(Game.getLives() - 1);
+        if (Game.getLives() == 0) {
+          Game.getBossManager().setIsAlive(false);
+          Game.endGame();
+        }
+        enemyIterator.remove();
+      }
+    }
   }
+
 }
