@@ -124,30 +124,89 @@ public class Game extends PApplet {
             player, level.getMaxBosses());
   }
 
-
   /**
    * Draws to window.
+   * called every frame.
    */
   public void draw() {
     drawBackground();
-    window.textSize(20);
-    window.fill(0);
-    window.text("Score: " + Game.getScore(), 50, 50);
-
+    displayScore();
     drawPlayerLives(lives);
 
     if (!gameOver && lives > 0) {
-      platformManager.checkCollision();
-      powerUpManager.checkCollision(player);
-      coinManager.checkCollision(player);
+      checkCollisions();
+      updateScoreAndHighscore();
 
-      score++;
-      if (score > highscore) {
-        highscore = score;
+      if (playerReachedGround()) {
+        handlePlayerLanding();
       }
 
-      player.update();
-      if (player.getYpos() >= window.height - player.getPlayerSize() / 2) {
+      handleEnemyCollisions();
+      updateAndDrawGameElements();
+      generateGameElements();
+
+      if (score >= 2000) {
+        drawAndUpdateBoss();
+      }
+    }
+  }
+
+  /**
+   * draws the score on the screen.
+   */
+  private void displayScore() {
+    window.textSize(20);
+    window.fill(0);
+    window.text("Score: " + Game.getScore(), 50, 50);
+  }
+
+  /**
+   * checks for any collisions and handles them.
+   */
+  private void checkCollisions() {
+    platformManager.checkCollision();
+    powerUpManager.checkCollision(player);
+    coinManager.checkCollision(player);
+  }
+
+  /**
+   * updates the score of the game.
+   */
+  private void updateScoreAndHighscore() {
+    score++;
+    if (score > highscore) {
+      highscore = score;
+    }
+  }
+
+  /**
+   * checks if the player has reached the ground.
+   *
+   * @return true if the player has reached the ground
+   */
+  private boolean playerReachedGround() {
+    return player.getYpos() >= window.height - player.getPlayerSize() / 2f;
+  }
+
+  /**
+   * checks if the player has landed on the ground.
+   */
+  private void handlePlayerLanding() {
+    lives--;
+    if (lives == 0) {
+      bossManager.setIsAlive(false);
+      endGame();
+    }
+  }
+
+  /**
+   * TODO: will need to put this in a separate class.
+   */
+  private void handleEnemyCollisions() {
+    Iterator<Enemy> enemyIterator = enemyManager.getEnemies().iterator();
+    while (enemyIterator.hasNext()) {
+      Enemy enemy = enemyIterator.next();
+      if (enemy.collides(player)) {
         lives--;
         if (lives == 0) {
           bossManager.setIsAlive(false);
@@ -155,42 +214,39 @@ public class Game extends PApplet {
         } else {
           restartGame();
         }
-      }
-
-      Iterator<Enemy> enemyIterator = enemyManager.getEnemies().iterator();
-      while (enemyIterator.hasNext()) {
-        Enemy enemy = enemyIterator.next();
-        if (enemy.collides(player)) {
-          lives--;
-          if (lives == 0) {
-            bossManager.setIsAlive(false);
-            endGame();
-          } else {
-            restartGame();
-          }
-          enemyIterator.remove();
-        }
-      }
-
-      platformManager.updateAndDrawPlatforms();
-      powerUpManager.updateAndDrawPowerUps();
-      coinManager.updateAndDrawCoins();
-      platformManager.generatePlatforms();
-      powerUpManager.generatePowerUps();
-      coinManager.generateCoins();
-      platformManager.checkCollision();
-      powerUpManager.checkCollision(player);
-      coinManager.checkCollision(player);
-      player.draw();
-
-      enemyManager.update();
-      enemyManager.draw();
-
-      if (score >= 2000) {
-        bossManager.draw();
-        bossManager.update();
+        enemyIterator.remove();
       }
     }
+  }
+
+  /**
+   * updates and draws the game elements.
+   */
+  private void updateAndDrawGameElements() {
+    platformManager.updateAndDrawPlatforms();
+    powerUpManager.updateAndDrawPowerUps();
+    coinManager.updateAndDrawCoins();
+    player.update();
+    player.draw();
+    enemyManager.update();
+    enemyManager.draw();
+  }
+
+  /**
+   * generates the game elements.
+   */
+  private void generateGameElements() {
+    platformManager.generatePlatforms();
+    powerUpManager.generatePowerUps();
+    coinManager.generateCoins();
+  }
+
+  /**
+   * draws and updates the boss.
+   */
+  private void drawAndUpdateBoss() {
+    bossManager.draw();
+    bossManager.update();
   }
 
   /**
@@ -217,7 +273,6 @@ public class Game extends PApplet {
    */
   public void drawPlayerLives(int lives) {
     int[] heartPositions = {400, 337, 275};
-
     for (int i = 0; i < lives; i++) {
       drawHeart(heartPositions[i]);
     }
@@ -231,9 +286,11 @@ public class Game extends PApplet {
   public void drawHeart(int x) {
     window.fill(255, 0, 0);
     window.beginShape();
-    window.vertex(width / 2 + x, height / 4);
-    window.bezierVertex(width / 4 + x, 0, 0 + x, height / 3, width / 2 + x, height / 2);
-    window.bezierVertex(width + x, height / 3, 3 * width / 4  + x, 0, width / 2 + x, height / 4);
+    window.vertex(width / 2f + x, height / 4f);
+    window.bezierVertex(width / 4f + x, 0, x, height / 3f,
+            width / 2f + x, height / 2f);
+    window.bezierVertex(width + x, height / 3f, 3 * width / 4f  + x,
+            0, width / 2f + x, height / 4f);
     window.endShape();
   }
 
@@ -276,9 +333,9 @@ public class Game extends PApplet {
    */
   public static void keyPressedListener(int key) {
     if (key == LEFT || key == 'A') {
-      getPlayer().moveLeft();
+      player.moveLeft();
     } else if (key == RIGHT || key == 'D') {
-      getPlayer().moveRight();
+      player.moveRight();
     } else if (key == 'P') {
       if (MenuManager.getCurrentScreen() == 7) {
         MenuManager.setCurrentScreen(5);
@@ -286,7 +343,7 @@ public class Game extends PApplet {
         MenuManager.setCurrentScreen(7);
       }
     } else if (key == ' ') {
-      getPlayer().shootProjectile();
+      player.shootProjectile();
     }
   }
 
@@ -301,15 +358,6 @@ public class Game extends PApplet {
     } else if (key == ' ') {
       player.shootProjectile();
     }
-  }
-
-  /**
-   * Getter for Player object.
-   *
-   * @return player as a Player object
-   */
-  public static Player getPlayer() {
-    return player;
   }
 
   /**
