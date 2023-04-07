@@ -166,8 +166,8 @@ public class Game extends PApplet {
    */
   private void checkCollisions() {
     platformManager.checkCollision();
-    powerUpManager.checkCollision(player);
-    coinManager.checkCollision(player);
+    powerUpManager.checkCollision();
+    coinManager.checkCollision();
   }
 
   /**
