@@ -46,17 +46,17 @@ public class Game extends PApplet {
   /**
    * Current score.
    */
-  private static int score = 0;
+  private static int score;
 
   /**
    * Highest score achieved in the game so far.
    */
-  private static int highscore = 0;
+  private static int highscore;
 
   /**
    * The lives of the player.
    */
-  private static int lives = 3;
+  private static int lives;
 
   /**
    * Manager for the enemies.
@@ -141,6 +141,9 @@ public class Game extends PApplet {
     this.enemyManager = EnemyManager.getInstance(window, level, enemyImage);
     this.bossManager = BossManager.getInstance(MenuManager.getBossImg(), 150, 150, window,
             player, level);
+    score = 0;
+    highscore = 0;
+    lives = PLAYER_LIVES;
   }
 
 
