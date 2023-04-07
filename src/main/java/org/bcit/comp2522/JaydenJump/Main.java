@@ -6,7 +6,7 @@ import processing.core.PApplet;
  * Starting point of game.
  *
  * @author Brian Kwon
- * @version 1.0
+ * @version 1.1
  */
 public class Main {
 
@@ -17,6 +17,6 @@ public class Main {
    */
   public static void main(String[] args) {
     String[] arr = {"Jayden Jump"};
-    PApplet.runSketch(arr, new MenuManager());
+    PApplet.runSketch(arr, MenuManager.getInstance());
   }
 }
