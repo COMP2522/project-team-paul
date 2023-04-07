@@ -68,7 +68,7 @@ public class EnemyManager {
       Enemy enemy = enemies.get(i);
       enemy.update();
 
-      if (enemy.collides(Game.getPlayer().getProjectile())) {
+      if (enemy.collides(Game.player.getProjectile())) {
         enemies.remove(enemy);
         enemy.update();
       }
