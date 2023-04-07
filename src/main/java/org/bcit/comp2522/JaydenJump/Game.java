@@ -138,8 +138,8 @@ public class Game extends PApplet {
 
     if (!gameOver && lives > 0) {
       platformManager.checkCollision();
-      powerUpManager.checkCollision(player);
-      coinManager.checkCollision(player);
+      powerUpManager.checkCollision();
+      coinManager.checkCollision();
 
       score++;
       if (score > highscore) {
@@ -179,8 +179,8 @@ public class Game extends PApplet {
       powerUpManager.generatePowerUps();
       coinManager.generateCoins();
       platformManager.checkCollision();
-      powerUpManager.checkCollision(player);
-      coinManager.checkCollision(player);
+      powerUpManager.checkCollision();
+      coinManager.checkCollision();
       player.draw();
 
       enemyManager.update();

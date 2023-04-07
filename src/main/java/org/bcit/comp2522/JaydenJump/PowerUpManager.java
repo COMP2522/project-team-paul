@@ -1,10 +1,10 @@
 package org.bcit.comp2522.JaydenJump;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * The PowerUpManager class manages all the PowerUps that appear in the game screen.
@@ -70,7 +70,8 @@ public class PowerUpManager {
    *
    * @param player the player object in the game
    */
-  private PowerUpManager(int maxPowerUps, PApplet sketch, int powerUpSpeed, Player player, PImage[] powerUpImg) {
+  private PowerUpManager(int maxPowerUps, PApplet sketch, int powerUpSpeed, Player player,
+                         PImage[] powerUpImg) {
     this.maxPowerUps = maxPowerUps;
     this.sketch = sketch;
     this.powerUpSpeed = powerUpSpeed;
@@ -81,7 +82,7 @@ public class PowerUpManager {
 
   /**
    * Retrieves an instance of the PowerUpManager class and enforces the
-   * singleton design pattern
+   * singleton design pattern.
    *
    * @param maxPowerUps the maximum amount of PowerUps permitted in the game
    *
@@ -93,7 +94,8 @@ public class PowerUpManager {
    *
    * @return PowerUpManager instance in the game
    */
-  public static PowerUpManager getInstance(int maxPowerUps, PApplet sketch, int powerUpSpeed, Player player, PImage powerUpImg[]) {
+  public static PowerUpManager getInstance(int maxPowerUps, PApplet sketch,
+                                           int powerUpSpeed, Player player, PImage[] powerUpImg) {
     if (instance == null) {
       instance = new PowerUpManager(maxPowerUps, sketch, powerUpSpeed, player, powerUpImg);
     }
@@ -103,7 +105,8 @@ public class PowerUpManager {
   /**
    * Reassigns the image associated with the PowerUpManger class.
    *
-   * @param image
+   * @param image that replaces the current image
+   *
    */
   public void setImage(PImage[] image) {
     this.image = image;
@@ -135,7 +138,7 @@ public class PowerUpManager {
    */
   public void generatePowerUps() {
     float y = 0;
-    while(powerups.size() < maxPowerUps) {
+    while (powerups.size() < maxPowerUps) {
       float x = sketch.random(sketch.width - PowerUp.getPowerupSize());
       PowerUp newPowerUp = createRandomPowerUp(x, y, 0, powerUpSpeed, sketch, player, image);
       powerups.add(newPowerUp);
@@ -166,17 +169,16 @@ public class PowerUpManager {
    * on collision. PowerUps that collide with player are also removed from
    * the ArrayList of PowerUps in the game.
    *
-   * @param player
    */
-  public void checkCollision(Player player) {
-      Iterator<PowerUp> powerUpIterator = powerups.iterator();
-      while (powerUpIterator.hasNext()) {
-        PowerUp powerup = powerUpIterator.next();
-        if (powerup.collides(player)) {
-          powerup.activate();
-          powerUpIterator.remove();
-        }
+  public void checkCollision() {
+    Iterator<PowerUp> powerUpIterator = powerups.iterator();
+    while (powerUpIterator.hasNext()) {
+      PowerUp powerup = powerUpIterator.next();
+      if (powerup.collides(this.player)) {
+        powerup.activate();
+        powerUpIterator.remove();
       }
+    }
   }
 
   /**
@@ -199,7 +201,8 @@ public class PowerUpManager {
    *
    * @return PowerUp that is randomly generated (Tire, ExtraLife, or JetPack)
    */
-  public PowerUp createRandomPowerUp(float xpos, float ypos, float vx, float vy, PApplet sketch, Player player, PImage[] image) {
+  public PowerUp createRandomPowerUp(float xpos, float ypos, float vx, float vy,
+                                     PApplet sketch, Player player, PImage[] image) {
     int randomInt = (int) (Math.random() * 3);
 
     // Create and return an instance of a randomly selected subclass
@@ -211,6 +214,5 @@ public class PowerUpManager {
       return new ExtraLife(xpos, ypos, vx, vy, true, sketch, player, image[0]);
     }
   }
-
 
 }

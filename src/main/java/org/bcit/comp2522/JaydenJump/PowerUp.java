@@ -70,6 +70,12 @@ public abstract class PowerUp extends Sprite {
             POWERUP_SIZE, POWERUP_SIZE);
   }
 
+  /**
+   * Returns true if the PowerUp is within bounds of the Game Window.
+   *
+   * @return true if on screen
+   *
+   */
   public boolean isOnScreen() {
     return getXpos() >= 0 && getXpos() + POWERUP_SIZE <= super.getSketch().width
         && getYpos() >= 0 && getYpos() + POWERUP_SIZE <= super.getSketch().height;
@@ -84,6 +90,13 @@ public abstract class PowerUp extends Sprite {
     super.setYpos(super.getYpos() + super.getVy());
   }
 
+  /**
+   * Checks if anything collides with the PowerUp.
+   *
+   * @param o The object to check for collision
+   *
+   * @return true if PowerUp collides with an object
+   */
   @Override
   public boolean collides(Object o) {
     if (o instanceof Player) {
