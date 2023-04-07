@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Starting point of game.
+ * Menu manager.
  *
  * @author Brian Kwon
  * @version 1.3
