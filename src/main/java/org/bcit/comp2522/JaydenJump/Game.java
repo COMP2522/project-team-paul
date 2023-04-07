@@ -1,9 +1,10 @@
 package org.bcit.comp2522.JaydenJump;
 
-import java.util.Iterator;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
+
+import java.util.Iterator;
 
 /**
  * Game class.
@@ -119,9 +120,9 @@ public class Game extends PApplet {
             level.getPowerUpSpeed(), player, powerUpImage);
     coinManager = CoinManager.getInstance(level.getMaxCoins(), window, level.getCoinSpeed(),
             player, coinImages);
-    this.enemyManager = new EnemyManager(window, level.getSpawnRate(), enemyImage);
+    this.enemyManager = new EnemyManager(window, level, enemyImage);
     this.bossManager = new BossManager(MenuManager.getBossImg(), 150, 150, window,
-            player, level.getMaxBosses());
+            player, level);
   }
 
   /**

@@ -11,7 +11,17 @@ class and run it. A window similar to this will pop up:
 
 ![img.png](Images/Mainmenu.png)
 
-From this menu you want to select the start game button
+From this menu you want to press on the space bar to continue
+after which you will be greeted with this menu:
+
+![img.png](MainMenuReadme2/img.png)
+
+On this menu you want to select *<b>"Start Game"</b>*.
+After you select that you should be greeted with this menu:
+
+![img.png](DIffcultSelectReadme/img.png)
+
+Here you want to select the difficulty you want to play on.
 
 ## How to Play the Game
 ### Basics
@@ -19,7 +29,7 @@ You can move left and right using <b>*A*</b> and
 <b>*D*</b> keys, or you can also use the <b>*Right*</b>
 and <b>*Left*</b> arrow keys. The player will automatically
 jump when he hits a platform. To shoot projectiles you
-can press <b>*Q*</b> and they will be shot straight up
+can press <b>*Space Bar*</b> and they will be shot straight up
 from your current position. You start off with 3 lives
 and lose 1 life everytime you die until you have 0 lives
 left at which point the game will end. Finally, your score 

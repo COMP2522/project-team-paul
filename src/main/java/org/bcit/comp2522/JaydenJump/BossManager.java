@@ -70,16 +70,16 @@ public class BossManager {
    * @param height the height of the boss
    * @param sketch the sketch for the boss
    * @param player the player instance
-   * @param maxBosses the max amount of bosses
+   * @param level the max amount of bosses
    */
   public BossManager(PImage image, int width, int height, PApplet sketch,
-                     Player player, int maxBosses) {
+                     Player player, Level level) {
     this.image = image;
     this.width = width;
     this.height = height;
     this.sketch = sketch;
     this.player = player;
-    this.maxBosses = maxBosses;
+    this.maxBosses = level.getMaxBosses();
     this.isAlive = false;
   }
 

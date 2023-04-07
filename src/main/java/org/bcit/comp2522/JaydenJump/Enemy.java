@@ -87,15 +87,6 @@ public class Enemy extends Sprite {
   }
 
   /**
-   * getter for if the enemy is to be removed.
-   *
-   * @return if the enemy is to be removed or not
-   */
-  public boolean isToBeRemoved() {
-    return toBeRemoved;
-  }
-
-  /**
    * setter for if the enemy is to be removed or not.
    *
    * @param b the value you want to set the enemies remove state too

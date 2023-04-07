@@ -42,13 +42,13 @@ public class EnemyManager {
    * constructor for the enemy manager class.
    *
    * @param sketch the sketch for the enemy manager
-   * @param spawnRate the spawnrate for the enemies
+   * @param level the spawnrate for the enemies
    * @param img the image for the enemies
    */
-  public EnemyManager(PApplet sketch, float spawnRate, PImage img) {
+  public EnemyManager(PApplet sketch, Level level, PImage img) {
     this.enemies = new ArrayList<>();
     this.sketch = sketch;
-    this.spawnRate = spawnRate;
+    this.spawnRate = level.getSpawnRate();
     this.spawnCounter = 0;
     this.image = img;
   }
