@@ -82,48 +82,30 @@ public class PlatformManager {
   /**
    * Private constructor for the platform manager.
    *
-   * @param maxPlatforms the maximum number of platforms
+   * @param level contains details about the level
    *
-   * @param sketch the parent sketch, where to draw things to
-   *
-   * @param platformSpeed the speed of the platforms moving down
-   *
-   * @param movableSpeed the speed of the movable platforms
    */
-  private PlatformManager(int maxPlatforms, PApplet sketch,
-                          int platformSpeed, int movableSpeed,
-                          int jumpThroughHeight, int playerJumpHeight,
-                          Player player) {
-    this.maxPlatforms = maxPlatforms;
-    this.sketch = sketch;
-    this.platformSpeed = platformSpeed;
-    platforms = new ArrayList<>();
-    this.movableSpeed = movableSpeed;
-    this.jumpThroughHeight = jumpThroughHeight;
-    this.playerJumpHeight = playerJumpHeight;
-    this.player = player;
+  private PlatformManager(Level level) {
+    this.sketch            = MenuManager.getInstance();
+    this.player            = Player.getInstance();
+    this.platforms         = new ArrayList<>();
+    this.maxPlatforms      = level.getMaxPlatform();
+    this.platformSpeed     = level.getPlatformSpeed();
+    this.movableSpeed      = level.getMoveableSpeed();
+    this.jumpThroughHeight = level.getJumpThroughHeight();
+    this.playerJumpHeight  = level.getPlayerJumpHeight();
   }
 
   /**
    * Gets the instance of the platform manager.
    *
-   * @param maxPlatforms the maximum number of platforms
-   *
-   * @param window the parent sketch
-   *
-   * @param platformSpeed the speed of the platforms
-   *
-   * @param movableSpeed the speed of the movable platforms
+   * @param level contains details about the level
    *
    * @return the instance of the platform manager
    */
-  public static PlatformManager getInstance(int maxPlatforms, PApplet window,
-                                            int platformSpeed, int movableSpeed,
-                                            int jumpThroughHeight, int playerJumpHeight,
-                                            Player player) {
+  public static PlatformManager getInstance(Level level) {
     if (instance == null) {
-      instance = new PlatformManager(maxPlatforms, window, platformSpeed,
-              movableSpeed, jumpThroughHeight, playerJumpHeight, player);
+      instance = new PlatformManager(level);
     }
     return instance;
   }
@@ -136,9 +118,10 @@ public class PlatformManager {
     for (int i = 0; i < STARTING_PLATFORMS; i++) {
       float x = sketch.random(sketch.width - Platform.getPlatformWidth());
       platforms.add(new Platform(sketch, x, y, green, 0, platformSpeed, false));
-      y += 150;
+      y += sketch.height / (float) STARTING_PLATFORMS;
     }
   }
+
 
   /**
    * Generates the platforms.

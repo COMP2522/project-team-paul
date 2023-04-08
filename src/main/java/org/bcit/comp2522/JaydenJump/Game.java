@@ -126,9 +126,7 @@ public class Game extends PApplet {
                                PImage enemyImage, PImage[] playerImage) {
     player = Player.getInstance(window, playerImage, level.getPlayerSpeed(), level.getGravity());
     scrollSpeed = level.getScrollSpeed();
-    platformManager = PlatformManager.getInstance(level.getMaxPlatform(), window,
-            level.getPlatformSpeed(), level.getMoveableSpeed(), level.getJumpThroughHeight(),
-            level.getPlayerJumpHeight(), player);
+    platformManager = PlatformManager.getInstance(level);
     powerUpManager = PowerUpManager.getInstance(level.getMaxPowerUps(), window,
             level.getPowerUpSpeed(), player, powerUpImage);
     coinManager = CoinManager.getInstance(level.getMaxCoins(), window, level.getCoinSpeed(),
@@ -211,6 +209,7 @@ public class Game extends PApplet {
    */
   private void handlePlayerLanding() {
     lives--;
+    restartGame();
     if (lives == 0) {
       bossManager.setIsAlive(false);
       endGame();
