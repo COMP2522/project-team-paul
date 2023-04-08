@@ -125,7 +125,7 @@ public class BossManager {
       int vx = 5;
       int vy = 0;
       int health = bossHealth;
-      Boss boss = new Boss(xpos, ypos, vx, vy, width, height, image, sketch, player, health);
+      Boss boss = new Boss(xpos, ypos, vx, vy, width, height, image, health);
       bosses.add(boss);
       bossCounter++;
     }

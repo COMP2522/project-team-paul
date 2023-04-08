@@ -47,11 +47,10 @@ public class JetPack extends PowerUp implements Audible{
                  float vx,
                  float vy,
                  boolean isActive,
-                 PApplet sketch,
                  int duration,
                  int boostVelocity,
-                 Player player, PImage image) {
-    super(xpos, ypos, vx, vy, isActive, sketch, player, image);
+                 PImage image) {
+    super(xpos, ypos, vx, vy, isActive, image);
     this.duration = duration;
     this.boostVelocity = boostVelocity;
     this.clip = loadSound("jetpack.wav");

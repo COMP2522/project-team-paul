@@ -125,14 +125,14 @@ public class Game extends PApplet {
 
   private void initializeLevel(Level level, PImage[] coinImages, PImage[] powerUpImage,
                                PImage enemyImage, PImage[] playerImage) {
-    player = Player.getInstance(window, playerImage, level.getPlayerSpeed(), level.getGravity());
+    player = Player.getInstance(playerImage, level.getPlayerSpeed(), level.getGravity());
     scrollSpeed = level.getScrollSpeed();
     platformManager = PlatformManager.getInstance(level.getMaxPlatform(), window,
             level.getPlatformSpeed(), level.getMoveableSpeed(), level.getJumpThroughHeight(),
             level.getPlayerJumpHeight(), player);
-    powerUpManager = PowerUpManager.getInstance(level.getMaxPowerUps(), window,
-            level.getPowerUpSpeed(), player, powerUpImage);
-    coinManager = CoinManager.getInstance(level.getMaxCoins(), window, level.getCoinSpeed(),
+    powerUpManager = PowerUpManager.getInstance(level.getMaxPowerUps(),
+            level.getPowerUpSpeed(), powerUpImage);
+    coinManager = CoinManager.getInstance(level.getMaxCoins(), level.getCoinSpeed(),
             player, coinImages);
     this.enemyManager = EnemyManager.getInstance(level, enemyImage);
     this.bossManager = BossManager.getInstance(MenuManager.getBossImg(), level);

@@ -26,17 +26,16 @@ public class Platform extends Sprite {
   /**
    * constructor for the platform class.
    *
-   * @param sketch the sketch
    * @param x the x position
    * @param y the y position
    * @param color the color of the platform
    * @param vx the x velocity of the platform
    * @param vy the y velocity of the platform
    */
-  public Platform(PApplet sketch, float x, float y,
+  public Platform(float x, float y,
                   Color color, float vx, float vy,
                   boolean breakable) {
-    super(x, y, vx, vy, sketch);
+    super(x, y, vx, vy);
     this.color = color;
     this.breakable = breakable;
   }

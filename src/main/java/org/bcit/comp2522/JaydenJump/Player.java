@@ -54,16 +54,14 @@ public class Player extends Sprite {
   /**
    * constructor for the player class.
    *
-   * @param sketch the sketch of where the player will be drawn
-   *
    * @param image the image to set the player to
    *
    * @param movementSpeed the speed of the player
    *
    * @param gravity the gravity on the player
    */
-  private Player(PApplet sketch, PImage[] image, float movementSpeed, float gravity) {
-    super(sketch.width / 2f, 0f, 0f, 0f, sketch);
+  private Player(PImage[] image, float movementSpeed, float gravity) {
+    super(MenuManager.getInstance().width / 2f, 0f, 0f, 0f);
     this.image = image;
     this.movementSpeed = movementSpeed;
     this.gravity = gravity;
@@ -74,13 +72,14 @@ public class Player extends Sprite {
   /**
    * since this is singleton design this is to get an instance of the player.
    *
-   * @param sketch the sketch
    * @param image the image for the player
+   * @param movementSpeed the speed of the player
+   * @param gravity the gravity on the player
    */
-  public static Player getInstance(PApplet sketch, PImage[] image,
+  public static Player getInstance(PImage[] image,
                                    float movementSpeed, float gravity) {
     if (instance == null) {
-      instance = new Player(sketch, image, movementSpeed, gravity);
+      instance = new Player(image, movementSpeed, gravity);
     }
     return instance;
   }

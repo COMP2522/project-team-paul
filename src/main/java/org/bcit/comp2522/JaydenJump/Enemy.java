@@ -53,11 +53,10 @@ public class Enemy extends Sprite {
    * @param width the width of the enemy
    * @param height the height of the enemy
    * @param image the image for the enemy
-   * @param sketch the sketch of the enemy
    */
   public Enemy(float xpos, float ypos, float vx, float vy, int health, int speed, int width,
-               int height, PImage image, PApplet sketch) {
-    super(xpos, ypos, vx, vy, sketch);
+               int height, PImage image) {
+    super(xpos, ypos, vx, vy);
     this.health = health;
     this.speed = speed;
     this.width = width;

@@ -121,7 +121,7 @@ public class EnemyManager {
     if (randomNum < spawnRate) {
       float x = sketch.random(sketch.width - width);
       float y = 0;
-      Enemy enemy = new Enemy(x, y, 0, 0, health, speed, width, height, image, sketch);
+      Enemy enemy = new Enemy(x, y, 0, 0, health, speed, width, height, image);
       enemies.add(enemy);
     }
   }

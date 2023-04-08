@@ -47,14 +47,13 @@ public abstract class PowerUp extends Sprite {
                  float vx,
                  float vy,
                  boolean isActive,
-                 PApplet sketch,
-                 Player player, PImage image) {
-    super(xpos, ypos, vx, vy, sketch);
+                 PImage image) {
+    super(xpos, ypos, vx, vy);
 
     //maybe just set to false as default?
     this.isActive = isActive;
     //player that recieves the boosts
-    this.player = player;
+    this.player = Player.getInstance();
     this.image = image;
   }
 

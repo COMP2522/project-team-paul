@@ -20,7 +20,7 @@ public abstract class Sprite implements Drawable, Collidable {
   private float vx;
 
   /** sketch object for sprites. */
-  private PApplet sketch;
+  private final PApplet sketch;
 
   /** y velocity. */
   private float vy;
@@ -36,12 +36,12 @@ public abstract class Sprite implements Drawable, Collidable {
    *
    * @param vy The y velocity of the sprite
    */
-  public Sprite(float xpos, float ypos, float vx, float vy, PApplet sketch) {
+  public Sprite(float xpos, float ypos, float vx, float vy) {
     this.xpos = xpos;
     this.ypos = ypos;
     this.vx = vx;
     this.vy = vy;
-    this.sketch = sketch;
+    this.sketch = MenuManager.getInstance();
   }
 
   /** Draws the sprite on the game screen. */
@@ -71,15 +71,6 @@ public abstract class Sprite implements Drawable, Collidable {
    */
   public PApplet getSketch() {
     return sketch;
-  }
-
-  /**
-   * setter for the sketch.
-   *
-   * @param sketch the value you want to set the sketch too
-   */
-  public void setSketch(PApplet sketch) {
-    this.sketch = sketch;
   }
 
   /**

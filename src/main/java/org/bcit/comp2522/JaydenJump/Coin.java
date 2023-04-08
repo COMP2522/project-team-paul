@@ -24,9 +24,9 @@ public class Coin extends Sprite {
 
   private final static int SCORE_INCREASE = 25;
 
-  public Coin(float xpos, float ypos, float vx, float vy, PApplet sketch, Player player, PImage[] animationFrames) {
-    super(xpos, ypos, vx, vy, sketch);
-    this.player = player;
+  public Coin(float xpos, float ypos, float vx, float vy, PImage[] animationFrames) {
+    super(xpos, ypos, vx, vy);
+    this.player = Player.getInstance();
     this.animationFrames = animationFrames;
     coinSound = new File("music/coin_sound.wav");
     try {

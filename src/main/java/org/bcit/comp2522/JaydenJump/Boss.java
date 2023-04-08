@@ -14,11 +14,6 @@ import java.util.Iterator;
 public class Boss extends Sprite {
 
   /**
-   * the sketch for the boss.
-   */
-  private PApplet sketch;
-
-  /**
    * the image for the boss.
    */
   private PImage image;
@@ -80,18 +75,15 @@ public class Boss extends Sprite {
    * @param width the width of the boss
    * @param height the height of the boss
    * @param image the image for the boss
-   * @param sketch the sketch for the boss
-   * @param player the player for boss to collide with
    * @param health the health for the boss
    */
   public Boss(int xpos, int ypos, int vx, int vy, int width, int height,
-              PImage image, PApplet sketch, Player player, int health) {
-    super(xpos, ypos, vx, vy, sketch);
-    this.sketch = sketch;
+              PImage image, int health) {
+    super(xpos, ypos, vx, vy);
     this.image = image;
     this.width = width;
     this.height = height;
-    this.player = player;
+    this.player = Player.getInstance();
     this.movingRight = true;
     this.health = health;
     this.projectile = new Projectile(getXpos(), getYpos(), 0, 20, 1, player);
@@ -102,7 +94,7 @@ public class Boss extends Sprite {
    */
   public void draw() {
 
-    sketch.image(image, getXpos(), getYpos(), width, height);
+    super.getSketch().image(image, getXpos(), getYpos(), width, height);
 
   }
 
@@ -117,7 +109,7 @@ public class Boss extends Sprite {
       setXpos(getXpos() - getVx());
     }
 
-    if (getXpos() < 0 || getXpos() > sketch.width - width) {
+    if (getXpos() < 0 || getXpos() > super.getSketch().width - width) {
       movingRight = !movingRight;
     }
 
@@ -138,7 +130,7 @@ public class Boss extends Sprite {
           Game.endGame();
         }
       }
-      if (projectile.getYpos() > sketch.height || projectile.collides(player)) {
+      if (projectile.getYpos() > super.getSketch().height || projectile.collides(player)) {
         iterator.remove();
         projectileCounter--;
       }
