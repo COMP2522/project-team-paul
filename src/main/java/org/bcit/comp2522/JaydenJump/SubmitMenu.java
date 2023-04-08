@@ -6,7 +6,7 @@ import processing.core.PApplet;
 /**
  * Highscore submission menu.
  */
-public class SubmitMenu extends PApplet {
+public class SubmitMenu extends PApplet implements GameUI {
 
   /**
    * Window that contains menu screen.
@@ -25,8 +25,11 @@ public class SubmitMenu extends PApplet {
 
   /***************************************************/
 
-  public void init(MenuManager window) {
-    this.window = window;
+  /**
+   * Initializes SubmitMenu object.
+   */
+  public void init() {
+    this.window = MenuManager.getInstance();
     draw();
   }
 

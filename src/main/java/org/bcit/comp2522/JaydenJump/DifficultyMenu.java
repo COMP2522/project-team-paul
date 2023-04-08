@@ -9,7 +9,7 @@ import processing.core.PApplet;
  * @author Brian Kwon
  * @version 1.1
  */
-public class DifficultyMenu extends PApplet {
+public class DifficultyMenu extends PApplet implements GameUI {
 
   /**
    * Window that contains menu screen.
@@ -48,11 +48,9 @@ public class DifficultyMenu extends PApplet {
 
   /**
    * Intiializes Difficulty object.
-   *
-   * @param window as an MenuManager object
    */
-  public void init(MenuManager window) {
-    this.window = window;
+  public void init() {
+    this.window = MenuManager.getInstance();
     buttons = new ArrayList<Button>();
     easy = new Button(window.width / 2, BUTTON, BUTTON_WIDTH, BUTTON_HEIGHT, FONT_SIZE, "Easy", window);
     medium = new Button(window.width / 2, BUTTON * 2, BUTTON_WIDTH, BUTTON_HEIGHT, FONT_SIZE, "Medium", window);

@@ -351,19 +351,18 @@ public class MenuManager extends PApplet {
    */
   public void draw() {
     switch (currentScreen) {
-      case START_MENU -> startMenu.init(this);
-      case MAIN_MENU -> mainMenu.init(this,
-          logo,
-          doodle,
-          musicOn,
-          musicOff);
-      case DIFFICULTY_MENU -> difficultyMenu.init(this);
+      case START_MENU -> startMenu.init();
+      case MAIN_MENU -> mainMenu.init(logo,
+                                      doodle,
+                                      musicOn,
+                                      musicOff);
+      case DIFFICULTY_MENU -> difficultyMenu.init();
       case LEADERBOARDS_MENU -> {str = load.getLeaderboard();
-        leaderboardsMenu.init(this, str);
+        leaderboardsMenu.init(str);
       }
-      case DEATH_MENU -> deathMenu.init(this);
-      case PAUSE_MENU -> pauseMenu.init(this);
-      case SUBMIT_MENU -> submitMenu.init(this);
+      case DEATH_MENU -> deathMenu.init();
+      case PAUSE_MENU -> pauseMenu.init();
+      case SUBMIT_MENU -> submitMenu.init();
       case GAME -> {game.draw();
         if (game.gameOver) {
           currentScreen = DEATH_MENU;

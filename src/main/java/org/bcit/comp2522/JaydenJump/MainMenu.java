@@ -77,15 +77,14 @@ public class MainMenu extends PApplet {
   /**
    * Initializes MainMenu object.
    *
-   * @param window as a MenuManager object
    * @param logo as a PImage object
    * @param doodle as a PImage object
    * @param musicOn as a PImage object
    * @param musicOff as a PImage object
    */
-  public void init(MenuManager window, PImage logo, PImage doodle,
+  public void init(PImage logo, PImage doodle,
                    PImage musicOn, PImage musicOff) {
-    this.window = window;
+    this.window = MenuManager.getInstance();
     this.logo = logo;
     this.doodle = doodle;
     this.musicOn = musicOn;

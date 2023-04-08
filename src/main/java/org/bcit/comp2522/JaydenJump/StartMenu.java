@@ -8,7 +8,7 @@ import processing.core.PApplet;
  * @author Brian Kwon
  * @version 1.0
  */
-public class StartMenu extends PApplet {
+public class StartMenu extends PApplet implements GameUI {
 
   /**
    * Window that contains menu screen.
@@ -19,11 +19,9 @@ public class StartMenu extends PApplet {
 
   /**
    * Initializes StartMenu object.
-   *
-   * @param window as a MenuManager
    */
-  public void init(MenuManager window) {
-    this.window = window;
+  public void init() {
+    this.window = MenuManager.getInstance();
     draw();
   }
 
