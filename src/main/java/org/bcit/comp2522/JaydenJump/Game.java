@@ -116,12 +116,12 @@ public class Game extends PApplet {
     window               = MenuManager.getInstance();
     this.backgroundImage = backgroundImage;
     this.backgroundPos   = new PVector(0, 0);
-    Level level = Level.getInstance(diff);
+    Level level          = Level.getInstance(diff);
+    gameOver             = false;
     initializeLevel(level, coinImages, powerUpImage, enemyImage, playerImage);
     platformManager.generateStartPlatforms();
     powerUpManager.generateStartPowerUps();
     coinManager.generateStartCoins();
-    gameOver = false;
   }
 
   /**
