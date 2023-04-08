@@ -75,19 +75,16 @@ public class BossManager {
    * constructor for the boss manager class.
    *
    * @param image the image of the boss
-   * @param width the width of the boss
-   * @param height the height of the boss
    * @param sketch the sketch for the boss
-   * @param player the player instance
    * @param level the max amount of bosses
    */
-  private BossManager(PImage image, int width, int height, PApplet sketch,
-                     Player player, Level level) {
+  private BossManager(PImage image, PApplet sketch,
+                      Level level) {
     this.image = image;
-    this.width = width;
-    this.height = height;
+    this.width = 150;
+    this.height = 150;
     this.sketch = sketch;
-    this.player = player;
+    this.player = Player.getInstance();
     this.maxBosses = level.getMaxBosses();
     this.isAlive = false;
     this.bossHealth = 3;
@@ -97,17 +94,14 @@ public class BossManager {
    * Get the single instance of BossManager.
    *
    * @param image  the image of the boss
-   * @param width  the width of the boss
-   * @param height the height of the boss
    * @param sketch the sketch for the boss
-   * @param player the player instance
    * @param level  the max amount of bosses
    * @return the single instance of BossManager
    */
-  public static BossManager getInstance(PImage image, int width, int height, PApplet sketch,
-                                        Player player, Level level) {
+  public static BossManager getInstance(PImage image, PApplet sketch,
+                                         Level level) {
     if (instance == null) {
-      instance = new BossManager(image, width, height, sketch, player, level);
+      instance = new BossManager(image, sketch, level);
     }
     return instance;
   }

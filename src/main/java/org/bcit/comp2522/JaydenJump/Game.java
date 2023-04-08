@@ -135,8 +135,8 @@ public class Game extends PApplet {
     coinManager = CoinManager.getInstance(level.getMaxCoins(), window, level.getCoinSpeed(),
             player, coinImages);
     this.enemyManager = EnemyManager.getInstance(window, level, enemyImage);
-    this.bossManager = BossManager.getInstance(MenuManager.getBossImg(), 150, 150, window,
-            player, level);
+    this.bossManager = BossManager.getInstance(MenuManager.getBossImg(), window,
+             level);
     score = 0;
     highscore = 0;
     lives = PLAYER_LIVES;
