@@ -32,8 +32,6 @@ public class PlatformManager {
 
   /**
    * The parent sketch, where we will draw things to.
-   * (this is a reference to the MenuManager class, make it a singleton,
-   * so that we don't hae to pass it in as a parameter)
    */
   private final PApplet sketch;
 
@@ -46,7 +44,6 @@ public class PlatformManager {
    * The height the player gets from jumping off a platform.
    */
   private final int playerJumpHeight;
-
 
   /**
    * The speed of the movable platforms.
@@ -69,12 +66,6 @@ public class PlatformManager {
   private static final int STARTING_PLATFORMS = 6;
 
   /**
-   * The player. (just make this a getInstance call,
-   * instead of passing in as parameter and storing as an instance variable)
-   */
-  private final Player player;
-
-  /**
    * How much a player has to be falling for it to be considered a jump.
    */
   private final int jumpThroughHeight;
@@ -82,48 +73,29 @@ public class PlatformManager {
   /**
    * Private constructor for the platform manager.
    *
-   * @param maxPlatforms the maximum number of platforms
+   * @param level contains details about the level
    *
-   * @param sketch the parent sketch, where to draw things to
-   *
-   * @param platformSpeed the speed of the platforms moving down
-   *
-   * @param movableSpeed the speed of the movable platforms
    */
-  private PlatformManager(int maxPlatforms, PApplet sketch,
-                          int platformSpeed, int movableSpeed,
-                          int jumpThroughHeight, int playerJumpHeight,
-                          Player player) {
-    this.maxPlatforms = maxPlatforms;
-    this.sketch = sketch;
-    this.platformSpeed = platformSpeed;
-    platforms = new ArrayList<>();
-    this.movableSpeed = movableSpeed;
-    this.jumpThroughHeight = jumpThroughHeight;
-    this.playerJumpHeight = playerJumpHeight;
-    this.player = player;
+  private PlatformManager(Level level) {
+    this.sketch            = MenuManager.getInstance();
+    this.platforms         = new ArrayList<>();
+    this.maxPlatforms      = level.getMaxPlatform();
+    this.platformSpeed     = level.getPlatformSpeed();
+    this.movableSpeed      = level.getMoveableSpeed();
+    this.jumpThroughHeight = level.getJumpThroughHeight();
+    this.playerJumpHeight  = level.getPlayerJumpHeight();
   }
 
   /**
    * Gets the instance of the platform manager.
    *
-   * @param maxPlatforms the maximum number of platforms
-   *
-   * @param window the parent sketch
-   *
-   * @param platformSpeed the speed of the platforms
-   *
-   * @param movableSpeed the speed of the movable platforms
+   * @param level contains details about the level
    *
    * @return the instance of the platform manager
    */
-  public static PlatformManager getInstance(int maxPlatforms, PApplet window,
-                                            int platformSpeed, int movableSpeed,
-                                            int jumpThroughHeight, int playerJumpHeight,
-                                            Player player) {
+  public static PlatformManager getInstance(Level level) {
     if (instance == null) {
-      instance = new PlatformManager(maxPlatforms, window, platformSpeed,
-              movableSpeed, jumpThroughHeight, playerJumpHeight, player);
+      instance = new PlatformManager(level);
     }
     return instance;
   }
@@ -132,44 +104,13 @@ public class PlatformManager {
    * Generates the starting platforms.
    */
   public void generateStartPlatforms() {
+    int numPlatforms     = STARTING_PLATFORMS;
+    float platformHeight = sketch.height / (float) numPlatforms;
     float y = 0;
-    for (int i = 0; i < STARTING_PLATFORMS; i++) {
+    for (int i = 0; i < numPlatforms; i++) {
       float x = sketch.random(sketch.width - Platform.getPlatformWidth());
-      platforms.add(new Platform(sketch, x, y, green, 0, platformSpeed, false));
-      y += 150;
-    }
-  }
-
-  /**
-   * Generates the platforms.
-   * This method will be called every frame.
-   */
-  public void generatePlatforms() {
-
-    // Remove platforms that are off the screen and add new ones
-    while (platforms.size() < maxPlatforms) {
-      float x = sketch.random(sketch.width - Platform.getPlatformWidth());
-      boolean isBreakable = sketch.random(1.0f) < 0.1;
-      Color platformColor = isBreakable ? red : green;
-      float lastPlatformY = platforms.get(platforms.size() - 1).getYpos();
-      float newY = lastPlatformY - Platform.getPlatformWidth() - Platform.getPlatformHeight();
-
-      // Randomly generate a movable platform
-      float vx = 0;
-      if (sketch.random(1.0f) < 0.1) {
-        float randomDirection = sketch.random(1.0f);
-        if (randomDirection < 0.5) {
-          vx = -movableSpeed; // Move left
-        } else {
-          vx = movableSpeed; // Move right
-        }
-      }
-
-      // Create the new platform
-      Platform newPlatform = new Platform(sketch, x, newY, platformColor,
-              vx, platformSpeed, isBreakable);
-
-      // Check for overlap with existing platforms
+      Platform newPlatform  = new Platform(sketch, x, y, green, 0,
+                                    platformSpeed, false);
       boolean isOverlapping = false;
       for (Platform platform : platforms) {
         if (isOverlapping(newPlatform, platform)) {
@@ -177,8 +118,44 @@ public class PlatformManager {
           break;
         }
       }
+      if (!isOverlapping) {
+        platforms.add(newPlatform);
+      }
+      y += platformHeight;
+    }
+  }
 
-      // If no overlap, add the platform
+
+
+  /**
+   * Generates the platforms.
+   * This method will be called every frame.
+   */
+  public void generatePlatforms() {
+    while (platforms.size() < maxPlatforms) {
+      float x = sketch.random(sketch.width - Platform.getPlatformWidth());
+      boolean isBreakable = sketch.random(1.0f) < 0.1;
+      Color platformColor = isBreakable ? red : green;
+      float lastPlatformY = platforms.get(platforms.size() - 1).getYpos();
+      float newY = lastPlatformY - Platform.getPlatformWidth() - Platform.getPlatformHeight();
+      float vx = 0;
+      if (sketch.random(1.0f) < 0.1) {
+        float randomDirection = sketch.random(1.0f);
+        if (randomDirection < 0.5) {
+          vx = -movableSpeed;
+        } else {
+          vx = movableSpeed;
+        }
+      }
+      Platform newPlatform = new Platform(sketch, x, newY, platformColor,
+                                          vx, platformSpeed, isBreakable);
+      boolean isOverlapping = false;
+      for (Platform platform : platforms) {
+        if (isOverlapping(newPlatform, platform)) {
+          isOverlapping = true;
+          break;
+        }
+      }
       if (!isOverlapping) {
         platforms.add(newPlatform);
       }
@@ -224,10 +201,11 @@ public class PlatformManager {
    * If the player collides with a platform, the player's y velocity is set to -jumpHeight.
    */
   public void checkCollision() {
+    Player player = Player.getInstance();
     Iterator<Platform> platformIterator = platforms.iterator();
     while (platformIterator.hasNext()) {
       Platform platform = platformIterator.next();
-      if (this.player.collides(platform) && this.player.getVy() > jumpThroughHeight) {
+      if (player.collides(platform) && player.getVy() > jumpThroughHeight) {
         if (platform.isBreakable()) {
           platformIterator.remove();
         }
