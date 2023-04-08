@@ -102,20 +102,19 @@ public class Game extends PApplet {
    * the level of the game.
    *
    * @param diff            the level of the game
-   * @param sketch          the window for the game
    * @param powerUpImage    the image for the power up
    * @param backgroundImage the image for the background
    * @param enemyImage      the image for the enemy
    * @param playerImage     the image for the player
    * @param coinImages      the images for the coins
    */
-  public Game(int diff, MenuManager sketch,
+  public Game(int diff,
               PImage[] powerUpImage, PImage backgroundImage, PImage enemyImage,
               PImage[] playerImage, PImage[] coinImages) {
-    window = sketch;
+    window = MenuManager.getInstance();
     this.backgroundImage = backgroundImage;
     this.backgroundPos = new PVector(0, 0);
-    Level level = new Level(diff);
+    Level level = Level.getInstance(diff);
     initializeLevel(level, coinImages, powerUpImage, enemyImage, playerImage);
     platformManager.generateStartPlatforms();
     powerUpManager.generateStartPowerUps();

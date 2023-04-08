@@ -65,17 +65,14 @@ public class CoinManager {
    *
    * @param coinSpeed given to each coin
    *
-   * @param player instance in the game
-   *
    * @param coinImg array that animate the sprite
    *
    */
-  private CoinManager(int maxCoins, int coinSpeed,
-                      Player player, PImage[] coinImg) {
+  private CoinManager(int maxCoins, int coinSpeed, PImage[] coinImg) {
     this.maxCoins = maxCoins;
     this.sketch = MenuManager.getInstance();
     this.coinSpeed = coinSpeed;
-    this.player = player;
+    this.player = Player.getInstance();
     this.image = coinImg;
     coins = new ArrayList<>();
   }
@@ -87,17 +84,15 @@ public class CoinManager {
    *
    * @param coinSpeed of coin in game
    *
-   * @param player instance in game
-   *
    * @param coinImg that animates the coin sprite
    *
    * @return CoinManager object
    *
    */
   public static CoinManager getInstance(int maxCoins,
-                                        int coinSpeed, Player player, PImage[] coinImg) {
+                                        int coinSpeed, PImage[] coinImg) {
     if (instance == null) {
-      instance = new CoinManager(maxCoins, coinSpeed, player, coinImg);
+      instance = new CoinManager(maxCoins, coinSpeed, coinImg);
     }
     return instance;
   }
