@@ -62,7 +62,7 @@ public class Game extends PApplet {
   /**
    * The lives of the player.
    */
-  private int lives;
+  static int lives;
 
   /**
    * Manager for the enemies.
@@ -146,7 +146,6 @@ public class Game extends PApplet {
     highscore       = 0;
     lives           = PLAYER_LIVES;
   }
-
 
   /**
    * Draws to window.
