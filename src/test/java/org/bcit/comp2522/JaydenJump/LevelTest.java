@@ -9,11 +9,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class LevelTest {
 
   private Level level;
-  private PImage backgroundImage;
 
   @BeforeEach
   void setUp() {
-    backgroundImage = new PImage();
     level = new Level(3);
   }
   @Test

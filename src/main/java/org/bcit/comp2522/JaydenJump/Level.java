@@ -9,7 +9,6 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import processing.core.PImage;
 
 /**
  * Represents a level in JaydenJump.
@@ -32,11 +31,6 @@ public class Level {
   /**
    * The level number. */
   private int levelNumber;
-
-  /**
-   * The speed of elements in the level.
-   */
-  private int speed;
 
   /**
    * The players score in the current level.
@@ -138,6 +132,7 @@ public class Level {
     JSONArray levels = obj.getJSONArray("levels");
     JSONObject level = levels.getJSONObject(lvl - 1);
 
+    this.levelNumber = lvl;
     playerSpeed = level.getFloat("playerSpeed");
     gravity = level.getFloat("gravity");
     scrollSpeed = level.getInt("scrollSpeed");
