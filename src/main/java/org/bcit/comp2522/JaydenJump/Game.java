@@ -52,12 +52,12 @@ public class Game extends PApplet {
   /**
    * Current score.
    */
-  private int score;
+  static int score;
 
   /**
    * Highest score achieved in the game so far.
    */
-  private int highscore;
+  static int highscore;
 
   /**
    * The lives of the player.
