@@ -1,6 +1,8 @@
 package org.bcit.comp2522.JaydenJump;
 
-import java.util.Iterator;
+import org.bcit.comp2522.JaydenJump.gameUI.MenuManager;
+import org.bcit.comp2522.JaydenJump.spriteManagers.*;
+import org.bcit.comp2522.JaydenJump.sprites.Player;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
@@ -14,49 +16,53 @@ import processing.core.PVector;
 public class Game extends PApplet {
 
   /**
+   * The number of lives the boss has.
+   */
+  private static final int BOSS_HEALTH = 3;
+  /**
    * Instance for the player.
    */
-  private static Player player;
+  private Player player;
 
   /**
    * Flag for indicating if game is over.
    */
-  static boolean gameOver;
+  private boolean gameOver;
 
   /**
    * Platform manager.
    */
-  private static PlatformManager platformManager;
+  private PlatformManager platformManager;
 
   /**
    * PowerUp Manager.
    */
-  private static PowerUpManager powerUpManager;
+  private PowerUpManager powerUpManager;
 
   /**
    * Coin Manager.
    */
-  private static CoinManager coinManager;
+  private CoinManager coinManager;
 
   /**
    * Window for displaying game.
    */
-  private static MenuManager window;
+  private final MenuManager window;
 
   /**
    * Current score.
    */
-  private static int score;
+  static int score;
 
   /**
    * Highest score achieved in the game so far.
    */
-  private static int highscore;
+  static int highscore;
 
   /**
    * The lives of the player.
    */
-  private static int lives;
+  static int lives;
 
   /**
    * Manager for the enemies.
@@ -66,7 +72,7 @@ public class Game extends PApplet {
   /**
    * the boss manager.
    */
-  private static BossManager bossManager;
+  private BossManager bossManager;
 
   /**
    * the background image.
@@ -81,22 +87,19 @@ public class Game extends PApplet {
   /**
    * the speed of the background.
    */
-  private static int scrollSpeed;
+  private int scrollSpeed;
 
   /**
    * Constants.
    */
-  private static int BOSS = 2000;
-  private static int FONT_SIZE = 20;
-  private static int X_OFFSET = 75;
-  private static int Y_OFFSET = 50;
-  private static int HEART1 = 400;
-  private static int HEART2 = 337;
-  private static int HEART3 = 275;
-  private static int PLAYER_LIVES = 3;
-
-  /**********************************************************/
-
+  private static final int BOSS_SPAWN = 2000;
+  private static final int FONT_SIZE = 20;
+  private static final int X_OFFSET = 75;
+  private static final int Y_OFFSET = 50;
+  private static final int HEART1 = 400;
+  private static final int HEART2 = 337;
+  private static final int HEART3 = 275;
+  private static final int PLAYER_LIVES = 3;
 
   /**
    * the level of the game.
@@ -108,34 +111,41 @@ public class Game extends PApplet {
    * @param playerImage     the image for the player
    * @param coinImages      the images for the coins
    */
-  public Game(int diff,
-              PImage[] powerUpImage, PImage backgroundImage, PImage enemyImage,
-              PImage[] playerImage, PImage[] coinImages) {
-    window = MenuManager.getInstance();
+  public Game(int diff, PImage[] powerUpImage, PImage backgroundImage,
+              PImage enemyImage, PImage[] playerImage, PImage[] coinImages) {
+    window               = MenuManager.getInstance();
     this.backgroundImage = backgroundImage;
-    this.backgroundPos = new PVector(0, 0);
-    Level level = Level.getInstance(diff);
+    this.backgroundPos   = new PVector(0, 0);
+    Level level          = Level.getInstance(diff);
+    gameOver             = false;
     initializeLevel(level, coinImages, powerUpImage, enemyImage, playerImage);
     platformManager.generateStartPlatforms();
     powerUpManager.generateStartPowerUps();
     coinManager.generateStartCoins();
-    gameOver = false;
   }
 
+  /**
+   * Initializes the game required objects with values needed.
+   *
+   * @param level          the level object with all the information
+   * @param coinImages     the images for the coins
+   * @param powerUpImage   the image for the power up
+   * @param enemyImage     the image for the enemy
+   * @param playerImage    the image for the player
+   */
   private void initializeLevel(Level level, PImage[] coinImages, PImage[] powerUpImage,
                                PImage enemyImage, PImage[] playerImage) {
-    player = Player.getInstance(playerImage, level.getPlayerSpeed(), level.getGravity());
-    scrollSpeed = level.getScrollSpeed();
+    player          = Player.getInstance(playerImage, level);
+    scrollSpeed     = level.getScrollSpeed();
     platformManager = PlatformManager.getInstance(level);
-    powerUpManager = PowerUpManager.getInstance(level.getMaxPowerUps(), level.getPowerUpSpeed(), powerUpImage);
-    coinManager = CoinManager.getInstance(level.getMaxCoins(), level.getCoinSpeed(), coinImages);
-    this.enemyManager = EnemyManager.getInstance(level, enemyImage);
-    this.bossManager = BossManager.getInstance(MenuManager.getBossImg(), level);
-    score = 0;
-    highscore = 0;
-    lives = PLAYER_LIVES;
+    powerUpManager  = PowerUpManager.getInstance(level.getMaxPowerUps(), level.getPowerUpSpeed(), powerUpImage, this);
+    coinManager     = CoinManager.getInstance(level.getMaxCoins(), level.getCoinSpeed(), coinImages, this);
+    enemyManager    = EnemyManager.getInstance(level, enemyImage, this);
+    bossManager     = BossManager.getInstance(MenuManager.getBossImg(), level, this);
+    score           = 0;
+    highscore       = 0;
+    lives           = PLAYER_LIVES;
   }
-
 
   /**
    * Draws to window.
@@ -157,7 +167,7 @@ public class Game extends PApplet {
       updateAndDrawGameElements();
       generateGameElements();
 
-      if (score >= BOSS) {
+      if (score >= BOSS_SPAWN) {
         drawAndUpdateBoss();
       }
     }
@@ -169,7 +179,7 @@ public class Game extends PApplet {
   private void displayScore() {
     window.textSize(FONT_SIZE);
     window.fill(0);
-    window.text("Score: " + Game.getScore(), X_OFFSET, Y_OFFSET);
+    window.text("Score: " + score, X_OFFSET, Y_OFFSET);
   }
 
   /**
@@ -209,7 +219,7 @@ public class Game extends PApplet {
     restartGame();
     if (lives == 0) {
       bossManager.setIsAlive(false);
-      bossManager.setBossHealth(3);
+      bossManager.setBossHealth(BOSS_HEALTH);
       endGame();
     }
   }
@@ -222,10 +232,10 @@ public class Game extends PApplet {
     platformManager.updateAndDrawPlatforms();
     powerUpManager.updateAndDrawPowerUps();
     coinManager.updateAndDrawCoins();
-    player.update();
-    player.draw();
     enemyManager.update();
     enemyManager.draw();
+    player.update();
+    player.draw();
   }
 
   /**
@@ -285,7 +295,6 @@ public class Game extends PApplet {
     float controlPoint2X = 3 * width / 4f + x;
     float startPointX = width / 2f + x;
     float startPointY = height / 4f;
-    float endPointX = startPointX;
     float endPointY = height / 2f;
     float controlPointY = 0;
     float anchorPointY = height / 3f;
@@ -293,7 +302,7 @@ public class Game extends PApplet {
     window.fill(heartColorRed, 0, 0);
     window.beginShape();
     window.vertex(startPointX, startPointY);
-    window.bezierVertex(controlPoint1X, controlPointY, x, anchorPointY, endPointX, endPointY);
+    window.bezierVertex(controlPoint1X, controlPointY, x, anchorPointY, startPointX, endPointY);
     window.bezierVertex(width + x, anchorPointY, controlPoint2X, controlPointY, startPointX,
             startPointY);
     window.endShape();
@@ -304,7 +313,7 @@ public class Game extends PApplet {
    * Restarts the game when the player goes below
    * the screen or makes contact with an enemy.
    */
-  public static void restartGame() {
+  public void restartGame() {
     player.reset();
     platformManager.getPlatforms().clear();
     powerUpManager.getPowerups().clear();
@@ -318,7 +327,7 @@ public class Game extends PApplet {
   /**
    * Ends the game when the player runs out of lives.
    */
-  public static void endGame() {
+  public void endGame() {
     gameOver = true;
     lives = PLAYER_LIVES;
   }
@@ -326,18 +335,18 @@ public class Game extends PApplet {
   /**
    * Starts the game.
    */
-  public static void startGame() {
+  public void startGame() {
     score = 0;
   }
 
-  public static void resetHighscore() {
+  public void resetHighscore() {
     highscore = 0;
   }
 
   /**
    * Event listener for key presses.
    */
-  public static void keyPressedListener(int key) {
+  public void keyPressedListener(int key) {
     if (key == LEFT || key == 'A') {
       player.moveLeft();
     } else if (key == RIGHT || key == 'D') {
@@ -356,7 +365,7 @@ public class Game extends PApplet {
   /**
    * Event listener for key releases.
    */
-  public static void keyReleasedListener(int key) {
+  public void keyReleasedListener(int key) {
     if (key == LEFT || key == 'A') {
       player.setVx(player.getVx() - 2);
     } else if (key == RIGHT || key == 'D') {
@@ -371,17 +380,15 @@ public class Game extends PApplet {
    *
    * @return score as an int
    */
-  public static int getScore() {
+  public int getScore() {
     return score;
   }
 
   /**
    * Setter for score.
-   *
-   * @return score as an int
    */
-  public static int increaseScore(int increase) {
-    return score = score + increase;
+  public void increaseScore(int increase) {
+    score = score + increase;
   }
 
   /**
@@ -389,7 +396,7 @@ public class Game extends PApplet {
    *
    * @return highscore as an int
    */
-  public static int getHighscore() {
+  public int getHighscore() {
     return highscore;
   }
 
@@ -398,18 +405,24 @@ public class Game extends PApplet {
    *
    * @return player's life count while in game.
    */
-  public static int getLives() {
+  public int getLives() {
     return lives;
   }
 
   /**
    * Changes Player's lives to a specific amount.
    *
-   * @param lives increased
+   * @param l increased
    */
-  public static void setLives(int lives) {
-    Game.lives = lives;
+  public void setLives(int l) {
+    lives = l;
   }
 
+  /**
+   * getter for game state.
+   */
+  public boolean isGameOver() {
+    return gameOver;
+  }
 }
 
