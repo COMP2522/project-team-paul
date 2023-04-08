@@ -74,16 +74,14 @@ public class BossManager {
   /**
    * constructor for the boss manager class.
    *
-   * @param image the image of the boss
-   * @param sketch the sketch for the boss
+   * @param image the image for the boss
    * @param level the max amount of bosses
    */
-  private BossManager(PImage image, PApplet sketch,
-                      Level level) {
+  private BossManager(PImage image, Level level) {
     this.image = image;
     this.width = 150;
     this.height = 150;
-    this.sketch = sketch;
+    this.sketch = MenuManager.getInstance();
     this.player = Player.getInstance();
     this.maxBosses = level.getMaxBosses();
     this.isAlive = false;
@@ -94,14 +92,12 @@ public class BossManager {
    * Get the single instance of BossManager.
    *
    * @param image  the image of the boss
-   * @param sketch the sketch for the boss
    * @param level  the max amount of bosses
    * @return the single instance of BossManager
    */
-  public static BossManager getInstance(PImage image, PApplet sketch,
-                                         Level level) {
+  public static BossManager getInstance(PImage image, Level level) {
     if (instance == null) {
-      instance = new BossManager(image, sketch, level);
+      instance = new BossManager(image, level);
     }
     return instance;
   }
@@ -112,7 +108,9 @@ public class BossManager {
    * @return instance of the boss manager
    */
   public static BossManager getInstance() {
-    if (instance == null) throw new IllegalStateException("Boss Manager has not been initialized");
+    if (instance == null) {
+      throw new IllegalStateException("Boss Manager has not been initialized");
+    }
     return instance;
   }
 

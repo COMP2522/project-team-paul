@@ -134,9 +134,8 @@ public class Game extends PApplet {
             level.getPowerUpSpeed(), player, powerUpImage);
     coinManager = CoinManager.getInstance(level.getMaxCoins(), window, level.getCoinSpeed(),
             player, coinImages);
-    this.enemyManager = EnemyManager.getInstance(window, level, enemyImage);
-    this.bossManager = BossManager.getInstance(MenuManager.getBossImg(), window,
-             level);
+    this.enemyManager = EnemyManager.getInstance(level, enemyImage);
+    this.bossManager = BossManager.getInstance(MenuManager.getBossImg(), level);
     score = 0;
     highscore = 0;
     lives = PLAYER_LIVES;
@@ -300,7 +299,8 @@ public class Game extends PApplet {
     window.beginShape();
     window.vertex(startPointX, startPointY);
     window.bezierVertex(controlPoint1X, controlPointY, x, anchorPointY, endPointX, endPointY);
-    window.bezierVertex(width + x, anchorPointY, controlPoint2X, controlPointY, startPointX, startPointY);
+    window.bezierVertex(width + x, anchorPointY, controlPoint2X, controlPointY, startPointX,
+            startPointY);
     window.endShape();
   }
 

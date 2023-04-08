@@ -47,13 +47,12 @@ public class EnemyManager {
   /**
    * constructor for the enemy manager class.
    *
-   * @param sketch the sketch for the enemy manager
    * @param level the spawnrate for the enemies
    * @param img the image for the enemies
    */
-  private EnemyManager(PApplet sketch, Level level, PImage img) {
+  private EnemyManager(Level level, PImage img) {
     this.enemies = new ArrayList<>();
-    this.sketch = sketch;
+    this.sketch = MenuManager.getInstance();
     this.spawnRate = level.getSpawnRate();
     this.spawnCounter = 0;
     this.image = img;
@@ -62,14 +61,13 @@ public class EnemyManager {
   /**
    * Returns the instance of the EnemyManager class.
    *
-   * @param sketch the sketch for the enemy manager
    * @param level the spawnrate for the enemies
    * @param img the image for the enemies
    * @return the instance of the EnemyManager class
    */
-  public static EnemyManager getInstance(PApplet sketch, Level level, PImage img) {
+  public static EnemyManager getInstance(Level level, PImage img) {
     if (instance == null) {
-      instance = new EnemyManager(sketch, level, img);
+      instance = new EnemyManager(level, img);
     }
     return instance;
   }
