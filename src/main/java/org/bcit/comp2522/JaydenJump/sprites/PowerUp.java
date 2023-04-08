@@ -1,7 +1,5 @@
 package org.bcit.comp2522.JaydenJump.sprites;
 
-import org.bcit.comp2522.JaydenJump.sprites.Player;
-import org.bcit.comp2522.JaydenJump.sprites.Sprite;
 import processing.core.PImage;
 
 

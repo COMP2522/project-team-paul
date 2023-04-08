@@ -16,6 +16,10 @@ import processing.core.PVector;
 public class Game extends PApplet {
 
   /**
+   * The number of lives the boss has.
+   */
+  private static final int BOSS_HEALTH = 3;
+  /**
    * Instance for the player.
    */
   private Player player;
@@ -43,7 +47,7 @@ public class Game extends PApplet {
   /**
    * Window for displaying game.
    */
-  private MenuManager window;
+  private final MenuManager window;
 
   /**
    * Current score.
@@ -88,17 +92,14 @@ public class Game extends PApplet {
   /**
    * Constants.
    */
-  private static int BOSS = 2000;
-  private static int FONT_SIZE = 20;
-  private static int X_OFFSET = 75;
-  private static int Y_OFFSET = 50;
-  private static int HEART1 = 400;
-  private static int HEART2 = 337;
-  private static int HEART3 = 275;
-  private static int PLAYER_LIVES = 3;
-
-  /**********************************************************/
-
+  private static final int BOSS_SPAWN = 2000;
+  private static final int FONT_SIZE = 20;
+  private static final int X_OFFSET = 75;
+  private static final int Y_OFFSET = 50;
+  private static final int HEART1 = 400;
+  private static final int HEART2 = 337;
+  private static final int HEART3 = 275;
+  private static final int PLAYER_LIVES = 3;
 
   /**
    * the level of the game.
@@ -112,9 +113,9 @@ public class Game extends PApplet {
    */
   public Game(int diff, PImage[] powerUpImage, PImage backgroundImage,
               PImage enemyImage, PImage[] playerImage, PImage[] coinImages) {
-    window = MenuManager.getInstance();
+    window               = MenuManager.getInstance();
     this.backgroundImage = backgroundImage;
-    this.backgroundPos = new PVector(0, 0);
+    this.backgroundPos   = new PVector(0, 0);
     Level level = Level.getInstance(diff);
     initializeLevel(level, coinImages, powerUpImage, enemyImage, playerImage);
     platformManager.generateStartPlatforms();
@@ -123,18 +124,27 @@ public class Game extends PApplet {
     gameOver = false;
   }
 
+  /**
+   * Initializes the game required objects with values needed.
+   *
+   * @param level          the level object with all the information
+   * @param coinImages     the images for the coins
+   * @param powerUpImage   the image for the power up
+   * @param enemyImage     the image for the enemy
+   * @param playerImage    the image for the player
+   */
   private void initializeLevel(Level level, PImage[] coinImages, PImage[] powerUpImage,
                                PImage enemyImage, PImage[] playerImage) {
-    player = Player.getInstance(playerImage, level.getPlayerSpeed(), level.getGravity());
-    scrollSpeed = level.getScrollSpeed();
+    player          = Player.getInstance(playerImage, level);
+    scrollSpeed     = level.getScrollSpeed();
     platformManager = PlatformManager.getInstance(level);
-    powerUpManager = PowerUpManager.getInstance(level.getMaxPowerUps(), level.getPowerUpSpeed(), powerUpImage, this);
-    coinManager = CoinManager.getInstance(level.getMaxCoins(), level.getCoinSpeed(), coinImages, this);
-    enemyManager = EnemyManager.getInstance(level, enemyImage, this);
-    bossManager = BossManager.getInstance(MenuManager.getBossImg(), level, this);
-    score = 0;
-    highscore = 0;
-    lives = PLAYER_LIVES;
+    powerUpManager  = PowerUpManager.getInstance(level.getMaxPowerUps(), level.getPowerUpSpeed(), powerUpImage, this);
+    coinManager     = CoinManager.getInstance(level.getMaxCoins(), level.getCoinSpeed(), coinImages, this);
+    enemyManager    = EnemyManager.getInstance(level, enemyImage, this);
+    bossManager     = BossManager.getInstance(MenuManager.getBossImg(), level, this);
+    score           = 0;
+    highscore       = 0;
+    lives           = PLAYER_LIVES;
   }
 
 
@@ -158,7 +168,7 @@ public class Game extends PApplet {
       updateAndDrawGameElements();
       generateGameElements();
 
-      if (score >= BOSS) {
+      if (score >= BOSS_SPAWN) {
         drawAndUpdateBoss();
       }
     }
@@ -210,7 +220,7 @@ public class Game extends PApplet {
     restartGame();
     if (lives == 0) {
       bossManager.setIsAlive(false);
-      bossManager.setBossHealth(3);
+      bossManager.setBossHealth(BOSS_HEALTH);
       endGame();
     }
   }
@@ -223,10 +233,10 @@ public class Game extends PApplet {
     platformManager.updateAndDrawPlatforms();
     powerUpManager.updateAndDrawPowerUps();
     coinManager.updateAndDrawCoins();
-    player.update();
-    player.draw();
     enemyManager.update();
     enemyManager.draw();
+    player.update();
+    player.draw();
   }
 
   /**
@@ -286,7 +296,6 @@ public class Game extends PApplet {
     float controlPoint2X = 3 * width / 4f + x;
     float startPointX = width / 2f + x;
     float startPointY = height / 4f;
-    float endPointX = startPointX;
     float endPointY = height / 2f;
     float controlPointY = 0;
     float anchorPointY = height / 3f;
@@ -294,7 +303,7 @@ public class Game extends PApplet {
     window.fill(heartColorRed, 0, 0);
     window.beginShape();
     window.vertex(startPointX, startPointY);
-    window.bezierVertex(controlPoint1X, controlPointY, x, anchorPointY, endPointX, endPointY);
+    window.bezierVertex(controlPoint1X, controlPointY, x, anchorPointY, startPointX, endPointY);
     window.bezierVertex(width + x, anchorPointY, controlPoint2X, controlPointY, startPointX,
             startPointY);
     window.endShape();
@@ -378,11 +387,9 @@ public class Game extends PApplet {
 
   /**
    * Setter for score.
-   *
-   * @return score as an int
    */
-  public int increaseScore(int increase) {
-    return score = score + increase;
+  public void increaseScore(int increase) {
+    score = score + increase;
   }
 
   /**

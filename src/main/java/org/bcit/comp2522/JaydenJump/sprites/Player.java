@@ -1,5 +1,6 @@
 package org.bcit.comp2522.JaydenJump.sprites;
 
+import org.bcit.comp2522.JaydenJump.Level;
 import org.bcit.comp2522.JaydenJump.gameUI.MenuManager;
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -57,15 +58,13 @@ public class Player extends Sprite {
    *
    * @param image the image to set the player to
    *
-   * @param movementSpeed the speed of the player
-   *
-   * @param gravity the gravity on the player
+   * @param level stats for the player
    */
-  private Player(PImage[] image, float movementSpeed, float gravity) {
+  private Player(PImage[] image, Level level) {
     super(MenuManager.getInstance().width / 2f, 0f, 0f, 0f);
     this.image = image;
-    this.movementSpeed = movementSpeed;
-    this.gravity = gravity;
+    this.movementSpeed = level.getPlayerSpeed();
+    this.gravity = level.getGravity();
     this.projectile = new Projectile(getXpos(), getYpos(), 0, -2, 1, this);
     isFacingRight = true;
   }
@@ -74,13 +73,11 @@ public class Player extends Sprite {
    * since this is singleton design this is to get an instance of the player.
    *
    * @param image the image for the player
-   * @param movementSpeed the speed of the player
-   * @param gravity the gravity on the player
+    * @param level the level for the player, including stats
    */
-  public static Player getInstance(PImage[] image,
-                                   float movementSpeed, float gravity) {
+  public static Player getInstance(PImage[] image, Level level) {
     if (instance == null) {
-      instance = new Player(image, movementSpeed, gravity);
+      instance = new Player(image, level);
     }
     return instance;
   }

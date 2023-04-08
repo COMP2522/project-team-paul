@@ -1,6 +1,5 @@
 package org.bcit.comp2522.JaydenJump.sprites;
 
-import org.bcit.comp2522.JaydenJump.Game;
 import org.bcit.comp2522.JaydenJump.interfaces.Audible;
 import org.bcit.comp2522.JaydenJump.gameUI.MenuManager;
 import processing.core.PImage;
