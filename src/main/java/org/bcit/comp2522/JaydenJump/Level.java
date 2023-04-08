@@ -19,6 +19,11 @@ import org.json.JSONObject;
 public class Level {
 
   /**
+   * The instance of the level.
+   */
+  private static Level instance;
+
+  /**
    * Milliseconds in a second.
    */
   private static final int Second = 1000;
@@ -26,7 +31,7 @@ public class Level {
   /**
    * Start time for the level.
    */
-  private volatile int time = 0;
+  private volatile int time;
 
   /**
    * The level number. */
@@ -120,11 +125,32 @@ public class Level {
 
   /**
    * Level Constructor.
-   * Reads the level details from a json file and sets the level details.
    *
    * @param lvl the level number
    */
-  public Level(int lvl) {
+  private Level(int lvl) {
+    loadLevel(lvl);
+  }
+
+  /**
+   * Gets the instance of the level.
+   *
+   * @param lvl the level number
+   * @return the instance of the level
+   */
+  public static Level getInstance(int lvl) {
+    if (instance == null) {
+      instance = new Level(lvl);
+    }
+    return instance;
+  }
+
+  /**
+   * Loads the level details from the json file.
+   *
+   * @param lvl the level number
+   */
+  private void loadLevel(int lvl) {
     // reads the level details from LevelDetails.json
     String json = readFileAsString("LevelData/LevelDetails.json");
 
@@ -133,6 +159,7 @@ public class Level {
     JSONObject level = levels.getJSONObject(lvl - 1);
 
     this.levelNumber = lvl;
+    this.time = 0;
     playerSpeed = level.getFloat("playerSpeed");
     gravity = level.getFloat("gravity");
     scrollSpeed = level.getInt("scrollSpeed");

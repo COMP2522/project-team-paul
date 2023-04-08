@@ -115,7 +115,7 @@ public class Game extends PApplet {
     window = sketch;
     this.backgroundImage = backgroundImage;
     this.backgroundPos = new PVector(0, 0);
-    Level level = new Level(diff);
+    Level level = Level.getInstance(diff);
     initializeLevel(level, coinImages, powerUpImage, enemyImage, playerImage);
     platformManager.generateStartPlatforms();
     powerUpManager.generateStartPowerUps();
