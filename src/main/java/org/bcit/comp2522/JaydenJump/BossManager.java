@@ -112,6 +112,16 @@ public class BossManager {
     return instance;
   }
 
+  /**
+   * getInstance method to get the instance of the boss manager.
+   *
+   * @return instance of the boss manager
+   */
+  public static BossManager getInstance() {
+    if (instance == null) throw new IllegalStateException("Boss Manager has not been initialized");
+    return instance;
+  }
+
 
   /**
    * update method for the boss manager class.

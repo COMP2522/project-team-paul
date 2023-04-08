@@ -92,7 +92,7 @@ public class Game extends PApplet {
   private static int Y_OFFSET = 50;
   private static int HEART1 = 400;
   private static int HEART2 = 337;
-  private static int HEART3= 275;
+  private static int HEART3 = 275;
   private static int PLAYER_LIVES = 3;
 
   /**********************************************************/
@@ -101,13 +101,13 @@ public class Game extends PApplet {
   /**
    * the level of the game.
    *
-   * @param diff the level of the game
-   * @param sketch the window for the game
-   * @param powerUpImage the image for the power up
+   * @param diff            the level of the game
+   * @param sketch          the window for the game
+   * @param powerUpImage    the image for the power up
    * @param backgroundImage the image for the background
-   * @param enemyImage the image for the enemy
-   * @param playerImage the image for the player
-   * @param coinImages the images for the coins
+   * @param enemyImage      the image for the enemy
+   * @param playerImage     the image for the player
+   * @param coinImages      the images for the coins
    */
   public Game(int diff, MenuManager sketch,
               PImage[] powerUpImage, PImage backgroundImage, PImage enemyImage,
@@ -121,10 +121,6 @@ public class Game extends PApplet {
     powerUpManager.generateStartPowerUps();
     coinManager.generateStartCoins();
     gameOver = false;
-  }
-
-  public static Player getPlayer() {
-    return player;
   }
 
   private void initializeLevel(Level level, PImage[] coinImages, PImage[] powerUpImage,
@@ -306,7 +302,7 @@ public class Game extends PApplet {
     window.bezierVertex(controlPoint1X, controlPointY, x, anchorPointY, endPointX, endPointY);
     window.bezierVertex(width + x, anchorPointY, controlPoint2X, controlPointY, startPointX, startPointY);
     window.endShape();
-    }
+  }
 
 
   /**
@@ -420,13 +416,5 @@ public class Game extends PApplet {
     Game.lives = lives;
   }
 
-  /**
-   * getter for the boss manager.
-   *
-   * @return the boss manager
-   */
-  public static BossManager getBossManager() {
-    return bossManager;
-  }
 }
 

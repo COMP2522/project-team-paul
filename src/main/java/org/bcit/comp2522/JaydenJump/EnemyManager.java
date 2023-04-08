@@ -135,11 +135,11 @@ public class EnemyManager {
     Iterator<Enemy> enemyIterator = enemies.iterator();
     while (enemyIterator.hasNext()) {
       Enemy enemy = enemyIterator.next();
-      if (enemy.collides(Game.getPlayer())) {
+      if (enemy.collides(Player.getInstance())) {
         Game.setLives(Game.getLives() - 1);
         if (Game.getLives() == 0) {
-          Game.getBossManager().setIsAlive(false);
-          Game.getBossManager().setBossHealth(3);
+          BossManager.getInstance().setIsAlive(false);
+          BossManager.getInstance().setBossHealth(3);
           Game.endGame();
         }
         enemyIterator.remove();
