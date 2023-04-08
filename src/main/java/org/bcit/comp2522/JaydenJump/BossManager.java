@@ -2,7 +2,6 @@ package org.bcit.comp2522.JaydenJump;
 
 import processing.core.PApplet;
 import processing.core.PImage;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -61,27 +60,60 @@ public class BossManager {
    */
   private boolean isAlive;
 
+  /**
+   * the health of the boss.
+   */
+  private int bossHealth;
+
+  /**
+   * The single instance of BossManager.
+   */
+  private static BossManager instance;
+
 
   /**
    * constructor for the boss manager class.
    *
-   * @param image the image of the boss
-   * @param width the width of the boss
-   * @param height the height of the boss
-   * @param sketch the sketch for the boss
-   * @param player the player instance
-   * @param maxBosses the max amount of bosses
+   * @param image the image for the boss
+   * @param level the max amount of bosses
    */
-  public BossManager(PImage image, int width, int height, PApplet sketch,
-                     Player player, int maxBosses) {
+  private BossManager(PImage image, Level level) {
     this.image = image;
-    this.width = width;
-    this.height = height;
-    this.sketch = sketch;
-    this.player = player;
-    this.maxBosses = maxBosses;
+    this.width = 150;
+    this.height = 150;
+    this.sketch = MenuManager.getInstance();
+    this.player = Player.getInstance();
+    this.maxBosses = level.getMaxBosses();
     this.isAlive = false;
+    this.bossHealth = 3;
   }
+
+  /**
+   * Get the single instance of BossManager.
+   *
+   * @param image  the image of the boss
+   * @param level  the max amount of bosses
+   * @return the single instance of BossManager
+   */
+  public static BossManager getInstance(PImage image, Level level) {
+    if (instance == null) {
+      instance = new BossManager(image, level);
+    }
+    return instance;
+  }
+
+  /**
+   * getInstance method to get the instance of the boss manager.
+   *
+   * @return instance of the boss manager
+   */
+  public static BossManager getInstance() {
+    if (instance == null) {
+      throw new IllegalStateException("Boss Manager has not been initialized");
+    }
+    return instance;
+  }
+
 
   /**
    * update method for the boss manager class.
@@ -92,7 +124,7 @@ public class BossManager {
       int ypos = 70;
       int vx = 5;
       int vy = 0;
-      int health = 3;
+      int health = bossHealth;
       Boss boss = new Boss(xpos, ypos, vx, vy, width, height, image, sketch, player, health);
       bosses.add(boss);
       bossCounter++;
@@ -104,8 +136,10 @@ public class BossManager {
       boss.update();
       if (boss.collides(player)) {
         Game.setLives(Game.getLives() - 1);
-        player.reset();
+        player.bossReset();
         if (Game.getLives() == 0) {
+          setIsAlive(false);
+          boss.setHealth(3);
           Game.endGame();
         }
       }
@@ -139,5 +173,14 @@ public class BossManager {
    */
   public void setIsAlive(boolean isAlive) {
     this.isAlive = isAlive;
+  }
+
+  /**
+   * setter for the boss health.
+   *
+   * @param bossHealth what you want to set the boss health to
+   */
+  public void setBossHealth(int bossHealth) {
+    this.bossHealth = bossHealth;
   }
 }

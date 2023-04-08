@@ -6,12 +6,22 @@ Maximillian Yong - \
 Hyuk Park - 
 
 ## How to Start Game
-In order to start a new game select the *<b>"MenuManager"</b>* \
+In order to start a new game select the *<b>"Main"</b>* \
 class and run it. A window similar to this will pop up:
 
 ![img.png](Images/Mainmenu.png)
 
-From this menu you want to select the start game button
+From this menu you want to press on the space bar to continue
+after which you will be greeted with this menu:
+
+![img.png](Images/MainMenu2.png)
+
+On this menu you want to select *<b>"Start Game"</b>*.
+After you select that you should be greeted with this menu:
+
+![img.png](Images/DiffcultSelectReadme.png)
+
+Here you want to select the difficulty you want to play on.
 
 ## How to Play the Game
 ### Basics
@@ -19,7 +29,7 @@ You can move left and right using <b>*A*</b> and
 <b>*D*</b> keys, or you can also use the <b>*Right*</b>
 and <b>*Left*</b> arrow keys. The player will automatically
 jump when he hits a platform. To shoot projectiles you
-can press <b>*Q*</b> and they will be shot straight up
+can press <b>*Space Bar*</b> and they will be shot straight up
 from your current position. You start off with 3 lives
 and lose 1 life everytime you die until you have 0 lives
 left at which point the game will end. Finally, your score 
@@ -46,7 +56,7 @@ as colliding with enemies will take a life from you.
 
 ### Boss
 There is a boss in the game that will appear once
-per game. He spawns at score 2000. The boss takes
+per game. He spawns at score 3000. The boss takes
 3 hits from the players projectiles to kill. The boss
 spawns at the top of the window and moves left and right
 while shooting projectiles down at the player. Colliding
@@ -56,12 +66,13 @@ to lose a life.
 ![img.png](Images/BossReadme.png)
 
 ### Power Ups
-The game also has power ups. They are the squares
-with question marks in them and when the player 
-collides with them, they will either be jumped up
-similar to how a platform might or they will gain a
-life as long as they have less than 3 lives. The 
-power ups spawn in random locations in the window.
+The game also has power ups. There are 3 different types
+of power ups. The first is the spring landing on it will
+jump you up similar to a platform. The second is the
+jetpack landing on it will boost you up a little higher
+than a platform would. The final power up is the heart,
+landing on it will give you another life as long as you
+have less than 3 hearts.
 
 ### Coins
 The player can collect coins as well throughout

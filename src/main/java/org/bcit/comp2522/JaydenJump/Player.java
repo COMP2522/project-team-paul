@@ -226,6 +226,16 @@ public class Player extends Sprite {
   }
 
   /**
+   * Method to reset the player when they collide with the boss.
+   */
+  public void bossReset(){
+    setXpos(super.getSketch().width / 2.0f);
+    setYpos(400);
+    setVy(0);
+    setVx(0);
+  }
+
+  /**
    * Method to get the image size.
    *
    * @return image size
