@@ -412,10 +412,10 @@ public class Game extends PApplet {
   /**
    * Changes Player's lives to a specific amount.
    *
-   * @param lives increased
+   * @param l increased
    */
-  public void setLives(int lives) {
-    this.lives = lives;
+  public void setLives(int l) {
+    lives = l;
   }
 
   /**
