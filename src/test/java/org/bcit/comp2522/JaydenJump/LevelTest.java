@@ -9,11 +9,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class LevelTest {
 
   private Level level;
-  private PImage backgroundImage;
 
   @BeforeEach
   void setUp() {
-    backgroundImage = new PImage();
     level = new Level(3);
   }
   @Test
@@ -25,7 +23,7 @@ class LevelTest {
       throw new RuntimeException(e);
     }
     level.stopTime();
-    assertEquals(57, level.getTime(), 1);
+    assertEquals(3, level.getTime(), 1);
 
     try {
       Thread.sleep(2000);
@@ -40,7 +38,7 @@ class LevelTest {
       throw new RuntimeException(e);
     }
     level.stopTime();
-    assertEquals(54, level.getTime(), 1);
+    assertEquals(6, level.getTime(), 1);
   }
 
   @Test
@@ -53,7 +51,7 @@ class LevelTest {
     }
     level.setTime(level.getTime() + 3);
     level.stopTime();
-    assertEquals(60, level.getTime(), 1);
+    assertEquals(6, level.getTime(), 1);
 
     level.startTime();
     try {
@@ -63,52 +61,18 @@ class LevelTest {
     }
     level.stopTime();
     level.setTime(level.getTime() + 30);
-    assertEquals(87, level.getTime(), 1);
-  }
-
-  @Test
-  void getWeather() {
+    assertEquals(39, level.getTime(), 1);
   }
 
   @Test
   void getTime_setTime() {
-    assertEquals(60, level.getTime());
+    assertEquals(0, level.getTime());
 
     level.setTime(45);
     assertEquals(45, level.getTime());
 
     level.setTime(5);
     assertEquals(5, level.getTime());
-  }
-
-  @Test
-  void getBackground_setBackground() {
-    assertSame(backgroundImage, level.getBackground());
-    PImage newBackground = new PImage();
-    level.setBackground(newBackground);
-    assertSame(newBackground, level.getBackground());
-  }
-
-  @Test
-  void getLevelNumber_setLevelNumber() {
-    assertEquals(1, level.getLevelNumber());
-
-    level.setLevelNumber(2);
-    assertEquals(2, level.getLevelNumber());
-
-    level.setLevelNumber(3);
-    assertEquals(3, level.getLevelNumber());
-  }
-
-  @Test
-  void getSpeed_setSpeed() {
-    assertEquals(5, level.getSpeed());
-
-    level.setSpeed(7);
-    assertEquals(7, level.getSpeed());
-
-    level.setSpeed(11);
-    assertEquals(11, level.getSpeed());
   }
 
   @Test

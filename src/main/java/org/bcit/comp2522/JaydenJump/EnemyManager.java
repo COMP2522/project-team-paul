@@ -3,6 +3,7 @@ package org.bcit.comp2522.JaydenJump;
 import processing.core.PApplet;
 import processing.core.PImage;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Enemy manager class to manage the enemies.
@@ -37,20 +38,38 @@ public class EnemyManager {
    */
   PImage image;
 
+  /**
+   * The instance of the EnemyManager class.
+   */
+  private static EnemyManager instance;
+
 
   /**
    * constructor for the enemy manager class.
    *
-   * @param sketch the sketch for the enemy manager
-   * @param spawnRate the spawnrate for the enemies
+   * @param level the spawnrate for the enemies
    * @param img the image for the enemies
    */
-  public EnemyManager(PApplet sketch, float spawnRate, PImage img) {
+  private EnemyManager(Level level, PImage img) {
     this.enemies = new ArrayList<>();
-    this.sketch = sketch;
-    this.spawnRate = spawnRate;
+    this.sketch = MenuManager.getInstance();
+    this.spawnRate = level.getSpawnRate();
     this.spawnCounter = 0;
     this.image = img;
+  }
+
+  /**
+   * Returns the instance of the EnemyManager class.
+   *
+   * @param level the spawnrate for the enemies
+   * @param img the image for the enemies
+   * @return the instance of the EnemyManager class
+   */
+  public static EnemyManager getInstance(Level level, PImage img) {
+    if (instance == null) {
+      instance = new EnemyManager(level, img);
+    }
+    return instance;
   }
 
   /**
@@ -108,11 +127,22 @@ public class EnemyManager {
   }
 
   /**
-   * getter for the arraylist of enemies.
-   *
-   * @return the array list of enemies
+   * Handle collision between enemy and player.
    */
-  public ArrayList<Enemy> getEnemies() {
-    return enemies;
+  public void checkCollision() {
+    Iterator<Enemy> enemyIterator = enemies.iterator();
+    while (enemyIterator.hasNext()) {
+      Enemy enemy = enemyIterator.next();
+      if (enemy.collides(Player.getInstance())) {
+        Game.setLives(Game.getLives() - 1);
+        if (Game.getLives() == 0) {
+          BossManager.getInstance().setIsAlive(false);
+          BossManager.getInstance().setBossHealth(3);
+          Game.endGame();
+        }
+        enemyIterator.remove();
+      }
+    }
   }
+
 }

@@ -9,14 +9,14 @@ import processing.core.PVector;
  * Game class.
  *
  * @author Shawn, Birring; Brian Kwon
- * @version 1.5
+ * @version 1.3
  */
 public class Game extends PApplet {
 
   /**
    * Instance for the player.
    */
-  static Player player;
+  private static Player player;
 
   /**
    * Flag for indicating if game is over.
@@ -66,7 +66,7 @@ public class Game extends PApplet {
   /**
    * the boss manager.
    */
-  private BossManager bossManager;
+  private static BossManager bossManager;
 
   /**
    * the background image.
@@ -92,21 +92,22 @@ public class Game extends PApplet {
   private static int Y_OFFSET = 50;
   private static int HEART1 = 400;
   private static int HEART2 = 337;
-  private static int HEART3= 275;
+  private static int HEART3 = 275;
   private static int PLAYER_LIVES = 3;
 
   /**********************************************************/
 
+
   /**
    * the level of the game.
    *
-   * @param diff the level of the game
-   * @param sketch the window for the game
-   * @param powerUpImage the image for the power up
+   * @param diff            the level of the game
+   * @param sketch          the window for the game
+   * @param powerUpImage    the image for the power up
    * @param backgroundImage the image for the background
-   * @param enemyImage the image for the enemy
-   * @param playerImage the image for the player
-   * @param coinImages the images for the coins
+   * @param enemyImage      the image for the enemy
+   * @param playerImage     the image for the player
+   * @param coinImages      the images for the coins
    */
   public Game(int diff, MenuManager sketch,
               PImage[] powerUpImage, PImage backgroundImage, PImage enemyImage,
@@ -131,9 +132,8 @@ public class Game extends PApplet {
             level.getPowerUpSpeed(), player, powerUpImage);
     coinManager = CoinManager.getInstance(level.getMaxCoins(), window, level.getCoinSpeed(),
             player, coinImages);
-    this.enemyManager = new EnemyManager(window, level.getSpawnRate(), enemyImage);
-    this.bossManager = new BossManager(MenuManager.getBossImg(), 150, 150, window,
-            player, level.getMaxBosses());
+    this.enemyManager = EnemyManager.getInstance(level, enemyImage);
+    this.bossManager = BossManager.getInstance(MenuManager.getBossImg(), level);
     score = 0;
     highscore = 0;
     lives = PLAYER_LIVES;
@@ -157,7 +157,6 @@ public class Game extends PApplet {
         handlePlayerLanding();
       }
 
-      handleEnemyCollisions();
       updateAndDrawGameElements();
       generateGameElements();
 
@@ -183,6 +182,7 @@ public class Game extends PApplet {
     platformManager.checkCollision();
     powerUpManager.checkCollision();
     coinManager.checkCollision();
+    enemyManager.checkCollision();
   }
 
   /**
@@ -212,29 +212,11 @@ public class Game extends PApplet {
     restartGame();
     if (lives == 0) {
       bossManager.setIsAlive(false);
+      bossManager.setBossHealth(3);
       endGame();
     }
   }
 
-  /**
-   * TODO: will need to put this in a separate class.
-   */
-  private void handleEnemyCollisions() {
-    Iterator<Enemy> enemyIterator = enemyManager.getEnemies().iterator();
-    while (enemyIterator.hasNext()) {
-      Enemy enemy = enemyIterator.next();
-      if (enemy.collides(player)) {
-        lives--;
-        if (lives == 0) {
-          bossManager.setIsAlive(false);
-          endGame();
-        } else {
-          restartGame();
-        }
-        enemyIterator.remove();
-      }
-    }
-  }
 
   /**
    * updates and draws the game elements.
@@ -315,9 +297,11 @@ public class Game extends PApplet {
     window.beginShape();
     window.vertex(startPointX, startPointY);
     window.bezierVertex(controlPoint1X, controlPointY, x, anchorPointY, endPointX, endPointY);
-    window.bezierVertex(width + x, anchorPointY, controlPoint2X, controlPointY, startPointX, startPointY);
+    window.bezierVertex(width + x, anchorPointY, controlPoint2X, controlPointY, startPointX,
+            startPointY);
     window.endShape();
-    }
+  }
+
 
   /**
    * Restarts the game when the player goes below
@@ -429,5 +413,6 @@ public class Game extends PApplet {
   public static void setLives(int lives) {
     Game.lives = lives;
   }
+
 }
 

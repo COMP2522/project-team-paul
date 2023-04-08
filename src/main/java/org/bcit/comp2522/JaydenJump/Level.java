@@ -9,7 +9,6 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import processing.core.PImage;
 
 /**
  * Represents a level in JaydenJump.
@@ -20,23 +19,18 @@ import processing.core.PImage;
 public class Level {
 
   /**
-   * The time left in the level.
+   * Milliseconds in a second.
    */
-  private volatile int time;
+  private static final int Second = 1000;
 
   /**
-   * The background image of the level.
+   * Start time for the level.
    */
-  private PImage background;
+  private volatile int time = 0;
 
   /**
    * The level number. */
   private int levelNumber;
-
-  /**
-   * The speed of elements in the level.
-   */
-  private int speed;
 
   /**
    * The players score in the current level.
@@ -46,7 +40,8 @@ public class Level {
   /**
    * Used for timer for the level.
    */
-  private ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+  private ScheduledExecutorService scheduledExecutorService
+      = Executors.newSingleThreadScheduledExecutor();
 
   /**
    * Used for timer for the level.
@@ -137,6 +132,7 @@ public class Level {
     JSONArray levels = obj.getJSONArray("levels");
     JSONObject level = levels.getJSONObject(lvl - 1);
 
+    this.levelNumber = lvl;
     playerSpeed = level.getFloat("playerSpeed");
     gravity = level.getFloat("gravity");
     scrollSpeed = level.getInt("scrollSpeed");
@@ -151,8 +147,6 @@ public class Level {
     coinSpeed = level.getInt("coinSpeed");
     spawnRate = level.getFloat("spawnRate");
     maxBosses = level.getInt("maxBosses");
-
-    this.time = 0;
   }
 
   /**
@@ -183,12 +177,9 @@ public class Level {
     if (scheduledFuture == null || scheduledFuture.isCancelled()) {
       Runnable task = () -> {
         time++;
-        if (time <= 0) {
-          stopTime();
-        }
       };
       scheduledFuture = scheduledExecutorService
-          .scheduleAtFixedRate(task, 0, 1000, TimeUnit.MILLISECONDS);
+          .scheduleAtFixedRate(task, 0, Second, TimeUnit.MILLISECONDS);
     }
   }
 
@@ -220,57 +211,12 @@ public class Level {
   }
 
   /**
-   * Gets the levels background image.
-   *
-   * @return The background image (PImage)
-   */
-  public PImage getBackground() {
-    return background;
-  }
-
-  /**
-   * Sets the background image for the level.
-   *
-   * @param background The background image (PImage)
-   */
-  public void setBackground(PImage background) {
-    this.background = background;
-  }
-
-  /**
    * Gets the current level number.
    *
    * @return The level number (int)
    */
   public int getLevelNumber() {
     return levelNumber;
-  }
-
-  /**
-   * Sets the level number.
-   *
-   * @param levelNumber The level number (int)
-   */
-  public void setLevelNumber(int levelNumber) {
-    this.levelNumber = levelNumber;
-  }
-
-  /**
-   * Gets the current speed of the element for the level.
-   *
-   * @return The speed (int)
-   */
-  public int getSpeed() {
-    return speed;
-  }
-
-  /**
-   * Sets the speed of the elements in the level.
-   *
-   * @param speed The speed (int)
-   */
-  public void setSpeed(int speed) {
-    this.speed = speed;
   }
 
   /**
