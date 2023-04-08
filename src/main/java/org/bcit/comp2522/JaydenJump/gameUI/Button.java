@@ -1,6 +1,4 @@
-package org.bcit.comp2522.JaydenJump;
-
-import processing.core.PApplet;
+package org.bcit.comp2522.JaydenJump.gameUI;
 
 /**
  * Button.

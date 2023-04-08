@@ -1,4 +1,4 @@
-package org.bcit.comp2522.JaydenJump;
+package org.bcit.comp2522.JaydenJump.gameUI;
 
 import processing.core.PApplet;
 

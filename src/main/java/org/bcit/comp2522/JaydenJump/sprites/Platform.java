@@ -1,7 +1,8 @@
-package org.bcit.comp2522.JaydenJump;
+package org.bcit.comp2522.JaydenJump.sprites;
 
 import java.awt.Color;
-import processing.core.PApplet;
+
+import org.bcit.comp2522.JaydenJump.sprites.Sprite;
 
 /**
  * platform class.

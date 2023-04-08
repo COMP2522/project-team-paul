@@ -1,4 +1,6 @@
-package org.bcit.comp2522.JaydenJump;
+package org.bcit.comp2522.JaydenJump.interfaces;
+
+import org.bcit.comp2522.JaydenJump.gameUI.MenuManager;
 
 /**
  * Interface for Game UI.

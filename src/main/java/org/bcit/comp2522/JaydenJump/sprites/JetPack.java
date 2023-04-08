@@ -1,6 +1,8 @@
-package org.bcit.comp2522.JaydenJump;
+package org.bcit.comp2522.JaydenJump.sprites;
 
-import processing.core.PApplet;
+import org.bcit.comp2522.JaydenJump.Game;
+import org.bcit.comp2522.JaydenJump.interfaces.Audible;
+import org.bcit.comp2522.JaydenJump.gameUI.MenuManager;
 import processing.core.PImage;
 import javax.sound.sampled.*;
 
@@ -15,7 +17,7 @@ import javax.sound.sampled.*;
  * @since 2023-03-23
  */
 
-public class JetPack extends PowerUp implements Audible{
+public class JetPack extends PowerUp implements Audible {
   /** The amount of time the JetPack lasts. */
   private int duration;
 

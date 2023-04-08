@@ -1,6 +1,8 @@
 package org.bcit.comp2522.JaydenJump;
 
-import java.util.Iterator;
+import org.bcit.comp2522.JaydenJump.gameUI.MenuManager;
+import org.bcit.comp2522.JaydenJump.spriteManagers.*;
+import org.bcit.comp2522.JaydenJump.sprites.Player;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
@@ -16,47 +18,47 @@ public class Game extends PApplet {
   /**
    * Instance for the player.
    */
-  private static Player player;
+  private Player player;
 
   /**
    * Flag for indicating if game is over.
    */
-  static boolean gameOver;
+  private boolean gameOver;
 
   /**
    * Platform manager.
    */
-  private static PlatformManager platformManager;
+  private PlatformManager platformManager;
 
   /**
    * PowerUp Manager.
    */
-  private static PowerUpManager powerUpManager;
+  private PowerUpManager powerUpManager;
 
   /**
    * Coin Manager.
    */
-  private static CoinManager coinManager;
+  private CoinManager coinManager;
 
   /**
    * Window for displaying game.
    */
-  private static MenuManager window;
+  private MenuManager window;
 
   /**
    * Current score.
    */
-  private static int score;
+  private int score;
 
   /**
    * Highest score achieved in the game so far.
    */
-  private static int highscore;
+  private int highscore;
 
   /**
    * The lives of the player.
    */
-  private static int lives;
+  private int lives;
 
   /**
    * Manager for the enemies.
@@ -66,7 +68,7 @@ public class Game extends PApplet {
   /**
    * the boss manager.
    */
-  private static BossManager bossManager;
+  private BossManager bossManager;
 
   /**
    * the background image.
@@ -81,7 +83,7 @@ public class Game extends PApplet {
   /**
    * the speed of the background.
    */
-  private static int scrollSpeed;
+  private int scrollSpeed;
 
   /**
    * Constants.
@@ -108,9 +110,8 @@ public class Game extends PApplet {
    * @param playerImage     the image for the player
    * @param coinImages      the images for the coins
    */
-  public Game(int diff,
-              PImage[] powerUpImage, PImage backgroundImage, PImage enemyImage,
-              PImage[] playerImage, PImage[] coinImages) {
+  public Game(int diff, PImage[] powerUpImage, PImage backgroundImage,
+              PImage enemyImage, PImage[] playerImage, PImage[] coinImages) {
     window = MenuManager.getInstance();
     this.backgroundImage = backgroundImage;
     this.backgroundPos = new PVector(0, 0);
@@ -127,10 +128,10 @@ public class Game extends PApplet {
     player = Player.getInstance(playerImage, level.getPlayerSpeed(), level.getGravity());
     scrollSpeed = level.getScrollSpeed();
     platformManager = PlatformManager.getInstance(level);
-    powerUpManager = PowerUpManager.getInstance(level.getMaxPowerUps(), level.getPowerUpSpeed(), powerUpImage);
-    coinManager = CoinManager.getInstance(level.getMaxCoins(), level.getCoinSpeed(), coinImages);
-    this.enemyManager = EnemyManager.getInstance(level, enemyImage);
-    this.bossManager = BossManager.getInstance(MenuManager.getBossImg(), level);
+    powerUpManager = PowerUpManager.getInstance(level.getMaxPowerUps(), level.getPowerUpSpeed(), powerUpImage, this);
+    coinManager = CoinManager.getInstance(level.getMaxCoins(), level.getCoinSpeed(), coinImages, this);
+    enemyManager = EnemyManager.getInstance(level, enemyImage, this);
+    bossManager = BossManager.getInstance(MenuManager.getBossImg(), level, this);
     score = 0;
     highscore = 0;
     lives = PLAYER_LIVES;
@@ -169,7 +170,7 @@ public class Game extends PApplet {
   private void displayScore() {
     window.textSize(FONT_SIZE);
     window.fill(0);
-    window.text("Score: " + Game.getScore(), X_OFFSET, Y_OFFSET);
+    window.text("Score: " + score, X_OFFSET, Y_OFFSET);
   }
 
   /**
@@ -304,7 +305,7 @@ public class Game extends PApplet {
    * Restarts the game when the player goes below
    * the screen or makes contact with an enemy.
    */
-  public static void restartGame() {
+  public void restartGame() {
     player.reset();
     platformManager.getPlatforms().clear();
     powerUpManager.getPowerups().clear();
@@ -318,7 +319,7 @@ public class Game extends PApplet {
   /**
    * Ends the game when the player runs out of lives.
    */
-  public static void endGame() {
+  public void endGame() {
     gameOver = true;
     lives = PLAYER_LIVES;
   }
@@ -326,18 +327,18 @@ public class Game extends PApplet {
   /**
    * Starts the game.
    */
-  public static void startGame() {
+  public void startGame() {
     score = 0;
   }
 
-  public static void resetHighscore() {
+  public void resetHighscore() {
     highscore = 0;
   }
 
   /**
    * Event listener for key presses.
    */
-  public static void keyPressedListener(int key) {
+  public void keyPressedListener(int key) {
     if (key == LEFT || key == 'A') {
       player.moveLeft();
     } else if (key == RIGHT || key == 'D') {
@@ -356,7 +357,7 @@ public class Game extends PApplet {
   /**
    * Event listener for key releases.
    */
-  public static void keyReleasedListener(int key) {
+  public void keyReleasedListener(int key) {
     if (key == LEFT || key == 'A') {
       player.setVx(player.getVx() - 2);
     } else if (key == RIGHT || key == 'D') {
@@ -371,7 +372,7 @@ public class Game extends PApplet {
    *
    * @return score as an int
    */
-  public static int getScore() {
+  public int getScore() {
     return score;
   }
 
@@ -380,7 +381,7 @@ public class Game extends PApplet {
    *
    * @return score as an int
    */
-  public static int increaseScore(int increase) {
+  public int increaseScore(int increase) {
     return score = score + increase;
   }
 
@@ -389,7 +390,7 @@ public class Game extends PApplet {
    *
    * @return highscore as an int
    */
-  public static int getHighscore() {
+  public int getHighscore() {
     return highscore;
   }
 
@@ -398,7 +399,7 @@ public class Game extends PApplet {
    *
    * @return player's life count while in game.
    */
-  public static int getLives() {
+  public int getLives() {
     return lives;
   }
 
@@ -407,9 +408,15 @@ public class Game extends PApplet {
    *
    * @param lives increased
    */
-  public static void setLives(int lives) {
-    Game.lives = lives;
+  public void setLives(int lives) {
+    this.lives = lives;
   }
 
+  /**
+   * getter for game state.
+   */
+  public boolean isGameOver() {
+    return gameOver;
+  }
 }
 

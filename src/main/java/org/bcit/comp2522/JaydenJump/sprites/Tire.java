@@ -1,6 +1,7 @@
-package org.bcit.comp2522.JaydenJump;
+package org.bcit.comp2522.JaydenJump.sprites;
 
-import processing.core.PApplet;
+import org.bcit.comp2522.JaydenJump.interfaces.Audible;
+import org.bcit.comp2522.JaydenJump.gameUI.MenuManager;
 import processing.core.PImage;
 import javax.sound.sampled.Clip;
 
@@ -15,7 +16,7 @@ import javax.sound.sampled.Clip;
  * @since 2023-03-22
  */
 
-public class Tire extends PowerUp implements Audible{
+public class Tire extends PowerUp implements Audible {
 
   /** The amount that affects the y velocity of the Player. */
   private int boostHeight;

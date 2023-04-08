@@ -1,6 +1,7 @@
-package org.bcit.comp2522.JaydenJump;
+package org.bcit.comp2522.JaydenJump.gameUI;
 
 import java.util.ArrayList;
+
 import processing.core.PApplet;
 
 /**

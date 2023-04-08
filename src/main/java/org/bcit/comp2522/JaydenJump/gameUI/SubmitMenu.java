@@ -1,6 +1,9 @@
-package org.bcit.comp2522.JaydenJump;
+package org.bcit.comp2522.JaydenJump.gameUI;
 
 import javax.swing.JOptionPane;
+
+import org.bcit.comp2522.JaydenJump.Game;
+import org.bcit.comp2522.JaydenJump.Load;
 import processing.core.PApplet;
 
 /**
@@ -18,6 +21,8 @@ public class SubmitMenu extends PApplet {
    */
   String userInput;
 
+  private Game game;
+
   /**
    * Constant.
    */
@@ -27,8 +32,10 @@ public class SubmitMenu extends PApplet {
 
   public void init(MenuManager window) {
     this.window = window;
+    this.game = window.getGame();
     draw();
   }
+
 
   /**
    * Draws to window.
@@ -40,10 +47,10 @@ public class SubmitMenu extends PApplet {
 
     userInput = JOptionPane.showInputDialog("Please enter your name:");
 
-    Load.updateLeaderboard(userInput, Game.getHighscore(), MenuManager.getDifficulty());
-    Game.restartGame();
-    Game.startGame();
-    Game.resetHighscore();
+    Load.updateLeaderboard(userInput, game.getHighscore(), MenuManager.getDifficulty());
+    game.restartGame();
+    game.startGame();
+    game.resetHighscore();
     MenuManager.setCurrentScreen(1);
   }
 }

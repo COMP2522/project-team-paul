@@ -1,4 +1,4 @@
-package org.bcit.comp2522.JaydenJump;
+package org.bcit.comp2522.JaydenJump.interfaces;
 
 import java.io.File;
 import java.io.IOException;

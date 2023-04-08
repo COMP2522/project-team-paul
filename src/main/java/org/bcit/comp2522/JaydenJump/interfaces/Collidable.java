@@ -1,4 +1,4 @@
-package org.bcit.comp2522.JaydenJump;
+package org.bcit.comp2522.JaydenJump.interfaces;
 
 /**
  * Interface for objects that can collide with other objects.

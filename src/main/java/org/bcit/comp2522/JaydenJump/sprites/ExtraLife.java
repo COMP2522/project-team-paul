@@ -1,7 +1,10 @@
-package org.bcit.comp2522.JaydenJump;
+package org.bcit.comp2522.JaydenJump.sprites;
 
 import javax.sound.sampled.Clip;
-import processing.core.PApplet;
+
+import org.bcit.comp2522.JaydenJump.Game;
+import org.bcit.comp2522.JaydenJump.gameUI.MenuManager;
+import org.bcit.comp2522.JaydenJump.interfaces.Audible;
 import processing.core.PImage;
 
 
@@ -25,6 +28,8 @@ public class ExtraLife extends PowerUp implements Audible {
    */
   private static final int MAXIMUMLIVES = 3;
 
+  private Game game;
+
   /**
    * Creates an instance of ExtraLife PowerUp in the game.
    *
@@ -43,8 +48,9 @@ public class ExtraLife extends PowerUp implements Audible {
                    float vx,
                    float vy,
                    boolean isActive,
-                   PImage image) {
+                   PImage image, Game game) {
     super(xpos, ypos, vx, vy, isActive, image);
+    this.game = game;
     this.clip = loadSound("extraLife.wav");
   }
 
@@ -52,8 +58,8 @@ public class ExtraLife extends PowerUp implements Audible {
    * Increases the life of the Player by one.
    */
   public void increaseLife() {
-    if (Game.getLives() < MAXIMUMLIVES) {
-      Game.setLives(Game.getLives() + 1);
+    if (game.getLives() < MAXIMUMLIVES) {
+      game.setLives(game.getLives() + 1);
     }
   }
 

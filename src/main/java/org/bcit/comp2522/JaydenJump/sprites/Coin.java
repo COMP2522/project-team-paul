@@ -1,6 +1,6 @@
-package org.bcit.comp2522.JaydenJump;
+package org.bcit.comp2522.JaydenJump.sprites;
 
-import processing.core.PApplet;
+import org.bcit.comp2522.JaydenJump.Game;
 import processing.core.PImage;
 import java.io.File;
 import java.io.IOException;
@@ -24,8 +24,11 @@ public class Coin extends Sprite {
 
   private final static int SCORE_INCREASE = 25;
 
-  public Coin(float xpos, float ypos, float vx, float vy, PImage[] animationFrames) {
+  private Game game;
+
+  public Coin(float xpos, float ypos, float vx, float vy, PImage[] animationFrames, Game game) {
     super(xpos, ypos, vx, vy);
+    this.game = game;
     this.player = Player.getInstance();
     this.animationFrames = animationFrames;
     coinSound = new File("music/coin_sound.wav");
@@ -75,7 +78,7 @@ public class Coin extends Sprite {
   }
 
   public void addToScore() {
-    Game.increaseScore(SCORE_INCREASE);
+    game.increaseScore(SCORE_INCREASE);
     playSound();
   }
 

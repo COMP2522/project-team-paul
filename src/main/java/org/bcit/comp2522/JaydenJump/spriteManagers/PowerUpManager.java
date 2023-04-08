@@ -1,7 +1,11 @@
-package org.bcit.comp2522.JaydenJump;
+package org.bcit.comp2522.JaydenJump.spriteManagers;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import org.bcit.comp2522.JaydenJump.Game;
+import org.bcit.comp2522.JaydenJump.gameUI.MenuManager;
+import org.bcit.comp2522.JaydenJump.sprites.*;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -60,6 +64,11 @@ public class PowerUpManager {
   private static final int POWERUPSTARTING = 1;
 
   /**
+   * The game.
+   */
+  private Game game;
+
+  /**
    * Constructor of the PowerUpManager class.
    *
    * @param maxPowerUps the maximum amount of PowerUps permitted in the game
@@ -67,13 +76,14 @@ public class PowerUpManager {
    * @param powerUpSpeed the speed of the PowerUp as it moves down the game screen
    */
   private PowerUpManager(int maxPowerUps, int powerUpSpeed,
-                         PImage[] powerUpImg) {
+                         PImage[] powerUpImg, Game game) {
     this.sketch = MenuManager.getInstance();
     this.maxPowerUps = maxPowerUps;
     this.powerUpSpeed = powerUpSpeed;
     powerups = new ArrayList<>();
     this.player = Player.getInstance();
     this.image = powerUpImg;
+    this.game = game;
   }
 
   /**
@@ -86,9 +96,9 @@ public class PowerUpManager {
    *
    * @return PowerUpManager instance in the game
    */
-  public static PowerUpManager getInstance(int maxPowerUps, int powerUpSpeed, PImage[] powerUpImg) {
+  public static PowerUpManager getInstance(int maxPowerUps, int powerUpSpeed, PImage[] powerUpImg, Game game) {
     if (instance == null) {
-      instance = new PowerUpManager(maxPowerUps, powerUpSpeed, powerUpImg);
+      instance = new PowerUpManager(maxPowerUps, powerUpSpeed, powerUpImg, game);
     }
     return instance;
   }
@@ -198,7 +208,7 @@ public class PowerUpManager {
     } else if (randomInt == 1) {
       return new JetPack(xpos, ypos, vx, vy, true, 2, -10, image[1]);
     } else {
-      return new ExtraLife(xpos, ypos, vx, vy, true, image[0]);
+      return new ExtraLife(xpos, ypos, vx, vy, true, image[0], game);
     }
   }
 

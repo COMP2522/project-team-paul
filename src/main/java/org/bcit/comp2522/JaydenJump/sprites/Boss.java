@@ -1,6 +1,6 @@
-package org.bcit.comp2522.JaydenJump;
+package org.bcit.comp2522.JaydenJump.sprites;
 
-import processing.core.PApplet;
+import org.bcit.comp2522.JaydenJump.Game;
 import processing.core.PImage;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -64,6 +64,11 @@ public class Boss extends Sprite {
    */
   private int projectileCounter = 0;
 
+  /**
+   * game instance.
+   */
+  private Game game;
+
 
   /**
    * constructor for the boss class.
@@ -78,7 +83,7 @@ public class Boss extends Sprite {
    * @param health the health for the boss
    */
   public Boss(int xpos, int ypos, int vx, int vy, int width, int height,
-              PImage image, int health) {
+              PImage image, int health, Game game) {
     super(xpos, ypos, vx, vy);
     this.image = image;
     this.width = width;
@@ -87,6 +92,7 @@ public class Boss extends Sprite {
     this.movingRight = true;
     this.health = health;
     this.projectile = new Projectile(getXpos(), getYpos(), 0, 20, 1, player);
+    this.game = game;
   }
 
   /**
@@ -125,9 +131,9 @@ public class Boss extends Sprite {
       projectile.draw();
       projectile.update();
       if (projectile.collides(player)) {
-        Game.setLives(Game.getLives() - 1);
-        if (Game.getLives() == 0) {
-          Game.endGame();
+        game.setLives(game.getLives() - 1);
+        if (game.getLives() == 0) {
+          game.endGame();
         }
       }
       if (projectile.getYpos() > super.getSketch().height || projectile.collides(player)) {

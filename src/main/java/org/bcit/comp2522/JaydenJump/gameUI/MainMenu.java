@@ -1,9 +1,10 @@
-package org.bcit.comp2522.JaydenJump;
+package org.bcit.comp2522.JaydenJump.gameUI;
 
 import java.util.ArrayList;
+
 import processing.core.PApplet;
 import processing.core.PImage;
-import static org.bcit.comp2522.JaydenJump.MenuManager.sound;
+import static org.bcit.comp2522.JaydenJump.gameUI.MenuManager.sound;
 
 /**
  * Main screen of game.
