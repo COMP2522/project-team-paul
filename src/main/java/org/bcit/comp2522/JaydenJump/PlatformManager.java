@@ -109,7 +109,7 @@ public class PlatformManager {
     float y = 0;
     for (int i = 0; i < numPlatforms; i++) {
       float x = sketch.random(sketch.width - Platform.getPlatformWidth());
-      Platform newPlatform  = new Platform(sketch, x, y, green, 0,
+      Platform newPlatform  = new Platform(x, y, green, 0,
                                     platformSpeed, false);
       boolean isOverlapping = false;
       for (Platform platform : platforms) {
@@ -147,8 +147,12 @@ public class PlatformManager {
           vx = movableSpeed;
         }
       }
-      Platform newPlatform = new Platform(sketch, x, newY, platformColor,
-                                          vx, platformSpeed, isBreakable);
+
+      // Create the new platform
+      Platform newPlatform = new Platform(x, newY, platformColor,
+              vx, platformSpeed, isBreakable);
+
+      // Check for overlap with existing platforms
       boolean isOverlapping = false;
       for (Platform platform : platforms) {
         if (isOverlapping(newPlatform, platform)) {

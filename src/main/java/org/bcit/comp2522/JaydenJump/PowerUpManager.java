@@ -64,19 +64,15 @@ public class PowerUpManager {
    *
    * @param maxPowerUps the maximum amount of PowerUps permitted in the game
    *
-   * @param sketch the game screen
-   *
    * @param powerUpSpeed the speed of the PowerUp as it moves down the game screen
-   *
-   * @param player the player object in the game
    */
-  private PowerUpManager(int maxPowerUps, PApplet sketch, int powerUpSpeed, Player player,
+  private PowerUpManager(int maxPowerUps, int powerUpSpeed,
                          PImage[] powerUpImg) {
+    this.sketch = MenuManager.getInstance();
     this.maxPowerUps = maxPowerUps;
-    this.sketch = sketch;
     this.powerUpSpeed = powerUpSpeed;
     powerups = new ArrayList<>();
-    this.player = player;
+    this.player = Player.getInstance();
     this.image = powerUpImg;
   }
 
@@ -86,18 +82,13 @@ public class PowerUpManager {
    *
    * @param maxPowerUps the maximum amount of PowerUps permitted in the game
    *
-   * @param sketch the game screen
-   *
    * @param powerUpSpeed the speed of the PowerUps as they move down the screen
-   *
-   * @param player the player in the game
    *
    * @return PowerUpManager instance in the game
    */
-  public static PowerUpManager getInstance(int maxPowerUps, PApplet sketch,
-                                           int powerUpSpeed, Player player, PImage[] powerUpImg) {
+  public static PowerUpManager getInstance(int maxPowerUps, int powerUpSpeed, PImage[] powerUpImg) {
     if (instance == null) {
-      instance = new PowerUpManager(maxPowerUps, sketch, powerUpSpeed, player, powerUpImg);
+      instance = new PowerUpManager(maxPowerUps, powerUpSpeed, powerUpImg);
     }
     return instance;
   }
@@ -128,7 +119,7 @@ public class PowerUpManager {
     float y = sketch.random(sketch.height - PowerUp.getPowerupSize());
     for (int i = 0; i < POWERUPSTARTING; i++) {
       float x = sketch.random(sketch.width - PowerUp.getPowerupSize());
-      powerups.add(createRandomPowerUp(x, y, 0, powerUpSpeed, sketch, player, image));
+      powerups.add(createRandomPowerUp(x, y, 0, powerUpSpeed, image));
       y += 150;
     }
   }
@@ -140,7 +131,7 @@ public class PowerUpManager {
     float y = 0;
     while (powerups.size() < maxPowerUps) {
       float x = sketch.random(sketch.width - PowerUp.getPowerupSize());
-      PowerUp newPowerUp = createRandomPowerUp(x, y, 0, powerUpSpeed, sketch, player, image);
+      PowerUp newPowerUp = createRandomPowerUp(x, y, 0, powerUpSpeed, image);
       powerups.add(newPowerUp);
       y += 150;
     }
@@ -193,25 +184,21 @@ public class PowerUpManager {
    *
    * @param vy the y-velocity of the PowerUp
    *
-   * @param sketch the game screen
-   *
-   * @param player the player in the game
-   *
    * @param image the image of the PowerUp
    *
    * @return PowerUp that is randomly generated (Tire, ExtraLife, or JetPack)
    */
   public PowerUp createRandomPowerUp(float xpos, float ypos, float vx, float vy,
-                                     PApplet sketch, Player player, PImage[] image) {
+                                      PImage[] image) {
     int randomInt = (int) (Math.random() * 3);
 
     // Create and return an instance of a randomly selected subclass
     if (randomInt == 0) {
-      return new Tire(xpos, ypos, vx, vy, 2, true, sketch, player, image[2]);
+      return new Tire(xpos, ypos, vx, vy, 2, true, image[2]);
     } else if (randomInt == 1) {
-      return new JetPack(xpos, ypos, vx, vy, true, sketch, 2, -10, player, image[1]);
+      return new JetPack(xpos, ypos, vx, vy, true, 2, -10, image[1]);
     } else {
-      return new ExtraLife(xpos, ypos, vx, vy, true, sketch, player, image[0]);
+      return new ExtraLife(xpos, ypos, vx, vy, true, image[0]);
     }
   }
 

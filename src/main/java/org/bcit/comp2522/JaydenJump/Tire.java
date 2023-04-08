@@ -42,9 +42,8 @@ public class Tire extends PowerUp implements Audible{
               float vy,
               int boostHeight,
               boolean isActive,
-              PApplet sketch,
-              Player player, PImage image) {
-    super(xpos, ypos, vx, vy, isActive, sketch, player, image);
+              PImage image) {
+    super(xpos, ypos, vx, vy, isActive, image);
     this.boostHeight = boostHeight;
     this.clip = loadSound("tire.wav");
   }

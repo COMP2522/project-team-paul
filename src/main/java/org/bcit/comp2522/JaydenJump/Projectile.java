@@ -41,9 +41,8 @@ public class Projectile extends Sprite {
    * @param damage the damage the projectile does
    */
   public Projectile(float xpos, float ypos, int vx, int vy, int damage, Player player) {
-    super(xpos, ypos, vx, vy, null);
+    super(xpos, ypos, vx, vy);
     this.damage = damage;
-    this.color = color;
     this.player = player;
     this.height = 20;
     this.width = 20;

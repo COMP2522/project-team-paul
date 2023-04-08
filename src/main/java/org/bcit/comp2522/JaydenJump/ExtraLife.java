@@ -43,9 +43,8 @@ public class ExtraLife extends PowerUp implements Audible {
                    float vx,
                    float vy,
                    boolean isActive,
-                   PApplet sketch,
-                   Player player, PImage image) {
-    super(xpos, ypos, vx, vy, isActive, sketch, player, image);
+                   PImage image) {
+    super(xpos, ypos, vx, vy, isActive, image);
     this.clip = loadSound("extraLife.wav");
   }
 

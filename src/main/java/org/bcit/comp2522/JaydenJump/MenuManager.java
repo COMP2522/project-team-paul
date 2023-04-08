@@ -330,7 +330,6 @@ public class MenuManager extends PApplet {
     submitMenu       = new SubmitMenu();
 
     game = new Game(difficulty,
-        this,
         powerUpImg,
         backgroundImage,
         enemyImg,
@@ -386,7 +385,6 @@ public class MenuManager extends PApplet {
     }
 
     game = new Game(difficulty,
-        this,
         powerUpImg,
         backgroundImage,
         enemyImg,

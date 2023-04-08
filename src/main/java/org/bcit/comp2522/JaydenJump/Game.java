@@ -102,17 +102,16 @@ public class Game extends PApplet {
    * the level of the game.
    *
    * @param diff            the level of the game
-   * @param sketch          the window for the game
    * @param powerUpImage    the image for the power up
    * @param backgroundImage the image for the background
    * @param enemyImage      the image for the enemy
    * @param playerImage     the image for the player
    * @param coinImages      the images for the coins
    */
-  public Game(int diff, MenuManager sketch,
+  public Game(int diff,
               PImage[] powerUpImage, PImage backgroundImage, PImage enemyImage,
               PImage[] playerImage, PImage[] coinImages) {
-    window = sketch;
+    window = MenuManager.getInstance();
     this.backgroundImage = backgroundImage;
     this.backgroundPos = new PVector(0, 0);
     Level level = Level.getInstance(diff);
@@ -125,13 +124,11 @@ public class Game extends PApplet {
 
   private void initializeLevel(Level level, PImage[] coinImages, PImage[] powerUpImage,
                                PImage enemyImage, PImage[] playerImage) {
-    player = Player.getInstance(window, playerImage, level.getPlayerSpeed(), level.getGravity());
+    player = Player.getInstance(playerImage, level.getPlayerSpeed(), level.getGravity());
     scrollSpeed = level.getScrollSpeed();
     platformManager = PlatformManager.getInstance(level);
-    powerUpManager = PowerUpManager.getInstance(level.getMaxPowerUps(), window,
-            level.getPowerUpSpeed(), player, powerUpImage);
-    coinManager = CoinManager.getInstance(level.getMaxCoins(), window, level.getCoinSpeed(),
-            player, coinImages);
+    powerUpManager = PowerUpManager.getInstance(level.getMaxPowerUps(), level.getPowerUpSpeed(), powerUpImage);
+    coinManager = CoinManager.getInstance(level.getMaxCoins(), level.getCoinSpeed(), coinImages);
     this.enemyManager = EnemyManager.getInstance(level, enemyImage);
     this.bossManager = BossManager.getInstance(MenuManager.getBossImg(), level);
     score = 0;
