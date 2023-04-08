@@ -2,7 +2,6 @@ package org.bcit.comp2522.JaydenJump;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-import processing.core.PImage;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,10 +11,11 @@ class LevelTest {
 
   @BeforeEach
   void setUp() {
-    level = new Level(3);
+    level = Level.getInstance(1);
   }
   @Test
   void startTime_endTime() {
+    level.setTime(0);
     level.startTime();
     try {
       Thread.sleep(3000);
@@ -66,6 +66,7 @@ class LevelTest {
 
   @Test
   void getTime_setTime() {
+    level.setTime(0);
     assertEquals(0, level.getTime());
 
     level.setTime(45);
