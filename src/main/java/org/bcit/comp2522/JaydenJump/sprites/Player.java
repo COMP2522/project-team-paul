@@ -14,6 +14,15 @@ import processing.core.PImage;
 public class Player extends Sprite {
 
   /**
+   * The speed of the projectile.
+   */
+  private static final float PROJECTILE_SPEED = 10;
+
+  /**
+   * The minimum y position for the player.
+   */
+  private static final float MIN_YPOS = 10f;
+  /**
    * Check to see which way the player is facing.
    */
   private static boolean isFacingRight;
@@ -132,7 +141,7 @@ public class Player extends Sprite {
     float halfSize = IMAGE_SIZE / 2f;
     // constrain the player to the screen width and height
     setXpos(PApplet.constrain(getXpos(),
-        IMAGE_SIZE / 10f, super.getSketch().width - halfSize));
+        IMAGE_SIZE / MIN_YPOS, super.getSketch().width - halfSize));
     setYpos(PApplet.constrain(getYpos(),
             halfSize, super.getSketch().height - halfSize));
   }
@@ -201,7 +210,7 @@ public class Player extends Sprite {
       isShooting = true;
       projectile.setXpos(getXpos());
       projectile.setYpos(getYpos());
-      projectile.setVy(-10);
+      projectile.setVy(-PROJECTILE_SPEED);
     }
   }
 
@@ -225,7 +234,7 @@ public class Player extends Sprite {
   /**
    * Method to reset the player when they collide with the boss.
    */
-  public void bossReset(){
+  public void bossReset() {
     setXpos(super.getSketch().width / 2.0f);
     setYpos(400);
     setVy(0);
