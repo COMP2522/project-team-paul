@@ -1,5 +1,7 @@
-package org.bcit.comp2522.JaydenJump;
+package org.bcit.comp2522.JaydenJump.sprites;
 
+import org.bcit.comp2522.JaydenJump.Level;
+import org.bcit.comp2522.JaydenJump.gameUI.MenuManager;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -11,6 +13,15 @@ import processing.core.PImage;
  */
 public class Player extends Sprite {
 
+  /**
+   * The speed of the projectile.
+   */
+  private static final float PROJECTILE_SPEED = 10;
+
+  /**
+   * The minimum y position for the player.
+   */
+  private static final float MIN_YPOS = 10f;
   /**
    * Check to see which way the player is facing.
    */
@@ -56,15 +67,13 @@ public class Player extends Sprite {
    *
    * @param image the image to set the player to
    *
-   * @param movementSpeed the speed of the player
-   *
-   * @param gravity the gravity on the player
+   * @param level stats for the player
    */
-  private Player(PImage[] image, float movementSpeed, float gravity) {
+  private Player(PImage[] image, Level level) {
     super(MenuManager.getInstance().width / 2f, 0f, 0f, 0f);
     this.image = image;
-    this.movementSpeed = movementSpeed;
-    this.gravity = gravity;
+    this.movementSpeed = level.getPlayerSpeed();
+    this.gravity = level.getGravity();
     this.projectile = new Projectile(getXpos(), getYpos(), 0, -2, 1, this);
     isFacingRight = true;
   }
@@ -73,13 +82,11 @@ public class Player extends Sprite {
    * since this is singleton design this is to get an instance of the player.
    *
    * @param image the image for the player
-   * @param movementSpeed the speed of the player
-   * @param gravity the gravity on the player
+    * @param level the level for the player, including stats
    */
-  public static Player getInstance(PImage[] image,
-                                   float movementSpeed, float gravity) {
+  public static Player getInstance(PImage[] image, Level level) {
     if (instance == null) {
-      instance = new Player(image, movementSpeed, gravity);
+      instance = new Player(image, level);
     }
     return instance;
   }
@@ -134,7 +141,7 @@ public class Player extends Sprite {
     float halfSize = IMAGE_SIZE / 2f;
     // constrain the player to the screen width and height
     setXpos(PApplet.constrain(getXpos(),
-        IMAGE_SIZE / 10f, super.getSketch().width - halfSize));
+        IMAGE_SIZE / MIN_YPOS, super.getSketch().width - halfSize));
     setYpos(PApplet.constrain(getYpos(),
             halfSize, super.getSketch().height - halfSize));
   }
@@ -203,7 +210,7 @@ public class Player extends Sprite {
       isShooting = true;
       projectile.setXpos(getXpos());
       projectile.setYpos(getYpos());
-      projectile.setVy(-10);
+      projectile.setVy(-PROJECTILE_SPEED);
     }
   }
 
@@ -227,7 +234,7 @@ public class Player extends Sprite {
   /**
    * Method to reset the player when they collide with the boss.
    */
-  public void bossReset(){
+  public void bossReset() {
     setXpos(super.getSketch().width / 2.0f);
     setYpos(400);
     setVy(0);

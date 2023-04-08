@@ -1,8 +1,13 @@
-package org.bcit.comp2522.JaydenJump;
+package org.bcit.comp2522.JaydenJump.spriteManagers;
 
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import org.bcit.comp2522.JaydenJump.Level;
+import org.bcit.comp2522.JaydenJump.gameUI.MenuManager;
+import org.bcit.comp2522.JaydenJump.sprites.Platform;
+import org.bcit.comp2522.JaydenJump.sprites.Player;
 import processing.core.PApplet;
 
 /**

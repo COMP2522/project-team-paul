@@ -1,6 +1,9 @@
-package org.bcit.comp2522.JaydenJump;
+package org.bcit.comp2522.JaydenJump.gameUI;
 
 import java.util.ArrayList;
+
+import org.bcit.comp2522.JaydenJump.Game;
+import org.bcit.comp2522.JaydenJump.interfaces.GameUI;
 import processing.core.PApplet;
 
 /**
@@ -42,6 +45,11 @@ public class DeathMenu extends PApplet implements GameUI {
   Button submit;
 
   /**
+   * Game object, used for getting scores.
+   */
+  private Game game;
+
+  /**
    * Constants.
    */
   private static final int FONT_SIZE = 25;
@@ -62,6 +70,7 @@ public class DeathMenu extends PApplet implements GameUI {
    */
   public void init(MenuManager window) {
     this.window = window;
+    this.game = window.getGame();
     draw();
   }
 
@@ -74,8 +83,8 @@ public class DeathMenu extends PApplet implements GameUI {
     window.textSize(FONT_SIZE_BIG);
     window.text("Game Over!", window.width / 2, window.height / 8);
     window.textSize(FONT_SIZE);
-    window.text("Score: " + Game.getScore(), window.width / 2, window.height / 4);
-    window.text("Highscore: " + Game.getHighscore(), window.width / 2, window.height / 4 + SCORE_OFFSET);
+    window.text("Score: " + game.getScore(), window.width / 2, window.height / 4);
+    window.text("Highscore: " + game.getHighscore(), window.width / 2, window.height / 4 + SCORE_OFFSET);
     buttons          = new ArrayList<Button>();
     playAgain        = new Button(window.width / 2, BUTTON, BUTTON_WIDTH, BUTTON_HEIGHT, FONT_SIZE, "Play again", window);
     changeDifficulty = new Button(window.width / 2, BUTTON + BUTTON_OFFSET, BUTTON_WIDTH, BUTTON_HEIGHT, FONT_SIZE_SMALL, "Change difficulty", window);

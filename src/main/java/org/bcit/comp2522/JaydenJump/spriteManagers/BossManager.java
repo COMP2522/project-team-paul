@@ -1,5 +1,10 @@
-package org.bcit.comp2522.JaydenJump;
+package org.bcit.comp2522.JaydenJump.spriteManagers;
 
+import org.bcit.comp2522.JaydenJump.Game;
+import org.bcit.comp2522.JaydenJump.Level;
+import org.bcit.comp2522.JaydenJump.gameUI.MenuManager;
+import org.bcit.comp2522.JaydenJump.sprites.Boss;
+import org.bcit.comp2522.JaydenJump.sprites.Player;
 import processing.core.PApplet;
 import processing.core.PImage;
 import java.util.ArrayList;
@@ -70,6 +75,11 @@ public class BossManager {
    */
   private static BossManager instance;
 
+  /**
+   * game instance.
+   */
+  private Game game;
+
 
   /**
    * constructor for the boss manager class.
@@ -77,7 +87,7 @@ public class BossManager {
    * @param image the image for the boss
    * @param level the max amount of bosses
    */
-  private BossManager(PImage image, Level level) {
+  private BossManager(PImage image, Level level, Game game) {
     this.image = image;
     this.width = 150;
     this.height = 150;
@@ -86,6 +96,7 @@ public class BossManager {
     this.maxBosses = level.getMaxBosses();
     this.isAlive = false;
     this.bossHealth = 3;
+    this.game = game;
   }
 
   /**
@@ -95,9 +106,9 @@ public class BossManager {
    * @param level  the max amount of bosses
    * @return the single instance of BossManager
    */
-  public static BossManager getInstance(PImage image, Level level) {
+  public static BossManager getInstance(PImage image, Level level, Game game) {
     if (instance == null) {
-      instance = new BossManager(image, level);
+      instance = new BossManager(image, level, game);
     }
     return instance;
   }
@@ -125,7 +136,7 @@ public class BossManager {
       int vx = 5;
       int vy = 0;
       int health = bossHealth;
-      Boss boss = new Boss(xpos, ypos, vx, vy, width, height, image, health);
+      Boss boss = new Boss(xpos, ypos, vx, vy, width, height, image, health, game);
       bosses.add(boss);
       bossCounter++;
     }
@@ -135,12 +146,12 @@ public class BossManager {
       boss.draw();
       boss.update();
       if (boss.collides(player)) {
-        Game.setLives(Game.getLives() - 1);
+        game.setLives(game.getLives() - 1);
         player.bossReset();
-        if (Game.getLives() == 0) {
+        if (game.getLives() == 0) {
           setIsAlive(false);
           boss.setHealth(3);
-          Game.endGame();
+          game.endGame();
         }
       }
       if (boss.collides(player.getProjectile())) {

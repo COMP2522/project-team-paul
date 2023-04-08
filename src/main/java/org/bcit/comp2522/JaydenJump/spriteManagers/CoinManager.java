@@ -1,7 +1,12 @@
-package org.bcit.comp2522.JaydenJump;
+package org.bcit.comp2522.JaydenJump.spriteManagers;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import org.bcit.comp2522.JaydenJump.Game;
+import org.bcit.comp2522.JaydenJump.gameUI.MenuManager;
+import org.bcit.comp2522.JaydenJump.sprites.Coin;
+import org.bcit.comp2522.JaydenJump.sprites.Player;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -59,6 +64,11 @@ public class CoinManager {
   private static final int COINSTARTING = 1;
 
   /**
+   * Game instance.
+   */
+  private Game game;
+
+  /**
    * Constructs a coin.
    *
    * @param maxCoins allowed in game
@@ -68,13 +78,14 @@ public class CoinManager {
    * @param coinImg array that animate the sprite
    *
    */
-  private CoinManager(int maxCoins, int coinSpeed, PImage[] coinImg) {
+  private CoinManager(int maxCoins, int coinSpeed, PImage[] coinImg, Game game) {
     this.maxCoins = maxCoins;
     this.sketch = MenuManager.getInstance();
     this.coinSpeed = coinSpeed;
     this.player = Player.getInstance();
     this.image = coinImg;
     coins = new ArrayList<>();
+    this.game = game;
   }
 
   /**
@@ -89,10 +100,10 @@ public class CoinManager {
    * @return CoinManager object
    *
    */
-  public static CoinManager getInstance(int maxCoins,
-                                        int coinSpeed, PImage[] coinImg) {
+  public static CoinManager getInstance(int maxCoins, int coinSpeed,
+                                        PImage[] coinImg, Game game) {
     if (instance == null) {
-      instance = new CoinManager(maxCoins, coinSpeed, coinImg);
+      instance = new CoinManager(maxCoins, coinSpeed, coinImg, game);
     }
     return instance;
   }
@@ -114,7 +125,7 @@ public class CoinManager {
     float y = sketch.random(sketch.height - Coin.getCoinSize());
     for (int i = 0; i < COINSTARTING; i++) {
       float x = sketch.random(sketch.width - Coin.getCoinSize());
-      coins.add(new Coin(x, y, 0, coinSpeed, image));
+      coins.add(new Coin(x, y, 0, coinSpeed, image, game));
       y += 150;
     }
   }
@@ -126,7 +137,7 @@ public class CoinManager {
     float y = 0;
     while (coins.size() < maxCoins) {
       float x = sketch.random(sketch.width - Coin.getCoinSize());
-      Coin newCoin = new Coin(x, y, 0, coinSpeed, image);
+      Coin newCoin = new Coin(x, y, 0, coinSpeed, image, game);
       coins.add(newCoin);
       y += 150;
     }

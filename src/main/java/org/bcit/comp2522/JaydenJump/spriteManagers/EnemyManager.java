@@ -1,5 +1,10 @@
-package org.bcit.comp2522.JaydenJump;
+package org.bcit.comp2522.JaydenJump.spriteManagers;
 
+import org.bcit.comp2522.JaydenJump.Game;
+import org.bcit.comp2522.JaydenJump.Level;
+import org.bcit.comp2522.JaydenJump.gameUI.MenuManager;
+import org.bcit.comp2522.JaydenJump.sprites.Enemy;
+import org.bcit.comp2522.JaydenJump.sprites.Player;
 import processing.core.PApplet;
 import processing.core.PImage;
 import java.util.ArrayList;
@@ -43,6 +48,11 @@ public class EnemyManager {
    */
   private static EnemyManager instance;
 
+  /**
+   * game instance.
+   */
+  private Game game;
+
 
   /**
    * constructor for the enemy manager class.
@@ -50,12 +60,13 @@ public class EnemyManager {
    * @param level the spawnrate for the enemies
    * @param img the image for the enemies
    */
-  private EnemyManager(Level level, PImage img) {
+  private EnemyManager(Level level, PImage img, Game game) {
     this.enemies = new ArrayList<>();
     this.sketch = MenuManager.getInstance();
     this.spawnRate = level.getSpawnRate();
     this.spawnCounter = 0;
     this.image = img;
+    this.game = game;
   }
 
   /**
@@ -65,9 +76,9 @@ public class EnemyManager {
    * @param img the image for the enemies
    * @return the instance of the EnemyManager class
    */
-  public static EnemyManager getInstance(Level level, PImage img) {
+  public static EnemyManager getInstance(Level level, PImage img, Game game) {
     if (instance == null) {
-      instance = new EnemyManager(level, img);
+      instance = new EnemyManager(level, img, game);
     }
     return instance;
   }
@@ -134,11 +145,11 @@ public class EnemyManager {
     while (enemyIterator.hasNext()) {
       Enemy enemy = enemyIterator.next();
       if (enemy.collides(Player.getInstance())) {
-        Game.setLives(Game.getLives() - 1);
-        if (Game.getLives() == 0) {
+        game.setLives(game.getLives() - 1);
+        if (game.getLives() == 0) {
           BossManager.getInstance().setIsAlive(false);
           BossManager.getInstance().setBossHealth(3);
-          Game.endGame();
+          game.endGame();
         }
         enemyIterator.remove();
       }

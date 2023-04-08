@@ -1,7 +1,6 @@
-package org.bcit.comp2522.JaydenJump;
+package org.bcit.comp2522.JaydenJump.sprites;
 
 import java.awt.Color;
-import processing.core.PApplet;
 
 /**
  * platform class.
@@ -32,9 +31,8 @@ public class Platform extends Sprite {
    * @param vx the x velocity of the platform
    * @param vy the y velocity of the platform
    */
-  public Platform(float x, float y,
-                  Color color, float vx, float vy,
-                  boolean breakable) {
+  public Platform(float x, float y, Color color,
+                  float vx, float vy, boolean breakable) {
     super(x, y, vx, vy);
     this.color = color;
     this.breakable = breakable;

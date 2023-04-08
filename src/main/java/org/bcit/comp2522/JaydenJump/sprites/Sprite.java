@@ -1,5 +1,8 @@
-package org.bcit.comp2522.JaydenJump;
+package org.bcit.comp2522.JaydenJump.sprites;
 
+import org.bcit.comp2522.JaydenJump.interfaces.Collidable;
+import org.bcit.comp2522.JaydenJump.interfaces.Drawable;
+import org.bcit.comp2522.JaydenJump.gameUI.MenuManager;
 import processing.core.PApplet;
 
 /**

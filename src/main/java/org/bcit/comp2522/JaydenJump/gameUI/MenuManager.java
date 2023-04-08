@@ -1,4 +1,4 @@
-package org.bcit.comp2522.JaydenJump;
+package org.bcit.comp2522.JaydenJump.gameUI;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,6 +7,9 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+
+import org.bcit.comp2522.JaydenJump.*;
+import org.bcit.comp2522.JaydenJump.sprites.Coin;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -365,7 +368,7 @@ public class MenuManager extends PApplet {
       case PAUSE_MENU -> pauseMenu.init(this);
       case SUBMIT_MENU -> submitMenu.init(this);
       case GAME -> {game.draw();
-        if (game.gameOver) {
+        if (game.isGameOver()) {
           currentScreen = DEATH_MENU;
         }
       }
@@ -482,7 +485,7 @@ public class MenuManager extends PApplet {
    */
   public void keyPressed() {
     keyCode = keyEvent.getKeyCode();
-    Game.keyPressedListener(keyCode);
+    game.keyPressedListener(keyCode);
 
     if (currentScreen == START_MENU && keyPressed && key == ' ') {
       currentScreen = MAIN_MENU;
@@ -498,7 +501,7 @@ public class MenuManager extends PApplet {
    */
   public void keyReleased() {
     keyCode = keyEvent.getKeyCode();
-    Game.keyReleasedListener(keyCode);
+    game.keyReleasedListener(keyCode);
   }
 
   /**
@@ -535,5 +538,12 @@ public class MenuManager extends PApplet {
    */
   public static int getDifficulty() {
     return difficulty;
+  }
+
+  /**
+   * Getter for game.
+   */
+  public Game getGame() {
+    return game;
   }
 }
