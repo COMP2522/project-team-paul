@@ -13,7 +13,7 @@ public interface GameUI {
   /**
    * Initializes the user interface component on the screen.
    */
-  void init(MenuManager window);
+  void init();
 
   /**
    * Draws the user interface component on the screen.

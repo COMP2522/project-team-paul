@@ -30,9 +30,11 @@ public class SubmitMenu extends PApplet {
 
   /***************************************************/
 
-  public void init(MenuManager window) {
-    this.window = window;
-    this.game = window.getGame();
+  /**
+   * Initializes SubmitMenu object.
+   */
+  public void init() {
+    this.window = MenuManager.getInstance();
     draw();
   }
 
