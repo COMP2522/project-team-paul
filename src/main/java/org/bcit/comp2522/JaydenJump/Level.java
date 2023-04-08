@@ -46,7 +46,7 @@ public class Level {
   /**
    * Used for timer for the level.
    */
-  private ScheduledExecutorService scheduledExecutorService;
+  private ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
   /**
    * Used for timer for the level.
@@ -153,7 +153,6 @@ public class Level {
     maxBosses = level.getInt("maxBosses");
 
     this.time = 0;
-    this.scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
   }
 
   /**
@@ -183,7 +182,7 @@ public class Level {
   public void startTime() {
     if (scheduledFuture == null || scheduledFuture.isCancelled()) {
       Runnable task = () -> {
-        time--;
+        time++;
         if (time <= 0) {
           stopTime();
         }
@@ -200,14 +199,6 @@ public class Level {
     if (scheduledFuture != null) {
       scheduledFuture.cancel(false);
     }
-  }
-
-  /**
-   * Should be calling another class, unimplemented for now.
-   */
-  public void getWeather() {
-    // TODO: 1 implement Weather.java to be called by this method
-    // TODO: 2 modify the level based on weather details
   }
 
   /**
