@@ -25,7 +25,7 @@ public class Player extends Sprite {
   /**
    * Check to see which way the player is facing.
    */
-  private static boolean isFacingRight;
+  private boolean isFacingRight;
 
   /**
    * instance for the player.
@@ -65,28 +65,37 @@ public class Player extends Sprite {
   /**
    * constructor for the player class.
    *
-   * @param image the image to set the player to
-   *
    * @param level stats for the player
    */
-  private Player(PImage[] image, Level level) {
+  private Player(Level level) {
     super(MenuManager.getInstance().width / 2f, 0f, 0f, 0f);
-    this.image = image;
+    this.image         = loadPlayerImages();
     this.movementSpeed = level.getPlayerSpeed();
-    this.gravity = level.getGravity();
-    this.projectile = new Projectile(getXpos(), getYpos(), 0, -2, 1, this);
-    isFacingRight = true;
+    this.gravity       = level.getGravity();
+    this.projectile    = new Projectile(getXpos(), getYpos(), 0, -2, 1, this);
+    isFacingRight      = true;
+  }
+
+  /**
+   * loads in the two images need for the player.
+   *
+   * @return the two images for the player
+   */
+  private PImage[] loadPlayerImages() {
+    PImage[] playerImages = new PImage[2];
+    playerImages[0]       = super.getSketch().loadImage("./Images/Player.png");
+    playerImages[1]       = super.getSketch().loadImage("./Images/PlayerShoot.png");
+    return playerImages;
   }
 
   /**
    * since this is singleton design this is to get an instance of the player.
    *
-   * @param image the image for the player
-    * @param level the level for the player, including stats
+   * @param level the level for the player, including values for movement speed and gravity.
    */
-  public static Player getInstance(PImage[] image, Level level) {
+  public static Player getInstance(Level level) {
     if (instance == null) {
-      instance = new Player(image, level);
+      instance = new Player(level);
     }
     return instance;
   }
@@ -97,7 +106,9 @@ public class Player extends Sprite {
    * @return instance of the player
    */
   public static Player getInstance() {
-    if (instance == null) throw new IllegalStateException("Player has not been initialized");
+    if (instance == null) {
+      throw new IllegalStateException("Player has not been initialized");
+    }
     return instance;
   }
 
@@ -113,13 +124,17 @@ public class Player extends Sprite {
     sketch.pushMatrix();
     sketch.translate(getXpos() + halfSize, getYpos() + halfSize);
     if (!isShooting) {
-      if (!isFacingRight) sketch.scale(-1, 1);
+      if (!isFacingRight) {
+        sketch.scale(-1, 1);
+      }
       sketch.image(image[0], -halfSize, -halfSize, IMAGE_SIZE, IMAGE_SIZE);
     } else {
       sketch.image(image[1], -halfSize, -halfSize, IMAGE_SIZE, IMAGE_SIZE);
       sketch.popMatrix();
       projectile.update();
-      if (projectile.getYpos() < 0) stopShooting();
+      if (projectile.getYpos() < 0) {
+        stopShooting();
+      }
       projectile.draw();
       return;
     }
@@ -156,7 +171,6 @@ public class Player extends Sprite {
   @Override
   public boolean collides(Object o) {
     if (o instanceof Platform platform) {
-
 
       float halfSize = IMAGE_SIZE / 2f;
       float halfPlatformWidth = Platform.getPlatformWidth() / 2f;
@@ -225,7 +239,7 @@ public class Player extends Sprite {
    * Method to reset the player.
    */
   public void reset() {
-    setXpos(super.getSketch().width / 2.0f);
+    setXpos(super.getSketch().width / 2f);
     setYpos(0);
     setVx(0);
     setVy(0);
@@ -235,7 +249,7 @@ public class Player extends Sprite {
    * Method to reset the player when they collide with the boss.
    */
   public void bossReset() {
-    setXpos(super.getSketch().width / 2.0f);
+    setXpos(super.getSketch().width / 2f);
     setYpos(400);
     setVy(0);
     setVx(0);
