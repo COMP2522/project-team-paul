@@ -1,7 +1,7 @@
 package org.bcit.comp2522.JaydenJump.sprites;
 
-import processing.core.PApplet;
 import java.awt.*;
+import processing.core.PApplet;
 
 
 /**
@@ -32,6 +32,12 @@ public class Projectile extends Sprite {
   private int width;
 
   /**
+   * constants.
+   */
+  private static final int PROJECTILEHEIGHT = 20;
+  private static final int PROJECTILEWIDTH = 20;
+
+  /**
    * Constructor for the projectile class.
    *
    * @param xpos the x position of the projectile
@@ -44,8 +50,8 @@ public class Projectile extends Sprite {
     super(xpos, ypos, vx, vy);
     this.damage = damage;
     this.player = player;
-    this.height = 20;
-    this.width = 20;
+    this.height = PROJECTILEHEIGHT;
+    this.width = PROJECTILEWIDTH;
   }
 
   /**

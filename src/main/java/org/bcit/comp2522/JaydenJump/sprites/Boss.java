@@ -1,9 +1,9 @@
 package org.bcit.comp2522.JaydenJump.sprites;
 
-import org.bcit.comp2522.JaydenJump.Game;
-import processing.core.PImage;
 import java.util.ArrayList;
 import java.util.Iterator;
+import org.bcit.comp2522.JaydenJump.Game;
+import processing.core.PImage;
 
 /**
  * class for the boss of the game.
@@ -79,13 +79,12 @@ public class Boss extends Sprite {
    * @param vy y velocity of the boss
    * @param width the width of the boss
    * @param height the height of the boss
-   * @param image the image for the boss
    * @param health the health for the boss
    */
   public Boss(int xpos, int ypos, int vx, int vy, int width, int height,
-              PImage image, int health, Game game) {
+               int health, Game game) {
     super(xpos, ypos, vx, vy);
-    this.image = image;
+    this.image = super.getSketch().loadImage("./Images/Boss.png");
     this.width = width;
     this.height = height;
     this.player = Player.getInstance();

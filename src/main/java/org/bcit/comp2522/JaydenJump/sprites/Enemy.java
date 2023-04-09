@@ -52,16 +52,15 @@ public class Enemy extends Sprite {
    * @param speed the speed of the enemy
    * @param width the width of the enemy
    * @param height the height of the enemy
-   * @param image the image for the enemy
    */
   public Enemy(float xpos, float ypos, float vx, float vy, int health, int speed, int width,
-               int height, PImage image) {
+               int height) {
     super(xpos, ypos, vx, vy);
     this.health = health;
     this.speed = speed;
     this.width = width;
     this.height = height;
-    this.image = image;
+    this.image = super.getSketch().loadImage("./Images/enemy.png");
     toBeRemoved = false;
 
   }

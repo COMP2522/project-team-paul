@@ -1,14 +1,13 @@
 package org.bcit.comp2522.JaydenJump.spriteManagers;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import org.bcit.comp2522.JaydenJump.Game;
 import org.bcit.comp2522.JaydenJump.Level;
 import org.bcit.comp2522.JaydenJump.gameUI.MenuManager;
 import org.bcit.comp2522.JaydenJump.sprites.Enemy;
 import org.bcit.comp2522.JaydenJump.sprites.Player;
 import processing.core.PApplet;
-import processing.core.PImage;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Enemy manager class to manage the enemies.
@@ -39,11 +38,6 @@ public class EnemyManager {
   private int spawnCounter;
 
   /**
-   * the image for the enemies.
-   */
-  PImage image;
-
-  /**
    * The instance of the EnemyManager class.
    */
   private static EnemyManager instance;
@@ -53,19 +47,26 @@ public class EnemyManager {
    */
   private Game game;
 
+  /**
+   * constants.
+   */
+  private static final int ENEMYWIDTH = 60;
+  private static final int ENEMYHEIGHT = 60;
+  private static final int ENEMYHEALTH = 1;
+  private static final int ENEMYSPEED = 5;
+
 
   /**
    * constructor for the enemy manager class.
    *
    * @param level the spawnrate for the enemies
-   * @param img the image for the enemies
+   * @param game the game object
    */
-  private EnemyManager(Level level, PImage img, Game game) {
+  private EnemyManager(Level level, Game game) {
     this.enemies = new ArrayList<>();
     this.sketch = MenuManager.getInstance();
     this.spawnRate = level.getSpawnRate();
     this.spawnCounter = 0;
-    this.image = img;
     this.game = game;
   }
 
@@ -73,12 +74,12 @@ public class EnemyManager {
    * Returns the instance of the EnemyManager class.
    *
    * @param level the spawnrate for the enemies
-   * @param img the image for the enemies
+   * @param game the game object
    * @return the instance of the EnemyManager class
    */
-  public static EnemyManager getInstance(Level level, PImage img, Game game) {
+  public static EnemyManager getInstance(Level level, Game game) {
     if (instance == null) {
-      instance = new EnemyManager(level, img, game);
+      instance = new EnemyManager(level, game);
     }
     return instance;
   }
@@ -120,10 +121,10 @@ public class EnemyManager {
    * Method to spawn enemies.
    */
   private void spawnEnemy() {
-    int width = 60;
-    int height = 60;
-    int health = 1;
-    int speed = 5;
+    int width = ENEMYWIDTH;
+    int height = ENEMYHEIGHT;
+    int health = ENEMYHEALTH;
+    int speed = ENEMYSPEED;
 
 
     float randomNum = sketch.random(100);
@@ -132,7 +133,7 @@ public class EnemyManager {
     if (randomNum < spawnRate) {
       float x = sketch.random(sketch.width - width);
       float y = 0;
-      Enemy enemy = new Enemy(x, y, 0, 0, health, speed, width, height, image);
+      Enemy enemy = new Enemy(x, y, 0, 0, health, speed, width, height);
       enemies.add(enemy);
     }
   }

@@ -1,5 +1,5 @@
 ## Contributions
-Ravdeep Aulakh - \
+Ravdeep Aulakh - Enemy, EnemyManager, Boss, BossManager, Platform\
 Brian Kwon - \
 Shawn Birring - \
 Maximillian Yong - \
