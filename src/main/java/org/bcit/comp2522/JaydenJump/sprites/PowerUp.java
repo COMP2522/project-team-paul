@@ -1,5 +1,6 @@
 package org.bcit.comp2522.JaydenJump.sprites;
 
+import org.bcit.comp2522.JaydenJump.Level;
 import processing.core.PImage;
 
 
@@ -16,6 +17,9 @@ import processing.core.PImage;
 
 public abstract class PowerUp extends Sprite {
 
+  /** The level of the game. */
+  private Level level;
+
   /** State that determines whether the PowerUp is active or not. */
   private boolean isActive;
 
@@ -25,11 +29,10 @@ public abstract class PowerUp extends Sprite {
   /** The player that will receive the power-up. */
   private final Player player;
 
-  /** The size of the PowerUp. */
-  private static final int POWERUP_SIZE = 50;
-
   /**
    * Constructs the PowerUp class.
+   *
+   * @param level of the game
    *
    * @param xpos the x position of PowerUp
    *
@@ -39,21 +42,13 @@ public abstract class PowerUp extends Sprite {
    *
    * @param vy the y velocity of PowerUp
    *
-   * @param isActive the state of PowerUp
    */
-  public PowerUp(float xpos,
-                 float ypos,
-                 float vx,
-                 float vy,
-                 boolean isActive,
-                 PImage image) {
+  public PowerUp(Level level, float xpos, float ypos, float vx, float vy, PImage image) {
     super(xpos, ypos, vx, vy);
-
-    //maybe just set to false as default?
-    this.isActive = isActive;
-    //player that recieves the boosts
+    this.isActive = true;
     this.player = Player.getInstance();
     this.image = image;
+    this.level = level;
   }
 
   /**
@@ -63,9 +58,9 @@ public abstract class PowerUp extends Sprite {
   public void draw() {
     super.getSketch().image(
             image,
-            getXpos() - POWERUP_SIZE / 2,
-            getYpos() - POWERUP_SIZE / 2,
-            POWERUP_SIZE, POWERUP_SIZE);
+            getXpos() - level.getPowerUpSize() / 2,
+            getYpos() - level.getPowerUpSize() / 2,
+            level.getPowerUpSize(), level.getPowerUpSize());
   }
 
   /**
@@ -75,8 +70,8 @@ public abstract class PowerUp extends Sprite {
    *
    */
   public boolean isOnScreen() {
-    return getXpos() >= 0 && getXpos() + POWERUP_SIZE <= super.getSketch().width
-        && getYpos() >= 0 && getYpos() + POWERUP_SIZE <= super.getSketch().height;
+    return getXpos() >= 0 && getXpos() + level.getPowerUpSize() <= super.getSketch().width
+        && getYpos() >= 0 && getYpos() + level.getPowerUpSize() <= super.getSketch().height;
   }
 
   /**
@@ -100,9 +95,9 @@ public abstract class PowerUp extends Sprite {
     if (o instanceof Player) {
       Player player = (Player) o;
       if (player.getXpos() + player.getPlayerSize() >= super.getXpos()
-          && player.getXpos() <= super.getXpos() + POWERUP_SIZE
+          && player.getXpos() <= super.getXpos() + level.getPowerUpSize()
           && player.getYpos() + player.getPlayerSize() >= super.getYpos()
-          && player.getYpos() <= super.getYpos() + POWERUP_SIZE) {
+          && player.getYpos() <= super.getYpos() + level.getPowerUpSize()) {
         return true;
       }
     }
@@ -140,9 +135,5 @@ public abstract class PowerUp extends Sprite {
     return player;
   }
 
-  /** Returns the size of the PowerUp. */
-  public static int getPowerupSize() {
-    return POWERUP_SIZE;
-  }
 
 }

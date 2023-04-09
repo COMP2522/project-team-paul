@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.bcit.comp2522.JaydenJump.Game;
+import org.bcit.comp2522.JaydenJump.Level;
 import org.bcit.comp2522.JaydenJump.gameUI.MenuManager;
 import org.bcit.comp2522.JaydenJump.sprites.*;
 import processing.core.PApplet;
@@ -34,19 +35,9 @@ public class PowerUpManager {
   private final ArrayList<PowerUp> powerups;
 
   /**
-   * Maximum amount of PowerUps permitted in the game.
-   */
-  private final int maxPowerUps;
-
-  /**
    * The game screen.
    */
   private final PApplet sketch;
-
-  /**
-   * Speed of power up as it moves down on game screen.
-   */
-  private final int powerUpSpeed;
 
   /**
    * The image of power up.
@@ -57,6 +48,11 @@ public class PowerUpManager {
    * The player in the game.
    */
   Player player;
+
+  /**
+   * The level of the game.
+   */
+  private Level level;
 
   /**
    * Number of PowerUps that spawn in at the start of the game.
@@ -71,34 +67,36 @@ public class PowerUpManager {
   /**
    * Constructor of the PowerUpManager class.
    *
-   * @param maxPowerUps the maximum amount of PowerUps permitted in the game
+   * @param level of the game
    *
-   * @param powerUpSpeed the speed of the PowerUp as it moves down the game screen
+   * @param powerUpImg the images of all the power ups
+   *
+   * @param game the game screen
    */
-  private PowerUpManager(int maxPowerUps, int powerUpSpeed,
-                         PImage[] powerUpImg, Game game) {
+  private PowerUpManager(Level level, PImage[] powerUpImg, Game game) {
     this.sketch = MenuManager.getInstance();
-    this.maxPowerUps = maxPowerUps;
-    this.powerUpSpeed = powerUpSpeed;
     powerups = new ArrayList<>();
     this.player = Player.getInstance();
     this.image = powerUpImg;
     this.game = game;
+    this.level = level;
   }
 
   /**
    * Retrieves an instance of the PowerUpManager class and enforces the
    * singleton design pattern.
    *
-   * @param maxPowerUps the maximum amount of PowerUps permitted in the game
+   * @param level of the game
    *
-   * @param powerUpSpeed the speed of the PowerUps as they move down the screen
+   * @param powerUpImg the images of the power ups
+   *
+   * @param game the game screen
    *
    * @return PowerUpManager instance in the game
    */
-  public static PowerUpManager getInstance(int maxPowerUps, int powerUpSpeed, PImage[] powerUpImg, Game game) {
+  public static PowerUpManager getInstance(Level level, PImage[] powerUpImg, Game game) {
     if (instance == null) {
-      instance = new PowerUpManager(maxPowerUps, powerUpSpeed, powerUpImg, game);
+      instance = new PowerUpManager(level, powerUpImg, game);
     }
     return instance;
   }
@@ -126,11 +124,11 @@ public class PowerUpManager {
    * Generates PowerUps in the game screen at the start of the game.
    */
   public void generateStartPowerUps() {
-    float y = sketch.random(sketch.height - PowerUp.getPowerupSize());
+    float y = generateRandomPosition();
     for (int i = 0; i < POWERUPSTARTING; i++) {
-      float x = sketch.random(sketch.width - PowerUp.getPowerupSize());
-      powerups.add(createRandomPowerUp(x, y, 0, powerUpSpeed, image));
-      y += 150;
+      float x = generateRandomPosition();
+      powerups.add(createRandomPowerUp(x, y, level.getxSpeedCoinPowerUp(), level.getySpeedCoinPowerUp(), image));
+      y += level.getSpawnHeight();
     }
   }
 
@@ -139,12 +137,22 @@ public class PowerUpManager {
    */
   public void generatePowerUps() {
     float y = 0;
-    while (powerups.size() < maxPowerUps) {
-      float x = sketch.random(sketch.width - PowerUp.getPowerupSize());
-      PowerUp newPowerUp = createRandomPowerUp(x, y, 0, powerUpSpeed, image);
+    while (powerups.size() < level.getMaxPowerUps()) {
+      float x = generateRandomPosition();
+      PowerUp newPowerUp = createRandomPowerUp(x, y, level.getxSpeedCoinPowerUp(), level.getySpeedCoinPowerUp(), image);
       powerups.add(newPowerUp);
-      y += 150;
+      y += level.getSpawnHeight();
     }
+  }
+
+  /**
+   * Creates random coordinates for the x and y values of the PowerUps
+   * within the boundary of the game screen.
+   *
+   * @return random coordinate within game borders
+   */
+  public float generateRandomPosition() {
+    return sketch.random(sketch.width - level.getPowerUpSize());
   }
 
   /**
@@ -200,16 +208,15 @@ public class PowerUpManager {
    */
   public PowerUp createRandomPowerUp(float xpos, float ypos, float vx, float vy,
                                       PImage[] image) {
-    int randomInt = (int) (Math.random() * 3);
+    int randomInt = (int) (Math.random() * level.getPowerUpTypes());
 
     // Create and return an instance of a randomly selected subclass
     if (randomInt == 0) {
-      return new Tire(xpos, ypos, vx, vy, 2, true, image[2]);
+      return new Tire(level, xpos, ypos, vx, vy, image[2]);
     } else if (randomInt == 1) {
-      return new JetPack(xpos, ypos, vx, vy, true, 2, -10, image[1]);
+      return new JetPack(level, xpos, ypos, vx, vy, image[1]);
     } else {
-      return new ExtraLife(xpos, ypos, vx, vy, true, image[0], game);
+      return new ExtraLife(level, xpos, ypos, vx, vy, image[0], game);
     }
   }
-
 }

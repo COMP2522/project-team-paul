@@ -1,9 +1,11 @@
 package org.bcit.comp2522.JaydenJump.sprites;
 
-import org.bcit.comp2522.JaydenJump.interfaces.Audible;
-import org.bcit.comp2522.JaydenJump.gameUI.MenuManager;
-import processing.core.PImage;
 import javax.sound.sampled.*;
+import org.bcit.comp2522.JaydenJump.Level;
+import org.bcit.comp2522.JaydenJump.gameUI.MenuManager;
+import org.bcit.comp2522.JaydenJump.interfaces.Audible;
+import processing.core.PImage;
+
 
 /**
  * The JetPack class is a type of PowerUp that allows the Player to fly up
@@ -17,14 +19,14 @@ import javax.sound.sampled.*;
  */
 
 public class JetPack extends PowerUp implements Audible {
-  /** The amount of time the JetPack lasts. */
-  private int duration;
-
-  /** The amount the y velocity of the player is increased. */
-  private int boostVelocity;
 
   /** Audio clip used for playing JetPack PowerUp. */
   private Clip clip;
+
+  private Level level;
+
+  private int duration;
+
 
   /**
    * Creates an Instance of a JetPack in the game.
@@ -36,24 +38,15 @@ public class JetPack extends PowerUp implements Audible {
    * @param vx The x velocity of JetPack
    *
    * @param vy The y velocity of JetPack
-   *
-   * @param isActive The boolean state that determines whether JetPack is active or not
-   *
-   * @param duration The amount of time the JetPack lasts for
-   *
-   * @param boostVelocity The amount the y direction of Player is affected by JetPack
    */
-  public JetPack(float xpos,
+  public JetPack(Level level, float xpos,
                  float ypos,
                  float vx,
                  float vy,
-                 boolean isActive,
-                 int duration,
-                 int boostVelocity,
                  PImage image) {
-    super(xpos, ypos, vx, vy, isActive, image);
-    this.duration = duration;
-    this.boostVelocity = boostVelocity;
+    super(level, xpos, ypos, vx, vy, image);
+    this.level = level;
+    this.duration = level.getJetPackDuration();
     this.clip = loadSound("jetpack.wav");
   }
 
@@ -65,7 +58,7 @@ public class JetPack extends PowerUp implements Audible {
     if (isActive()) {
       playSound();
       super.getSketch().text("JETPACK", getSketch().CENTER, getSketch().CENTER);
-      getPlayer().setVy(getBoostVelocity());
+      getPlayer().setVy(level.getJetPackBoostVelocity());
       if (duration > 0) {
         duration--;
       } else {
@@ -101,25 +94,7 @@ public class JetPack extends PowerUp implements Audible {
     this.duration = duration;
   }
 
-  /**
-   * Returns the boost velocity of the JetPack.
-   *
-   * @return The boost velocity of the JetPack
-   */
-  public int getBoostVelocity() {
-    return boostVelocity;
-  }
-
-  /**
-   * Sets the boost velocity of the JetPack.
-   *
-   * @param boostVelocity The boost velocity of the JetPack
-   */
-  public void setBoostVelocity(int boostVelocity) {
-    this.boostVelocity = boostVelocity;
-  }
-
-  /** Plays sound clip of JetPack if MenuManager's sound is on */
+  /** Plays sound clip of JetPack if MenuManager's sound is on. */
   @Override
   public void playSound() {
     if (MenuManager.sound) {

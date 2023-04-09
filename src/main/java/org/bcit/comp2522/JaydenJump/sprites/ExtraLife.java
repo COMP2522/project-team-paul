@@ -1,8 +1,8 @@
 package org.bcit.comp2522.JaydenJump.sprites;
 
 import javax.sound.sampled.Clip;
-
 import org.bcit.comp2522.JaydenJump.Game;
+import org.bcit.comp2522.JaydenJump.Level;
 import org.bcit.comp2522.JaydenJump.gameUI.MenuManager;
 import org.bcit.comp2522.JaydenJump.interfaces.Audible;
 import processing.core.PImage;
@@ -28,10 +28,20 @@ public class ExtraLife extends PowerUp implements Audible {
    */
   private static final int MAXIMUMLIVES = 3;
 
+  /**
+   * The game window.
+   */
   private Game game;
 
   /**
+   * The level of the game.
+   */
+  private Level level;
+
+  /**
    * Creates an instance of ExtraLife PowerUp in the game.
+   *
+   * @param level of the game
    *
    * @param xpos The x position of ExtraLife
    *
@@ -40,18 +50,16 @@ public class ExtraLife extends PowerUp implements Audible {
    * @param vx The x velocity of ExtraLife
    *
    * @param vy The y velocity of ExtraLife
-   *
-   * @param isActive The boolean state that determines whether ExtraLife is active or not
    */
-  public ExtraLife(float xpos,
+  public ExtraLife(Level level, float xpos,
                    float ypos,
                    float vx,
                    float vy,
-                   boolean isActive,
                    PImage image, Game game) {
-    super(xpos, ypos, vx, vy, isActive, image);
+    super(level, xpos, ypos, vx, vy, image);
     this.game = game;
     this.clip = loadSound("extraLife.wav");
+    this.level = level;
   }
 
   /**

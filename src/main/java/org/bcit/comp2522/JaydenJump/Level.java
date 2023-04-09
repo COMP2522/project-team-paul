@@ -98,20 +98,11 @@ public class Level {
    */
   private int maxPowerUps;
 
-  /**
-   * The power up speed.
-   */
-  private int powerUpSpeed;
 
   /**
    * The max coins.
    */
   private int maxCoins;
-
-  /**
-   * The coin speed.
-   */
-  private int coinSpeed;
 
   /**
    * The spawn rate.
@@ -122,6 +113,52 @@ public class Level {
    * The max bosses.
    */
   private int maxBosses;
+
+  /**
+   * The amount that increases the player's velocity.
+   */
+  private int tireBoostHeight;
+
+  /**
+   * The amount of time the jetpack lasts.
+   */
+  private int jetPackDuration;
+
+  /**
+   * The amount that the jetpack increases the player's velocity.
+   */
+  private int jetPackBoostVelocity;
+
+  /**
+   * The amount of power ups that exist in the game.
+   */
+  private int powerUpTypes;
+
+  /**
+   * The height that the power ups spawn at.
+   */
+  private int spawnHeight;
+
+  /**
+   * The horizontal speed of the Coin/PowerUp.
+   */
+  private int xSpeedCoinPowerUp;
+
+
+  /**
+   * The vertical speed of the Coin/PowerUp.
+   */
+  private int ySpeedCoinPowerUp;
+
+  /**
+   * Size of the Coin sprite.
+   */
+  private int coinSize;
+
+  /**
+   * Size of the PowerUp sprite.
+   */
+  private int powerUpSize;
 
   /**
    * Level Constructor.
@@ -169,11 +206,18 @@ public class Level {
     jumpThroughHeight = level.getInt("jumpThroughHeight");
     playerJumpHeight = level.getInt("playerJumpHeight");
     maxPowerUps = level.getInt("maxPowerUps");
-    powerUpSpeed = level.getInt("powerUpSpeed");
     maxCoins = level.getInt("maxCoins");
-    coinSpeed = level.getInt("coinSpeed");
     spawnRate = level.getFloat("spawnRate");
     maxBosses = level.getInt("maxBosses");
+    tireBoostHeight = level.getInt("tireBoostHeight");
+    jetPackDuration = level.getInt("jetPackDuration");
+    jetPackBoostVelocity = level.getInt("jetPackBoostVelocity");
+    powerUpTypes = level.getInt("powerUpTypes");
+    spawnHeight = level.getInt("spawnHeight");
+    xSpeedCoinPowerUp = level.getInt("xSpeedCoinPowerUp");
+    ySpeedCoinPowerUp = level.getInt("ySpeedCoinPowerUp");
+    coinSize = level.getInt("coinSize");
+    powerUpSize = level.getInt("powerUpSize");
   }
 
   /**
@@ -346,30 +390,12 @@ public class Level {
   }
 
   /**
-   * Gets the power up speed.
-   *
-   * @return The power up speed (int)
-   */
-  public int getPowerUpSpeed() {
-    return powerUpSpeed;
-  }
-
-  /**
    * Gets the max coins.
    *
    * @return The max coins (int)
    */
   public int getMaxCoins() {
     return maxCoins;
-  }
-
-  /**
-   * Gets the coin speed.
-   *
-   * @return The coin speed (int)
-   */
-  public int getCoinSpeed() {
-    return coinSpeed;
   }
 
   /**
@@ -388,5 +414,76 @@ public class Level {
    */
   public int getMaxBosses() {
     return maxBosses;
+  }
+
+  public int getTireBoostHeight() {
+    return tireBoostHeight;
+  }
+
+  public int getJetPackDuration() {
+    return jetPackDuration;
+  }
+
+  /**
+   * Gets the jetpack boost velocity.
+   *
+   * @return The jetpack boost velocity (int)
+   */
+  public int getJetPackBoostVelocity() {
+    return jetPackBoostVelocity;
+  }
+
+  /**
+   * Gets the power up types.
+   *
+   * @return The power up types (int)
+   */
+  public int getPowerUpTypes() {
+    return powerUpTypes;
+  }
+
+  /**
+   * Gets the spawn height.
+   *
+   * @return The spawn height (int)
+   */
+  public int getSpawnHeight() {
+    return spawnHeight;
+  }
+
+  /**
+   * Gets the x speed coin power up.
+   *
+   * @return The x speed coin power up (int)
+   */
+  public int getxSpeedCoinPowerUp() {
+    return xSpeedCoinPowerUp;
+  }
+
+  /**
+   * Gets the y speed coin power up.
+   *
+   * @return The y speed coin power up (int)
+   */
+  public int getySpeedCoinPowerUp() {
+    return ySpeedCoinPowerUp;
+  }
+
+  /**
+   * Gets the Coin size.
+   *
+   * @return Coin size
+   */
+  public int getCoinSize() {
+    return coinSize;
+  }
+
+  /**
+   * Gets the PowerUp size.
+   *
+   * @return PowerUp size
+   */
+  public int getPowerUpSize() {
+    return powerUpSize;
   }
 }

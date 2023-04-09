@@ -415,7 +415,6 @@ public class MenuManager extends PApplet {
       } else {
         clip.loop(Clip.LOOP_CONTINUOUSLY);
         sound = true;
-        Coin.resumeSound();
       }
     }
   }

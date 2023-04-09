@@ -15,7 +15,16 @@
       "maxCoins": 3,
       "coinSpeed": 5,
       "spawnRate": 0.5,
-      "maxBosses": 1
+      "maxBosses": 1,
+      "tireBoostHeight": 2,
+      "jetPackDuration": 2,
+      "jetPackBoostVelocity": -10,
+      "powerUpTypes": 3,
+      "spawnHeight": 150,
+      "xSpeedCoinPowerUp": 0,
+      "ySpeedCoinPowerUp": 5,
+      "coinSize": 25,
+      "powerUpSize": 50
     },
     {
       "level": 2,
@@ -32,7 +41,16 @@
       "maxCoins": 3,
       "coinSpeed": 5,
       "spawnRate": 0.5,
-      "maxBosses": 1
+      "maxBosses": 1,
+      "tireBoostHeight": 2,
+      "jetPackDuration": 2,
+      "jetPackBoostVelocity": -10,
+      "powerUpTypes": 3,
+      "spawnHeight": 150,
+      "xSpeedCoinPowerUp": 0,
+      "ySpeedCoinPowerUp": 5,
+      "coinSize": 25,
+      "powerUpSize": 50
     },
     {
       "level": 3,
@@ -45,11 +63,18 @@
       "jumpThroughHeight": 10,
       "playerJumpHeight": 15,
       "maxPowerUps": 5,
-      "powerUpSpeed": 5,
       "maxCoins": 3,
-      "coinSpeed": 5,
       "spawnRate": 0.5,
-      "maxBosses": 1
+      "maxBosses": 1,
+      "tireBoostHeight": 2,
+      "jetPackDuration": 2,
+      "jetPackBoostVelocity": -10,
+      "powerUpTypes": 3,
+      "spawnHeight": 150,
+      "xSpeedCoinPowerUp": 0,
+      "ySpeedCoinPowerUp": 5,
+      "coinSize": 25,
+      "powerUpSize": 50
     }
   ]
 }

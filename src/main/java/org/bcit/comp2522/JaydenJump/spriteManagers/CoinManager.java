@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.bcit.comp2522.JaydenJump.Game;
+import org.bcit.comp2522.JaydenJump.Level;
 import org.bcit.comp2522.JaydenJump.gameUI.MenuManager;
 import org.bcit.comp2522.JaydenJump.sprites.Coin;
 import org.bcit.comp2522.JaydenJump.sprites.Player;
@@ -34,11 +35,6 @@ public class CoinManager {
   private final ArrayList<Coin> coins;
 
   /**
-   * Maximum amount of coins that are permitted to exist in each cycle.
-   */
-  private final int maxCoins;
-
-  /**
    * The game window that is used to draw the coins.
    */
   private final PApplet sketch;
@@ -49,9 +45,9 @@ public class CoinManager {
   private PImage[] image;
 
   /**
-   * The coin's speed as it moves down the game window.
+   * Level of the game.
    */
-  private final int coinSpeed;
+  private Level level;
 
   /**
    * Instance of the player class in the game.
@@ -69,41 +65,37 @@ public class CoinManager {
   private Game game;
 
   /**
-   * Constructs a coin.
+   * Constructs a single instance of the CoinManager class in the game.
    *
-   * @param maxCoins allowed in game
+   * @param level of the game
    *
-   * @param coinSpeed given to each coin
+   * @param coinImg of the Coin sprite
    *
-   * @param coinImg array that animate the sprite
-   *
+   * @param game window
    */
-  private CoinManager(int maxCoins, int coinSpeed, PImage[] coinImg, Game game) {
-    this.maxCoins = maxCoins;
+  private CoinManager(Level level, PImage[] coinImg, Game game) {
     this.sketch = MenuManager.getInstance();
-    this.coinSpeed = coinSpeed;
     this.player = Player.getInstance();
     this.image = coinImg;
     coins = new ArrayList<>();
     this.game = game;
+    this.level = level;
   }
 
   /**
-   * Creates and uses only one instance of a CoinManager class in the game.
+   * Creates and uses only one instance of a CoinManager in the game.
    *
-   * @param maxCoins allowed in game
+   * @param level of the game
    *
-   * @param coinSpeed of coin in game
+   * @param coinImg the images of the coin
    *
-   * @param coinImg that animates the coin sprite
+   * @param game the game window
    *
-   * @return CoinManager object
-   *
+   * @return only one instance of the CoinManager in the game
    */
-  public static CoinManager getInstance(int maxCoins, int coinSpeed,
-                                        PImage[] coinImg, Game game) {
+  public static CoinManager getInstance(Level level, PImage[] coinImg, Game game) {
     if (instance == null) {
-      instance = new CoinManager(maxCoins, coinSpeed, coinImg, game);
+      instance = new CoinManager(level, coinImg, game);
     }
     return instance;
   }
@@ -122,11 +114,12 @@ public class CoinManager {
    * Spawns a certain amount of coins at the start of each game.
    */
   public void generateStartCoins() {
-    float y = sketch.random(sketch.height - Coin.getCoinSize());
+    float y = generateRandomPosition();
     for (int i = 0; i < COINSTARTING; i++) {
-      float x = sketch.random(sketch.width - Coin.getCoinSize());
-      coins.add(new Coin(x, y, 0, coinSpeed, image, game));
-      y += 150;
+      float x = generateRandomPosition();
+      coins.add(new Coin(level, x, y, level.getxSpeedCoinPowerUp(), level.getySpeedCoinPowerUp(),
+          image, game));
+      y += level.getSpawnHeight();
     }
   }
 
@@ -135,12 +128,22 @@ public class CoinManager {
    */
   public void generateCoins() {
     float y = 0;
-    while (coins.size() < maxCoins) {
-      float x = sketch.random(sketch.width - Coin.getCoinSize());
-      Coin newCoin = new Coin(x, y, 0, coinSpeed, image, game);
+    while (coins.size() < level.getMaxCoins()) {
+      float x = generateRandomPosition();
+      Coin newCoin = new Coin(level, x, y, level.getxSpeedCoinPowerUp(),
+          level.getySpeedCoinPowerUp(), image, game);
       coins.add(newCoin);
-      y += 150;
+      y += level.getSpawnHeight();
     }
+  }
+
+  /**
+   * Generates a random position for the x and y coordinates of a coin
+   * that spawns in the game.
+   * @return random float for the x and y coordinate
+   */
+  public float generateRandomPosition() {
+    return sketch.random(sketch.width - level.getCoinSize());
   }
 
   /**
