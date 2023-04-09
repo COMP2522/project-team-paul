@@ -1,14 +1,13 @@
 package org.bcit.comp2522.JaydenJump.spriteManagers;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import org.bcit.comp2522.JaydenJump.Game;
 import org.bcit.comp2522.JaydenJump.Level;
 import org.bcit.comp2522.JaydenJump.gameUI.MenuManager;
 import org.bcit.comp2522.JaydenJump.sprites.Boss;
 import org.bcit.comp2522.JaydenJump.sprites.Player;
 import processing.core.PApplet;
-import processing.core.PImage;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * A class that manages a list of Boss objects.
@@ -22,12 +21,6 @@ public class BossManager {
    * the sketch for the boss manager.
    */
   private PApplet sketch;
-
-
-  /**
-   * the image for the boss.
-   */
-  private PImage image;
 
   /**
    * the width of the boss.
@@ -80,35 +73,43 @@ public class BossManager {
    */
   private Game game;
 
+  /**
+   * constants.
+   */
+  private static final int BOSSWIDTH = 150;
+  private static final int BOSSHEIGHT = 150;
+  private static final int BOSSHEALTH = 3;
+  private static final int BOSSSPAWNY = 70;
+  private static final int BOSSVX = 5;
+
 
   /**
    * constructor for the boss manager class.
    *
-   * @param image the image for the boss
    * @param level the max amount of bosses
+   * @param game the game object
    */
-  private BossManager(PImage image, Level level, Game game) {
-    this.image = image;
-    this.width = 150;
-    this.height = 150;
+  private BossManager(Level level, Game game) {
+    this.width = BOSSWIDTH;
+    this.height = BOSSHEIGHT;
     this.sketch = MenuManager.getInstance();
     this.player = Player.getInstance();
     this.maxBosses = level.getMaxBosses();
     this.isAlive = false;
-    this.bossHealth = 3;
+    this.bossHealth = BOSSHEALTH;
     this.game = game;
   }
 
   /**
    * Get the single instance of BossManager.
    *
-   * @param image  the image of the boss
+   * @param game  the game object
    * @param level  the max amount of bosses
    * @return the single instance of BossManager
    */
-  public static BossManager getInstance(PImage image, Level level, Game game) {
+  public static BossManager getInstance(Level level, Game game) {
     if (instance == null) {
-      instance = new BossManager(image, level, game);
+      instance = new BossManager(level, game);
     }
     return instance;
   }
@@ -132,11 +133,11 @@ public class BossManager {
   public void update() {
     if (bossCounter < maxBosses && !isAlive) {
       int xpos = sketch.width / 2;
-      int ypos = 70;
-      int vx = 5;
+      int ypos = BOSSSPAWNY;
+      int vx = BOSSVX;
       int vy = 0;
       int health = bossHealth;
-      Boss boss = new Boss(xpos, ypos, vx, vy, width, height, image, health, game);
+      Boss boss = new Boss(xpos, ypos, vx, vy, width, height, health, game);
       bosses.add(boss);
       bossCounter++;
     }

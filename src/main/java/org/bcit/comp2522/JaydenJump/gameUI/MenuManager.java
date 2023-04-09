@@ -57,11 +57,6 @@ public class MenuManager extends PApplet {
   private PImage musicOff;
 
   /**
-   * Image used to display the player character.
-   */
-  private PImage[] playerImg;
-
-  /**
    * Image used to display the power ups.
    */
   private PImage[] powerUpImg;
@@ -177,16 +172,6 @@ public class MenuManager extends PApplet {
   public static boolean sound = true;
 
   /**
-   * Image used to display the enemies in the game.
-   */
-  private PImage enemyImg;
-
-  /**
-   * Image used to display the boss.
-   */
-  private static PImage bossImg;
-
-  /**
    * Image used to display the background.
    */
   private static PImage backgroundImage;
@@ -234,9 +219,6 @@ public class MenuManager extends PApplet {
     doodle          = loadImage("./Images/JaydenFrontPage.png");
     musicOn         = loadImage("./Images/music_on.png");
     musicOff        = loadImage("./Images/music_off.png");
-    enemyImg        = loadImage("./Images/enemy.png");
-    bossImg         = loadImage("./Images/Boss.png");
-    bossImg         = loadImage("./Images/Boss.png");
     backgroundImage = loadImage("./Images/background.png");
     coinImg         = loadCoinImages();
     powerUpImg      = loadPowerUpImages();
@@ -319,7 +301,6 @@ public class MenuManager extends PApplet {
     game = new Game(difficulty,
         powerUpImg,
         backgroundImage,
-        enemyImg,
         coinImg);
   }
 
@@ -372,7 +353,6 @@ public class MenuManager extends PApplet {
     game = new Game(difficulty,
         powerUpImg,
         backgroundImage,
-        enemyImg,
         coinImg);
 
     currentScreen = GAME;
@@ -502,14 +482,6 @@ public class MenuManager extends PApplet {
     MenuManager.currentScreen = currentScreen;
   }
 
-  /**
-   *  Getter for boss image.
-   *
-   * @return boss image as a PImage object
-   */
-  public static PImage getBossImg() {
-    return bossImg;
-  }
 
   /**
    * Getter for difficulty.

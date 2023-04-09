@@ -107,17 +107,16 @@ public class Game extends PApplet {
    * @param diff            the level of the game
    * @param powerUpImage    the image for the power up
    * @param backgroundImage the image for the background
-   * @param enemyImage      the image for the enemy
    * @param coinImages      the images for the coins
    */
   public Game(int diff, PImage[] powerUpImage, PImage backgroundImage,
-              PImage enemyImage, PImage[] coinImages) {
+              PImage[] coinImages) {
     window               = MenuManager.getInstance();
     this.backgroundImage = backgroundImage;
     this.backgroundPos   = new PVector(0, 0);
     Level level          = Level.getInstance(diff);
     gameOver             = false;
-    initializeLevel(level, coinImages, powerUpImage, enemyImage);
+    initializeLevel(level, coinImages, powerUpImage);
     platformManager.generateStartPlatforms();
     powerUpManager.generateStartPowerUps();
     coinManager.generateStartCoins();
@@ -129,17 +128,15 @@ public class Game extends PApplet {
    * @param level          the level object with all the information
    * @param coinImages     the images for the coins
    * @param powerUpImage   the image for the power up
-   * @param enemyImage     the image for the enemy
    */
-  private void initializeLevel(Level level, PImage[] coinImages, PImage[] powerUpImage,
-                               PImage enemyImage) {
+  private void initializeLevel(Level level, PImage[] coinImages, PImage[] powerUpImage) {
     player          = Player.getInstance(level);
     scrollSpeed     = level.getScrollSpeed();
     platformManager = PlatformManager.getInstance(level);
     powerUpManager  = PowerUpManager.getInstance(level, powerUpImage, this);
     coinManager     = CoinManager.getInstance(level, coinImages, this);
-    enemyManager    = EnemyManager.getInstance(level, enemyImage, this);
-    bossManager     = BossManager.getInstance(MenuManager.getBossImg(), level, this);
+    enemyManager    = EnemyManager.getInstance(level, this);
+    bossManager     = BossManager.getInstance(level, this);
     score           = 0;
     highscore       = 0;
     lives           = PLAYER_LIVES;
