@@ -27,7 +27,7 @@ public class Game extends PApplet {
   /**
    * Flag for indicating if game is over.
    */
-  private boolean gameOver;
+  private static boolean gameOver;
 
   /**
    * Platform manager.
