@@ -2,6 +2,7 @@ package org.bcit.comp2522.JaydenJump;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -160,6 +161,10 @@ public class Level {
    */
   private int powerUpSize;
 
+  private int currentScore;
+
+  private int localHighScore;
+
   /**
    * Level Constructor.
    *
@@ -198,6 +203,7 @@ public class Level {
 
     this.levelNumber = lvl;
     this.time = 0;
+    this.currentScore = 0;
     playerSpeed = level.getFloat("playerSpeed");
     gravity = level.getFloat("gravity");
     scrollSpeed = level.getInt("scrollSpeed");
@@ -219,6 +225,7 @@ public class Level {
     ySpeedCoinPowerUp = level.getInt("ySpeedCoinPowerUp");
     coinSize = level.getInt("coinSize");
     powerUpSize = level.getInt("powerUpSize");
+    localHighScore = level.optInt("localHighScore", 0);
   }
 
   /**
@@ -249,6 +256,11 @@ public class Level {
     if (scheduledFuture == null || scheduledFuture.isCancelled()) {
       Runnable task = () -> {
         time++;
+        this.currentScore = Game.highscore;
+        if (currentScore > localHighScore) {
+          localHighScore = currentScore;
+          saveLocalHighScore();
+        }
       };
       scheduledFuture = scheduledExecutorService
           .scheduleAtFixedRate(task, 0, Second, TimeUnit.MILLISECONDS);
@@ -280,6 +292,28 @@ public class Level {
    */
   public void setTime(int time) {
     this.time = time;
+  }
+
+  /**
+   * Updates the local high score to the JSON file.
+   */
+  public void saveLocalHighScore() {
+    new Thread(() -> {
+      String json = readFileAsString("LevelData/LevelDetails.json");
+
+      JSONObject obj = new JSONObject(json);
+      JSONArray levels = obj.getJSONArray("levels");
+      JSONObject level = levels.getJSONObject(levelNumber - 1);
+
+      level.put("localHighScore", localHighScore);
+
+      try (FileWriter fileWriter = new FileWriter("LevelData/LevelDetails.json")) {
+        fileWriter.write(obj.toString());
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }).start();
+
   }
 
   /**
