@@ -9,7 +9,6 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 import org.bcit.comp2522.JaydenJump.*;
-import org.bcit.comp2522.JaydenJump.sprites.Coin;
 import processing.core.PApplet;
 import processing.core.PImage;
 
