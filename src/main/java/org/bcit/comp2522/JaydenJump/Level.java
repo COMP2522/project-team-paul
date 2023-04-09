@@ -179,6 +179,7 @@ public class Level {
     if (instance == null) {
       instance = new Level(lvl);
     }
+    instance.loadLevel(lvl);
     return instance;
   }
 
