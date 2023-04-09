@@ -1,6 +1,6 @@
 ## Contributions
 Ravdeep Aulakh - Enemy, EnemyManager, Boss, BossManager, Platform\
-Brian Kwon - \
+Brian Kwon - Game, MenuManager, StartMenu, MainMenu, LeaderboardsMenu, DifficultyMenu, PauseMenu, DeathMenu
 Shawn Birring - \
 Maximillian Yong - \
 Hyuk Park - 
