@@ -16,6 +16,20 @@ import processing.core.PVector;
 public class Game extends PApplet {
 
   /**
+   * Constants.
+   */
+  private static final int BOSS_SPAWN = 2000;
+  private static final int FONT_SIZE = 20;
+  private static final int X_OFFSET = 75;
+  private static final int Y_OFFSET = 50;
+  private static final int HEART1 = 400;
+  private static final int HEART2 = 337;
+  private static final int HEART3 = 275;
+  private static final int PLAYER_LIVES = 3;
+  private static final int PAUSE_MENU = 5;
+  private static final int GAME_PAGE = 7;
+
+  /**
    * The number of lives the boss has.
    */
   private static final int BOSS_HEALTH = 3;
@@ -88,18 +102,6 @@ public class Game extends PApplet {
    * the speed of the background.
    */
   private int scrollSpeed;
-
-  /**
-   * Constants.
-   */
-  private static final int BOSS_SPAWN = 2000;
-  private static final int FONT_SIZE = 20;
-  private static final int X_OFFSET = 75;
-  private static final int Y_OFFSET = 50;
-  private static final int HEART1 = 400;
-  private static final int HEART2 = 337;
-  private static final int HEART3 = 275;
-  private static final int PLAYER_LIVES = 3;
 
   /**
    * the level of the game.
@@ -218,7 +220,6 @@ public class Game extends PApplet {
       endGame();
     }
   }
-
 
   /**
    * updates and draws the game elements.
@@ -342,31 +343,35 @@ public class Game extends PApplet {
    * Event listener for key presses.
    */
   public void keyPressedListener(int key) {
-    if (key == LEFT || key == 'A') {
-      player.moveLeft();
-    } else if (key == RIGHT || key == 'D') {
-      player.moveRight();
-    } else if (key == 'P') {
-      if (MenuManager.getCurrentScreen() == 7) {
-        MenuManager.setCurrentScreen(5);
-      } else if (MenuManager.getCurrentScreen() == 5) {
-        MenuManager.setCurrentScreen(7);
-      }
-    } else if (key == ' ') {
-      player.shootProjectile();
+    switch (key) {
+      case LEFT, 'A' -> player.moveLeft();
+      case RIGHT, 'D' -> player.moveRight();
+      case 'P' -> toggleMenuScreen();
+      case ' ' -> player.shootProjectile();
     }
   }
+
+  /**
+   * Toggles the menu screen.
+   * the pause menu.
+   */
+  private void toggleMenuScreen() {
+    int currentScreen = MenuManager.getCurrentScreen();
+    switch (currentScreen) {
+      case PAUSE_MENU -> MenuManager.setCurrentScreen(GAME_PAGE);
+      case GAME_PAGE -> MenuManager.setCurrentScreen(PAUSE_MENU);
+    }
+  }
+
 
   /**
    * Event listener for key releases.
    */
   public void keyReleasedListener(int key) {
-    if (key == LEFT || key == 'A') {
-      player.setVx(player.getVx() - 2);
-    } else if (key == RIGHT || key == 'D') {
-      player.setVx(player.getVx() + 2);
-    } else if (key == ' ') {
-      player.shootProjectile();
+    switch (key) {
+      case LEFT, 'A' -> player.setVx(player.getVx() - 2);
+      case RIGHT, 'D' -> player.setVx(player.getVx() + 2);
+      case ' ' -> player.shootProjectile();
     }
   }
 
@@ -387,9 +392,9 @@ public class Game extends PApplet {
   }
 
   /**
-   * Getter for highscore.
+   * Getter for high-score.
    *
-   * @return highscore as an int
+   * @return high-score as an int
    */
   public int getHighscore() {
     return highscore;
