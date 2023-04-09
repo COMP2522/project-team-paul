@@ -27,7 +27,7 @@ public class Game extends PApplet {
   /**
    * Flag for indicating if game is over.
    */
-  private boolean gameOver;
+  private static boolean gameOver;
 
   /**
    * Platform manager.
@@ -108,17 +108,16 @@ public class Game extends PApplet {
    * @param powerUpImage    the image for the power up
    * @param backgroundImage the image for the background
    * @param enemyImage      the image for the enemy
-   * @param playerImage     the image for the player
    * @param coinImages      the images for the coins
    */
   public Game(int diff, PImage[] powerUpImage, PImage backgroundImage,
-              PImage enemyImage, PImage[] playerImage, PImage[] coinImages) {
+              PImage enemyImage, PImage[] coinImages) {
     window               = MenuManager.getInstance();
     this.backgroundImage = backgroundImage;
     this.backgroundPos   = new PVector(0, 0);
     Level level          = Level.getInstance(diff);
     gameOver             = false;
-    initializeLevel(level, coinImages, powerUpImage, enemyImage, playerImage);
+    initializeLevel(level, coinImages, powerUpImage, enemyImage);
     platformManager.generateStartPlatforms();
     powerUpManager.generateStartPowerUps();
     coinManager.generateStartCoins();
@@ -131,11 +130,10 @@ public class Game extends PApplet {
    * @param coinImages     the images for the coins
    * @param powerUpImage   the image for the power up
    * @param enemyImage     the image for the enemy
-   * @param playerImage    the image for the player
    */
   private void initializeLevel(Level level, PImage[] coinImages, PImage[] powerUpImage,
-                               PImage enemyImage, PImage[] playerImage) {
-    player          = Player.getInstance(playerImage, level);
+                               PImage enemyImage) {
+    player          = Player.getInstance(level);
     scrollSpeed     = level.getScrollSpeed();
     platformManager = PlatformManager.getInstance(level);
     powerUpManager  = PowerUpManager.getInstance(level, powerUpImage, this);

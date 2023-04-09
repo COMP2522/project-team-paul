@@ -238,7 +238,6 @@ public class MenuManager extends PApplet {
     bossImg         = loadImage("./Images/Boss.png");
     bossImg         = loadImage("./Images/Boss.png");
     backgroundImage = loadImage("./Images/background.png");
-    playerImg       = loadPlayerImages();
     coinImg         = loadCoinImages();
     powerUpImg      = loadPowerUpImages();
     load            = new Load();
@@ -294,21 +293,6 @@ public class MenuManager extends PApplet {
   }
 
   /**
-   * Loads PImage array with images used for Player.
-   * @return PImage array for Player
-   */
-  private PImage[] loadPlayerImages() {
-    PImage[] playerImages = new PImage[2];
-    for (int i = 0; i < playerImages.length; i++) {
-      switch (i) {
-        case 0 -> playerImages[i] = loadImage("./Images/Player.png");
-        case 1 -> playerImages[i] = loadImage("./Images/PlayerShoot.png");
-      }
-    }
-    return playerImages;
-  }
-
-  /**
    * Initializes all Menu objects.
    */
   public void init() {
@@ -336,7 +320,6 @@ public class MenuManager extends PApplet {
         powerUpImg,
         backgroundImage,
         enemyImg,
-        playerImg,
         coinImg);
   }
 
@@ -390,7 +373,6 @@ public class MenuManager extends PApplet {
         powerUpImg,
         backgroundImage,
         enemyImg,
-        playerImg,
         coinImg);
 
     currentScreen = GAME;

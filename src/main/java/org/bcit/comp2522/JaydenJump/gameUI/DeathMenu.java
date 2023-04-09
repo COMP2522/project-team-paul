@@ -68,6 +68,7 @@ public class DeathMenu extends PApplet implements GameUI {
    */
   public void init() {
     this.window = MenuManager.getInstance();
+    this.game = window.getGame();
     draw();
   }
 
