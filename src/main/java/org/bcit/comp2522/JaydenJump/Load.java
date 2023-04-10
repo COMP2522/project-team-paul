@@ -15,7 +15,7 @@ import static com.mongodb.client.model.Filters.eq;
 
 
 /**
- * Class to load and save game data.
+ * Class to load and save game leaderboard.
  *
  * @author Maximillian Yong
  * @version 1.1
