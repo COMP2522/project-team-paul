@@ -1,115 +1,105 @@
-# Project
+## Contributions
+<b>Ravdeep Aulakh</b> - Game, Enemy, EnemyManager, Boss, BossManager, Platform, Player\
+<b>Brian Kwon</b> - Game, Main, MenuManager, StartMenu, MainMenu, LeaderboardsMenu, DifficultyMenu, PauseMenu, DeathMenu, SubmitMenu, Button\
+<b>Shawn Birring</b> - Game, Sprite, Player, Platform, PlatformManager, Collidable, Drawable, PlatformManagerTest, PlatformTest\
+<b>Maximillian Yong</b> - Game, Level, Load, Sprite, LevelTest\
+<b>Hyuk Park</b> - Game, Coin, PowerUp, Projectile, ExtraLife, JetPack, Tire, CoinManager, PowerUpManager
 
-## Technical Project Requirements
+## How to Start Game
+In order to start a new game select the *<b>"Main"</b>* \
+class and run it. A window similar to this will pop up:
 
-The minimum requirements for the project are outlined here to give you a starting point. Meeting the minimum requirements alone will not guarantee you a good mark. You are welcome to meet and exceed the minimum requirements if you have good, creative ideas and would like to discuss them with me.
+![img.png](Images/Mainmenu.png)
 
-**Requirement 1**: The project must incorporate some visual interface using Processing.org libraries. All user interaction must be conducted via this interface.
+From this menu you want to press on the space bar to continue
+after which you will be greeted with this menu:
 
-**Requirement 2**: The project must incorporate some kind of non-blocking concurrent/asynchronous processing that happens at regular intervals. For example, you might push or fetch data from in the background.
+![img.png](Images/MainMenu2.png)
 
-**Requirement 3**: The project must incorporate some kind of non-trivial persistent data state that must be read, processed, and written at regular intervals. For example, you might save a game state in a JSON file. This may or may not be included with Requirement 2.
+On this menu you want to select *<b>"Start Game"</b>*.
+After you select that you should be greeted with this menu:
 
-**Requirement 4**: The project must incorporate some kind of self-managing custom iterable data structure. For example, you might have a collection of enemies that are added and deleted based on statistics maintained by the data structure.
+![img.png](Images/DiffcultSelectReadme.png)
 
-**Requirement 5**: The project must be well-documented, complete, and run without errors on final submission.
+Here you want to select the difficulty you want to play on.
 
-## Project Pitch (group, 1%)
+## How to Play the Game
+### Basics
+You can move left and right using <b>*A*</b> and
+<b>*D*</b> keys, or you can also use the <b>*Right*</b>
+and <b>*Left*</b> arrow keys. The player will automatically
+jump when he hits a platform. To shoot projectiles you
+can press <b>*Space Bar*</b> and they will be shot straight up
+from your current position. You start off with 3 lives
+and lose 1 life everytime you die until you have 0 lives
+left at which point the game will end. Finally, your score 
+is displayed in the top left corner of the game.
 
-The project pitch will be a short document that describes the kind of interactive application you would like to create with your group. The project pitch must include the following items:
+### Platforms
+The game will generate *<b>green</b>* and *<b>red</b>* 
+platforms which you the player can jump off of. These
+platforms will move down the screen until they fall off.
+The green platforms are normal and will let you 
+jump off of them as many times as you want whereas 
+the red one's will break after one jump.
 
-*One-liner*: One-sentence description of your project.
-*Outline*: 1-10 sentences that describe how your project will fulfill the project requirements.
-*Communication policies*: A description of how your group will meet, communicate, and make decisions (as per Lab 03).
-*Roles and responsibilities*: A description of each team member's jobs in the group.
-*Milestones*: A rough outline of the major project milestones that you expect to complete and your own estimated timeline. This can and will change, so do your best to estimate and plan for the milestones to change.
+![img.png](Images/PlatformReadme.png)
 
-Draft was due today, final due next lab. Submission here, on GitHub. Make a `.md` file that outlines the above.
+### Enemies
+The game also contains enemies. Enemies will spawn in
+randomly and at random locations in the game. They
+move down at the same speed as platforms and can be
+killed by hitting them with projectiles. But beware
+as colliding with enemies will take a life from you.
 
-## Initial UML Diagrams (group, 1%)
+![img.png](Images/EnemyReadme.png)
 
-The initial UML diagrams will outline the class structure that your group will follow for the first milestone of the project. It must include the following items all classes that will be created by the group and important descriptive interfaces from either the Java library or created by the group. I expect that this will change significantly throughout the project, so it does not have to be perfect but it should be a best effort attempt. This is because you will use this to communicate with your group members about what to make. Therefore, the diagram should be *sufficiently complex* to give you a term's worth of work.
+### Boss
+There is a boss in the game that will appear once
+per game. He spawns at score 3000. The boss takes
+3 hits from the players projectiles to kill. The boss
+spawns at the top of the window and moves left and right
+while shooting projectiles down at the player. Colliding
+with either the boss or his projectiles will cause you
+to lose a life.
 
-Draft due next Lab, final due two labs from now. Submission here, on GitHub. Suggestion is to use a tool like [draw.io](https://app.diagrams.net/) but you may use whatever tool is most useful for you.
+![img.png](Images/BossReadme.png)
 
-## Initial GitHub Issues (group, 1%)
+### Power Ups
+The game also has power ups. There are 3 different types
+of power ups. The first is the spring landing on it will
+jump you up similar to a platform. The second is the
+jetpack landing on it will boost you up a little higher
+than a platform would. The final power up is the heart,
+landing on it will give you another life as long as you
+have less than 3 hearts.
 
-The initial GitHub issues will be the tasks that are assigned to each of your group members at the beginning of the project. Every team member should have at least five issues to start (20-30 total). You will have to decide within your group how granular you want to make these issues. 
+### Coins
+The player can collect coins as well throughout
+the game which will increase they're overall score.
+The coins are the spinning gold coins and appear
+randomly throughout the window.
 
-Issues will be tracked here, on GitHub.
+### Leaderboard
+The game has a leaderboard for every difficulty you
+can access this on the main menu by selecting the button
+that says <b>*"Leaderboard"*</b>
 
-## Final Project Demo (group, 1%)
+![img.png](Images/LeaderboardReadme.png)
 
-The Final Project Demo will be a working version of your project that you will present to your lab section for review. The demo will be in lab, and will include a live demo of the working application, and a short code review. There are no slides required, but you should have practiced your demo to make sure it will run reasonably well. This will be during the last lab of class.
+After clicking this button you should see the top 5
+scores for every difficult listed out like this: 
 
-No submission.
+![img.png](Images/LeaderboardTop5.png)
 
-## Final README.md (group, 1%)
+Finally, in order to submit your highest score to the
+leaderboard standings you can click the <b>*"Submit"*</b>
+that is visible after a game ends: 
 
-The Final README.md must give instructions on how to run your program, a list of contributions by each member, and any references/citations for code you may have used from elsewhere. 
+![img.png](Images/SubmitLeaderboard.png)
 
-Submission is here, on GitHub, in the `README.md` file.
+You will then be prompted to enter a username that will
+appear next to your name on the leaderboard if you are
+in the top 5 for that difficulty level:
 
-## Final Product (group, 5%)
-
-The Final Product will be evaluated for overall code design and documentation and evaluated on the same design principles as individual contributions. If you are below the 1000 line minimum contribution, your mark will be scaled down for this portion.
-
-Submission is here, on GitHub.
-
-## Code Contributions (individual, 15%)
-
-You will be expected to take on a significant individual contribution to the group project (at least 1000 lines of non-trivial code). It may be in a number of forms, but here are some examples:
-
-**Architect**: you are in charge of the high-level code structuring and organizing.
-
-**Test maker**: you are in charge of test coverage that supports other group members.
-
-**UI/UX lead**: you design and implement the user interface.
-
-**Backend**: you design and implement the data structures.
-
-**…??**: Make up your own depending on your use case, i.e., collision system designer, animation architect, async code wrangler.
-
-Contributions must be for functional, working Java code and must be continuous throughout the term. You may not, for example, push all of your changes at the end of term. Code will be marked on following good design principles, i.e., SOLID, design patterns, etc. You are encouraged to work together and use pair programming for components, but you will be marked on your contribution to your own modules individually.
-
-## Documentation Contributions (individual, 5%)
-
-Your code must be well-documented with fully-formed method signatures, comments, and necessary README or Wiki pages. This is further broken down into the following.
-
-### Initial individual pitch (1%)
-A description of your individual feature that you plan to implement. 
-
-Due date TBD.
-
-### Initial individual UML Diagrams (1%)
-Any combination of sequence, communcation, or class diagrams that describe your feature's initial planned abilities. 
-
-Due date TBD.
-
-### Documentation contributions (3%)
-Your personal feature documentation, wherever it happens to show up in the final documentation.
-
-Due with final submission.
-
-## Issues and Pull Request Contributions (individual, 5%)
-You must track your own work in the form of creating and closing GitHub issues, creating and reviewing pull requests, responding to issues that have been assigned to you, and creating issues that you assign to others (all within reason).
-
-# Errata
-The project MUST be managed here, in this GitHub repo. Nothing that happens outside of this GitHub repo will be trackable by me, therefore, it will not be marked or considered for marking.
-
-You must use the following branching structures:
-- `main` branch must always be working, tested, debugged, human-readable code.
-- `<initals>_<issue #>_<optional description>` is the format for each ISSUE that you're working on. It should always be a branch off of `main`.
-- Every individual branch must regularly merge `main`, and it should be no more than a few days before your branch is either merged into `main` or deleted.
-
-You must use pull requests to manage your code integration:
-- make your branch from `main`, e.g., `git checkout -b pb_71_demo`
-- make your commits, e.g., `git add .` and `git commit -m "fixed issue 71 by reloading gradle for the 100th time"` and `git push origin pb_71_demo`.
-- merge `main` into your branch, and NOT the other way around. E.g., `git merge main`. YOU fix all the merge conflicts or problems that arise. Commit and push again.
-- go to GitHub.com and make a pull request
-- one other person (NOT YOU) needs to review the code and either approve or reject your changes with detailed line-by-line comments.
-- If needed, make the requested fixes and commit and push again.
-- the other person (NOT YOU) will merge your PR into `main`
-- the other person (NOT YOU) will delete your branch
-
-
+![img.png](Images/NameLeaderboard.png)
