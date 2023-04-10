@@ -65,6 +65,11 @@ public class PowerUpManager {
   private Game game;
 
   /**
+   * the current game level.
+   */
+  private int levelNum;
+
+  /**
    * Constructor of the PowerUpManager class.
    *
    * @param level of the game
@@ -80,6 +85,7 @@ public class PowerUpManager {
     this.image = powerUpImg;
     this.game = game;
     this.level = level;
+    this.levelNum = level.getLevelNumber();
   }
 
   /**
@@ -95,7 +101,7 @@ public class PowerUpManager {
    * @return PowerUpManager instance in the game
    */
   public static PowerUpManager getInstance(Level level, PImage[] powerUpImg, Game game) {
-    if (instance == null) {
+    if (instance == null || instance.levelNum != level.getLevelNumber()) {
       instance = new PowerUpManager(level, powerUpImg, game);
     }
     return instance;
