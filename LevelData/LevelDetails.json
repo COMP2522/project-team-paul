@@ -22,7 +22,8 @@
       "jetPackBoostVelocity": -10,
       "tireBoostHeight": 2,
       "localHighScore": 0,
-      "spawnRate": 0.5
+      "spawnRate": 0.5,
+      "platformSpeed": 5
     },
     {
       "level": 2,
@@ -46,7 +47,8 @@
       "jetPackBoostVelocity": -10,
       "tireBoostHeight": 2,
       "localHighScore": 0,
-      "spawnRate": 0.6
+      "spawnRate": 0.6,
+      "platformSpeed": 5
     },
     {
       "level": 3,
@@ -70,7 +72,8 @@
       "jetPackBoostVelocity": -10,
       "tireBoostHeight": 2,
       "localHighScore": 0,
-      "spawnRate": 0.8
+      "spawnRate": 0.8,
+      "platformSpeed": 5
     }
   ]
 }
