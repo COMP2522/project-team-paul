@@ -79,3 +79,27 @@ The player can collect coins as well throughout
 the game which will increase they're overall score.
 The coins are the spinning gold coins and appear
 randomly throughout the window.
+
+### Leaderboard
+The game has a leaderboard for every difficulty you
+can access this on the main menu by selecting the button
+that says <b>*"Leaderboard"*</b>
+
+![img.png](Images/LeaderboardReadme.png)
+
+After clicking this button you should see the top 5
+scores for every difficult listed out like this: 
+
+![img.png](Images/LeaderboardTop5.png)
+
+Finally, in order to submit your highest score to the
+leaderboard standings you can click the <b>*"Submit"*</b>
+that is visible after a game ends: 
+
+![img.png](Images/SubmitLeaderboard.png)
+
+You will then be prompted to enter a username that will
+appear next to your name on the leaderboard if you are
+in the top 5 for that difficulty level:
+
+![img.png](Images/NameLeaderboard.png)
