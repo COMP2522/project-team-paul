@@ -1,10 +1,11 @@
 package org.bcit.comp2522.JaydenJump.sprites;
 
-import org.bcit.comp2522.JaydenJump.Level;
-import org.bcit.comp2522.JaydenJump.interfaces.Audible;
-import org.bcit.comp2522.JaydenJump.gameUI.MenuManager;
-import processing.core.PImage;
 import javax.sound.sampled.Clip;
+import org.bcit.comp2522.JaydenJump.Level;
+import org.bcit.comp2522.JaydenJump.gameUI.MenuManager;
+import org.bcit.comp2522.JaydenJump.interfaces.Audible;
+import processing.core.PImage;
+
 
 /**
  * The Tire class is a type of PowerUp that the Player can interact
@@ -40,11 +41,7 @@ public class Tire extends PowerUp implements Audible {
    *
    * @param vy The y Velocity of the Tire
    */
-  public Tire(Level level, float xpos,
-              float ypos,
-              float vx,
-              float vy,
-              PImage image) {
+  public Tire(Level level, float xpos, float ypos, float vx, float vy, PImage image) {
     super(level, xpos, ypos, vx, vy, image);
     this.clip = loadSound("tire.wav");
     this.level = level;
@@ -79,7 +76,7 @@ public class Tire extends PowerUp implements Audible {
     setActive(false);
   }
 
-  /** Plays sound clip of Tire if MenuManager's sound is on */
+  /** Plays sound clip of Tire if MenuManager's sound is on. */
   @Override
   public void playSound() {
     if (MenuManager.sound) {

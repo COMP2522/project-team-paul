@@ -74,8 +74,8 @@ public class Coin extends Sprite implements Audible {
    *
    * @param game window
    */
-  public Coin(Level level, float xpos, float ypos, float vx,
-              float vy, PImage[] animationFrames, Game game) {
+  public Coin(Level level, float xpos, float ypos, float vx, float vy, PImage[] animationFrames,
+              Game game) {
     super(xpos, ypos, vx, vy);
     this.game = game;
     this.player = Player.getInstance();
