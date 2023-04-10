@@ -93,7 +93,7 @@ public abstract class PowerUp extends Sprite {
   @Override
   public boolean collides(Object o) {
     if (o instanceof Player) {
-      Player player = (Player) o;
+
       if (player.getXpos() + player.getPlayerSize() >= super.getXpos()
           && player.getXpos() <= super.getXpos() + level.getPowerUpSize()
           && player.getYpos() + player.getPlayerSize() >= super.getYpos()
