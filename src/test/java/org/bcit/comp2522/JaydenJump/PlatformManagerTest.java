@@ -21,10 +21,18 @@ class PlatformManagerTest {
 
   @Test
   void getInstanceReturnsSameInstance() {
+    Level anotherLevel = Level.getInstance(1);
+    PlatformManager anotherPlatformManager = PlatformManager.getInstance(anotherLevel);
+
+    assertEquals(platformManager, anotherPlatformManager);
+  }
+
+  @Test
+  void getInstanceReturnsDifferentInstance() {
     Level anotherLevel = Level.getInstance(2);
     PlatformManager anotherPlatformManager = PlatformManager.getInstance(anotherLevel);
 
-    assertSame(platformManager, anotherPlatformManager);
+    assertNotEquals(platformManager, anotherPlatformManager);
   }
 
   @Test
