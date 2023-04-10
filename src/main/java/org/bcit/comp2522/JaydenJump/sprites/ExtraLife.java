@@ -51,11 +51,8 @@ public class ExtraLife extends PowerUp implements Audible {
    *
    * @param vy The y velocity of ExtraLife
    */
-  public ExtraLife(Level level, float xpos,
-                   float ypos,
-                   float vx,
-                   float vy,
-                   PImage image, Game game) {
+  public ExtraLife(Level level, float xpos, float ypos, float vx, float vy, PImage image,
+                   Game game) {
     super(level, xpos, ypos, vx, vy, image);
     this.game = game;
     this.clip = loadSound("extraLife.wav");

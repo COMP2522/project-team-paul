@@ -39,11 +39,7 @@ public class JetPack extends PowerUp implements Audible {
    *
    * @param vy The y velocity of JetPack
    */
-  public JetPack(Level level, float xpos,
-                 float ypos,
-                 float vx,
-                 float vy,
-                 PImage image) {
+  public JetPack(Level level, float xpos, float ypos, float vx, float vy, PImage image) {
     super(level, xpos, ypos, vx, vy, image);
     this.level = level;
     this.duration = level.getJetPackDuration();

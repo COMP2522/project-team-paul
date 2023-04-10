@@ -49,6 +49,7 @@ public abstract class PowerUp extends Sprite {
     this.player = Player.getInstance();
     this.image = image;
     this.level = level;
+    final int imageSize = level.getPowerUpSize() / 2;
   }
 
   /**
