@@ -74,6 +74,11 @@ public class BossManager {
   private Game game;
 
   /**
+   * the level number.
+   */
+  private int levelNum;
+
+  /**
    * constants.
    */
   private static final int BOSSWIDTH = 150;
@@ -98,6 +103,7 @@ public class BossManager {
     this.isAlive = false;
     this.bossHealth = BOSSHEALTH;
     this.game = game;
+    this.levelNum = level.getLevelNumber();
   }
 
   /**
@@ -108,7 +114,7 @@ public class BossManager {
    * @return the single instance of BossManager
    */
   public static BossManager getInstance(Level level, Game game) {
-    if (instance == null) {
+    if (instance == null || instance.levelNum != level.getLevelNumber()) {
       instance = new BossManager(level, game);
     }
     return instance;
@@ -131,6 +137,7 @@ public class BossManager {
    * update method for the boss manager class.
    */
   public void update() {
+
     if (bossCounter < maxBosses && !isAlive) {
       int xpos = sketch.width / 2;
       int ypos = BOSSSPAWNY;
