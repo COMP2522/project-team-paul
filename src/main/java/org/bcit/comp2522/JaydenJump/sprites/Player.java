@@ -63,6 +63,11 @@ public class Player extends Sprite {
   private static final int IMAGE_SIZE = 80;
 
   /**
+   * store the level number in case we need to reconstruct a player for a new level.
+   */
+  private final int levelNumber;
+
+  /**
    * constructor for the player class.
    *
    * @param level stats for the player
@@ -70,6 +75,7 @@ public class Player extends Sprite {
   private Player(Level level) {
     super(MenuManager.getInstance().width / 2f, 0f, 0f, 0f);
     this.image         = loadPlayerImages();
+    this.levelNumber   = level.getLevelNumber();
     this.movementSpeed = level.getPlayerSpeed();
     this.gravity       = level.getGravity();
     this.projectile    = new Projectile(getXpos(), getYpos(), 0, -2, 1, this);
@@ -94,7 +100,7 @@ public class Player extends Sprite {
    * @param level the level for the player, including values for movement speed and gravity.
    */
   public static Player getInstance(Level level) {
-    if (instance == null) {
+    if (instance == null || instance.levelNumber != level.getLevelNumber()) {
       instance = new Player(level);
     }
     return instance;
