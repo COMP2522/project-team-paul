@@ -6,7 +6,7 @@
       "maxPlatform": 13,
       "scrollSpeed": 4,
       "moveableSpeed": 5,
-      "playerSpeed": 7
+      "playerSpeed": 7,
       "gravity": 0.45,
       "playerJumpHeight": 15,
       "jumpThroughHeight": 10,
