@@ -3,11 +3,11 @@
     {
       "level": 1,
       "spawnHeight": 150,
-      "maxPlatform": 10,
+      "maxPlatform": 13,
       "scrollSpeed": 4,
       "moveableSpeed": 5,
-      "playerSpeed": 5,
-      "gravity": 0.5,
+      "playerSpeed": 7
+      "gravity": 0.45,
       "playerJumpHeight": 15,
       "jumpThroughHeight": 10,
       "maxCoins": 3,
@@ -28,7 +28,7 @@
     {
       "level": 2,
       "spawnHeight": 150,
-      "maxPlatform": 10,
+      "maxPlatform": 12,
       "scrollSpeed": 8,
       "moveableSpeed": 5,
       "playerSpeed": 5,
@@ -53,7 +53,7 @@
     {
       "level": 3,
       "spawnHeight": 150,
-      "maxPlatform": 10,
+      "maxPlatform": 11,
       "scrollSpeed": 12,
       "moveableSpeed": 5,
       "playerSpeed": 5,
