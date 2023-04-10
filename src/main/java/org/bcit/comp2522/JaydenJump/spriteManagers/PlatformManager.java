@@ -76,6 +76,11 @@ public class PlatformManager {
   private final int jumpThroughHeight;
 
   /**
+   * Number of the level for keeping track of when to reinitialize.
+   */
+  private final int levelNumber;
+
+  /**
    * Private constructor for the platform manager.
    *
    * @param level contains details about the level
@@ -89,6 +94,7 @@ public class PlatformManager {
     this.movableSpeed      = level.getMoveableSpeed();
     this.jumpThroughHeight = level.getJumpThroughHeight();
     this.playerJumpHeight  = level.getPlayerJumpHeight();
+    this.levelNumber       = level.getLevelNumber();
   }
 
   /**
@@ -99,7 +105,7 @@ public class PlatformManager {
    * @return the instance of the platform manager
    */
   public static PlatformManager getInstance(Level level) {
-    if (instance == null || instance.platformSpeed != level.getPlatformSpeed()) {
+    if (instance == null || instance.levelNumber != level.getLevelNumber()) {
       instance = new PlatformManager(level);
     }
     return instance;
