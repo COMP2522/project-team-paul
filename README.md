@@ -1,9 +1,9 @@
 ## Contributions
-Ravdeep Aulakh - Game, Enemy, EnemyManager, Boss, BossManager, Platform, Player\
-Brian Kwon - Game, Main, MenuManager, StartMenu, MainMenu, LeaderboardsMenu, DifficultyMenu, PauseMenu, DeathMenu, SubmitMenu, Button\
-Shawn Birring - Game, Sprite, Player, Platform, PlatformManager, Collidable, Drawable, PlatformManagerTest, PlatformTest\
-Maximillian Yong - Game, Level, Load, Sprite, LevelTest\
-Hyuk Park - Game, Coin, PowerUp, Projectile, ExtraLife, JetPack, Tire, CoinManager, PowerUpManager
+<b>Ravdeep Aulakh</b> - Game, Enemy, EnemyManager, Boss, BossManager, Platform, Player\
+<b>Brian Kwon</b> - Game, Main, MenuManager, StartMenu, MainMenu, LeaderboardsMenu, DifficultyMenu, PauseMenu, DeathMenu, SubmitMenu, Button\
+<b>Shawn Birring</b> - Game, Sprite, Player, Platform, PlatformManager, Collidable, Drawable, PlatformManagerTest, PlatformTest\
+<b>Maximillian Yong</b> - Game, Level, Load, Sprite, LevelTest\
+<b>Hyuk Park</b> - Game, Coin, PowerUp, Projectile, ExtraLife, JetPack, Tire, CoinManager, PowerUpManager
 
 ## How to Start Game
 In order to start a new game select the *<b>"Main"</b>* \
