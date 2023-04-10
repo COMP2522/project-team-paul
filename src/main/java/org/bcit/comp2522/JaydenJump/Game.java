@@ -337,6 +337,7 @@ public class Game extends PApplet {
     platformManager.generateStartPlatforms();
     powerUpManager.generateStartPowerUps();
     coinManager.generateStartCoins();
+    level.setTime(0);
     gameOver = false;
   }
 
