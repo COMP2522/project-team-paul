@@ -39,7 +39,7 @@ public class Level {
   private int levelNumber;
 
   /**
-   * The players score in the current level.
+   * The players localHighScore.
    */
   private int score;
 
@@ -161,9 +161,10 @@ public class Level {
    */
   private int powerUpSize;
 
+  /**
+   * The current score.
+   */
   private int currentScore;
-
-  private int localHighScore;
 
   /**
    * Level Constructor.
@@ -225,7 +226,7 @@ public class Level {
     ySpeedCoinPowerUp = level.getInt("ySpeedCoinPowerUp");
     coinSize = level.getInt("coinSize");
     powerUpSize = level.getInt("powerUpSize");
-    localHighScore = level.optInt("localHighScore", 0);
+    score = level.getInt("localHighScore");
   }
 
   /**
@@ -257,8 +258,8 @@ public class Level {
       Runnable task = () -> {
         time++;
         this.currentScore = Game.highscore;
-        if (currentScore > localHighScore) {
-          localHighScore = currentScore;
+        if (currentScore > score) {
+          score = currentScore;
           saveLocalHighScore();
         }
       };
@@ -305,7 +306,7 @@ public class Level {
       JSONArray levels = obj.getJSONArray("levels");
       JSONObject level = levels.getJSONObject(levelNumber - 1);
 
-      level.put("localHighScore", localHighScore);
+      level.put("localHighScore", score);
 
       try (FileWriter fileWriter = new FileWriter("LevelData/LevelDetails.json")) {
         fileWriter.write(obj.toString());
