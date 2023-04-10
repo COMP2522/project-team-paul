@@ -3,7 +3,7 @@ Ravdeep Aulakh - Game, Enemy, EnemyManager, Boss, BossManager, Platform\
 Brian Kwon - Game, Main, MenuManager, StartMenu, MainMenu, LeaderboardsMenu, DifficultyMenu, PauseMenu, DeathMenu, SubmitMenu, Button\
 Shawn Birring - Game,\
 Maximillian Yong - Level, Load\
-Hyuk Park - Game, Coin, PowerUp, Projectile, ExtraLife, JetPack, Tire, CoinManager, PowerUpManager\ 
+Hyuk Park - Game, Coin, PowerUp, Projectile, ExtraLife, JetPack, Tire, CoinManager, PowerUpManager
 
 ## How to Start Game
 In order to start a new game select the *<b>"Main"</b>* \
