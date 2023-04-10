@@ -99,7 +99,7 @@ public class PlatformManager {
    * @return the instance of the platform manager
    */
   public static PlatformManager getInstance(Level level) {
-    if (instance == null) {
+    if (instance == null || instance.platformSpeed != level.getPlatformSpeed()) {
       instance = new PlatformManager(level);
     }
     return instance;
