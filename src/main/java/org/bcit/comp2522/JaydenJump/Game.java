@@ -18,7 +18,7 @@ public class Game extends PApplet {
   /**
    * Constants.
    */
-  private static final int BOSS_SPAWN = 2000;
+  private static final int BOSS_SPAWN = 200;
   private static final int FONT_SIZE = 20;
   private static final int X_OFFSET = 120;
   private static final int Y_OFFSET = 30;
