@@ -10,8 +10,8 @@ import processing.core.PVector;
 /**
  * Game class.
  *
- * @author Shawn, Birring; Brian Kwon
- * @version 1.3
+ * @author Shawn, Birring; Brian Kwon; Maximillian Yong
+ * @version 1.4
  */
 public class Game extends PApplet {
 
@@ -20,8 +20,8 @@ public class Game extends PApplet {
    */
   private static final int BOSS_SPAWN = 2000;
   private static final int FONT_SIZE = 20;
-  private static final int X_OFFSET = 75;
-  private static final int Y_OFFSET = 50;
+  private static final int X_OFFSET = 120;
+  private static final int Y_OFFSET = 30;
   private static final int HEART1 = 400;
   private static final int HEART2 = 337;
   private static final int HEART3 = 275;
@@ -104,6 +104,21 @@ public class Game extends PApplet {
   private int scrollSpeed;
 
   /**
+   * the difficulty of the game.
+   */
+  private int difficulty;
+
+  /**
+   * the level of the game.
+   */
+  private Level level;
+
+  /**
+   * the local highscore.
+   */
+  private int localHighscore;
+
+  /**
    * the level of the game.
    *
    * @param diff            the level of the game
@@ -113,12 +128,14 @@ public class Game extends PApplet {
    */
   public Game(int diff, PImage[] powerUpImage, PImage backgroundImage,
               PImage[] coinImages) {
+    this.difficulty      = diff;
     window               = MenuManager.getInstance();
     this.backgroundImage = backgroundImage;
     this.backgroundPos   = new PVector(0, 0);
-    Level level          = Level.getInstance(diff);
+    this.level          = Level.getInstance(diff);
     gameOver             = false;
     initializeLevel(level, coinImages, powerUpImage);
+    level.startTime();
     platformManager.generateStartPlatforms();
     powerUpManager.generateStartPowerUps();
     coinManager.generateStartCoins();
@@ -152,6 +169,7 @@ public class Game extends PApplet {
     drawBackground();
     displayScore();
     drawPlayerLives(lives);
+    scrollSpeed = level.getScrollSpeed();
 
     if (!gameOver && lives > 0) {
       checkCollisions();
@@ -174,9 +192,11 @@ public class Game extends PApplet {
    * draws the score on the screen.
    */
   private void displayScore() {
+    this.localHighscore = level.getScore();
     window.textSize(FONT_SIZE);
     window.fill(0);
-    window.text("Score: " + score, X_OFFSET, Y_OFFSET);
+    window.text("HighScore: " + localHighscore
+            + "   Score: " + score, X_OFFSET, Y_OFFSET);
   }
 
   /**
@@ -317,6 +337,7 @@ public class Game extends PApplet {
     platformManager.generateStartPlatforms();
     powerUpManager.generateStartPowerUps();
     coinManager.generateStartCoins();
+    level.getInstance(difficulty);
     gameOver = false;
   }
 
@@ -333,6 +354,7 @@ public class Game extends PApplet {
    */
   public void startGame() {
     score = 0;
+    level.startTime();
   }
 
   public void resetHighscore() {
