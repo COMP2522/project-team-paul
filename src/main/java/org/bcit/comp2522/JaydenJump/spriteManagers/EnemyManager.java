@@ -48,6 +48,11 @@ public class EnemyManager {
   private Game game;
 
   /**
+   * the level number.
+   */
+  private int levelNum;
+
+  /**
    * constants.
    */
   private static final int ENEMYWIDTH = 60;
@@ -68,6 +73,7 @@ public class EnemyManager {
     this.spawnRate = level.getSpawnRate();
     this.spawnCounter = 0;
     this.game = game;
+    this.levelNum = level.getLevelNumber();
   }
 
   /**
@@ -78,7 +84,7 @@ public class EnemyManager {
    * @return the instance of the EnemyManager class
    */
   public static EnemyManager getInstance(Level level, Game game) {
-    if (instance == null) {
+    if (instance == null || instance.levelNum != level.getLevelNumber()) {
       instance = new EnemyManager(level, game);
     }
     return instance;
