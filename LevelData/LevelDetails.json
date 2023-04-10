@@ -50,7 +50,7 @@
       "gravity": 0.5,
       "playerJumpHeight": 15,
       "maxCoins": 3,
-      "spawnRate": 0.5,
+      "spawnRate": 0.6,
       "coinSize": 25,
       "maxPowerUps": 5
     },
@@ -74,7 +74,7 @@
       "gravity": 0.5,
       "playerJumpHeight": 15,
       "maxCoins": 3,
-      "spawnRate": 0.5,
+      "spawnRate": 0.8,
       "coinSize": 25,
       "maxPowerUps": 5,
       "xSpeedCoinPowerUp": 0
