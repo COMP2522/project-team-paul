@@ -13,6 +13,14 @@ class LevelTest {
   void setUp() {
     level = Level.getInstance(1);
   }
+
+  @Test
+  void singleton() {
+    Level levelTwo = Level.getInstance(2);
+    assertSame(level, levelTwo);
+    assertEquals(2, levelTwo.getLevelNumber());
+  }
+
   @Test
   void startTime_endTime() {
     level.setTime(0);
@@ -78,6 +86,7 @@ class LevelTest {
 
   @Test
   void getScore_setScore() {
+    level.setScore(0);
     assertEquals(0, level.getScore());
 
     level.setScore(10);

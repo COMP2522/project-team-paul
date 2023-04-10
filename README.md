@@ -1,8 +1,8 @@
 ## Contributions
 Ravdeep Aulakh - Game, Enemy, EnemyManager, Boss, BossManager, Platform, Player\
 Brian Kwon - Game, Main, MenuManager, StartMenu, MainMenu, LeaderboardsMenu, DifficultyMenu, PauseMenu, DeathMenu, SubmitMenu, Button\
-Shawn Birring - Game, Sprite, Player, Platform, PlatformManager, Collidable, Drawable\
-Maximillian Yong - Game, Level, Load, Sprite\
+Shawn Birring - Game, Sprite, Player, Platform, PlatformManager, Collidable, Drawable, PlatformManagerTest, PlatformTest\
+Maximillian Yong - Game, Level, Load, Sprite, LevelTest\
 Hyuk Park - Game, Coin, PowerUp, Projectile, ExtraLife, JetPack, Tire, CoinManager, PowerUpManager
 
 ## How to Start Game
